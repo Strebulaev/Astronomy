@@ -1,0 +1,63 @@
+tasks:
+  - name: собрать список олимпиад по астрономии
+  - name: извлечь задачи прошлых лет
+  - name: извлечь обзоры олимпиад и разборы решений олимпиад прошлых лет
+  - name: классификация задач
+    children:
+      - name: классы задач
+        children:
+          - name: извлечь алгоритмы решений по классам, оценить сложность изучения алгоритмов по классу, сгенерировать план освоения с оценкой трудозатрат, с метриками оценки прогресса исполнения плана
+      - name: области знаний
+        children:
+          - name: подготовить датасет вопросов по каждой из тем/областей знаний
+          - name: оценить сложности тем, сгенерировать план освоения с оценкой трудозатрат и учетом порядка изучения тем (зависимые темы ставятся после), извлечь способы и инструменты автоматизированной проверки усвоенных знаний, метрики оценки прогресса исполнения плана
+olympiads: 
+  - name: Всероссийская олимпиада школьников по астрономии
+    link: https://vos.olimpiada.ru/
+    stages:
+      - name: школьный этап
+        taskClasses:
+          - name:
+            difficultyLevel:
+        events:
+          - year: 2024
+            grades:
+              - grade: [10, 11]
+                solution: https://vos.olimpiada.ru/upload/files/Arhive_tasks/2024-25/school/astr/tasks-astr-10-11-sch-msk-24-25.pdf
+                review: https://vk.com/video-210637779_456239176
+      - name: муниципальный этап
+        taskClasses:
+          - name:
+            difficultyLevel:
+      - name: региональный этап
+        taskClasses:
+          - name:
+            difficultyLevel:
+      - name: заключительный этап
+        taskClasses:
+          - name:
+            difficultyLevel:
+
+  - name: Московская астрономическая олимпиада
+    link: https://mosastro.olimpiada.ru/
+
+  - name: Олимпиада "Ломоносов" по астрономии и космическим исследованиям
+    link: https://olymp.msu.ru/
+
+  - name: Олимпиада "Физтех" по физике (включает астрономические задачи)
+    link: https://olymp.mipt.ru/
+
+  - name: Олимпиада "Покори Воробьёвы горы!" по физике (включает астрономию)
+    link: https://pvg.mk.ru/
+
+  - name: Олимпиада СПбГУ по астрономии
+    link: https://olympiada.spbu.ru/
+
+  - name: Олимпиада "Высшая проба" по физике (включает астрономию)
+    link: https://olymp.hse.ru/mmo/
+
+taskClasses:
+  - name:
+  - algorithms:
+    - name:
+      description:
