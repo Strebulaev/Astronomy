@@ -56,6 +56,15 @@ olympiads:
   - name: Олимпиада "Высшая проба" по физике (включает астрономию)
     link: https://olymp.hse.ru/mmo/
 
+  - name: Олимпиада "НИУ БелГу" по астрономии
+    link: https://talant.bsuedu.ru
+
+  - name: Олимпиада "Ступени" по астрономии
+    link: http://olymp.hse.ru/stupeni
+
+  - name: Олимпиада "Подмосковная Олимпиада школьников"
+    link: https://olympmo.ru
+
 taskClasses:
   - name:
   - algorithms:
