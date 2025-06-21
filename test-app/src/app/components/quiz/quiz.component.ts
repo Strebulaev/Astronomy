@@ -9,14 +9,9 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-
-interface Question {
-  question: string;
-  options: {
-    text: string;
-    correct: boolean;
-  }[];
-}
+import { TestResult } from 'src/app/models/test-result.model';
+import { TestStorageService } from 'src/app/services/test-storage.service';
+import { TestQuestion } from 'src/app/models/test.schema';
 
 @Component({
   selector: 'app-quiz',
@@ -35,9 +30,9 @@ interface Question {
 })
 export class QuizComponent implements OnInit, OnDestroy {
   @Input() testFile!: string;
-  
+
   testName = '';
-  questions: Question[] = [];
+  questions: TestQuestion[] = [];
   currentQuestionIndex = 0;
   selectedOption: number | null = null;
   showResult = false;
@@ -47,14 +42,16 @@ export class QuizComponent implements OnInit, OnDestroy {
   error = false;
   startTime!: Date;
   timerInterval: any;
-  timeSpent = 0; // в секундах
+  timeSpentInSeconds = 0;
+  correctAnswerCount = 0;
 
   constructor(
     private loader: TestLoaderService,
     private route: ActivatedRoute,
     private messageService: MessageService,
     private router: Router,
-  ) {}
+    private testStorage: TestStorageService
+  ) { }
 
   ngOnInit(): void {
     this.loadTest(this.testFile);
@@ -69,9 +66,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.timerInterval) {
-      clearInterval(this.timerInterval);
-    }
+    this.stopTimer();
   }
 
   private createStars(): void {
@@ -91,7 +86,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   private startTimer(): void {
     this.startTime = new Date();
     this.timerInterval = setInterval(() => {
-      this.timeSpent = Math.floor((new Date().getTime() - this.startTime.getTime()) / 1000);
+      this.timeSpentInSeconds = Math.floor((new Date().getTime() - this.startTime.getTime()) / 1000);
     }, 1000);
   }
 
@@ -111,13 +106,13 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.score = 0;
     this.loading = true;
     this.error = false;
-    this.timeSpent = 0;
+    this.timeSpentInSeconds = 0;
     this.stopTimer();
   }
 
   loadTest(filename: string): void {
     this.resetQuizState();
-    
+
     this.loader.loadTest(filename).subscribe({
       next: (tests) => {
         if (tests.length > 0 && tests[0].questions) {
@@ -139,17 +134,20 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   submitAnswer(): void {
     if (this.selectedOption === null) return;
-    
+
     this.showResult = true;
-    if (this.questions[this.currentQuestionIndex].options[this.selectedOption].correct) {
-      this.score++;
+    const question = this.questions[this.currentQuestionIndex];
+    const selectedAnswer = question.options[this.selectedOption];
+    if (selectedAnswer.correct) {
+      this.score += question.difficulty;
+      this.correctAnswerCount++;
     }
   }
 
   nextQuestion(): void {
     this.showResult = false;
     this.selectedOption = null;
-    
+
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
     } else {
@@ -160,13 +158,26 @@ export class QuizComponent implements OnInit, OnDestroy {
   private completeTest(): void {
     this.stopTimer();
     this.quizCompleted = true;
-    
+
+    const testResult: TestResult = {
+      testId: 'celestial-mechanics', // уникальный ID теста
+      testName: 'Небесная механика',
+      score: this.calculateScore(),
+      totalQuestions: this.questions.length,
+      correctAnswers: this.getCorrectAnswersCount(),
+      date: new Date().toISOString(),
+      timeSpent: this.getTimeSpent(),
+      details: this.getAnswerDetails()
+    };
+
+    this.testStorage.saveTestResult(testResult);
+
     this.loader.addTestResult({
       testName: this.testName,
       testFile: this.testFile,
       correctAnswers: this.score,
       incorrectAnswers: this.questions.length - this.score,
-      timeSpent: this.timeSpent,
+      timeSpent: this.timeSpentInSeconds,
       totalQuestions: this.questions.length
     });
   }
