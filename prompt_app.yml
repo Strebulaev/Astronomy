@@ -1,0 +1,13 @@
+angular app + primeng: given an input yaml (shipped with the app) file with "tests" node generate  a component that randomly chooses tests and displays radio group with response options, after pressing confirm button it shows which answer is correct.
+yaml structure:
+- tests:
+   - name: Основы небесной механики
+   - questions:
+     - question: Действующая общепринятая теория в астрономии 
+       - options:
+         - text: геоцентрическая
+           - correct: false
+         - text: гелиоцентрическая
+           - correct: false
+         - text: ацентрическая
+           - correct: true

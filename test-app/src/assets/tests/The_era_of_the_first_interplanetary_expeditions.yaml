@@ -1,0 +1,639 @@
+- name: "Эпоха первых межпланетных экспедиций"
+  questions:
+    - question: "Кто является автором цитаты о созерцании красоты Вселенной?"
+      options:
+        - text: "Альберт Эйнштейн"
+          correct: false
+        - text: "Ганс Селье"
+          correct: true
+        - text: "Карл Саган"
+          correct: false
+        - text: "Исаак Ньютон"
+          correct: false
+
+    - question: "Какой период называют 'звездным годом' для Земли?"
+      options:
+        - text: "365.2422 суток"
+          correct: false
+        - text: "365.2564 суток"
+          correct: true
+        - text: "24 часа"
+          correct: false
+        - text: "23 часа 56 минут"
+          correct: false
+
+    - question: "Какой наклон экватора Земли к орбите?"
+      options:
+        - text: "23° 26′"
+          correct: true
+        - text: "45°"
+          correct: false
+        - text: "0°"
+          correct: false
+        - text: "90°"
+          correct: false
+
+    - question: "Какова средняя плотность Земли?"
+      options:
+        - text: "3.93 г/см³"
+          correct: false
+        - text: "5.51 г/см³"
+          correct: true
+        - text: "1.00 г/см³"
+          correct: false
+        - text: "9.81 г/см³"
+          correct: false
+
+    - question: "Какая скорость ускользания (2-я космическая) для Земли?"
+      options:
+        - text: "7.9 км/с"
+          correct: false
+        - text: "11.19 км/с"
+          correct: true
+        - text: "29.8 км/с"
+          correct: false
+        - text: "465.11 м/с"
+          correct: false
+
+    - question: "Какой радиус у внешнего (жидкого) ядра Земли?"
+      options:
+        - text: "1270 км"
+          correct: false
+        - text: "3480 км"
+          correct: true
+        - text: "6371 км"
+          correct: false
+        - text: "5000 км"
+          correct: false
+
+    - question: "Какой процент азота в атмосфере Земли?"
+      options:
+        - text: "21%"
+          correct: false
+        - text: "78%"
+          correct: true
+        - text: "0.9%"
+          correct: false
+        - text: "0.03%"
+          correct: false
+
+    - question: "Когда была получена первая фотография обратной стороны Луны?"
+      options:
+        - text: "1957 г."
+          correct: false
+        - text: "1959 г."
+          correct: true
+        - text: "1961 г."
+          correct: false
+        - text: "1969 г."
+          correct: false
+
+    - question: "Какой советский зонд сделал первый снимок обратной стороны Луны?"
+      options:
+        - text: "Луна-1"
+          correct: false
+        - text: "Луна-3"
+          correct: true
+        - text: "Венера-1"
+          correct: false
+        - text: "Марс-1"
+          correct: false
+
+    - question: "Какое открытие принес первый снимок обратной стороны Луны?"
+      options:
+        - text: "Наличие воды"
+          correct: false
+        - text: "Она не похожа на видимую сторону"
+          correct: true
+        - text: "Наличие вулканов"
+          correct: false
+        - text: "Отсутствие кратеров"
+          correct: false
+
+    - question: "Какой новый класс специалистов появляется в наши дни?"
+      options:
+        - text: "Космобиологи"
+          correct: false
+        - text: "Экзопланетологи"
+          correct: true
+        - text: "Астрогеологи"
+          correct: false
+        - text: "Гелиофизики"
+          correct: false
+
+    - question: "Как называются объекты Солнечной системы между орбитами планет-гигантов?"
+      options:
+        - text: "Кентавры"
+          correct: true
+        - text: "Кьюбивано"
+          correct: false
+        - text: "Плутино"
+          correct: false
+        - text: "Седноиды"
+          correct: false
+
+    - question: "Как называется группа объектов в резонансе 2:3 с Нептуном?"
+      options:
+        - text: "Тутино"
+          correct: false
+        - text: "Плутино"
+          correct: true
+        - text: "Кьюбивано"
+          correct: false
+        - text: "Седноиды"
+          correct: false
+
+    - question: "Какой объект был первым открытым транснептуновым объектом после Плутона?"
+      options:
+        - text: "Эрида"
+          correct: false
+        - text: "1992 QB1"
+          correct: true
+        - text: "Седна"
+          correct: false
+        - text: "Хаумеа"
+          correct: false
+
+    - question: "Сколько троянцев Нептуна было известно в 2016 году?"
+      options:
+        - text: "5"
+          correct: false
+        - text: "17"
+          correct: true
+        - text: "45"
+          correct: false
+        - text: "100"
+          correct: false
+
+    - question: "Как называются объекты с перигелиями более 75 а.е.?"
+      options:
+        - text: "Кентавры"
+          correct: false
+        - text: "Седноиды"
+          correct: true
+        - text: "Плутино"
+          correct: false
+        - text: "Тутино"
+          correct: false
+
+    - question: "Какой из этих объектов относится к планетам-карликам?"
+      options:
+        - text: "Церера"
+          correct: true
+        - text: "Луна"
+          correct: false
+        - text: "Титан"
+          correct: false
+        - text: "Ио"
+          correct: false
+
+    - question: "Какое семейство объектов названо в честь 5335 Damocles?"
+      options:
+        - text: "Дамоклоиды"
+          correct: true
+        - text: "Кентавры"
+          correct: false
+        - text: "Седноиды"
+          correct: false
+        - text: "Плутино"
+          correct: false
+
+    - question: "Какой метод открытия астероидов стал основным в 1990-е годы?"
+      options:
+        - text: "Визуальные наблюдения"
+          correct: false
+        - text: "Фотографические пластинки"
+          correct: false
+        - text: "ПЗС-матрицы"
+          correct: true
+        - text: "Радиолокация"
+          correct: false
+
+    - question: "Сколько астероидов было открыто к марту 2016 года?"
+      options:
+        - text: "Около 1.3 млн"
+          correct: true
+        - text: "Около 100 тыс"
+          correct: false
+        - text: "Около 50 тыс"
+          correct: false
+        - text: "Около 10 тыс"
+          correct: false
+
+    - question: "Какой Международный геофизический год совпал с запуском первых спутников?"
+      options:
+        - text: "1945-1948"
+          correct: false
+        - text: "1955-1958"
+          correct: true
+        - text: "1960-1963"
+          correct: false
+        - text: "1970-1973"
+          correct: false
+
+    - question: "Какой процент кислорода в атмосфере Земли?"
+      options:
+        - text: "78%"
+          correct: false
+        - text: "21%"
+          correct: true
+        - text: "0.9%"
+          correct: false
+        - text: "0.03%"
+          correct: false
+
+    - question: "Какое ускорение свободного падения на экваторе Земли?"
+      options:
+        - text: "9.78033 м/с²"
+          correct: true
+        - text: "9.80665 м/с²"
+          correct: false
+        - text: "10.0 м/с²"
+          correct: false
+        - text: "1.62 м/с²"
+          correct: false
+
+    - question: "Какова средняя температура воздуха у поверхности Земли?"
+      options:
+        - text: "273 K"
+          correct: false
+        - text: "287 K"
+          correct: true
+        - text: "300 K"
+          correct: false
+        - text: "247 K"
+          correct: false
+
+    - question: "Какова масса атмосферы Земли?"
+      options:
+        - text: "1.4·10²¹ кг"
+          correct: false
+        - text: "5.2·10¹⁸ кг"
+          correct: true
+        - text: "5.97·10²⁴ кг"
+          correct: false
+        - text: "1.0·10²⁰ кг"
+          correct: false
+
+    - question: "Какой из этих объектов не относится к планетам-карликам?"
+      options:
+        - text: "Плутон"
+          correct: false
+        - text: "Эрида"
+          correct: false
+        - text: "Титан"
+          correct: true
+        - text: "Хаумеа"
+          correct: false
+
+    - question: "Как называется группа объектов в резонансе 1:2 с Нептуном?"
+      options:
+        - text: "Плутино"
+          correct: false
+        - text: "Тутино"
+          correct: true
+        - text: "Кьюбивано"
+          correct: false
+        - text: "Кентавры"
+          correct: false
+
+    - question: "Какой из этих объектов относится к классическим объектам пояса Койпера?"
+      options:
+        - text: "Плутино"
+          correct: false
+        - text: "Кьюбивано"
+          correct: true
+        - text: "Тутино"
+          correct: false
+        - text: "Седноиды"
+          correct: false
+
+    - question: "Какова средняя орбитальная скорость Земли?"
+      options:
+        - text: "11.2 км/с"
+          correct: false
+        - text: "29.8 км/с"
+          correct: true
+        - text: "465 м/с"
+          correct: false
+        - text: "7.9 км/с"
+          correct: false
+
+    - question: "Какова масса океана Земли?"
+      options:
+        - text: "1.4·10²¹ кг"
+          correct: true
+        - text: "5.2·10¹⁸ кг"
+          correct: false
+        - text: "5.97·10²⁴ кг"
+          correct: false
+        - text: "1.0·10²⁰ кг"
+          correct: false
+
+    - question: "Какой телескоп строился на момент написания текста?"
+      options:
+        - text: "5-метровый"
+          correct: false
+        - text: "10-метровый"
+          correct: false
+        - text: "40-метровый"
+          correct: true
+        - text: "100-метровый"
+          correct: false
+
+    - question: "Как называются объекты, не испытывающие сильных возмущений от планет-гигантов?"
+      options:
+        - text: "Резонансные"
+          correct: false
+        - text: "Обособленные"
+          correct: true
+        - text: "Рассеянные"
+          correct: false
+        - text: "Троянцы"
+          correct: false
+
+    - question: "Какова эффективная температура Земли?"
+      options:
+        - text: "287 K"
+          correct: false
+        - text: "247 K"
+          correct: true
+        - text: "273 K"
+          correct: false
+        - text: "300 K"
+          correct: false
+
+    - question: "Какой газ составляет около 0.9% атмосферы Земли?"
+      options:
+        - text: "Аргон"
+          correct: true
+        - text: "Углекислый газ"
+          correct: false
+        - text: "Неон"
+          correct: false
+        - text: "Гелий"
+          correct: false
+
+    - question: "Какова скорость вращения Земли на экваторе?"
+      options:
+        - text: "1670 км/ч"
+          correct: false
+        - text: "465.11 м/с"
+          correct: true
+        - text: "29.8 км/с"
+          correct: false
+        - text: "11.2 км/с"
+          correct: false
+
+    - question: "Какой из этих объектов не является малым телом Солнечной системы?"
+      options:
+        - text: "Астероид"
+          correct: false
+        - text: "Комета"
+          correct: false
+        - text: "Спутник планеты"
+          correct: true
+        - text: "Кентавр"
+          correct: false
+
+    - question: "Какой период называют 'тропическим годом' для Земли?"
+      options:
+        - text: "365.2564 суток"
+          correct: false
+        - text: "365.2422 суток"
+          correct: true
+        - text: "24 часа"
+          correct: false
+        - text: "23 часа 56 минут"
+          correct: false
+
+    - question: "Какова средняя плотность внутреннего ядра Земли?"
+      options:
+        - text: "5.51 г/см³"
+          correct: false
+        - text: "10 г/см³"
+          correct: false
+        - text: "13 г/см³"
+          correct: true
+        - text: "3.93 г/см³"
+          correct: false
+
+    - question: "Какой из этих объектов относится к обособленным?"
+      options:
+        - text: "Седна"
+          correct: true
+        - text: "Плутон"
+          correct: false
+        - text: "Церера"
+          correct: false
+        - text: "Ганимед"
+          correct: false
+
+    - question: "Какой процент углекислого газа в атмосфере Земли?"
+      options:
+        - text: "0.03%"
+          correct: true
+        - text: "0.9%"
+          correct: false
+        - text: "21%"
+          correct: false
+        - text: "78%"
+          correct: false
+
+    - question: "Какова масса Земли?"
+      options:
+        - text: "5.9722·10²⁴ кг"
+          correct: true
+        - text: "1.4·10²¹ кг"
+          correct: false
+        - text: "5.2·10¹⁸ кг"
+          correct: false
+        - text: "7.35·10²² кг"
+          correct: false
+
+    - question: "Какой из этих объектов не относится к транснептуновым?"
+      options:
+        - text: "Кентавры"
+          correct: true
+        - text: "Кьюбивано"
+          correct: false
+        - text: "Плутино"
+          correct: false
+        - text: "Седноиды"
+          correct: false
+
+    - question: "Какова геометрическое альбедо Земли?"
+      options:
+        - text: "0.306"
+          correct: false
+        - text: "0.367"
+          correct: true
+        - text: "0.5"
+          correct: false
+        - text: "0.1"
+          correct: false
+
+    - question: "Какой поток солнечного излучения вне атмосферы Земли?"
+      options:
+        - text: "1369 Вт/м²"
+          correct: true
+        - text: "1000 Вт/м²"
+          correct: false
+        - text: "500 Вт/м²"
+          correct: false
+        - text: "2000 Вт/м²"
+          correct: false
+
+    - question: "Какой из этих объектов движется по ретроградной орбите?"
+      options:
+        - text: "Дамокл"
+          correct: true
+        - text: "Церера"
+          correct: false
+        - text: "Плутон"
+          correct: false
+        - text: "Седна"
+          correct: false
+
+    - question: "Какой телескоп считался пределом технических возможностей 20 лет назад?"
+      options:
+        - text: "1-метровый"
+          correct: false
+        - text: "5-6-метровый"
+          correct: true
+        - text: "10-метровый"
+          correct: false
+        - text: "100-метровый"
+          correct: false
+
+    - question: "Как называются объекты с перигелиями более 40 а.е.?"
+      options:
+        - text: "Рассеянные"
+          correct: false
+        - text: "Обособленные"
+          correct: true
+        - text: "Резонансные"
+          correct: false
+        - text: "Троянцы"
+          correct: false
+
+    - question: "Какой новый термин был принят в 2006 году для малых тел Солнечной системы?"
+      options:
+        - text: "SSSB"
+          correct: true
+        - text: "KBO"
+          correct: false
+        - text: "TNO"
+          correct: false
+        - text: "SDO"
+          correct: false
+
+    - question: "Какой аппарат работал у Юпитера как долговременный орбитальный зонд?"
+      options:
+        - text: "Вояджер"
+          correct: false
+        - text: "Галилео"
+          correct: true
+        - text: "Кассини"
+          correct: false
+        - text: "Новые горизонты"
+          correct: false
+
+    - question: "Какой аппарат работал у Сатурна как долговременный орбитальный зонд?"
+      options:
+        - text: "Вояджер"
+          correct: false
+        - text: "Галилео"
+          correct: false
+        - text: "Кассини"
+          correct: true
+        - text: "Новые горизонты"
+          correct: false
+
+    - question: "Какой спутник стал первым, на который совершили посадку?"
+      options:
+        - text: "Европа"
+          correct: false
+        - text: "Титан"
+          correct: true
+        - text: "Ио"
+          correct: false
+        - text: "Ганимед"
+          correct: false
+
+    - question: "Как называется семейство объектов между орбитами планет-гигантов?"
+      options:
+        - text: "Кентавры"
+          correct: true
+        - text: "Плутино"
+          correct: false
+        - text: "Тутино"
+          correct: false
+        - text: "Седноиды"
+          correct: false
+
+    - question: "Какова полярная окружность Земли?"
+      options:
+        - text: "6356.777 км"
+          correct: true
+        - text: "6378.160 км"
+          correct: false
+        - text: "6371.032 км"
+          correct: false
+        - text: "6400.000 км"
+          correct: false
+
+    - question: "Какова экваториальная окружность Земли?"
+      options:
+        - text: "6356.777 км"
+          correct: false
+        - text: "6378.160 км"
+          correct: true
+        - text: "6371.032 км"
+          correct: false
+        - text: "6400.000 км"
+          correct: false
+
+    - question: "Какой из этих объектов не относится к резонансным?"
+      options:
+        - text: "Плутино"
+          correct: false
+        - text: "Тутино"
+          correct: false
+        - text: "Кьюбивано"
+          correct: true
+        - text: "Объекты с резонансом 4:7"
+          correct: false
+
+    - question: "Как называется семейство объектов с высокоэксцентричными орбитами, похожими на кометные?"
+      options:
+        - text: "Дамоклоиды"
+          correct: true
+        - text: "Кентавры"
+          correct: false
+        - text: "Седноиды"
+          correct: false
+        - text: "Троянцы"
+          correct: false
+
+    - question: "Какой снимок Земли упоминается в тексте?"
+      options:
+        - text: "Сделанный Вояджером"
+          correct: false
+        - text: "Сделанный Аполлоном-17"
+          correct: true
+        - text: "Сделанный Хабблом"
+          correct: false
+        - text: "Сделанный Галилео"
+          correct: false
+
+    - question: "Какова средняя окружность Земли?"
+      options:
+        - text: "6356.777 км"
+          correct: false
+        - text: "6378.160 км"
+          correct: false
+        - text: "6371.032 км"
+          correct: true
+        - text: "6400.000 км"
+          correct: false
