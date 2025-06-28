@@ -1,0 +1,133 @@
+.test-creator {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  .creator-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .filters {
+    background-color: #f5f5f5;
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+  
+  .filter-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .filter-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .tags-selector {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.5rem;
+  }
+  
+  .tag-category {
+    margin-bottom: 1rem;
+  }
+  
+  .tag-category h4 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .tag-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  
+  .tag-options label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    cursor: pointer;
+  }
+  
+  .tag-options input {
+    margin-right: 0.5rem;
+  }
+  
+  .filter-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .question-item {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+  
+  .question-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .question-item.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+  }
+  
+  .question-text {
+    margin-bottom: 0.5rem;
+  }
+  
+  .question-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #666;
+  }
+  
+  .difficulty {
+    margin-right: 1rem;
+  }
+  
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+  
+  .tag {
+    background-color: #e0e0e0;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+  }
+  
+  .no-questions {
+    padding: 2rem;
+    text-align: center;
+    color: #666;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  

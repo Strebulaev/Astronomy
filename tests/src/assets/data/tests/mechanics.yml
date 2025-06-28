@@ -1,0 +1,17 @@
+name: "Механика небесных тел"
+tags: ["небесная-механика"]
+questions:
+  - question: "Какие законы описывают движение небесных тел?"
+    options:
+      - text: "Законы Кеплера"
+        correct: true
+      - text: "Законы Ньютона"
+        correct: true
+      - text: "Законы термодинамики"
+        correct: false
+  - question: "Какое явление объясняется гравитацией?"
+    options:
+      - text: "Приливы и отливы"
+        correct: true
+      - text: "Смена времён года"
+        correct: false

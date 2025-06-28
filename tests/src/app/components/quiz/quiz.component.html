@@ -1,0 +1,113 @@
+<div class="quiz-container">
+    @if (!quizData) {
+      <div class="loading-state">
+        <p>Loading quiz...</p>
+        <button (click)="router.navigate(['/'])">Return Home</button>
+      </div>
+    }
+  
+    @if (quizData && !quizComplete) {
+      <div class="quiz-in-progress">
+        <header class="quiz-header">
+          <h1>{{ quizData?.name }}</h1>
+          <div class="progress-bar">
+            <div class="progress" [style.width.%]="progress"></div>
+          </div>
+          <p>Question {{ currentQuestionIndex + 1 }} of {{ quizData?.questions?.length }}</p>
+        </header>
+  
+        @if (currentQuestion) {
+          <div class="question-container">
+            <h2>{{ currentQuestion.question }}</h2>
+            
+            <div class="options-container">
+              @for (option of currentQuestion.options; track option; let i = $index) {
+                <div class="option" 
+                     [class.selected]="isSelected(i)"
+                     (click)="selectAnswer(i)">
+                  <input [type]="currentQuestion.multiple ? 'checkbox' : 'radio'" 
+                         [checked]="isSelected(i)"
+                         (click)="$event.stopPropagation()">
+                  <label>{{ option }}</label>
+                </div>
+              }
+            </div>
+          </div>
+        }
+  
+        <div class="navigation-buttons">
+          @if (currentQuestionIndex > 0) {
+            <button (click)="prevQuestion()">Previous</button>
+          }
+          <button (click)="nextQuestion()">
+            @if (currentQuestionIndex < (quizData?.questions?.length ?? 0) - 1) {
+              Next
+            } @else {
+              Finish
+            }
+          </button>
+        </div>
+      </div>
+    }
+  
+    @if (quizComplete && !showResults) {
+      <div class="quiz-completed">
+        <h2>Quiz Completed!</h2>
+        <p>Your score: {{ score }}%</p>
+        
+        <div class="action-buttons">
+          <button (click)="showDetailedResults()">View Detailed Results</button>
+          <button (click)="restartQuiz()">Restart Quiz</button>
+          <button (click)="router.navigate(['/'])">Return Home</button>
+        </div>
+      </div>
+    }
+  
+    @if (showResults) {
+      <div class="detailed-results">
+        <h2>Detailed Results</h2>
+        
+        @for (question of quizData?.questions; track question; let i = $index) {
+          <div class="result-item">
+            <h3>Question {{ i + 1 }}: {{ question.question }}</h3>
+            
+            <p>Your answer: 
+              @if (selectedAnswers[i] === null) {
+                <span class="not-answered">Not answered</span>
+              } @else {
+                <span>
+                  @if (question.multiple) {
+                    {{ getMultiAnswerText(question, i) }}
+                  } @else {
+                    {{ getSingleAnswerText(question, i) }}
+                  }
+                </span>
+              }
+            </p>
+            
+            <p>Correct answer: 
+              @if (question.multiple) {
+                {{ getMultiCorrectText(question) }}
+              } @else {
+                {{ getSingleCorrectText(question) }}
+              }
+            </p>
+            
+            <p [class.correct]="isAnswerCorrect(i)" [class.incorrect]="!isAnswerCorrect(i)">
+              @if (isAnswerCorrect(i)) {
+                ✓ Correct
+              } @else {
+                ✗ Incorrect
+              }
+            </p>
+          </div>
+        }
+  
+        <div class="action-buttons">
+          <button (click)="showResults = false">Back to Summary</button>
+          <button (click)="restartQuiz()">Restart Quiz</button>
+          <button (click)="router.navigate(['/'])">Return Home</button>
+        </div>
+      </div>
+    }
+  </div>

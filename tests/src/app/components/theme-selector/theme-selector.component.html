@@ -1,0 +1,21 @@
+<div class="theme-selector">
+    <h2>Выберите тему теста</h2>
+    
+    <div class="test-list">
+      <div *ngFor="let test of tests" 
+           class="test-card" 
+           [class.selected]="test === selectedTest"
+           (click)="selectedTest = test">
+        <h3>{{ test.name }}</h3>
+        <div class="tags">
+          <span *ngFor="let tag of test.tags" class="tag">{{ tag }}</span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="actions">
+      <button (click)="startTest()" [disabled]="!selectedTest">Начать тест</button>
+      <button routerLink="/creator">Создать тест</button>
+      <button routerLink="/history">История тестов</button>
+    </div>
+  </div>
