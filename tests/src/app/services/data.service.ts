@@ -1,22 +1,18 @@
-// app/services/data.service.ts
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as yaml from 'js-yaml';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { Question } from '../models/question.model';
-import { Test } from '../models/test.model' 
-import { TagCategory } from '../models/tag.model' 
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router } from 'express';
-
+import { Test } from '../models/test.model';
+import { TagCategory } from '../models/tag.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   private readonly TESTS_PATH = '/assets/data/tests/';
+  private readonly CUSTOM_TESTS_KEY = 'custom_tests';
 
   constructor(private http: HttpClient) {}
 
@@ -39,8 +35,18 @@ export class DataService {
 
   getTags(): Observable<TagCategory[]> {
     return this.http.get('/assets/data/tags.yml', { responseType: 'text' }).pipe(
-      map(yamlText => yaml.load(yamlText) as TagCategory[]),
-      catchError(() => of([]))
+      map(yamlText => {
+        try {
+          return yaml.load(yamlText) as TagCategory[];
+        } catch (e) {
+          console.error('Error parsing tags YAML', e);
+          return [];
+        }
+      }),
+      catchError(err => {
+        console.error('Error loading tags', err);
+        return of([]);
+      })
     );
   }
 
@@ -53,24 +59,54 @@ export class DataService {
               map(text => {
                 const test = yaml.load(text) as Test;
                 if (!test.questions) {
-                  console.error(`Test ${file} has no questions array`);
                   test.questions = [];
                 }
+                test.isCustom = false;
+                
+                // Добавляем explanation если его нет
+                test.questions = test.questions.map(q => ({
+                  ...q,
+                  explanation: q.explanation || ''
+                }));
+                
                 return test;
               }),
-              catchError(err => {
-                console.error(`Error loading test file ${file}:`, err);
-                return of(null);
-              })
+              catchError(err => of(null))
             )
         );
         return forkJoin(requests).pipe(
-          map(tests => tests.filter(t => t !== null) as Test[]
-        ));
-      }),
-      catchError(err => {
-        console.error('Error loading test index:', err);
-        return of([]);
+          map(tests => tests.filter(t => t !== null) as Test[])
+        );
+      })
+    );
+  }
+  deleteTest(testId: string): Observable<boolean> {
+    try {
+      const customTests = this.getCustomTests();
+      const updatedTests = customTests.filter(t => t.id !== testId);
+      localStorage.setItem(this.CUSTOM_TESTS_KEY, JSON.stringify(updatedTests));
+      return of(true); // Возвращаем true при успешном удалении
+    } catch (error) {
+      console.error('Error deleting test:', error);
+      return of(false); // Возвращаем false при ошибке
+    }
+  }
+  saveCustomTest(test: Test): void {
+    const customTests = this.getCustomTests();
+    customTests.push(test);
+    localStorage.setItem(this.CUSTOM_TESTS_KEY, JSON.stringify(customTests));
+  }
+
+  getCustomTests(): Test[] {
+    const testsJson = localStorage.getItem(this.CUSTOM_TESTS_KEY);
+    return testsJson ? JSON.parse(testsJson) : [];
+  }
+
+  getAllTests(): Observable<Test[]> {
+    return this.getThematicTests().pipe(
+      map(thematicTests => {
+        const customTests = this.getCustomTests();
+        return [...thematicTests, ...customTests];
       })
     );
   }

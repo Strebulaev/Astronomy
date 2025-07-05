@@ -1,14 +1,20 @@
-import { Component, NgModule, OnInit } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
-import { CommonModule, NgFor, NgIf, DatePipe, NgClass } from '@angular/common';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule, DatePipe } from '@angular/common';
 import * as yaml from 'js-yaml';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
+import { ProgressChartsComponent } from "../progress-charts/progress-charts.component";
+import { ProgressDataService } from '../../services/progress-data.service';
+import { QuillModule } from 'ngx-quill';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface Topic {
   id: string;
   title: string;
   difficulty: number;
   time: string;
+  notesHtml?: SafeHtml;
   completed: boolean;
   completedDate: Date | null;
   notes: string;
@@ -16,100 +22,606 @@ interface Topic {
   week: number;
   day: number;
   subtopics?: string[];
+  terms?: TermDefinition[]; // Добавляем это
+}
+
+interface TermDefinition {
+  term: string;
+  definition: string;
+}
+export interface ProgressForecast {
+  expectedEndDate: Date;
+  basedOn: 'topics' | 'hours';
+  currentRate: number;
+  optimisticDate: Date;
+  pessimisticDate: Date;
+  totalHours?: number;
+  completedHours?: number;
+  remainingHours?: number;
+}
+interface Plan {
+  name: string;
+  total_topics: number;
+  schedule: any[];
 }
 
 interface DayPlan {
   day: number;
   topics: (string | { topic: string, subtopics: string[] })[];
 }
-
-interface WeekPlan {
-  week: number;
-  days: DayPlan[];
-}
-
-interface Plan {
-  name: string;
-  total_topics: number;
-  schedule: WeekPlan[];
-}
-
 @Component({
   selector: 'app-daily-topics',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, NgClass],
+  imports: [CommonModule, FormsModule, DatePipe, ProgressChartsComponent, QuillModule],
   templateUrl: './daily-topics.component.html',
   styleUrls: ['./daily-topics.component.css']
 })
 export class DailyTopicsComponent implements OnInit {
-  viewMode: 'today' | 'diary' | 'future' = 'today';
-  selectedTopic: Topic | null = null;
+  viewMode: 'today' | 'diary' | 'future' | 'charts' = 'today';
+  selectedTopic: Topic | null = null
   searchQuery: string = '';
   currentDate: Date = new Date();
   filter: 'all' | 'completed' | 'pending' = 'all';
-  
+  isEditingTerm = false;
+  currentTerm: TermDefinition | null = null;
+  forecast?: ProgressForecast;
+  autoSaved = false;
+  // Добавим новые свойства
+  termSearch: string = '';
+  currentTermIndex: number = -1;
+  wordCount = 0;
+  termSearchQuery: string = '';
+  filteredTerms: TermDefinition[] = [];
+  private saveTimeout: any;
   plan: Plan = {
     name: '',
     total_topics: 0,
     schedule: []
   };
+  quillConfig = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ 'header': 1 }, { 'header': 2 }],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],
+      [{ 'indent': '-1'}, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      ['clean'],
+      ['link', 'image', 'video'],
+      ['add-term', 'add-subpoint']
+    ],
+    customButtons: {
+      'add-term': {
+        text: 'Термин',
+        onClick: () => this.markAsTerm()
+      },
+      'add-subpoint': {
+        text: 'Подпункт',
+        onClick: () => this.markAsSubpoint()
+      }
+    }
+  };
+  @Output() progressData = new EventEmitter<{
+    allTopics: Topic[];
+    completedTopics: Topic[];
+    totalProgress: number;
+    todayProgress: number;
+  }>();
   todayTopics: Topic[] = [];
   allTopics: Topic[] = [];
   futureTopics: Topic[] = [];
   completedTopics: Topic[] = [];
+  
+private readonly planVersion = '1.0.2'
+  private readonly STORAGE_KEY = `astronomyProgress_v${this.planVersion}`;
 
-  constructor(private http: HttpClient) {}
+  private topicsSubject = new BehaviorSubject<Topic[]>([]);
+  topics$ = this.topicsSubject.asObservable();
 
+
+  constructor(
+    private http: HttpClient, 
+    private progressDataService: ProgressDataService,
+    private sanitizer: DomSanitizer
+  ) {}  
   async ngOnInit() {
-    await this.loadPlan();
-    this.loadProgress();
+    await this.loadData();
+    this.termSearchQuery = '';
+  }
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (!this.selectedTopic || this.isEditingTerm) return;
+  
+    if (event.ctrlKey || event.metaKey) {
+      switch (event.key.toLowerCase()) {
+        case 'b':
+          event.preventDefault();
+          this.formatText('bold');
+          break;
+        case 'i':
+          event.preventDefault();
+          this.formatText('italic');
+          break;
+        case 'k':
+          event.preventDefault();
+          this.insertLink();
+          break;
+        case 'enter':
+          event.preventDefault();
+          this.saveNotes();
+          break;
+      }
+    }
+  }
+  private async loadData() {
+    try {
+      await this.loadPlan();
+      this.loadProgress();
+      this.organizeTopics();
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  }
+  get selectedTopicWithTerms(): Topic | null {
+    return this.selectedTopic as Topic | null;
+  }
+  private async loadPlan() {
+    const yamlText = await this.http.get(`assets/plan.yml?v=${Date.now()}`, { 
+      responseType: 'text' 
+    }).toPromise();
+    
+    if (yamlText) {
+      const loadedData = yaml.load(yamlText) as any;
+      this.plan = loadedData.plan || loadedData;
+    }
+  }
+  editorModules = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'header': [1, 2, 3, false] }],
+      [{ 'color': [] }, { 'background': [] }],
+      ['blockquote', 'code-block'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['link', 'image'],
+      ['clean']
+    ]
+  };
+  
+  editorStyles = {
+    height: '300px',
+    backgroundColor: '#fff'
+  };
+  private loadProgress(): void {
+    const savedData = localStorage.getItem(this.STORAGE_KEY);
+    if (savedData) {
+      try {
+        const data = JSON.parse(savedData);
+        this.allTopics = data.topics.map((t: any) => ({
+          ...t,
+          dueDate: new Date(t.dueDate),
+          completedDate: t.completedDate ? new Date(t.completedDate) : new Date(),
+          terms: t.terms || []
+        }));
+        this.processNotesForDisplay();
+      } catch (e) {
+        console.error('Error parsing saved data:', e);
+        this.initializeAllTopics();
+      }
+    } else {
+      this.initializeAllTopics();
+    }
+    this.topicsSubject.next(this.allTopics);
+  }
+  calculateForecast(): ProgressForecast {
+    // Расчет на основе количества тем
+    const completedTopicsCount = this.completedTopics.length;
+    const remainingTopics = this.allTopics.length - completedTopicsCount;
+    const daysPassed = this.getDaysPassed();
+    const topicsPerDay = daysPassed > 0 ? completedTopicsCount / daysPassed : 0;
+    
+    // Расчет на основе времени изучения
+    const totalHours = this.allTopics.reduce((sum, topic) => sum + this.parseTimeToHours(topic.time), 0);
+    const completedHours = this.completedTopics.reduce((sum, topic) => sum + this.parseTimeToHours(topic.time), 0);
+    const hoursPerDay = daysPassed > 0 ? completedHours / daysPassed : 0;
+    
+    // Возвращаем прогноз
+    return {
+      expectedEndDate: this.calculateEndDate(topicsPerDay, remainingTopics),
+      basedOn: topicsPerDay > 0 ? 'topics' : 'hours',
+      currentRate: topicsPerDay || hoursPerDay,
+      optimisticDate: this.calculateEndDate(topicsPerDay * 1.2, remainingTopics),
+      pessimisticDate: this.calculateEndDate(topicsPerDay * 0.8, remainingTopics)
+    };
+  }
+  private parseTimeToHours(timeStr: string): number {
+    if (!timeStr) return 1; // По умолчанию 1 час, если время не указано
+    
+    let hours = 0;
+    let minutes = 0;
+    
+    // Обрабатываем разные форматы времени:
+    // "2ч 30мин", "2 часа", "30 минут", "2.5ч" и т.д.
+    const hourMatch = timeStr.match(/(\d+\.?\d*)\s*(ч|час|часа|hours?|h)/i);
+    if (hourMatch) {
+      hours = parseFloat(hourMatch[1]);
+    }
+    
+    const minuteMatch = timeStr.match(/(\d+)\s*(мин|минут|minutes?|m)/i);
+    if (minuteMatch) {
+      minutes = parseInt(minuteMatch[1], 10);
+    }
+    
+    // Преобразуем минуты в десятичную часть часа
+    return hours + (minutes / 60);
+  }
+  
+  private getDaysPassed(): number {
+    if (this.allTopics.length === 0) return 0;
+    
+    // Находим самую раннюю дату среди всех тем
+    const startDate = new Date(Math.min(...this.allTopics.map(t => t.dueDate.getTime())));
+    startDate.setHours(0, 0, 0, 0);
+    
+    // Текущая дата без времени
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // Разница в днях
+    const diffTime = today.getTime() - startDate.getTime();
+    return Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+  }
+  
+  private calculateEndDate(rate: number, remaining: number): Date {
+    if (rate <= 0) {
+      // Если нет прогресса, возвращаем дату через год
+      const futureDate = new Date();
+      futureDate.setFullYear(futureDate.getFullYear() + 1);
+      return futureDate;
+    }
+    
+    const daysNeeded = remaining / rate;
+    const endDate = new Date();
+    
+    // Добавляем рабочие дни (исключаем выходные)
+    let daysAdded = 0;
+    while (daysAdded < daysNeeded) {
+      endDate.setDate(endDate.getDate() + 1);
+      
+      // Проверяем, не выходной ли это день (суббота или воскресенье)
+      const dayOfWeek = endDate.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        daysAdded++;
+      }
+    }
+    
+    return endDate;
+  }
+  
+  // Дополнительный метод для расчета общего времени плана
+  private calculateTotalPlanHours(): number {
+    return this.allTopics.reduce((sum, topic) => {
+      return sum + this.parseTimeToHours(topic.time);
+    }, 0);
+  }
+  
+  // Дополнительный метод для расчета оставшегося времени
+  private calculateRemainingHours(): number {
+    return this.allTopics
+      .filter(topic => !topic.completed)
+      .reduce((sum, topic) => {
+        return sum + this.parseTimeToHours(topic.time);
+      }, 0);
+  }
+  private saveProgress(): void {
+    const data = {
+      topics: this.allTopics.map(topic => ({
+        ...topic,
+        dueDate: topic.dueDate.toISOString(),
+        completedDate: topic.completedDate?.toISOString() || new Date(),
+        notes: topic.notes || '',
+        terms: topic.terms || []
+      })),
+      lastUpdated: new Date().toISOString()
+    };
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+    this.topicsSubject.next(this.allTopics);
+    this.processNotesForDisplay();
+  }
+
+  toggleTopicCompletion(topic: Topic): void {
+    topic.completed = !topic.completed;
+    topic.completedDate = topic.completed ? new Date() : new Date();
+    this.saveProgress();
     this.organizeTopics();
   }
 
-  private async loadPlan() {
-    try {
-      const yamlText = await this.http.get('assets/plan.yml', { 
-        responseType: 'text' 
-      }).toPromise();
-      
-      if (!yamlText) {
-        throw new Error('Empty YAML response');
+  private processNotesForDisplay(): void {
+    this.allTopics.forEach(topic => {
+      if (!topic.notes) {
+        topic.notesHtml = this.sanitizer.bypassSecurityTrustHtml('');
+        return;
       }
+
+      let processedNotes = topic.notes;
       
-      // Загружаем данные и явно указываем тип
-      const loadedData = yaml.load(yamlText) as any;
-      
-      // Проверяем структуру данных
-      if (loadedData && (loadedData.plan || loadedData.name)) {
-        this.plan = loadedData.plan || loadedData;
-        
-        if (!this.plan?.name) {
-          throw new Error('Invalid YAML structure - missing name');
-        }
-        
-        console.log('Plan loaded:', this.plan);
-        this.initializeAllTopics();
-        this.organizeTopics();
-      } else {
-        throw new Error('Invalid YAML structure');
+      // Process terms for display
+      if (topic.terms?.length) {
+        topic.terms.forEach((term, index) => {
+          const regex = new RegExp(`(${term.term})(?![^<]*>|[^<>]*<\/)`, 'gi');
+          processedNotes = processedNotes.replace(
+            regex, 
+            `<strong class="term" data-term="${index}">$1<sup>${index + 1}</sup></strong>`
+          );
+        });
       }
-    } catch (e) {
-      console.error('Error loading plan:', e);
-      this.plan = this.getDefaultPlan();
-      this.initializeAllTopics();
+
+      // Process subpoints (assuming they are marked with • or -)
+      processedNotes = processedNotes.replace(
+        /(^|\n)(\s*)[•\-]\s+(.*?)(?=\n|$)/g, 
+        '$1$2<span class="subpoint">$3</span>'
+      );
+
+      topic.notesHtml = this.sanitizer.bypassSecurityTrustHtml(processedNotes);
+    });
+  }
+  selectTopic(topic: Topic): void {
+    this.selectedTopic = { ...topic };
+    this.isEditingTerm = false;
+    this.currentTerm = null;
+    
+    // Инициализация редактора после отрисовки
+    setTimeout(() => {
+      this.focusEditor();
+      this.wordCount = this.countWords(this.selectedTopic?.notes || '');
+    });
+  }
+
+  completeFutureTopic(topic: Topic): void {
+    topic.completed = true;
+    topic.completedDate = new Date();
+    this.saveProgress();
+    this.organizeTopics();
+  }
+
+  cancelTermEdit(): void {
+    this.isEditingTerm = false;
+    this.currentTerm = null;
+  }
+
+  editTerm(index: number): void {
+    if (!this.selectedTopic?.terms || index < 0 || index >= this.selectedTopic.terms.length) {
+      return;
+    }
+    this.currentTerm = { ...this.selectedTopic.terms[index] };
+  }
+  updateFilteredTerms(): void {
+    if (!this.selectedTopic?.terms) {
+      this.filteredTerms = [];
+      return;
+    }
+    
+    this.filteredTerms = this.selectedTopic.terms.filter(term => 
+      term.term.toLowerCase().includes(this.termSearchQuery.toLowerCase()) ||
+      term.definition.toLowerCase().includes(this.termSearchQuery.toLowerCase())
+    );
+  }  
+
+  markAsSubpoint(): void {
+    if (!this.selectedTopic) return;
+    
+    const selection = window.getSelection();
+    if (!selection || selection.toString().trim().length === 0) return;
+    
+    const range = selection.getRangeAt(0);
+    const span = document.createElement('span');
+    span.className = 'subpoint';
+    span.textContent = selection.toString();
+    
+    range.deleteContents();
+    range.insertNode(span);
+    selection.removeAllRanges();
+    
+    // Update notes with the new HTML
+    if (this.selectedTopic) {
+      const editor = document.querySelector('.notes-editor-content');
+      if (editor) {
+        this.selectedTopic.notes = editor.innerHTML;
+      }
     }
   }
+  saveNotes(): void {
+    if (!this.selectedTopic) return;
+    
+    // Обработка терминов перед сохранением
+    const editor = document.querySelector('.editor-content') as HTMLElement;
+    if (editor) {
+      this.selectedTopic.notes = editor.innerHTML;
+      
+      // Обновляем список терминов из выделенного текста
+      const termElements = editor.querySelectorAll('.term-highlight');
+      termElements.forEach(el => {
+        const termText = el.textContent?.trim();
+        if (termText && !this.selectedTopic?.terms?.some(t => t.term === termText)) {
+          this.selectedTopic?.terms?.push({
+            term: termText,
+            definition: ''
+          });
+        }
+      });
+    }
+    
+    const topicIndex = this.allTopics.findIndex(t => t.id === this.selectedTopic!.id);
+    if (topicIndex !== -1) {
+      this.allTopics[topicIndex] = { ...this.selectedTopic };
+      this.saveProgress();
+      this.organizeTopics();
+    }
+    this.autoSaved = true;
+  }
+  onEditorInput(event: Event): void {
+    
+    const element = event.target as HTMLElement;
+    if (this.selectedTopic && this.currentTerm) {
+      if (!this.selectedTopic.terms) {
+        this.selectedTopic.terms = [];
+      }
+      this.selectedTopic.terms.push({ ...this.currentTerm });
+    }
+    this.wordCount = this.countWords(element.innerText);
+    
+    // Автосохранение через 2 секунды после последнего изменения
+    clearTimeout(this.saveTimeout);
+    this.autoSaved = false;
+    this.saveTimeout = setTimeout(() => {
+      this.saveNotes();
+      this.autoSaved = true;
+    }, 2000);
+  }
   
-  private getDefaultPlan(): Plan {
-    return {
-      name: 'Default Plan',
-      total_topics: 0,
-      schedule: []
+  formatText(command: string): void {
+    document.execCommand(command, false);
+    this.focusEditor();
+  }
+  
+  insertList(type: 'ul' | 'ol'): void {
+    document.execCommand('insert' + (type === 'ol' ? 'Ordered' : 'Unordered') + 'List');
+    this.focusEditor();
+  }
+  
+  insertLink(): void {
+    const url = prompt('Enter URL:', 'http://');
+    if (url) {
+      document.execCommand('createLink', false, url);
+    }
+    this.focusEditor();
+  }
+  
+  insertImage(): void {
+    const url = prompt('Enter image URL:', 'http://');
+    if (url) {
+      document.execCommand('insertImage', false, url);
+    }
+    this.focusEditor();
+  }
+  addNewTerm(): void {
+    if (!this.selectedTopic) return;
+    
+    if (!this.selectedTopic.terms) {
+      this.selectedTopic.terms = [];
+    }
+  
+    this.currentTerm = {
+      term: '',
+      definition: ''
     };
+    
+    // Фокус на поле ввода после добавления
+    setTimeout(() => {
+      const input = document.querySelector('.term-input') as HTMLInputElement;
+      input?.focus();
+    });
+  }
+  addTerm(): void {
+    // Проверяем наличие выделенного текста
+    const selection = window.getSelection();
+    const selectedText = selection?.toString().trim();
+  
+    if (selectedText) {
+      // Если есть выделенный текст - используем markAsTerm
+      this.markAsTerm();
+      return;
+    }
+  
+    // Если нет выделенного текста - запрашиваем термин через prompt
+    const term = prompt('Enter term:');
+    if (!term) return; // Если пользователь отменил ввод
+  
+    // Получаем диапазон выделения (если есть)
+    const range = selection?.rangeCount ? selection.getRangeAt(0) : null;
+  
+    // Создаем элемент для выделения термина
+    const span = document.createElement('span');
+    span.className = 'term-highlight';
+    span.textContent = term;
+  
+    // Вставляем новый термин в редактор (если есть диапазон)
+    if (range) {
+      range.deleteContents();
+      range.insertNode(span);
+    }
+  
+    // Проверяем и инициализируем selectedTopic и terms
+    if (!this.selectedTopic) {
+      console.warn('No topic selected');
+      return;
+    }
+  
+    // Инициализируем массив terms, если его нет
+    if (!this.selectedTopic.terms) {
+      this.selectedTopic.terms = [];
+    }
+  
+    // Создаем новый термин
+    const newTerm = {
+      term: term,
+      definition: ''
+    };
+  
+    // Проверяем, есть ли такой термин уже в списке
+    const existingTermIndex = this.selectedTopic.terms.findIndex(t => t['term'] === term);
+    
+    if (existingTermIndex >= 0) {
+      // Если термин уже существует - используем существующий
+      this.currentTerm = { ...this.selectedTopic.terms[existingTermIndex] };
+    } else {
+      // Если термин новый - добавляем в список
+      this.selectedTopic.terms.push(newTerm);
+      this.currentTerm = { ...newTerm };
+    }
+  
+    this.isEditingTerm = true;
+  }
+  
+  private focusEditor(): void {
+    const editor = document.querySelector('.editor-content') as HTMLElement;
+    editor.focus();
+  }
+  
+  private countWords(text: string): number {
+    return text.trim() ? text.trim().split(/\s+/).length : 0;
+  }  
+  markAsTerm(): void {
+    if (!this.selectedTopic) return;
+    
+    const selection = window.getSelection();
+    if (!selection || selection.toString().trim().length === 0) return;
+    
+    const termText = selection.toString().trim();
+    this.currentTerm = {
+      term: termText,
+      definition: ''
+    };
+    
+    this.isEditingTerm = true;
+    
+    if (!this.selectedTopic.terms) {
+      this.selectedTopic.terms = [];
+    }
+    
+    // Check if term already exists
+    const existingTermIndex = this.selectedTopic.terms.findIndex(t => t.term === termText);
+    if (existingTermIndex >= 0) {
+      this.currentTerm = this.selectedTopic.terms[existingTermIndex];
+    }
   }
   private parseTopicString(topicStr: string): { title: string, difficulty: number, time: string } {
-    // Если нет скобок, возвращаем всю строку как title
-    if (!topicStr.includes('(') || !topicStr.includes(')')) {
+    if (!topicStr.includes('(')) {
       return { title: topicStr, difficulty: 0, time: '' };
     }
     
@@ -132,19 +644,7 @@ export class DailyTopicsComponent implements OnInit {
   getCompletedTodayCount(): number {
     return this.todayTopics.filter(t => t.completed).length;
   }
-  private loadProgress() {
-    const savedData = localStorage.getItem('astronomyProgress');
-    if (savedData) {
-      const data = JSON.parse(savedData);
-      this.allTopics = data.topics.map((t: any) => ({
-        ...t,
-        dueDate: new Date(t.dueDate),
-        completedDate: t.completedDate ? new Date(t.completedDate) : null
-      }));
-    } else {
-      this.initializeAllTopics();
-    }
-  }
+  
   get completedTopicsCount(): number {
     return this.allTopics.filter(t => t.completed).length;
   }
@@ -152,74 +652,74 @@ export class DailyTopicsComponent implements OnInit {
   get todayCompletedCount(): number {
     return this.todayTopics.filter(t => t.completed).length;
   }
-  private initializeAllTopics() {
-    console.log('Initializing topics from plan:', this.plan);
-    this.allTopics = [];
-    
-    if (!this.plan?.schedule) {
-      console.error('No schedule in plan');
+  private initializeAllTopics(): void {
+    if (this.allTopics.length > 0 && typeof localStorage !== 'undefined' && 
+        localStorage.getItem('astronomyProgress')) {
       return;
     }
+
+    const newTopics: Topic[] = [];
     
-    this.plan.schedule.forEach((week: any) => {
-      week.days.forEach((day: any) => {
-        day.topics.forEach((topic: any) => {
-          try {
-            if (typeof topic === 'string') {
-              const parsed = this.parseTopicString(topic);
-              const dueDate = this.calculateDueDate(week.week, day.day);
-              
-              console.log(`Creating topic:`, {
-                title: parsed.title,
-                week: week.week,
-                day: day.day,
-                dueDate
-              });
-              
-              this.allTopics.push({
+    this.plan.schedule?.forEach((week: any) => {
+      week.days?.forEach((day: any) => {
+        day.topics?.forEach((topic: any) => {
+          if (typeof topic === 'string') {
+            const parsed = this.parseTopicString(topic);
+            const dueDate = this.calculateDueDate(week.week, day.day);
+            
+            const existingTopic = this.findExistingTopic(parsed.title, week.week, day.day);
+            
+            if (existingTopic) {
+              newTopics.push(existingTopic);
+            } else {
+              newTopics.push({
                 id: this.generateId(),
                 ...parsed,
                 completed: false,
-                completedDate: null,
+                completedDate: new Date(),
                 notes: '',
                 dueDate,
                 week: week.week,
-                day: day.day
+                day: day.day,
+                terms: []
               });
             }
-          } catch (e) {
-            console.error('Error creating topic:', e, 'Topic:', topic);
           }
         });
       });
     });
     
-    console.log('Total topics created:', this.allTopics.length);
+    this.allTopics = newTopics;
     this.saveProgress();
   }
+  
+  private findExistingTopic(title: string, week: number, day: number): Topic | undefined {
+    return this.allTopics.find(t => 
+      t.title === title && 
+      t.week === week && 
+      t.day === day
+    );
+  }
+
 
   private calculateDueDate(week: number, day: number): Date {
-    // Фиксированная дата начала - 1 июня 2025
-    const startDate = new Date(2025, 5, 1); // Месяцы 0-11 (5 = июнь)
+    const startDate = new Date(2025, 5, 1);
     const daysToAdd = (week - 1) * 7 + (day - 1);
     const dueDate = new Date(startDate);
     dueDate.setDate(startDate.getDate() + daysToAdd);
-    
-    console.log(`Week ${week}, Day ${day} -> ${dueDate}`);
     return dueDate;
   }
-  private organizeTopics() {
+
+  private generateId(): string {
+    return Math.random().toString(36).substr(2, 9);
+  }
+  private organizeTopics(): void {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
-    // Для отладки можно вывести текущую дату
-    console.log('Сегодняшняя дата:', today);
     
     this.todayTopics = this.allTopics.filter(topic => {
       const topicDate = new Date(topic.dueDate);
       topicDate.setHours(0, 0, 0, 0);
-      // Для отладки можно вывести даты тем
-      console.log(`Тема "${topic.title}": ${topicDate}`);
       return topicDate.getTime() === today.getTime();
     });
   
@@ -234,53 +734,21 @@ export class DailyTopicsComponent implements OnInit {
     this.completedTopics = this.allTopics
       .filter(topic => topic.completed)
       .sort((a, b) => (b.completedDate || new Date(0)).getTime() - (a.completedDate || new Date(0)).getTime());
+  
+    this.progressData.emit({
+      allTopics: this.allTopics,
+      completedTopics: this.completedTopics,
+      totalProgress: this.totalProgress,
+      todayProgress: this.todayProgress
+    });
+    this.forecast = this.calculateForecast();
   }
 
-  toggleTopicCompletion(topic: Topic) {
-    topic.completed = !topic.completed;
-    topic.completedDate = topic.completed ? new Date() : null;
-    this.saveProgress();
-    this.organizeTopics();
-  }
-
-  completeFutureTopic(topic: Topic) {
-    topic.completed = true;
-    topic.completedDate = new Date();
-    this.saveProgress();
-    this.organizeTopics();
-  }
-
-  private saveProgress() {
-    const data = {
-      topics: this.allTopics,
-      lastUpdated: new Date().toISOString()
-    };
-    localStorage.setItem('astronomyProgress', JSON.stringify(data));
-  }
-
-  private generateId(): string {
-    return Math.random().toString(36).substr(2, 9);
-  }
-
-  selectTopic(topic: Topic) {
-    this.selectedTopic = { ...topic };
-  }
-
-  saveNotes() {
-    if (!this.selectedTopic) return;
-    
-    const topicIndex = this.allTopics.findIndex(t => t.id === this.selectedTopic!.id);
-    if (topicIndex !== -1) {
-      this.allTopics[topicIndex].notes = this.selectedTopic.notes;
-    }
-    
-    this.saveProgress();
-    this.selectedTopic = null;
-  }
-
-  setViewMode(mode: 'today' | 'diary' | 'future') {
+  setViewMode(mode: 'today' | 'diary' | 'future' | 'charts') {
     this.viewMode = mode;
     this.selectedTopic = null;
+    this.isEditingTerm = false;
+    this.currentTerm = null;
   }
 
   getFilteredTopics(): Topic[] {
@@ -288,7 +756,11 @@ export class DailyTopicsComponent implements OnInit {
     if (this.searchQuery) {
       topics = topics.filter(t => 
         t.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        (t.notes && t.notes.toLowerCase().includes(this.searchQuery.toLowerCase()))
+        (t.notes && t.notes.toLowerCase().includes(this.searchQuery.toLowerCase())) ||
+        (t.terms && t.terms.some(term => 
+          term.term.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          term.definition.toLowerCase().includes(this.searchQuery.toLowerCase())
+        ))
       );
     }
     switch (this.filter) {
@@ -303,10 +775,57 @@ export class DailyTopicsComponent implements OnInit {
     const completed = this.todayTopics.filter(t => t.completed).length;
     return total > 0 ? Math.round((completed / total) * 100) : 0;
   }
-
   get totalProgress() {
     const total = this.allTopics.length;
     const completed = this.allTopics.filter(t => t.completed).length;
     return total > 0 ? Math.round((completed / total) * 100) : 0;
+  }
+
+
+
+  showTermsEditor(): void {
+    if (!this.selectedTopic) return;
+    
+    if (!this.selectedTopic.terms) {
+      this.selectedTopic.terms = [];
+    }
+    
+    this.filteredTerms = [...this.selectedTopic.terms];
+    this.isEditingTerm = true;
+    this.currentTermIndex = this.filteredTerms.length > 0 ? 0 : -1;
+  }
+  
+  addEmptyTerm(): void {
+    this.filteredTerms.push({
+      term: '',
+      definition: ''
+    });
+    this.currentTermIndex = this.filteredTerms.length - 1;
+  }
+  
+  saveTerms(): void {
+    if (!this.selectedTopic) return ;
+    
+    this.selectedTopic.terms = this.filteredTerms.filter(t => t.term.trim() !== '');
+    this.saveNotes();
+    this.isEditingTerm = false;
+  }
+  
+  removeTerm(index: number): void {
+    this.filteredTerms.splice(index, 1);
+    if (this.currentTermIndex >= index) {
+      this.currentTermIndex = Math.max(0, this.currentTermIndex - 1);
+    }
+  }
+  
+  get filteredTermsList(): TermDefinition[] {
+    if (!this.termSearch) {
+      return this.filteredTerms;
+    }
+    const search = this.termSearch.toLowerCase();
+    return this.filteredTerms.filter(term => 
+      term.term.toLowerCase().includes(search) ||
+      term.definition.toLowerCase().includes(search)
+    );
   }
 }

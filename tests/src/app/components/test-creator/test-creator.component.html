@@ -1,72 +1,126 @@
-<div class="test-creator">
-    <h2>Создать тест</h2>
-    
-    <div class="creator-container">
-      <div class="filters">
-        <h3>Фильтры</h3>
+<div class="test-creator-container">
+  
+  <div class="main-content-wrapper">
+    <!-- Левая колонка - поиск тегов -->
+    <div class="left-filters-column">
+      <div class="filter-group">
+        <h3>Поиск тегов</h3>
+        <input type="text" 
+               [(ngModel)]="tagSearchQuery" 
+               (input)="filterTags()"
+               placeholder="Введите название тега..."
+               class="tag-search-input">
         
-        <div class="filter-group">
-          <label>Теги:</label>
-          <div class="tags-selector">
-            <div *ngFor="let category of tags" class="tag-category">
-              <h4>{{ category.theme }}</h4>
-              <div class="tag-options">
-                <label *ngFor="let tag of category.tags">
-                  <input type="checkbox" 
-                         [value]="tag" 
-                         [(ngModel)]="selectedTags"
-                         [checked]="selectedTags.includes(tag)">
-                  {{ tag }}
-                </label>
-              </div>
+        <div class="tags-container">
+          <div *ngFor="let category of filteredTags" class="tag-category">
+            <h4>{{category.theme}}</h4>
+            <div class="tag-buttons">
+              <button *ngFor="let tag of category.tags" 
+                      [class.active]="selectedTags.includes(tag)"
+                      (click)="toggleTag(tag)">
+                {{tag}}
+              </button>
             </div>
           </div>
         </div>
-        
-        <div class="filter-group">
-          <label>Сложность: {{ difficultyRange[0] }} - {{ difficultyRange[1] }}</label>
-          <div class="range-slider">
-            <input type="range" min="0" max="100" step="5" 
-                   [(ngModel)]="difficultyRange[0]" (input)="applyFilters()">
-            <input type="range" min="0" max="100" step="5" 
-                   [(ngModel)]="difficultyRange[1]" (input)="applyFilters()">
-          </div>
-        </div>
-        
-        <div class="filter-group">
-          <label>Количество вопросов:</label>
-          <input type="number" min="1" max="50" [(ngModel)]="questionCount">
-        </div>
-        
-        <div class="filter-actions">
-          <button (click)="applyFilters()">Применить</button>
-          <button (click)="resetFilters()">Сбросить</button>
+      </div>
+    </div>
+
+    <!-- Центральная колонка - вопросы -->
+    <div class="questions-column">
+      <div class="questions-header">
+        <h3>Доступные вопросы ({{filteredQuestions.length}})</h3>
+        <div class="questions-count">
+          <span *ngIf="!autoGenerate">Выбрано: {{questionCount}}</span>
         </div>
       </div>
-      
-      <div class="questions-list">
-        <h3>Вопросы ({{ filteredQuestions.length }})</h3>
-        
-        <div *ngIf="filteredQuestions.length === 0" class="no-questions">
-          Нет вопросов, соответствующих фильтрам
-        </div>
-        
-        <div *ngFor="let question of filteredQuestions" 
-             class="question-item" 
-             [class.selected]="isSelected(question)"
-             (click)="toggleQuestionSelection(question)">
-          <div class="question-text">{{ question.text }}</div>
+
+      <div *ngIf="loading" class="loading-indicator">
+        Загрузка вопросов...
+      </div>
+
+      <div *ngIf="!loading && filteredQuestions.length === 0" class="no-questions">
+        Нет вопросов, соответствующих выбранным фильтрам
+      </div>
+
+      <div *ngIf="!loading && filteredQuestions.length > 0" class="questions-list">
+        <div *ngFor="let question of filteredQuestions" class="question-card">
+          <div class="question-text">{{question.text}}</div>
           <div class="question-meta">
-            <span class="difficulty">Сложность: {{ question.difficulty }}/100</span>
-            <span class="tags">
-              <span *ngFor="let tag of question.tags" class="tag">{{ tag }}</span>
-            </span>
+            <span class="difficulty">Сложность: {{question.difficulty}}/100</span>
+            <div class="question-tags">
+              <span *ngFor="let tag of question.tags" class="tag">{{tag}}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    
-    <div class="actions" *ngIf="selectedQuestions.length > 0">
-      <button (click)="startTest()">Начать тест ({{ selectedQuestions.length }})</button>
+
+    <!-- Правая колонка - другие фильтры -->
+    <div class="right-filters-column">
+      <div class="filter-group">
+        <h3>Сложность</h3>
+        <div class="range-slider-container">
+          <div class="slider-wrapper">
+            <span class="range-label">Минимум:</span>
+            <span class="range-value">{{difficultyRange[0]}}</span>
+            <input type="range" min="0" max="100" step="5" 
+                   [(ngModel)]="difficultyRange[0]" (input)="applyFilters()"
+                   class="difficulty-slider">
+          </div>
+          <div class="slider-wrapper">
+            <span class="range-label">Максимум:</span>
+            <span class="range-value">{{difficultyRange[1]}}</span>
+            <input type="range" min="0" max="100" step="5" 
+                   [(ngModel)]="difficultyRange[1]" (input)="applyFilters()"
+                   class="difficulty-slider">
+          </div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <h3>Количество вопросов</h3>
+        <input type="number" min="1" [max]="filteredQuestions.length" 
+               [(ngModel)]="questionCount" class="question-count-input">
+      <div  class="filter-actions">
+        <button (click)="toggleMaxQuestions()" 
+          [class.active]="maxQuestionsAvailable"
+          class="reset-btn">
+          Максимум
+        </button>
+      </div>
+
+      </div>
+
+      <div class="filter-group">
+        <h3>Автогенерация</h3>
+        <label class="toggle-switch">
+          <input type="checkbox" [(ngModel)]="autoGenerate">
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <div class="filter-actions">
+        <button (click)="resetFilters()" class="reset-btn">Сбросить фильтры</button>
+      </div>
     </div>
   </div>
+
+  <!-- Фиксированная панель действий -->
+  <div class="action-panel">
+    <div class="panel-content">
+      <div class="questions-summary">
+        Доступно вопросов: {{filteredQuestions.length}}
+      </div>
+      <button (click)="startTest()" 
+              [disabled]="filteredQuestions.length === 0 || loading"
+              class="start-test-btn">
+        Начать тест ({{questionCount}})
+      </button>
+      <button (click)="saveAsThematicTest(false)"
+            [disabled]="filteredQuestions.length === 0 || loading"
+            class="start-test-btn">
+      Сохранить как тематический тест
+      </button>
+    </div>
+  </div>
+</div>

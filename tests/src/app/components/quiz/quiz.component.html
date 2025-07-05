@@ -9,11 +9,14 @@
     @if (quizData && !quizComplete) {
       <div class="quiz-in-progress">
         <header class="quiz-header">
-          <h1>{{ quizData?.name }}</h1>
+          <h1>{{ quizData.name }}</h1>
           <div class="progress-bar">
             <div class="progress" [style.width.%]="progress"></div>
           </div>
-          <p>Question {{ currentQuestionIndex + 1 }} of {{ quizData?.questions?.length }}</p>
+          <div class="time-spent">
+            Затраченное время: {{ timeSpent | time }}
+          </div>
+          <p>Question {{ currentQuestionIndex + 1 }} of {{ quizData.questions.length }}</p>
         </header>
   
         @if (currentQuestion) {
@@ -24,14 +27,26 @@
               @for (option of currentQuestion.options; track option; let i = $index) {
                 <div class="option" 
                      [class.selected]="isSelected(i)"
+                     [class.disabled]="confirmedAnswers[currentQuestionIndex] && !isSelected(i)"
                      (click)="selectAnswer(i)">
                   <input [type]="currentQuestion.multiple ? 'checkbox' : 'radio'" 
                          [checked]="isSelected(i)"
+                         [disabled]="confirmedAnswers[currentQuestionIndex]"
                          (click)="$event.stopPropagation()">
                   <label>{{ option }}</label>
+                  @if (confirmedAnswers[currentQuestionIndex] && isSelected(i)) {
+                    <span class="confirmed-badge"></span>
+                  }
                 </div>
               }
             </div>
+
+            @if (explanations[currentQuestionIndex] !== null && selectedAnswers[currentQuestionIndex] !== null) {
+              <div class="explanation-box">
+                <h4>Объяснение:</h4>
+                <p>{{ explanations[currentQuestionIndex] }}</p>
+              </div>
+            }
           </div>
         }
   
@@ -39,8 +54,16 @@
           @if (currentQuestionIndex > 0) {
             <button (click)="prevQuestion()">Previous</button>
           }
-          <button (click)="nextQuestion()">
-            @if (currentQuestionIndex < (quizData?.questions?.length ?? 0) - 1) {
+          
+          <button (click)="confirmAnswer()" 
+                  [disabled]="selectedAnswers[currentQuestionIndex] === null || confirmedAnswers[currentQuestionIndex]"
+                  class="confirm-btn">
+            {{ confirmedAnswers[currentQuestionIndex] ? 'Confirmed' : 'Confirm Answer' }}
+          </button>
+          
+          <button (click)="nextQuestion()" 
+                  class="next-btn">
+            @if (currentQuestionIndex < quizData.questions.length - 1) {
               Next
             } @else {
               Finish
@@ -53,6 +76,7 @@
     @if (quizComplete && !showResults) {
       <div class="quiz-completed">
         <h2>Quiz Completed!</h2>
+        <p>Затраченное время: {{ timeSpent | time }}</p>
         <p>Your score: {{ score }}%</p>
         
         <div class="action-buttons">
@@ -92,6 +116,13 @@
                 {{ getSingleCorrectText(question) }}
               }
             </p>
+
+            @if (question.explanation) {
+              <div class="explanation-box">
+                <h4>Объяснение:</h4>
+                <p>{{ question.explanation }}</p>
+              </div>
+            }
             
             <p [class.correct]="isAnswerCorrect(i)" [class.incorrect]="!isAnswerCorrect(i)">
               @if (isAnswerCorrect(i)) {

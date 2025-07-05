@@ -5,6 +5,7 @@ import { QuizComponent } from './components/quiz/quiz.component';
 import { TestCreatorComponent } from './components/test-creator/test-creator.component';
 import { HistoryComponent } from './components/history/history.component';
 import { DailyTopicsComponent } from './components/daily-topics/daily-topics.component';
+import { ProgressChartsComponent } from './components/progress-charts/progress-charts.component';
 
 export const routes: Routes = [
   { path: '', component: ThemeSelectorComponent },
@@ -12,5 +13,6 @@ export const routes: Routes = [
   { path: 'creator', component: TestCreatorComponent },
   { path: 'history', component: HistoryComponent },
   { path: 'daily-topics', component: DailyTopicsComponent},
+  // { path: 'progress', component: ProgressChartsComponent },
   { path: '**', redirectTo: '' }
 ];

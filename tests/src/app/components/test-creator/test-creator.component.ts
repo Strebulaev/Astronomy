@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
-import { Question } from '../../models/question.model' 
+import { Question } from '../../models/question.model';
 import { TagCategory } from '../../models/tag.model';
+import { QuizDataService } from '../../services/quiz-data.service';
+import { QuizData, QuizQuestion } from '../../models/quiz-data.model';
+import { Test } from '../../models/test.model';
 
 @Component({
   selector: 'app-test-creator',
@@ -13,7 +16,8 @@ import { TagCategory } from '../../models/tag.model';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule]
 })
-export class TestCreatorComponent implements OnInit {
+export class TestCreatorComponent implements OnInit, AfterViewInit {
+  @ViewChildren('difficultySlider') sliders!: QueryList<ElementRef>;
   allQuestions: Question[] = [];
   filteredQuestions: Question[] = [];
   tags: TagCategory[] = [];
@@ -21,18 +25,37 @@ export class TestCreatorComponent implements OnInit {
   difficultyRange: [number, number] = [0, 100];
   questionCount = 10;
   selectedQuestions: Question[] = [];
-
-  constructor(
-    
+  autoGenerate = true;
+  loading = false;
+  tagSearchQuery = '';
+  filteredTags: TagCategory[] = [];
+  constructor(  
     private dataService: DataService,
-    private router: Router
+    private router: Router,
+    private quizDataService: QuizDataService
   ) {this.selectedTags = [];}
-
+  maxQuestionsAvailable = false;
   ngOnInit(): void {
     this.loadQuestions();
     this.loadTags();
   }
-
+  ngAfterViewInit() {
+    this.fixSliderDirection();
+  }
+  toggleMaxQuestions(): void {
+    this.maxQuestionsAvailable = !this.maxQuestionsAvailable;
+    if (this.maxQuestionsAvailable) {
+      this.questionCount = this.filteredQuestions.length;
+    }
+  }
+  
+  private fixSliderDirection() {
+    setTimeout(() => {
+      this.sliders.forEach(slider => {
+        slider.nativeElement.style.direction = 'rtl';
+      });
+    });
+  }
   loadQuestions(): void {
     this.dataService.getQuestions().subscribe((questions: Question[]) => {
       this.allQuestions = questions;
@@ -40,29 +63,53 @@ export class TestCreatorComponent implements OnInit {
     });
   }
 
+  private getRandomQuestions(questions: Question[], count: number): Question[] {
+    const shuffled = [...questions].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, Math.min(count, shuffled.length));
+  }
+
   loadTags(): void {
     this.dataService.getTags().subscribe((tags: TagCategory[]) => {
       this.tags = tags;
+      this.filteredTags = [...tags]; // Initialize filteredTags with all tags
+      this.selectedTags = [];
     });
+  }
+
+  isTagSelected(tag: string): boolean {
+    return this.selectedTags.includes(tag);
+  }
+
+  toggleTagSelection(tag: string): void {
+    const index = this.selectedTags.indexOf(tag);
+    if (index > -1) {
+      this.selectedTags.splice(index, 1);
+    } else {
+      this.selectedTags.push(tag);
+    }
+    this.applyFilters();
   }
 
   applyFilters(): void {
-    this.filteredQuestions = this.allQuestions.filter((question: Question) => {
-      const tagMatch = this.selectedTags.length === 0 || 
+    this.filteredQuestions = this.allQuestions.filter(question => {
+      const matchesTags = this.selectedTags.length === 0 || 
         this.selectedTags.some(tag => question.tags.includes(tag));
       
-      const difficultyMatch = question.difficulty >= this.difficultyRange[0] && 
+      const matchesDifficulty = question.difficulty >= this.difficultyRange[0] && 
         question.difficulty <= this.difficultyRange[1];
       
-      return tagMatch && difficultyMatch;
+      return matchesTags && matchesDifficulty;
     });
+    
+    if (this.maxQuestionsAvailable) {
+      this.questionCount = this.filteredQuestions.length;
+    }
   }
-
   resetFilters(): void {
     this.selectedTags = [];
     this.difficultyRange = [0, 100];
     this.questionCount = 10;
-    this.filteredQuestions = [...this.allQuestions];
+    this.applyFilters();
   }
 
   toggleQuestionSelection(question: Question): void {
@@ -78,25 +125,137 @@ export class TestCreatorComponent implements OnInit {
     return this.selectedQuestions.some(q => q.id === question.id);
   }
 
-  startTest(): void {
-    if (this.selectedQuestions.length > 0) {
-      const test = {
-        name: 'Сгенерированный тест',
-        questions: this.selectedQuestions.map(q => ({
-          question: q.text,
-          options: q.options,
-          multiple: q.options.filter(o => o.correct).length > 1
-        }))
-      };
+  saveAsThematicTest(startTestImmediately = true): void {
+    if (this.loading) return;
   
-      console.log('Generated test:', test); // Для отладки
-      
-      this.router.navigate(['quiz'], {
-        state: {
-          test: test,
-          testType: 'custom'
-        }
-      });
+    const availableQuestions = [...this.filteredQuestions];
+    if (availableQuestions.length === 0) return;
+  
+    const questionsToUse = this.autoGenerate
+      ? this.getRandomQuestions(availableQuestions, this.questionCount)
+      : availableQuestions;
+  
+    const testName = this.selectedTags.length > 0 
+      ? `${this.selectedTags.join(', ')}` 
+      : 'Сгенерированный тест';
+  
+    const test: Test = {
+      name: testName,
+      tags: [...this.selectedTags],
+      isCustom: true,
+      questions: questionsToUse.map(q => ({
+        question: q.text,
+        options: q.options.map(o => ({
+          text: o.text,
+          correct: o.correct
+        })),
+        explanation: q.explanation
+      }))
+    };
+  
+    this.dataService.saveCustomTest(test);
+    
+    if (startTestImmediately) {
+      this.startTest(test);
+    } else {
+      // Показываем уведомление или выполняем другие действия
+      alert(`Тест "${testName}" успешно сохранен!`);
     }
+  }
+
+  public startTest(testData?: Test): void {
+    if (this.loading) return;
+
+    const availableQuestions = [...this.filteredQuestions];
+    if (availableQuestions.length === 0) return;
+
+    const questionsToUse = this.autoGenerate
+      ? this.getRandomQuestions(availableQuestions, this.questionCount)
+      : availableQuestions;
+
+    const test: Test = {
+      name: 'Сгенерированный тест',
+      tags: [...this.selectedTags],
+      isCustom: true,
+      questions: questionsToUse.map(q => ({
+        question: q.text,
+        options: q.options.map(o => ({
+          text: o.text,
+          correct: o.correct
+        })),
+        explanation: q.explanation
+      }))
+    };
+
+    this.prepareAndStartTest(testData || test);
+  }
+  private prepareAndStartTest(testData: Test): void {
+    const quizData: QuizData = {
+      name: testData.name,
+      testType: testData.isCustom ? 'custom' : 'thematic',
+      questions: testData.questions.map(q => {
+        const shuffledOptions = this.shuffleArray([...q.options]);
+        
+        return {
+          question: q.question,
+          options: shuffledOptions.map(o => o.text),
+          correctAnswers: shuffledOptions
+            .map((o, i) => o.correct ? i : -1)
+            .filter(i => i !== -1),
+          multiple: shuffledOptions.filter(o => o.correct).length > 1,
+          explanation: q.explanation
+        };
+      })
+    };
+
+    this.quizDataService.setQuizData(quizData);
+    this.router.navigate(['/quiz']);
+  }
+  private shuffleArray(array: any[]): any[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+  filterTags(): void {
+    if (!this.tagSearchQuery) {
+      this.filteredTags = [...this.tags];
+      return;
+    }
+
+    const searchQuery = this.tagSearchQuery.toLowerCase();
+    this.filteredTags = this.tags.map(category => {
+      const filteredTags = category.tags.filter(tag => 
+        tag.toLowerCase().includes(searchQuery)
+      );
+      return { ...category, tags: filteredTags };
+    }).filter(category => category.tags.length > 0);
+  }
+  async loadData(): Promise<void> {
+    this.loading = true;
+    try {
+      const [questions, tags] = await Promise.all([
+        this.dataService.getQuestions().toPromise(),
+        this.dataService.getTags().toPromise()
+      ]);
+      this.allQuestions = questions || [];
+      this.tags = tags || [];
+      this.applyFilters();
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  toggleTag(tag: string): void {
+    const index = this.selectedTags.indexOf(tag);
+    if (index > -1) {
+      this.selectedTags.splice(index, 1);
+    } else {
+      this.selectedTags.push(tag);
+    }
+    this.applyFilters();
   }
 }

@@ -1,0 +1,172 @@
+.charts-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.summary-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #3f51b5;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.chart-row {
+  display: flex;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+.chart-container {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 15px;
+  position: relative;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.chart-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.chart-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.download-btn, .info-btn {
+  background: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.2s;
+}
+
+.download-btn:hover, .info-btn:hover {
+  background: #303f9f;
+}
+
+.icon-download, .icon-info {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.chart-description {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  border-left: 4px solid #3f51b5;
+}
+
+.chart-description p {
+  margin: 5px 0;
+}
+
+.chart-description strong {
+  color: #3f51b5;
+}
+
+.forecast-details {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #555;
+  padding: 10px;
+  background: #f0f7ff;
+  border-radius: 6px;
+}
+
+.forecast-details p {
+  margin: 5px 0;
+}
+
+.last-updated {
+  color: #666;
+  font-size: 14px;
+}
+
+@media (max-width: 1200px) {
+  .chart-row {
+    flex-direction: column;
+  }
+  
+  .summary-stats {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .stat-card {
+    min-width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .stat-card {
+    min-width: 100%;
+  }
+  
+  .chart-actions {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .download-btn, .info-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

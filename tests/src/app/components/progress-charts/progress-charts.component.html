@@ -1,0 +1,224 @@
+<div class="charts-container">
+  <div class="header">
+    <h2>Анализ прогресса подготовки</h2>
+    <div class="last-updated">Обновлено: {{ currentDate() | date:'dd.MM.yyyy HH:mm' }}</div>
+  </div>
+
+  <div class="summary-stats">
+    <div class="stat-card">
+      <div class="stat-value">{{ totalProgress }}%</div>
+      <div class="stat-label">Общий прогресс</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ allTopics.length }}</div>
+      <div class="stat-label">Всего тем</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ completedTopics.length }}</div>
+      <div class="stat-label">Выполнено</div>
+    </div>
+    <div class="stat-card" *ngIf="forecast">
+      <div class="stat-value">{{ forecast.currentRate | number:'1.1-1' }}</div>
+      <div class="stat-label">Тем/день</div>
+    </div>
+  </div>
+
+  <!-- Первый ряд графиков -->
+  <div class="chart-row">
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Общий прогресс</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('completion')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('completion')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
+        </div>
+      </div>
+      <apx-chart
+        [series]="completionChart().series"
+        [chart]="completionChart().chart"
+        [labels]="completionChart().labels"
+        [plotOptions]="completionChart().plotOptions"
+        [colors]="completionChart().colors"
+        [stroke]="completionChart().stroke"
+        [fill]="completionChart().fill">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['completion']">
+        <p><strong>Описание:</strong> Этот график показывает общий прогресс выполнения всех тем.</p>
+        <p><strong>Как рассчитывается:</strong> Процент выполнения = (Количество выполненных тем / Общее количество тем) * 100</p>
+        <p><strong>Точность:</strong> Высокая, так как основана на точном количестве выполненных тем.</p>
+        <p><strong>Что учитывается:</strong> Учитываются все темы, помеченные как выполненные.</p>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Прогноз завершения</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('forecast')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('forecast')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
+        </div>
+      </div>
+      <apx-chart
+        [series]="forecastChart().series"
+        [chart]="forecastChart().chart"
+        [xaxis]="forecastChart().xaxis"
+        [yaxis]="forecastChart().yaxis"
+        [stroke]="forecastChart().stroke"
+        [markers]="forecastChart().markers"
+        [colors]="forecastChart().colors"
+        [tooltip]="forecastChart().tooltip">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['forecast']">
+        <p><strong>Описание:</strong> Прогноз даты завершения всех тем на основе текущей скорости.</p>
+        <p><strong>Как рассчитывается:</strong> 
+          - Историческая часть: линейная аппроксимация прогресса за последний 21 день<br>
+          - Прогнозная часть: экстраполяция текущей скорости (тем/день) до 100% выполнения
+        </p>
+        <p><strong>Точность:</strong> Средняя, зависит от стабильности вашей скорости изучения.</p>
+        <p><strong>Что учитывается:</strong> Учитывается текущий прогресс и средняя скорость выполнения тем за последние 2 недели.</p>
+      </div>
+      <div class="forecast-details" *ngIf="forecast">
+        <p>Ожидаемое завершение: {{ forecast.expectedEndDate | date:'dd.MM.yyyy' }}</p>
+        <p>Оптимистичный сценарий: {{ forecast.optimisticDate | date:'dd.MM.yyyy' }}</p>
+        <p>Пессимистичный сценарий: {{ forecast.pessimisticDate | date:'dd.MM.yyyy' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Второй ряд графиков -->
+  <div class="chart-row">
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Сложность по неделям</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('difficulty')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('difficulty')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
+        </div>
+      </div>
+      <apx-chart
+        [series]="difficultyChart().series"
+        [chart]="difficultyChart().chart"
+        [xaxis]="difficultyChart().xaxis"
+        [yaxis]="difficultyChart().yaxis"
+        [plotOptions]="difficultyChart().plotOptions"
+        [colors]="difficultyChart().colors"
+        [tooltip]="difficultyChart().tooltip">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['difficulty']">
+        <p><strong>Описание:</strong> Средняя сложность тем по неделям.</p>
+        <p><strong>Как рассчитывается:</strong> Для каждой недели вычисляется среднее значение сложности всех тем этой недели.</p>
+        <p><strong>Точность:</strong> Зависит от точности оценки сложности каждой темы.</p>
+        <p><strong>Что учитывается:</strong> Учитывается значение сложности, указанное для каждой темы (по шкале от 0 до 100).</p>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Затраты времени по неделям</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('time')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('time')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
+        </div>
+      </div>
+      <apx-chart
+        [series]="timeChart().series"
+        [chart]="timeChart().chart"
+        [xaxis]="timeChart().xaxis"
+        [yaxis]="timeChart().yaxis"
+        [stroke]="timeChart().stroke"
+        [fill]="timeChart().fill"
+        [colors]="timeChart().colors"
+        [tooltip]="timeChart().tooltip">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['time']">
+        <p><strong>Описание:</strong> Общее время изучения тем по неделям.</p>
+        <p><strong>Как рассчитывается:</strong> Суммируется время, указанное для каждой темы в неделе.</p>
+        <p><strong>Точность:</strong> Зависит от точности оценки времени для каждой темы.</p>
+        <p><strong>Что учитывается:</strong> Учитывается время, указанное для каждой темы (например, "2ч 30мин").</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Третий ряд графиков -->
+  <div class="chart-row">
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Ежедневный прогресс</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('daily')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('daily')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
+        </div>
+      </div>
+      <apx-chart
+        [series]="dailyProgressChart().series"
+        [chart]="dailyProgressChart().chart"
+        [xaxis]="dailyProgressChart().xaxis"
+        [yaxis]="dailyProgressChart().yaxis"
+        [stroke]="dailyProgressChart().stroke"
+        [colors]="dailyProgressChart().colors"
+        [tooltip]="dailyProgressChart().tooltip">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['daily']">
+        <p><strong>Описание:</strong> Процент выполнения тем по дням.</p>
+        <p><strong>Как рассчитывается:</strong> Для каждого дня вычисляется процент тем, выполненных в срок (в этот день).</p>
+        <p><strong>Точность:</strong> Высокая, так как основана на точных данных о выполнении.</p>
+        <p><strong>Что учитывается:</strong> Учитываются только темы, выполненные в запланированный день.</p>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Эффективность по неделям</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('efficiency')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('efficiency')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
+        </div>
+      </div>
+      <apx-chart
+        [series]="efficiencyChart().series"
+        [chart]="efficiencyChart().chart"
+        [xaxis]="efficiencyChart().xaxis"
+        [yaxis]="efficiencyChart().yaxis"
+        [plotOptions]="efficiencyChart().plotOptions"
+        [colors]="efficiencyChart().colors"
+        [tooltip]="efficiencyChart().tooltip"
+        [markers]="forecastChart().markers || {}"
+[legend]="forecastChart().legend || {}">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['efficiency']">
+        <p><strong>Описание:</strong> Эффективность выполнения тем по неделям.</p>
+        <p><strong>Как рассчитывается:</strong> 
+          - <span style="color:#8BC34A">Выполнено</span>: темы, выполненные в срок<br>
+          - <span style="color:#FFC107">В работе</span>: темы, запланированные на будущее<br>
+          - <span style="color:#F44336">Пропущено</span>: темы, не выполненные в срок
+        </p>
+        <p><strong>Точность:</strong> Высокая, так как основана на точных данных о выполнении.</p>
+        <p><strong>Что учитывается:</strong> Учитывается статус каждой темы (выполнена/в работе/пропущена).</p>
+      </div>
+    </div>
+  </div>
+</div>

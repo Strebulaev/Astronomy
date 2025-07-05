@@ -1,4 +1,4 @@
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\index.html ---
+"--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\index.html ---
 
 <!doctype html>
 <html lang="en">
@@ -8,6 +8,7 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
   <app-root></app-root>
@@ -107,6 +108,237 @@ if (isMainModule(import.meta.url)) {
 export const reqHandler = createNodeRequestHandler(app);
 
 
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\styles.css ---
+
+/* Глобальные переменные */
+
+:root {
+  --primary-color: #4361ee;
+  --primary-light: #e0e7ff;
+  --secondary-color: #3f37c9;
+  --accent-color: #4895ef;
+  --danger-color: #f72585;
+  --success-color: #4cc9f0;
+  --warning-color: #f8961e;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --gray-color: #6c757d;
+  --light-gray: #e9ecef;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+/* Глобальные сбросы и базовые стили */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--dark-color);
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  border: 1px solid var(--light-gray);
+  border-radius: var(--border-radius);
+  padding: 0.5rem;
+  transition: var(--transition);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+/* Общие классы */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color);
+}
+
+.btn-outline {
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: white;
+}
+
+.btn-outline:hover {
+  background-color: var(--primary-light);
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #d11a6b;
+}
+
+.card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 1.5rem;
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Хедер приложения */
+.app-header {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+.main-nav a {
+  font-weight: 500;
+  padding: 0.5rem;
+  position: relative;
+}
+
+.main-nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0.5rem;
+  right: 0.5rem;
+  height: 2px;
+  background-color: var(--primary-color);
+}
+
+.main-nav a:hover {
+  color: var(--primary-color);
+}
+
+/* Основной контент */
+.app-main {
+  padding: 2rem 0;
+  min-height: calc(100vh - 120px);
+}
+
+/* Утилиты */
+.text-center {
+  text-align: center;
+}
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 1rem;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Медиа-запросы */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .main-nav ul {
+    gap: 0.75rem;
+  }
+}
+
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\app.config.server.ts ---
 
 import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
@@ -136,6 +368,79 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
   ]
 };
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\app.css ---
+
+.app-header {
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-content h1 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav a {
+  font-weight: 500;
+  color: var(--dark-color);
+  padding: 0.5rem;
+  position: relative;
+  transition: var(--transition);
+}
+
+.main-nav a.active {
+  color: var(--primary-color);
+}
+
+.main-nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0.5rem;
+  right: 0.5rem;
+  height: 2px;
+  background-color: var(--primary-color);
+}
+
+.main-nav a:hover {
+  color: var(--primary-color);
+}
+
+.app-main {
+  padding: 2rem 0;
+  min-height: calc(100vh - 120px);
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .main-nav ul {
+    gap: 0.75rem;
+  }
+}
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\app.html ---
 
@@ -503,6 +808,7 @@ import { QuizComponent } from './components/quiz/quiz.component';
 import { TestCreatorComponent } from './components/test-creator/test-creator.component';
 import { HistoryComponent } from './components/history/history.component';
 import { DailyTopicsComponent } from './components/daily-topics/daily-topics.component';
+import { ProgressChartsComponent } from './components/progress-charts/progress-charts.component';
 
 export const routes: Routes = [
   { path: '', component: ThemeSelectorComponent },
@@ -510,6 +816,7 @@ export const routes: Routes = [
   { path: 'creator', component: TestCreatorComponent },
   { path: 'history', component: HistoryComponent },
   { path: 'daily-topics', component: DailyTopicsComponent},
+  // { path: 'progress', component: ProgressChartsComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -546,242 +853,459 @@ describe('App', () => {
 
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   template: `
-    <header>
-      <h1>Астрономия</h1>
-      <nav>
-        <ul>
-          <li><a routerLink="/" routerLinkActive="active">Выбор теста</a></li>
-          <li><a routerLink="/creator" routerLinkActive="active">Генератор тестов</a></li>
-          <li><a routerLink="/history" routerLinkActive="active">История</a></li>
-          <li><a routerLink="/daily-topics" routerLinkActive="active">План</a></li>
-        </ul>
-      </nav>
+    <header class="app-header">
+      <div class="container">
+        <div class="header-content">
+          <h1>AstroTests</h1>
+          <nav class="main-nav">
+            <ul>
+              <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Главная</a></li>
+              <li><a routerLink="/creator" routerLinkActive="active">Генератор</a></li>
+              <li><a routerLink="/history" routerLinkActive="active">История</a></li>
+              <li><a routerLink="/daily-topics" routerLinkActive="active">План</a></li>
+              <!-- <li><a routerLink="/progress" routerLinkActive="active">График</a></li> -->
+            </ul>
+          </nav>
+        </div>
+      </div>
     </header>
-    <main>
-      <router-outlet></router-outlet>
+
+    <main class="app-main">
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
     </main>
   `,
   styleUrls: ['./app.css'],
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   standalone: true
 })
 export class App {}
 
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\daily-topics\daily-topics.component.html ---
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\progress-charts\progress-charts.component.css ---
 
-<div class="container">
-    <div class="header">
-      <h1>{{ plan.name }}</h1>
-      <div class="progress-container">
-        <div class="total-progress">
-            <span>Общий прогресс: {{ totalProgress }}% ({{ completedTopicsCount }}/{{ allTopics.length }})</span>
-          <div class="progress-bar">
-            <div class="progress" [style.width.%]="totalProgress"></div>
-          </div>
-        </div>
-      </div>
+.charts-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.summary-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #3f51b5;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.chart-row {
+  display: flex;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+.chart-container {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 15px;
+  position: relative;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.chart-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.chart-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.download-btn, .info-btn {
+  background: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.2s;
+}
+
+.download-btn:hover, .info-btn:hover {
+  background: #303f9f;
+}
+
+.icon-download, .icon-info {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.chart-description {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  border-left: 4px solid #3f51b5;
+}
+
+.chart-description p {
+  margin: 5px 0;
+}
+
+.chart-description strong {
+  color: #3f51b5;
+}
+
+.forecast-details {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #555;
+  padding: 10px;
+  background: #f0f7ff;
+  border-radius: 6px;
+}
+
+.forecast-details p {
+  margin: 5px 0;
+}
+
+.last-updated {
+  color: #666;
+  font-size: 14px;
+}
+
+@media (max-width: 1200px) {
+  .chart-row {
+    flex-direction: column;
+  }
+  
+  .summary-stats {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .stat-card {
+    min-width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .stat-card {
+    min-width: 100%;
+  }
+  
+  .chart-actions {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .download-btn, .info-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\progress-charts\progress-charts.component.html ---
+
+<div class="charts-container">
+  <div class="header">
+    <h2>Анализ прогресса подготовки</h2>
+    <div class="last-updated">Обновлено: {{ currentDate() | date:'dd.MM.yyyy HH:mm' }}</div>
+  </div>
+
+  <div class="summary-stats">
+    <div class="stat-card">
+      <div class="stat-value">{{ totalProgress }}%</div>
+      <div class="stat-label">Общий прогресс</div>
     </div>
-  
-    <div class="view-switcher">
-      <button (click)="setViewMode('today')" [class.active]="viewMode === 'today'">
-        <i class="icon-calendar"></i> Сегодня
-      </button>
-      <button (click)="setViewMode('future')" [class.active]="viewMode === 'future'">
-        <i class="icon-future"></i> Будущие
-      </button>
-      <button (click)="setViewMode('diary')" [class.active]="viewMode === 'diary'">
-        <i class="icon-book"></i> Все темы
-      </button>
+    <div class="stat-card">
+      <div class="stat-value">{{ allTopics.length }}</div>
+      <div class="stat-label">Всего тем</div>
     </div>
-  
-    <!-- Today View -->
-    <div *ngIf="viewMode === 'today'" class="today-view">
-      <div class="day-info">
-        <h2>Темы на {{ currentDate | date:'dd.MM.yyyy' }}</h2>
-        <div class="today-progress">
-            <span>Прогресс дня: {{ todayProgress }}% ({{ getCompletedTodayCount() }}/{{ todayTopics.length }})</span>
-          <div class="progress-bar">
-            <div class="progress" [style.width.%]="todayProgress"></div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="topics-list">
-        <div *ngFor="let topic of todayTopics" class="topic-card" [class.completed]="topic.completed">
-          <div class="topic-content">
-            <h3>{{ topic.title }}</h3>
-            <div class="topic-meta">
-              <span class="difficulty">Сложность: {{ topic.difficulty }}/100</span>
-              <span class="time">Время: {{ topic.time }}</span>
-              <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
-            </div>
-            
-            <div *ngIf="topic.subtopics" class="subtopics">
-              <h4>Подтемы:</h4>
-              <ul>
-                <li *ngFor="let subtopic of topic.subtopics">{{ subtopic }}</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="topic-actions">
-            <label class="checkbox-container">
-              <input type="checkbox" [checked]="topic.completed" (change)="toggleTopicCompletion(topic)">
-              <span class="checkmark"></span>
-            </label>
-            <button class="notes-btn" (click)="selectTopic(topic)">
-              <i class="icon-edit"></i> Заметки
-            </button>
-          </div>
-        </div>
-  
-        <div *ngIf="todayTopics.length === 0" class="no-topics">
-          <p>На сегодня нет запланированных тем</p>
-        </div>
-      </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ completedTopics.length }}</div>
+      <div class="stat-label">Выполнено</div>
     </div>
-  
-    <!-- Future Topics View -->
-    <div *ngIf="viewMode === 'future'" class="future-view">
-      <h2>Будущие темы</h2>
-      <p>Вы можете отметить тему как выполненную заранее</p>
-  
-      <div class="topics-list">
-        <div *ngFor="let topic of futureTopics" class="topic-card future">
-          <div class="topic-content">
-            <h3>{{ topic.title }}</h3>
-            <div class="topic-meta">
-              <span class="due-date">На {{ topic.dueDate | date:'dd.MM.yyyy' }}</span>
-              <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
-              <span class="difficulty">Сложность: {{ topic.difficulty }}/100</span>
-              <span class="time">Время: {{ topic.time }}</span>
-            </div>
-            
-            <div *ngIf="topic.subtopics" class="subtopics">
-              <h4>Подтемы:</h4>
-              <ul>
-                <li *ngFor="let subtopic of topic.subtopics">{{ subtopic }}</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="topic-actions">
-            <button class="complete-btn" (click)="completeFutureTopic(topic)">
-              <i class="icon-check"></i> Выполнить
-            </button>
-            <button class="notes-btn" (click)="selectTopic(topic)">
-              <i class="icon-edit"></i> Заметки
-            </button>
-          </div>
-        </div>
-  
-        <div *ngIf="futureTopics.length === 0" class="no-topics">
-          <p>Нет будущих тем или все выполнены</p>
-        </div>
-      </div>
+    <div class="stat-card" *ngIf="forecast">
+      <div class="stat-value">{{ forecast.currentRate | number:'1.1-1' }}</div>
+      <div class="stat-label">Тем/день</div>
     </div>
-  
-    <!-- Diary View -->
-    <div *ngIf="viewMode === 'diary'" class="diary-view">
-      <div class="diary-header">
-        <div class="search-box">
-          <i class="icon-search"></i>
-          <input type="text" [ngModel]="searchQuery" (ngModelChange)="searchQuery = $event" placeholder="Поиск тем...">
-        </div>
-        <div class="filter-buttons">
-          <button [class.active]="filter === 'all'" (click)="filter = 'all'">Все</button>
-          <button [class.active]="filter === 'completed'" (click)="filter = 'completed'">Выполненные</button>
-          <button [class.active]="filter === 'pending'" (click)="filter = 'pending'">Ожидающие</button>
-        </div>
-      </div>
-  
-      <div *ngIf="!selectedTopic" class="topics-grid">
-        <div *ngFor="let topic of getFilteredTopics()" 
-             class="diary-topic-card" 
-             [class.completed]="topic.completed"
-             (click)="selectTopic(topic)">
-          <div class="card-header">
-            <h3>{{ topic.title }}</h3>
-            <span class="due-date" [class.future]="topic.dueDate > currentDate">
-              {{ topic.dueDate | date:'dd.MM.yyyy' }}
-            </span>
-          </div>
-          <div class="card-meta">
-            <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
-            <span class="status" [class.completed]="topic.completed">
-              {{ topic.completed ? 'Выполнено ' + (topic.completedDate | date:'dd.MM.yyyy') : 'Ожидает' }}
-            </span>
-          </div>
-          
-          <div *ngIf="topic.subtopics" class="subtopics">
-            <h4>Подтемы:</h4>
-            <ul>
-              <li *ngFor="let subtopic of topic.subtopics">{{ subtopic }}</li>
-            </ul>
-          </div>
-          
-          <p class="notes-preview">{{ topic.notes || 'Заметок нет' }}</p>
-        </div>
-      </div>
-  
-      <!-- Notes Editor -->
-      <div *ngIf="selectedTopic" class="notes-editor">
-        <div class="editor-header">
-          <h2>{{ selectedTopic.title }}</h2>
-          <div class="editor-meta">
-            <span>Неделя {{ selectedTopic.week }}, День {{ selectedTopic.day }}</span>
-            <span>На {{ selectedTopic.dueDate | date:'dd.MM.yyyy' }}</span>
-            <span>Сложность: {{ selectedTopic.difficulty }}/100</span>
-            <span>Время: {{ selectedTopic.time }}</span>
-          </div>
-          <button class="close-btn" (click)="selectedTopic = null">
-            <i class="icon-close"></i>
+  </div>
+
+  <!-- Первый ряд графиков -->
+  <div class="chart-row">
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Общий прогресс</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('completion')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('completion')" class="info-btn">
+            <i class="icon-info"></i> Описание
           </button>
         </div>
-        
-        <div *ngIf="selectedTopic.subtopics" class="subtopics">
-          <h3>Подтемы:</h3>
-          <ul>
-            <li *ngFor="let subtopic of selectedTopic.subtopics">{{ subtopic }}</li>
-          </ul>
-        </div>
-        
-        <textarea [(ngModel)]="selectedTopic.notes" placeholder="Запишите свои заметки здесь..."></textarea>
-        <div class="editor-actions">
-          <button class="save-btn" (click)="saveNotes()">
-            <i class="icon-save"></i> Сохранить
+      </div>
+      <apx-chart
+        [series]="completionChart().series"
+        [chart]="completionChart().chart"
+        [labels]="completionChart().labels"
+        [plotOptions]="completionChart().plotOptions"
+        [colors]="completionChart().colors"
+        [stroke]="completionChart().stroke"
+        [fill]="completionChart().fill">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['completion']">
+        <p><strong>Описание:</strong> Этот график показывает общий прогресс выполнения всех тем.</p>
+        <p><strong>Как рассчитывается:</strong> Процент выполнения = (Количество выполненных тем / Общее количество тем) * 100</p>
+        <p><strong>Точность:</strong> Высокая, так как основана на точном количестве выполненных тем.</p>
+        <p><strong>Что учитывается:</strong> Учитываются все темы, помеченные как выполненные.</p>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Прогноз завершения</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('forecast')" class="download-btn">
+            <i class="icon-download"></i> Скачать
           </button>
-          <label class="checkbox-container large">
-            <input type="checkbox" [checked]="selectedTopic.completed" (change)="toggleTopicCompletion(selectedTopic)">
-            <span class="checkmark"></span>
-            <span class="label-text">Тема выполнена</span>
-          </label>
+          <button (click)="toggleDescription('forecast')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
         </div>
+      </div>
+      <apx-chart
+        [series]="forecastChart().series"
+        [chart]="forecastChart().chart"
+        [xaxis]="forecastChart().xaxis"
+        [yaxis]="forecastChart().yaxis"
+        [stroke]="forecastChart().stroke"
+        [markers]="forecastChart().markers"
+        [colors]="forecastChart().colors"
+        [tooltip]="forecastChart().tooltip">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['forecast']">
+        <p><strong>Описание:</strong> Прогноз даты завершения всех тем на основе текущей скорости.</p>
+        <p><strong>Как рассчитывается:</strong> 
+          - Историческая часть: линейная аппроксимация прогресса за последний 21 день<br>
+          - Прогнозная часть: экстраполяция текущей скорости (тем/день) до 100% выполнения
+        </p>
+        <p><strong>Точность:</strong> Средняя, зависит от стабильности вашей скорости изучения.</p>
+        <p><strong>Что учитывается:</strong> Учитывается текущий прогресс и средняя скорость выполнения тем за последние 2 недели.</p>
+      </div>
+      <div class="forecast-details" *ngIf="forecast">
+        <p>Ожидаемое завершение: {{ forecast.expectedEndDate | date:'dd.MM.yyyy' }}</p>
+        <p>Оптимистичный сценарий: {{ forecast.optimisticDate | date:'dd.MM.yyyy' }}</p>
+        <p>Пессимистичный сценарий: {{ forecast.pessimisticDate | date:'dd.MM.yyyy' }}</p>
       </div>
     </div>
   </div>
 
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\daily-topics\daily-topics.component.spec.ts ---
+  <!-- Второй ряд графиков -->
+  <div class="chart-row">
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Сложность по неделям</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('difficulty')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('difficulty')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
+        </div>
+      </div>
+      <apx-chart
+        [series]="difficultyChart().series"
+        [chart]="difficultyChart().chart"
+        [xaxis]="difficultyChart().xaxis"
+        [yaxis]="difficultyChart().yaxis"
+        [plotOptions]="difficultyChart().plotOptions"
+        [colors]="difficultyChart().colors"
+        [tooltip]="difficultyChart().tooltip">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['difficulty']">
+        <p><strong>Описание:</strong> Средняя сложность тем по неделям.</p>
+        <p><strong>Как рассчитывается:</strong> Для каждой недели вычисляется среднее значение сложности всех тем этой недели.</p>
+        <p><strong>Точность:</strong> Зависит от точности оценки сложности каждой темы.</p>
+        <p><strong>Что учитывается:</strong> Учитывается значение сложности, указанное для каждой темы (по шкале от 0 до 100).</p>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Затраты времени по неделям</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('time')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('time')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
+        </div>
+      </div>
+      <apx-chart
+        [series]="timeChart().series"
+        [chart]="timeChart().chart"
+        [xaxis]="timeChart().xaxis"
+        [yaxis]="timeChart().yaxis"
+        [stroke]="timeChart().stroke"
+        [fill]="timeChart().fill"
+        [colors]="timeChart().colors"
+        [tooltip]="timeChart().tooltip">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['time']">
+        <p><strong>Описание:</strong> Общее время изучения тем по неделям.</p>
+        <p><strong>Как рассчитывается:</strong> Суммируется время, указанное для каждой темы в неделе.</p>
+        <p><strong>Точность:</strong> Зависит от точности оценки времени для каждой темы.</p>
+        <p><strong>Что учитывается:</strong> Учитывается время, указанное для каждой темы (например, "2ч 30мин").</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Третий ряд графиков -->
+  <div class="chart-row">
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Ежедневный прогресс</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('daily')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('daily')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
+        </div>
+      </div>
+      <apx-chart
+        [series]="dailyProgressChart().series"
+        [chart]="dailyProgressChart().chart"
+        [xaxis]="dailyProgressChart().xaxis"
+        [yaxis]="dailyProgressChart().yaxis"
+        [stroke]="dailyProgressChart().stroke"
+        [colors]="dailyProgressChart().colors"
+        [tooltip]="dailyProgressChart().tooltip">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['daily']">
+        <p><strong>Описание:</strong> Процент выполнения тем по дням.</p>
+        <p><strong>Как рассчитывается:</strong> Для каждого дня вычисляется процент тем, выполненных в срок (в этот день).</p>
+        <p><strong>Точность:</strong> Высокая, так как основана на точных данных о выполнении.</p>
+        <p><strong>Что учитывается:</strong> Учитываются только темы, выполненные в запланированный день.</p>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Эффективность по неделям</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('efficiency')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('efficiency')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
+        </div>
+      </div>
+      <apx-chart
+        [series]="efficiencyChart().series"
+        [chart]="efficiencyChart().chart"
+        [xaxis]="efficiencyChart().xaxis"
+        [yaxis]="efficiencyChart().yaxis"
+        [plotOptions]="efficiencyChart().plotOptions"
+        [colors]="efficiencyChart().colors"
+        [tooltip]="efficiencyChart().tooltip"
+        [markers]="forecastChart().markers || {}"
+[legend]="forecastChart().legend || {}">
+      </apx-chart>
+      <div class="chart-description" *ngIf="showDescriptions()['efficiency']">
+        <p><strong>Описание:</strong> Эффективность выполнения тем по неделям.</p>
+        <p><strong>Как рассчитывается:</strong> 
+          - <span style="color:#8BC34A">Выполнено</span>: темы, выполненные в срок<br>
+          - <span style="color:#FFC107">В работе</span>: темы, запланированные на будущее<br>
+          - <span style="color:#F44336">Пропущено</span>: темы, не выполненные в срок
+        </p>
+        <p><strong>Точность:</strong> Высокая, так как основана на точных данных о выполнении.</p>
+        <p><strong>Что учитывается:</strong> Учитывается статус каждой темы (выполнена/в работе/пропущена).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\progress-charts\progress-charts.component.spec.ts ---
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DailyTopicsComponent } from './daily-topics.component';
+import { ProgressChartsComponent } from './progress-charts.component';
 
-describe('DailyTopicsComponent', () => {
-  let component: DailyTopicsComponent;
-  let fixture: ComponentFixture<DailyTopicsComponent>;
+describe('ProgressChartsComponent', () => {
+  let component: ProgressChartsComponent;
+  let fixture: ComponentFixture<ProgressChartsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DailyTopicsComponent]
+      imports: [ProgressChartsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DailyTopicsComponent);
+    fixture = TestBed.createComponent(ProgressChartsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -792,585 +1316,1353 @@ describe('DailyTopicsComponent', () => {
 });
 
 
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\daily-topics\daily-topics.component.ts ---
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\progress-charts\progress-charts.component.ts ---
 
-import { Component, NgModule, OnInit } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
-import { CommonModule, NgFor, NgIf, DatePipe, NgClass } from '@angular/common';
-import * as yaml from 'js-yaml';
-import { HttpClient } from '@angular/common/http';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { 
+  NgApexchartsModule, 
+  ChartComponent,
+  ApexAxisChartSeries,
+  ApexNonAxisChartSeries,
+  ApexChart,
+  ApexPlotOptions,
+  ApexXAxis,
+  ApexYAxis,
+  ApexStroke,
+  ApexMarkers,
+  ApexFill,
+  ApexTooltip,
+  ApexLegend,
+  ApexDataLabels,
+  ApexResponsive,
+  ApexTheme,
+  ApexTitleSubtitle,
+  ApexAnnotations,
+  ApexGrid
+} from 'ng-apexcharts';
+import { ProgressForecast } from '../daily-topics/daily-topics.component';
 
-interface Topic {
-  id: string;
-  title: string;
-  difficulty: number;
-  time: string;
-  completed: boolean;
-  completedDate: Date | null;
-  notes: string;
-  dueDate: Date;
-  week: number;
-  day: number;
-  subtopics?: string[];
-}
-
-interface DayPlan {
-  day: number;
-  topics: (string | { topic: string, subtopics: string[] })[];
-}
-
-interface WeekPlan {
-  week: number;
-  days: DayPlan[];
-}
-
-interface Plan {
-  name: string;
-  total_topics: number;
-  schedule: WeekPlan[];
-}
+export type ChartOptions = {
+  series: ApexAxisChartSeries | ApexNonAxisChartSeries;
+  chart: ApexChart;
+  dataLabels?: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  colors: string[];
+  labels: string[]; // Убедитесь, что это свойство присутствует во всех графиках
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis | ApexYAxis[];
+  stroke: ApexStroke;
+  markers: ApexMarkers; // Убрано "?"
+  fill: ApexFill;
+  tooltip: ApexTooltip;
+  legend: ApexLegend; // Убрано "?"
+  responsive?: ApexResponsive[];
+  theme?: ApexTheme;
+  title?: ApexTitleSubtitle;
+  subtitle?: ApexTitleSubtitle;
+  annotations?: ApexAnnotations;
+  grid?: ApexGrid;
+};
 
 @Component({
-  selector: 'app-daily-topics',
+  selector: 'app-progress-charts',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, NgClass],
-  templateUrl: './daily-topics.component.html',
-  styleUrls: ['./daily-topics.component.css']
+  imports: [CommonModule, NgApexchartsModule],
+  templateUrl: './progress-charts.component.html',
+  styleUrls: ['./progress-charts.component.css']
 })
-export class DailyTopicsComponent implements OnInit {
-  viewMode: 'today' | 'diary' | 'future' = 'today';
-  selectedTopic: Topic | null = null;
-  searchQuery: string = '';
-  currentDate: Date = new Date();
-  filter: 'all' | 'completed' | 'pending' = 'all';
+export class ProgressChartsComponent implements OnChanges {
+  @Input() allTopics: any[] = [];
+  @Input() completedTopics: any[] = [];
+  @Input() totalProgress: number = 0;
+  @Input() todayProgress: number = 0;
+  @Input() forecast?: ProgressForecast;
   
-  plan: Plan = {
-    name: '',
-    total_topics: 0,
-    schedule: []
-  };
-  todayTopics: Topic[] = [];
-  allTopics: Topic[] = [];
-  futureTopics: Topic[] = [];
-  completedTopics: Topic[] = [];
+  @ViewChild('completionChart') completionChartEl?: ChartComponent;
+  @ViewChild('difficultyChart') difficultyChartEl?: ChartComponent;
+  @ViewChild('timeChart') timeChartEl?: ChartComponent;
+  @ViewChild('forecastChart') forecastChartEl?: ChartComponent;
+  @ViewChild('dailyProgressChart') dailyProgressChartEl?: ChartComponent;
+  @ViewChild('efficiencyChart') efficiencyChartEl?: ChartComponent;
 
-  constructor(private http: HttpClient) {}
+  currentDate = signal<Date>(new Date());
+  showDescriptions = signal<{[key: string]: boolean}>({
+    completion: false,
+    difficulty: false,
+    time: false,
+    forecast: false,
+    daily: false,
+    efficiency: false
+  });
+  
+  private chartInstances: {[key: string]: any} = {};
+  
+  completionChart = signal<ChartOptions>({} as ChartOptions);
+  difficultyChart = signal<ChartOptions>({} as ChartOptions);
+  timeChart = signal<ChartOptions>({} as ChartOptions);
+  forecastChart = signal<ChartOptions>({} as ChartOptions);
+  dailyProgressChart = signal<ChartOptions>({} as ChartOptions);
+  efficiencyChart = signal<ChartOptions>({} as ChartOptions);
 
-  async ngOnInit() {
-    await this.loadPlan();
-    this.loadProgress();
-    this.organizeTopics();
-  }
-
-  private async loadPlan() {
-    try {
-      const yamlText = await this.http.get('assets/plan.yml', { 
-        responseType: 'text' 
-      }).toPromise();
-      
-      if (!yamlText) {
-        throw new Error('Empty YAML response');
-      }
-      
-      // Загружаем данные и явно указываем тип
-      const loadedData = yaml.load(yamlText) as any;
-      
-      // Проверяем структуру данных
-      if (loadedData && (loadedData.plan || loadedData.name)) {
-        this.plan = loadedData.plan || loadedData;
-        
-        if (!this.plan?.name) {
-          throw new Error('Invalid YAML structure - missing name');
-        }
-        
-        console.log('Plan loaded:', this.plan);
-        this.initializeAllTopics();
-        this.organizeTopics();
-      } else {
-        throw new Error('Invalid YAML structure');
-      }
-    } catch (e) {
-      console.error('Error loading plan:', e);
-      this.plan = this.getDefaultPlan();
-      this.initializeAllTopics();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['allTopics'] || changes['completedTopics'] || changes['forecast']) {
+      this.initCharts();
+      this.updateCharts();
     }
   }
-  
-  private getDefaultPlan(): Plan {
-    return {
-      name: 'Default Plan',
-      total_topics: 0,
-      schedule: []
-    };
+
+  toggleDescription(chart: string): void {
+    this.showDescriptions.update(descriptions => ({
+      ...descriptions,
+      [chart]: !descriptions[chart]
+    }));
   }
-  private parseTopicString(topicStr: string): { title: string, difficulty: number, time: string } {
-    // Если нет скобок, возвращаем всю строку как title
-    if (!topicStr.includes('(') || !topicStr.includes(')')) {
-      return { title: topicStr, difficulty: 0, time: '' };
-    }
-    
-    const titlePart = topicStr.split('(')[0].trim();
-    const paramsPart = topicStr.match(/\(([^)]+)\)/)?.[1] || '';
-    
-    let difficulty = 0;
-    let time = '';
-    
-    paramsPart.split(',').forEach(param => {
-      if (param.includes('сложность:')) {
-        difficulty = parseInt(param.split(':')[1]) || 0;
-      } else if (param.includes('время:')) {
-        time = param.split(':')[1].trim();
-      }
-    });
-    
-    return { title: titlePart, difficulty, time };
-  }
-  getCompletedTodayCount(): number {
-    return this.todayTopics.filter(t => t.completed).length;
-  }
-  private loadProgress() {
-    const savedData = localStorage.getItem('astronomyProgress');
-    if (savedData) {
-      const data = JSON.parse(savedData);
-      this.allTopics = data.topics.map((t: any) => ({
-        ...t,
-        dueDate: new Date(t.dueDate),
-        completedDate: t.completedDate ? new Date(t.completedDate) : null
-      }));
-    } else {
-      this.initializeAllTopics();
-    }
-  }
-  get completedTopicsCount(): number {
-    return this.allTopics.filter(t => t.completed).length;
-  }
-  
-  get todayCompletedCount(): number {
-    return this.todayTopics.filter(t => t.completed).length;
-  }
-  private initializeAllTopics() {
-    console.log('Initializing topics from plan:', this.plan);
-    this.allTopics = [];
-    
-    if (!this.plan?.schedule) {
-      console.error('No schedule in plan');
+
+  async downloadChart(chartType: string): Promise<void> {
+    const chartInstance = this.chartInstances[chartType];
+    if (!chartInstance) {
+      console.warn(`Chart instance for ${chartType} not found`);
       return;
     }
-    
-    this.plan.schedule.forEach((week: any) => {
-      week.days.forEach((day: any) => {
-        day.topics.forEach((topic: any) => {
-          try {
-            if (typeof topic === 'string') {
-              const parsed = this.parseTopicString(topic);
-              const dueDate = this.calculateDueDate(week.week, day.day);
-              
-              console.log(`Creating topic:`, {
-                title: parsed.title,
-                week: week.week,
-                day: day.day,
-                dueDate
-              });
-              
-              this.allTopics.push({
-                id: this.generateId(),
-                ...parsed,
-                completed: false,
-                completedDate: null,
-                notes: '',
-                dueDate,
-                week: week.week,
-                day: day.day
-              });
-            }
-          } catch (e) {
-            console.error('Error creating topic:', e, 'Topic:', topic);
-          }
-        });
-      });
-    });
-    
-    console.log('Total topics created:', this.allTopics.length);
-    this.saveProgress();
+
+    try {
+      const { imgURI } = await chartInstance.dataURI();
+      
+      const link = document.createElement('a');
+      link.download = `${chartType}-chart-${new Date().toISOString().slice(0,10)}.png`;
+      link.href = imgURI;
+      link.click();
+    } catch (error) {
+      console.error('Error downloading chart:', error);
+    }
   }
 
-  private calculateDueDate(week: number, day: number): Date {
-    // Фиксированная дата начала - 1 июня 2025
-    const startDate = new Date(2025, 5, 1); // Месяцы 0-11 (5 = июнь)
-    const daysToAdd = (week - 1) * 7 + (day - 1);
-    const dueDate = new Date(startDate);
-    dueDate.setDate(startDate.getDate() + daysToAdd);
-    
-    console.log(`Week ${week}, Day ${day} -> ${dueDate}`);
-    return dueDate;
+  private initCharts(): void {
+    // 1. Completion Chart (Radial Bar)
+    this.completionChart.set({
+      chart: {
+        type: 'radialBar',
+        height: 350,
+        events: {
+          mounted: (chartContext: any) => {
+            this.chartInstances['completion'] = chartContext;
+          }
+        },
+        toolbar: { show: false }
+      },
+      series: [this.totalProgress],
+      plotOptions: {
+        radialBar: {
+          startAngle: -135,
+          endAngle: 225,
+          hollow: {
+            margin: 0,
+            size: '70%',
+            background: 'transparent',
+          },
+          track: {
+            background: '#f0f0f0',
+            strokeWidth: '67%',
+            margin: 0,
+          },
+          dataLabels: {
+            name: {
+              offsetY: -15,
+              color: '#333',
+              fontSize: '14px',
+              fontWeight: 'bold'
+            },
+            value: {
+              color: '#333',
+              fontSize: '36px',
+              fontWeight: 'bold',
+              show: true,
+              offsetY: 5
+            },
+            total: {
+              show: true,
+              label: 'Общий прогресс',
+              color: '#333',
+              fontSize: '14px',
+              formatter: () => `${this.totalProgress}%`
+            }
+          }
+        }
+      },
+      colors: ['#4CAF50'],
+      labels: ['Прогресс'],
+      xaxis: {
+        categories: [],
+        labels: { show: false },
+        axisBorder: { show: false },
+        axisTicks: { show: false }
+      },
+      yaxis: {
+        show: false,
+        labels: { show: false }
+      },
+      stroke: {
+        lineCap: 'round',
+        width: 3,
+        colors: ['#4CAF50']
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: 'dark',
+          shadeIntensity: 0.15,
+          gradientToColors: ['#66BB6A'],
+          inverseColors: false,
+          opacityFrom: 1,
+          opacityTo: 1,
+          stops: [0, 50, 65, 91]
+        },
+      },
+      tooltip: {
+        enabled: true,
+        y: {
+          formatter: (val: number) => `${val.toFixed(1)}%`
+        }
+      },
+      markers: {
+        size: 0
+      },
+      legend: {
+        show: false
+      }
+    });
+  
+    // 2. Difficulty Chart (Horizontal Bar)
+    this.difficultyChart.set({
+      chart: {
+        type: 'bar',
+        height: 350,
+        events: {
+          mounted: (chartContext: any) => {
+            this.chartInstances['difficulty'] = chartContext;
+          }
+        },
+        toolbar: { show: false },
+        animations: {
+          enabled: true,
+          speed: 800
+        }
+      },
+      series: [{
+        name: 'Сложность',
+        data: []
+      }],
+      plotOptions: {
+        bar: {
+          borderRadius: 6,
+          horizontal: true,
+          barHeight: '70%',
+          distributed: false,
+          dataLabels: {
+            position: 'center'
+          }
+        }
+      },
+      colors: ['#3F51B5'],
+      dataLabels: {
+        enabled: true,
+        textAnchor: 'middle',
+        style: {
+          colors: ['#fff'],
+          fontSize: '12px',
+          fontWeight: 'bold'
+        },
+        formatter: (val: number) => `${val}%`,
+        offsetX: 0,
+        dropShadow: {
+          enabled: false
+        }
+      },
+      xaxis: {
+        categories: [],
+        title: {
+          text: 'Средняя сложность (%)',
+          style: {
+            fontSize: '14px',
+            fontWeight: 'bold'
+          }
+        },
+        labels: {
+          style: {
+            fontSize: '12px'
+          }
+        },
+        axisBorder: {
+          show: true,
+          color: '#e0e0e0'
+        },
+        axisTicks: {
+          show: true,
+          color: '#e0e0e0'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Неделя',
+          style: {
+            fontSize: '14px',
+            fontWeight: 'bold'
+          }
+        },
+        labels: {
+          style: {
+            fontSize: '12px'
+          }
+        }
+      },
+      stroke: {
+        show: true,
+        width: 1,
+        colors: ['#fff']
+      },
+      fill: {
+        opacity: 1,
+        type: 'solid'
+      },
+      tooltip: {
+        y: {
+          formatter: (val: number) => `Сложность: ${val}%`
+        }
+      },
+      grid: {
+        borderColor: '#f0f0f0',
+        strokeDashArray: 4
+      },
+      markers: {
+        size: 0
+      },
+      legend: {
+        show: false
+      },
+      labels: []
+    });
+  
+    // 3. Time Chart (Area)
+    this.timeChart.set({
+      chart: {
+        type: 'area',
+        height: 350,
+        events: {
+          mounted: (chartContext: any) => {
+            this.chartInstances['time'] = chartContext;
+          }
+        },
+        stacked: false,
+        zoom: { enabled: false },
+        toolbar: { show: false },
+        animations: {
+          enabled: true,
+          speed: 800
+        }
+      },
+      series: [{
+        name: 'Часов изучения',
+        data: []
+      }],
+      plotOptions: {
+        area: {
+          fillTo: 'origin'
+        }
+      },
+      colors: ['#FF9800'],
+      dataLabels: {
+        enabled: false
+      },
+      xaxis: {
+        categories: [],
+        title: {
+          text: 'Неделя',
+          style: {
+            fontSize: '14px',
+            fontWeight: 'bold'
+          }
+        },
+        labels: {
+          style: {
+            fontSize: '12px'
+          }
+        },
+        axisBorder: {
+          show: true,
+          color: '#e0e0e0'
+        },
+        axisTicks: {
+          show: true,
+          color: '#e0e0e0'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Часов',
+          style: {
+            fontSize: '14px',
+            fontWeight: 'bold'
+          }
+        },
+        labels: {
+          style: {
+            fontSize: '12px'
+          },
+          formatter: (val: number) => `${val.toFixed(1)}`
+        },
+        min: 0
+      },
+      stroke: {
+        curve: 'smooth',
+        width: 3,
+        colors: ['#FF9800']
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shadeIntensity: 0.6,
+          inverseColors: false,
+          opacityFrom: 0.7,
+          opacityTo: 0.2,
+          stops: [0, 90, 100]
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: (val: number) => `${val.toFixed(1)} часов`
+        }
+      },
+      grid: {
+        borderColor: '#f0f0f0',
+        strokeDashArray: 4,
+        padding: {
+          top: 0,
+          right: 20,
+          bottom: 0,
+          left: 20
+        }
+      },
+      markers: {
+        size: 5,
+        strokeWidth: 0,
+        hover: {
+          size: 7
+        }
+      },
+      legend: {
+        show: false
+      },
+      labels: []
+    });
+  
+    // 4. Forecast Chart (Line)
+    this.forecastChart.set({
+      chart: {
+        type: 'line',
+        height: 350,
+        events: {
+          mounted: (chartContext: any) => {
+            this.chartInstances['forecast'] = chartContext;
+          }
+        },
+        animations: { 
+          enabled: true,
+          speed: 800
+        },
+        toolbar: { show: false },
+        foreColor: '#333'
+      },
+      plotOptions: {
+        line: {}
+      },
+      labels: [],
+      series: [
+        {
+          name: 'Исторический прогресс',
+          data: []
+        },
+        {
+          name: 'Прогноз завершения',
+          data: []
+        }
+      ],
+      colors: ['#4CAF50', '#E91E63'],
+      stroke: {
+        width: [3, 4],
+        curve: 'smooth',
+        dashArray: [0, 5]
+      },
+      fill: {
+        type: 'solid',
+        opacity: 1
+      },
+      markers: {
+        size: [5, 0],
+        strokeWidth: 0,
+        hover: {
+          size: 7
+        }
+      },
+      xaxis: {
+        type: 'datetime',
+        labels: {
+          style: {
+            fontSize: '12px'
+          },
+          formatter: (value: string) => {
+            return new Date(value).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+          }
+        },
+        axisBorder: {
+          show: true,
+          color: '#e0e0e0'
+        },
+        axisTicks: {
+          show: true,
+          color: '#e0e0e0'
+        }
+      },
+      yaxis: {
+        min: 0,
+        max: 100,
+        tickAmount: 5,
+        labels: {
+          style: {
+            fontSize: '12px'
+          },
+          formatter: (value: number) => `${value}%`
+        },
+        title: {
+          text: 'Прогресс (%)',
+          style: {
+            fontSize: '14px',
+            fontWeight: 'bold'
+          }
+        }
+      },
+      tooltip: {
+        x: {
+          formatter: (value: number) => new Date(value).toLocaleDateString('ru-RU')
+        },
+        y: {
+          formatter: (value: number) => `${value.toFixed(1)}% завершено`
+        }
+      },
+      grid: {
+        borderColor: '#f0f0f0',
+        strokeDashArray: 4,
+        padding: {
+          top: 0,
+          right: 20,
+          bottom: 0,
+          left: 20
+        }
+      },
+      annotations: {
+        yaxis: [
+          {
+            y: 100,
+            borderColor: '#00E396',
+            strokeDashArray: 0,
+            label: {
+              borderColor: '#00E396',
+              style: {
+                color: '#fff',
+                background: '#00E396'
+              },
+              text: 'Цель: 100%'
+            }
+          }
+        ]
+      },
+      legend: {
+        position: 'top'
+      }
+    });
+  
+    // 5. Daily Progress Chart (Line)
+    this.dailyProgressChart.set({
+      chart: {
+        type: 'line',
+        height: 350,
+        events: {
+          mounted: (chartContext: any) => {
+            this.chartInstances['daily'] = chartContext;
+          }
+        },
+        sparkline: { enabled: false },
+        toolbar: { show: false },
+        animations: {
+          enabled: true,
+          speed: 800
+        }
+      },
+      plotOptions: {
+        line: {}
+      },
+      labels: [],
+      series: [{
+        name: 'Прогресс',
+        data: []
+      }],
+      colors: ['#00BCD4'],
+      dataLabels: {
+        enabled: false
+      },
+      xaxis: {
+        categories: [],
+        labels: {
+          style: {
+            fontSize: '12px'
+          },
+          rotate: -45,
+          formatter: (value: string) => value
+        },
+        title: {
+          text: 'Дата',
+          style: {
+            fontSize: '14px',
+            fontWeight: 'bold'
+          }
+        },
+        axisBorder: {
+          show: true,
+          color: '#e0e0e0'
+        },
+        axisTicks: {
+          show: true,
+          color: '#e0e0e0'
+        }
+      },
+      yaxis: {
+        min: 0,
+        max: 100,
+        tickAmount: 5,
+        labels: {
+          style: {
+            fontSize: '12px'
+          },
+          formatter: (value: number) => `${value}%`
+        },
+        title: {
+          text: 'Прогресс (%)',
+          style: {
+            fontSize: '14px',
+            fontWeight: 'bold'
+          }
+        }
+      },
+      stroke: {
+        width: 3,
+        curve: 'smooth',
+        colors: ['#00BCD4']
+      },
+      fill: {
+        type: 'solid',
+        opacity: 1
+      },
+      tooltip: {
+        y: {
+          formatter: (value: number) => `${value.toFixed(1)}% выполнено`
+        }
+      },
+      grid: {
+        borderColor: '#f0f0f0',
+        strokeDashArray: 4,
+        padding: {
+          top: 0,
+          right: 20,
+          bottom: 0,
+          left: 20
+        }
+      },
+      markers: {
+        size: 5,
+        strokeWidth: 0,
+        hover: {
+          size: 7
+        }
+      },
+      legend: {
+        show: false
+      }
+    });
+  
+    // 6. Efficiency Chart (Stacked Bar)
+    this.efficiencyChart.set({
+      chart: {
+        type: 'bar',
+        height: 350,
+        events: {
+          mounted: (chartContext: any) => {
+            this.chartInstances['efficiency'] = chartContext;
+          }
+        },
+        stacked: true,
+        toolbar: { show: false },
+        animations: {
+          enabled: true,
+          speed: 800
+        }
+      },
+      series: [
+        { name: 'Выполнено', data: [] },
+        { name: 'В работе', data: [] },
+        { name: 'Пропущено', data: [] }
+      ],
+      colors: ['#8BC34A', '#FFC107', '#F44336'],
+      dataLabels: {
+        enabled: true,
+        formatter: (val: number) => `${Math.round(val)}%`,
+        style: {
+          fontSize: '10px',
+          fontWeight: 'bold',
+          colors: ['#333']
+        },
+        offsetY: -20
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          columnWidth: '60%',
+          dataLabels: {
+            position: 'top'
+          }
+        }
+      },
+      xaxis: {
+        categories: [],
+        labels: {
+          style: {
+            fontSize: '12px'
+          },
+          rotate: -45
+        },
+        title: {
+          text: 'Неделя',
+          style: {
+            fontSize: '14px',
+            fontWeight: 'bold'
+          }
+        },
+        axisBorder: {
+          show: true,
+          color: '#e0e0e0'
+        },
+        axisTicks: {
+          show: true,
+          color: '#e0e0e0'
+        }
+      },
+      yaxis: {
+        min: 0,
+        max: 100,
+        tickAmount: 5,
+        labels: {
+          style: {
+            fontSize: '12px'
+          },
+          formatter: (value: number) => `${value}%`
+        },
+        title: {
+          text: 'Эффективность (%)',
+          style: {
+            fontSize: '14px',
+            fontWeight: 'bold'
+          }
+        }
+      },
+      stroke: {
+        width: 1,
+        colors: ['#fff']
+      },
+      fill: {
+        opacity: 1,
+        type: 'solid'
+      },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        y: {
+          formatter: (val: number) => `${val.toFixed(1)}%`
+        }
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        fontSize: '14px',
+        itemMargin: {
+          horizontal: 10,
+          vertical: 5
+        }
+      },
+      grid: {
+        borderColor: '#f0f0f0',
+        strokeDashArray: 4,
+        padding: {
+          top: 30,
+          right: 20,
+          bottom: 0,
+          left: 20
+        }
+      },
+      markers: {
+        size: 0
+      },
+      labels: []
+    });
   }
-  private organizeTopics() {
+
+  private updateCharts(): void {
+    this.updateCompletionChart();
+    this.updateDifficultyChart();
+    this.updateTimeChart();
+    this.updateForecastChart();
+    this.updateDailyProgressChart();
+    this.updateEfficiencyChart();
+  }
+
+  private updateCompletionChart(): void {
+    const completedCount = this.completedTopics.length;
+    const totalCount = this.allTopics.length;
+    const progress = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
+    
+    this.completionChart.update(chart => ({
+      ...chart,
+      series: [progress],
+      labels: [`Выполнено: ${completedCount}/${totalCount}`],
+      plotOptions: {
+        ...chart.plotOptions,
+        radialBar: {
+          ...chart.plotOptions?.radialBar,
+          dataLabels: {
+            ...chart.plotOptions?.radialBar?.dataLabels,
+            total: {
+              ...chart.plotOptions?.radialBar?.dataLabels?.total,
+              formatter: () => `${progress.toFixed(1)}%`
+            }
+          }
+        }
+      }
+    }));
+  }
+
+  private updateDifficultyChart(): void {
+    const weeklyDifficulty = this.calculateWeeklyDifficulty();
+    const categories = weeklyDifficulty.map(w => `Неделя ${w.week}`);
+    const data = weeklyDifficulty.map(w => w.avgDifficulty);
+    
+    this.difficultyChart.update(chart => ({
+      ...chart,
+      series: [{
+        name: 'Сложность',
+        data: data
+      }],
+      xaxis: {
+        ...chart.xaxis,
+        categories: categories,
+        min: 0,
+        max: 100
+      }
+    }));
+  }
+
+  private updateTimeChart(): void {
+    const weeklyTime = this.calculateWeeklyTime();
+    const categories = weeklyTime.map(w => `Неделя ${w.week}`);
+    const data = weeklyTime.map(w => w.totalHours);
+    
+    this.timeChart.update(chart => ({
+      ...chart,
+      series: [{
+        name: 'Часов изучения',
+        data: data
+      }],
+      xaxis: {
+        ...chart.xaxis,
+        categories: categories
+      }
+    }));
+  }
+
+  private updateForecastChart(): void {
+    if (!this.forecast) return;
+    
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
-    // Для отладки можно вывести текущую дату
-    console.log('Сегодняшняя дата:', today);
+    // Historical data (last 30 days)
+    const historyDays = 30;
+    const historicalData: {x: Date, y: number}[] = [];
+    const completedTopicsByDate = this.getCompletedTopicsByDate();
     
-    this.todayTopics = this.allTopics.filter(topic => {
+    for (let i = historyDays; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      
+      const dateKey = date.toISOString().split('T')[0];
+      const completedCount = completedTopicsByDate[dateKey]?.length || 0;
+      
+      const progress = this.calculateProgressUpToDate(date);
+      historicalData.push({
+        x: date,
+        y: progress
+      });
+    }
+    
+    // Forecast data (next 90 days max)
+    const forecastDays = Math.min(90, Math.ceil((100 - this.totalProgress) / (this.forecast.currentRate * 10)));
+    const forecastData: {x: Date, y: number}[] = [];
+    
+    for (let i = 1; i <= forecastDays; i++) {
+      const date = new Date(today);
+      date.setDate(date.getDate() + i);
+      
+      const progress = Math.min(100, this.totalProgress + i * this.forecast.currentRate * 10);
+      forecastData.push({
+        x: date,
+        y: progress
+      });
+      
+      if (progress >= 100) break;
+    }
+    
+    this.forecastChart.update(chart => ({
+      ...chart,
+      series: [
+        {
+          name: 'Исторический прогресс',
+          data: historicalData
+        },
+        {
+          name: 'Прогноз завершения',
+          data: forecastData
+        }
+      ],
+      annotations: {
+        ...chart.annotations,
+        xaxis: [
+          {
+            x: today.getTime(),
+            borderColor: '#999',
+            strokeDashArray: 0,
+            label: {
+              borderColor: '#999',
+              style: {
+                color: '#fff',
+                background: '#999'
+              },
+              text: 'Сегодня',
+              orientation: 'horizontal',
+              position: 'top'
+            }
+          }
+        ]
+      }
+    }));
+  }
+
+  private updateDailyProgressChart(): void {
+    const dailyData = this.calculateDailyProgress();
+    const categories = dailyData.map(d => 
+      new Date(d.date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })
+    );
+    const data = dailyData.map(d => d.percentage);
+    
+    this.dailyProgressChart.update(chart => ({
+      ...chart,
+      series: [{
+        name: 'Прогресс',
+        data: data
+      }],
+      xaxis: {
+        ...chart.xaxis,
+        categories: categories
+      }
+    }));
+  }
+
+  private updateEfficiencyChart(): void {
+    const weeklyEfficiency = this.calculateWeeklyEfficiency();
+    const categories = weeklyEfficiency.map(w => `Неделя ${w.week}`);
+    
+    this.efficiencyChart.update(chart => ({
+      ...chart,
+      series: [
+        {
+          name: 'Выполнено',
+          data: weeklyEfficiency.map(w => w.completedScore)
+        },
+        {
+          name: 'В работе',
+          data: weeklyEfficiency.map(w => w.inProgressScore)
+        },
+        {
+          name: 'Пропущено',
+          data: weeklyEfficiency.map(w => w.missedScore)
+        }
+      ],
+      xaxis: {
+        ...chart.xaxis,
+        categories: categories
+      }
+    }));
+  }
+
+  private calculateWeeklyDifficulty(): {week: number, avgDifficulty: number}[] {
+    const weeklyStats: {[week: number]: {total: number, sum: number}} = {};
+
+    this.allTopics.forEach(topic => {
+      if (!weeklyStats[topic.week]) {
+        weeklyStats[topic.week] = {total: 0, sum: 0};
+      }
+      weeklyStats[topic.week].total++;
+      weeklyStats[topic.week].sum += topic.difficulty || 0;
+    });
+
+    return Object.entries(weeklyStats)
+      .map(([week, stats]) => ({
+        week: +week,
+        avgDifficulty: stats.total > 0 ? Math.round(stats.sum / stats.total) : 0
+      }))
+      .sort((a, b) => a.week - b.week);
+  }
+
+  private calculateWeeklyTime(): {week: number, totalHours: number}[] {
+    const weeklyStats: {[week: number]: number} = {};
+
+    this.allTopics.forEach(topic => {
+      const hours = this.parseTimeToHours(topic.time);
+      weeklyStats[topic.week] = (weeklyStats[topic.week] || 0) + hours;
+    });
+
+    return Object.entries(weeklyStats)
+      .map(([week, hours]) => ({
+        week: +week,
+        totalHours: Math.round(hours * 10) / 10
+      }))
+      .sort((a, b) => a.week - b.week);
+  }
+
+  private calculateDailyProgress(): {date: string, percentage: number}[] {
+    const dailyStats: {[date: string]: {total: number, completed: number}} = {};
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+  
+    // Get last 14 days
+    const daysToShow = 21;
+    const startDate = new Date(today);
+    startDate.setDate(startDate.getDate() - daysToShow);
+  
+    // Initialize all days with zeros
+    for (let i = 0; i <= daysToShow; i++) {
+      const date = new Date(startDate);
+      date.setDate(date.getDate() + i);
+      const dateKey = date.toISOString().split('T')[0];
+      dailyStats[dateKey] = {total: 0, completed: 0};
+    }
+  
+    // Count completed topics per day
+    this.allTopics.forEach(topic => {
       const topicDate = new Date(topic.dueDate);
       topicDate.setHours(0, 0, 0, 0);
-      // Для отладки можно вывести даты тем
-      console.log(`Тема "${topic.title}": ${topicDate}`);
-      return topicDate.getTime() === today.getTime();
+      
+      // Only consider topics from the last 14 days
+      if (topicDate >= startDate && topicDate <= today) {
+        const dateKey = topicDate.toISOString().split('T')[0];
+        dailyStats[dateKey].total++;
+        if (topic.completed) {
+          dailyStats[dateKey].completed++;
+        }
+      }
     });
   
-    this.futureTopics = this.allTopics
-      .filter(topic => {
-        const topicDate = new Date(topic.dueDate);
-        topicDate.setHours(0, 0, 0, 0);
-        return topicDate > today && !topic.completed;
-      })
-      .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime());
-  
-    this.completedTopics = this.allTopics
-      .filter(topic => topic.completed)
-      .sort((a, b) => (b.completedDate || new Date(0)).getTime() - (a.completedDate || new Date(0)).getTime());
+    return Object.entries(dailyStats)
+      .map(([date, stats]) => ({
+        date,
+        percentage: stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0
+      }))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }
 
-  toggleTopicCompletion(topic: Topic) {
-    topic.completed = !topic.completed;
-    topic.completedDate = topic.completed ? new Date() : null;
-    this.saveProgress();
-    this.organizeTopics();
+  private calculateWeeklyEfficiency(): {
+    week: number,
+    completedScore: number,
+    inProgressScore: number,
+    missedScore: number
+  }[] {
+    const weeklyStats: {
+      [week: number]: {
+        completed: number,
+        inProgress: number,
+        missed: number,
+        total: number
+      }
+    } = {};
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    this.allTopics.forEach(topic => {
+      if (!weeklyStats[topic.week]) {
+        weeklyStats[topic.week] = {completed: 0, inProgress: 0, missed: 0, total: 0};
+      }
+      
+      const topicDate = new Date(topic.dueDate);
+      topicDate.setHours(0, 0, 0, 0);
+      
+      if (topic.completed) {
+        weeklyStats[topic.week].completed++;
+      } else if (topicDate > today) {
+        weeklyStats[topic.week].inProgress++;
+      } else {
+        weeklyStats[topic.week].missed++;
+      }
+      
+      weeklyStats[topic.week].total++;
+    });
+
+    return Object.entries(weeklyStats)
+      .map(([week, stats]) => ({
+        week: +week,
+        completedScore: stats.total > 0 ? (stats.completed / stats.total) * 100 : 0,
+        inProgressScore: stats.total > 0 ? (stats.inProgress / stats.total) * 100 : 0,
+        missedScore: stats.total > 0 ? (stats.missed / stats.total) * 100 : 0
+      }))
+      .sort((a, b) => a.week - b.week);
   }
 
-  completeFutureTopic(topic: Topic) {
-    topic.completed = true;
-    topic.completedDate = new Date();
-    this.saveProgress();
-    this.organizeTopics();
-  }
-
-  private saveProgress() {
-    const data = {
-      topics: this.allTopics,
-      lastUpdated: new Date().toISOString()
-    };
-    localStorage.setItem('astronomyProgress', JSON.stringify(data));
-  }
-
-  private generateId(): string {
-    return Math.random().toString(36).substr(2, 9);
-  }
-
-  selectTopic(topic: Topic) {
-    this.selectedTopic = { ...topic };
-  }
-
-  saveNotes() {
-    if (!this.selectedTopic) return;
+  private parseTimeToHours(timeStr: string): number {
+    if (!timeStr) return 1;
     
-    const topicIndex = this.allTopics.findIndex(t => t.id === this.selectedTopic!.id);
-    if (topicIndex !== -1) {
-      this.allTopics[topicIndex].notes = this.selectedTopic.notes;
+    let hours = 0;
+    let minutes = 0;
+    
+    // Handle different time formats: "2h 30m", "2 hours", "30 minutes", "2.5h" etc.
+    const hourMatch = timeStr.match(/(\d+\.?\d*)\s*(ч|час|часа|hours?|h)/i);
+    if (hourMatch) {
+      hours = parseFloat(hourMatch[1]);
     }
     
-    this.saveProgress();
-    this.selectedTopic = null;
-  }
-
-  setViewMode(mode: 'today' | 'diary' | 'future') {
-    this.viewMode = mode;
-    this.selectedTopic = null;
-  }
-
-  getFilteredTopics(): Topic[] {
-    let topics = this.allTopics;
-    if (this.searchQuery) {
-      topics = topics.filter(t => 
-        t.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        (t.notes && t.notes.toLowerCase().includes(this.searchQuery.toLowerCase()))
-      );
+    const minuteMatch = timeStr.match(/(\d+)\s*(мин|минут|minutes?|m)/i);
+    if (minuteMatch) {
+      minutes = parseInt(minuteMatch[1], 10);
     }
-    switch (this.filter) {
-      case 'completed': return topics.filter(t => t.completed);
-      case 'pending': return topics.filter(t => !t.completed);
-      default: return topics;
-    }
+    
+    return hours + (minutes / 60);
   }
 
-  get todayProgress() {
-    const total = this.todayTopics.length;
-    const completed = this.todayTopics.filter(t => t.completed).length;
-    return total > 0 ? Math.round((completed / total) * 100) : 0;
+  private getCompletedTopicsByDate(): {[date: string]: any[]} {
+    const result: {[date: string]: any[]} = {};
+    
+    this.completedTopics.forEach(topic => {
+      if (!topic.completedDate) return;
+      
+      const dateKey = new Date(topic.completedDate).toISOString().split('T')[0];
+      if (!result[dateKey]) {
+        result[dateKey] = [];
+      }
+      result[dateKey].push(topic);
+    });
+    
+    return result;
   }
 
-  get totalProgress() {
-    const total = this.allTopics.length;
-    const completed = this.allTopics.filter(t => t.completed).length;
-    return total > 0 ? Math.round((completed / total) * 100) : 0;
+  private calculateProgressUpToDate(date: Date): number {
+    const dateKey = date.toISOString().split('T')[0];
+    const completedUpToDate = this.completedTopics.filter(topic => {
+      if (!topic.completedDate) return false;
+      const topicDate = new Date(topic.completedDate).toISOString().split('T')[0];
+      return topicDate <= dateKey;
+    });
+    
+    return this.allTopics.length > 0 
+      ? (completedUpToDate.length / this.allTopics.length) * 100 
+      : 0;
   }
 }
 
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\history\history.component.html ---
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\quiz\quiz.component.css ---
 
-<div class="history-container">
-    <h2>История прохождения тестов</h2>
-    
-    <div class="controls">
-      <div class="filter-control">
-        <label>Фильтр:</label>
-        <select [(ngModel)]="selectedFilter" (change)="applyFiltersAndSort()">
-          <option value="all">Все тесты</option>
-          <option value="thematic">Тематические</option>
-          <option value="custom">Сгенерированные</option>
-        </select>
-      </div>
-      
-      <div class="sort-control">
-        <label>Сортировка:</label>
-        <select [(ngModel)]="selectedSort" (change)="applyFiltersAndSort()">
-          <option value="newest">Новые сначала</option>
-          <option value="oldest">Старые сначала</option>
-          <option value="best">Лучшие результаты</option>
-          <option value="worst">Худшие результаты</option>
-        </select>
-      </div>
-      
-      <div class="actions">
-        <button (click)="exportHistory()">Экспорт истории</button>
-        <button (click)="clearHistory()">Очистить историю</button>
-      </div>
-    </div>
-    
-    @if (filteredResults.length === 0) {
-      <div class="no-results">
-        Нет результатов для отображения
-      </div>
-    }
-    
-    @if (filteredResults.length > 0) {
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th>Тест</th>
-            <th>Тип</th>
-            <th>Дата</th>
-            <th>Результат</th>
-            <th>Действия</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (result of filteredResults; track result.id) {
-            <tr>
-              <td>{{ result.testName }}</td>
-              <td>
-                <span class="test-type" [class.thematic]="result.testType === 'thematic'">
-                  {{ result.testType === 'thematic' ? 'Тематический' : 'Сгенерированный' }}
-                </span>
-              </td>
-              <td>{{ formatDate(result.date) }}</td>
-              <td>
-                <span class="result-badge" [class]="getResultColor(result)">
-                  {{ result.correctAnswers }}/{{ result.totalQuestions }} ({{ getPercentage(result) }}%)
-                </span>
-              </td>
-              <td class="actions">
-                <button (click)="showDetails(result)">👁️ Подробнее</button>
-                <button (click)="restartTest(result)">🔄 Пройти снова</button>
-                <button (click)="deleteResult(result.id)">🗑️ Удалить</button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    }
-    
-    @if (selectedResult) {
-      <div class="modal-overlay">
-        <div class="modal">
-          <div class="modal-header">
-            <h3>{{ selectedResult.testName }}</h3>
-            <button (click)="closeDetails()">×</button>
-          </div>
-          
-          <div class="modal-body">
-            <div class="modal-stats">
-              <div class="stat">
-                <span class="stat-value">{{ selectedResult.correctAnswers }}</span>
-                <span class="stat-label">Правильных ответов</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">{{ selectedResult.totalQuestions }}</span>
-                <span class="stat-label">Всего вопросов</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">{{ getPercentage(selectedResult) }}%</span>
-                <span class="stat-label">Процент правильных</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">{{ formatTime(selectedResult.timeSpent) }}</span>
-                <span class="stat-label">Затраченное время</span>
-              </div>
-            </div>
-            
-            <div class="detailed-questions">
-              <h4>Подробные результаты:</h4>
-              @for (detail of selectedResult.details; track $index) {
-                <div class="question-detail" [class.correct]="detail.isCorrect">
-                  <div class="question-number">Вопрос {{ $index + 1 }}</div>
-                  <div class="question-text">{{ detail.question }}</div>
-                  <div class="user-answer">Ваш ответ: {{ detail.userAnswer }}</div>
-                  @if (!detail.isCorrect) {
-                    <div class="correct-answer">Правильный ответ: {{ detail.correctAnswer }}</div>
-                  }
-                </div>
-              }
-            </div>
-          </div>
-          
-          <div class="modal-footer">
-            <button (click)="closeDetails()">Закрыть</button>
-          </div>
-        </div>
-      </div>
-    }
-  </div>
+.quiz-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
 
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\history\history.component.spec.ts ---
+.loading-state {
+  text-align: center;
+  padding: 2rem;
+}
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+.quiz-in-progress {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--box-shadow);
+}
 
-import { HistoryComponent } from './history.component';
+.quiz-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
 
-describe('HistoryComponent', () => {
-  let component: HistoryComponent;
-  let fixture: ComponentFixture<HistoryComponent>;
+.quiz-header h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HistoryComponent]
-    })
-    .compileComponents();
+.progress-bar {
+  height: 8px;
+  background-color: var(--light-gray);
+  border-radius: 4px;
+  margin: 1rem 0;
+  overflow: hidden;
+}
 
-    fixture = TestBed.createComponent(HistoryComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+.progress {
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+.time-spent {
+  font-size: 0.9rem;
+  color: var(--gray-color);
+  margin-bottom: 1rem;
+}
 
+.question-container {
+  margin-bottom: 2rem;
+}
 
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\history\history.component.ts ---
+.question-container h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
 
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HistoryService } from '../../services/history.service';
-import { QuizResult } from '../../models/quiz-result.model';
+.options-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
 
-@Component({
-  selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.css'],
-  imports: [CommonModule, FormsModule],
-  standalone: true
-})
-export class HistoryComponent implements OnInit {
-  results: QuizResult[] = [];
-  filteredResults: QuizResult[] = [];
-  selectedFilter: string = 'all';
-  selectedSort: string = 'newest';
-  selectedResult: QuizResult | null = null;
+.option {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  background-color: var(--light-gray);
+  cursor: pointer;
+  transition: var(--transition);
+}
 
-  constructor(private historyService: HistoryService) {}
+.option:hover {
+  background-color: #dbe4ff;
+}
 
-  ngOnInit(): void {
-    this.loadHistory();
+.option.selected {
+  background-color: var(--primary-light);
+  border: 1px solid var(--primary-color);
+}
+
+.option input {
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.navigation-buttons button {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+}
+
+.quiz-completed {
+  text-align: center;
+  padding: 2rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.quiz-completed h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.detailed-results {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--box-shadow);
+}
+
+.result-item {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: var(--border-radius);
+  background-color: var(--light-gray);
+}
+
+.result-item h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.correct {
+  color: var(--success-color);
+}
+
+.incorrect {
+  color: var(--danger-color);
+}
+
+.not-answered {
+  color: var(--warning-color);
+}
+
+.start-test-btn {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.start-test-btn:hover {
+  background-color: #3aa8d8;
+}
+
+@media (max-width: 600px) {
+  .quiz-container {
+    padding: 1rem 0.5rem;
   }
-
-  loadHistory(): void {
-    this.results = this.historyService.getHistory();
-    this.applyFiltersAndSort();
+  
+  .quiz-in-progress, .quiz-completed, .detailed-results {
+    padding: 1.5rem;
   }
-
-  applyFiltersAndSort(): void {
-    // Фильтрация
-    this.filteredResults = this.results.filter(result => {
-      if (this.selectedFilter === 'all') return true;
-      return result.testType === this.selectedFilter;
-    });
-
-    // Сортировка
-    this.filteredResults.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      const percentageA = a.correctAnswers / a.totalQuestions;
-      const percentageB = b.correctAnswers / b.totalQuestions;
-
-      switch (this.selectedSort) {
-        case 'newest': return dateB - dateA;
-        case 'oldest': return dateA - dateB;
-        case 'best': return percentageB - percentageA;
-        case 'worst': return percentageA - percentageB;
-        default: return 0;
-      }
-    });
+  
+  .navigation-buttons {
+    flex-direction: column;
+    gap: 1rem;
   }
-
-  showDetails(result: QuizResult): void {
-    this.selectedResult = result;
-  }
-
-  closeDetails(): void {
-    this.selectedResult = null;
-  }
-
-  restartTest(result: QuizResult): void {
-    // Реализация будет добавлена после интеграции с сервисом тестов
-    console.log('Restart test:', result);
-  }
-
-  deleteResult(id: string): void {
-    this.historyService.removeResult(id);
-    this.loadHistory();
-  }
-
-  clearHistory(): void {
-    if (confirm('Вы уверены, что хотите очистить всю историю?')) {
-      this.historyService.clearHistory();
-      this.loadHistory();
-    }
-  }
-
-  exportHistory(): void {
-    const data = JSON.stringify(this.results, null, 2);
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'astronomy-quiz-history.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  getPercentage(result: QuizResult): number {
-    return Math.round((result.correctAnswers / result.totalQuestions) * 100);
-  }
-
-  getResultColor(result: QuizResult): string {
-    const percentage = this.getPercentage(result);
-    if (percentage >= 80) return 'green';
-    if (percentage >= 50) return 'orange';
-    return 'red';
-  }
-
-  formatDate(date: Date): string {
-    return new Date(date).toLocaleString('ru-RU');
-  }
-
-  formatTime(seconds: number): string {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes} мин ${secs} сек`;
+  
+  .navigation-buttons button {
+    width: 100%;
   }
 }
 
@@ -1387,11 +2679,14 @@ export class HistoryComponent implements OnInit {
     @if (quizData && !quizComplete) {
       <div class="quiz-in-progress">
         <header class="quiz-header">
-          <h1>{{ quizData?.name }}</h1>
+          <h1>{{ quizData.name }}</h1>
           <div class="progress-bar">
             <div class="progress" [style.width.%]="progress"></div>
           </div>
-          <p>Question {{ currentQuestionIndex + 1 }} of {{ quizData?.questions?.length }}</p>
+          <div class="time-spent">
+            Затраченное время: {{ timeSpent | time }}
+          </div>
+          <p>Question {{ currentQuestionIndex + 1 }} of {{ quizData.questions.length }}</p>
         </header>
   
         @if (currentQuestion) {
@@ -1417,8 +2712,8 @@ export class HistoryComponent implements OnInit {
           @if (currentQuestionIndex > 0) {
             <button (click)="prevQuestion()">Previous</button>
           }
-          <button (click)="nextQuestion()">
-            @if (currentQuestionIndex < (quizData?.questions?.length ?? 0) - 1) {
+          <button (click)="nextQuestion()" class="start-test-btn">
+            @if (currentQuestionIndex < quizData.questions.length - 1) {
               Next
             } @else {
               Finish
@@ -1431,6 +2726,7 @@ export class HistoryComponent implements OnInit {
     @if (quizComplete && !showResults) {
       <div class="quiz-completed">
         <h2>Quiz Completed!</h2>
+        <p>Затраченное время: {{ timeSpent | time }}</p>
         <p>Your score: {{ score }}%</p>
         
         <div class="action-buttons">
@@ -1519,10 +2815,15 @@ describe('QuizComponent', () => {
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\quiz\quiz.component.ts ---
 
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { QuizDataService } from '../../services/quiz-data.service';
+import { QuizData } from '../../models/quiz-data.model';
+import { QuizResult } from '../../models/quiz-result.model';
+import { HistoryService } from '../../services/history.service';
+import { TimePipe } from "../../shared/time.pipe";
+import { Pipe, PipeTransform } from '@angular/core';
 interface Question {
   question: string;
   options: string[];
@@ -1530,15 +2831,10 @@ interface Question {
   multiple: boolean;
 }
 
-interface QuizData {
-  name: string;
-  questions: Question[];
-}
-
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, TimePipe],
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.css']
 })
@@ -1549,16 +2845,48 @@ export class QuizComponent implements OnInit {
   quizComplete = false;
   score: number | null = null;
   showResults = false;
-
+  private startTime: number = 0;
+  private timerInterval: any;
+  public timeSpent: number = 0;
+  transform(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes} мин ${secs} сек`;
+  }
   constructor(
     private route: ActivatedRoute,
-    public router: Router
+    private quizDataService: QuizDataService,
+    public router: Router,
+    private historyService: HistoryService
   ) {}
 
   ngOnInit(): void {
-    this.loadQuizData();
+    this.startTimer();
+    this.quizData = this.quizDataService.getQuizData();
+    
+    if (!this.quizData) {
+      console.error('No quiz data provided');
+      this.router.navigate(['/']);
+      return;
+    }
+  
+    this.selectedAnswers = new Array(this.quizData.questions.length).fill(null);
   }
-
+  private startTimer(): void {
+    this.startTime = Date.now();
+    this.timerInterval = setInterval(() => {
+      this.timeSpent = Math.floor((Date.now() - this.startTime) / 1000);
+    }, 1000);
+  }
+  private stopTimer(): void {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+  }
+  ngOnDestroy(): void {
+    this.stopTimer();
+    this.quizDataService.clearQuizData();
+  }
   private loadQuizData(): void {
     this.quizData = history.state?.quizData;
     
@@ -1626,23 +2954,79 @@ export class QuizComponent implements OnInit {
   }
 
   completeQuiz(): void {
+    this.stopTimer();
     this.quizComplete = true;
     this.score = this.calculateScore();
+    
+    const result: QuizResult = {
+      id: generateId(),
+      testName: this.quizData?.name || 'Неизвестный тест',
+      testType: this.quizData?.testType || 'custom',
+      date: new Date(),
+      correctAnswers: this.getCorrectAnswersCount(),
+      totalQuestions: this.quizData?.questions.length || 0,
+      timeSpent: this.timeSpent, // Используем значение из секундомера
+      details: this.getDetailedResults()
+    };
+    
+    this.historyService.addResult(result);
   }
-
-  private calculateScore(): number {
+  
+  private getCorrectAnswersCount(): number {
+    if (!this.quizData) return 0;
+    let correct = 0;
+    
+    this.quizData.questions.forEach((question, index) => {
+      if (this.isAnswerCorrect(index)) {
+        correct++;
+      }
+    });
+    
+    return correct;
+  }
+  
+  private getDetailedResults() {
+    if (!this.quizData) return [];
+    
+    return this.quizData.questions.map((question, index) => ({
+      question: question.question,
+      userAnswer: this.getUserAnswerText(question, index),
+      correctAnswer: this.getCorrectAnswerText(question),
+      isCorrect: this.isAnswerCorrect(index)
+    }));
+  }
+  private getUserAnswerText(question: any, index: number): string {
+    const answer = this.selectedAnswers[index];
+    if (answer === null) return 'Не отвечено';
+    
+    if (question.multiple) {
+      const selected = answer as number[];
+      return selected.map(i => question.options[i]).join(', ') || 'Не отвечено';
+    } else {
+      return question.options[answer as number] || 'Не отвечено';
+    }
+  }
+  
+  private getCorrectAnswerText(question: any): string {
+    if (question.multiple) {
+      return question.correctAnswers.map((i: number) => question.options[i]).join(', ');
+    } else {
+      return question.options[question.correctAnswers[0]];
+    }
+  }  
+  calculateScore(): number {
     if (!this.quizData) return 0;
 
     let correctAnswers = 0;
 
-    this.quizData.questions.forEach((question, index) => {
+    this.quizData.questions.forEach((question: Question, index: number) => {
       const userAnswer = this.selectedAnswers[index];
       if (userAnswer === null) return;
 
       if (question.multiple) {
         const userSelections = new Set(userAnswer as number[]);
-        const allCorrectSelected = question.correctAnswers.every(ans => userSelections.has(ans));
-        const noIncorrectSelected = (userAnswer as number[]).every(ans => question.correctAnswers.includes(ans));
+        const allCorrectSelected = question.correctAnswers.every((ans: number) => userSelections.has(ans));
+        const noIncorrectSelected = (userAnswer as number[]).every((ans: number) => question.correctAnswers.includes(ans));
         
         if (allCorrectSelected && noIncorrectSelected) {
           correctAnswers++;
@@ -1656,7 +3040,6 @@ export class QuizComponent implements OnInit {
 
     return Math.round((correctAnswers / this.quizData.questions.length) * 100);
   }
-
   restartQuiz(): void {
     this.currentQuestionIndex = 0;
     this.selectedAnswers = new Array(this.quizData?.questions.length || 0).fill(null);
@@ -1702,82 +3085,423 @@ export class QuizComponent implements OnInit {
       return userAnswer === question.correctAnswers[0];
     }
   }
+  private shuffleQuestionsAndOptions(quizData: QuizData): QuizData {
+    // Shuffle questions
+    const shuffledQuestions = this.shuffleArray([...quizData.questions]);
+    
+    // Shuffle options for each question
+    const questionsWithShuffledOptions = shuffledQuestions.map(question => {
+      const optionsWithIndices = question.options.map((option: any, index: any) => ({
+        option,
+        originalIndex: index
+      }));
+      
+      const shuffledOptionsWithIndices = this.shuffleArray([...optionsWithIndices]);
+      
+      // Update correct answers indices
+      const correctAnswers = shuffledOptionsWithIndices
+        .map((item, newIndex) => ({
+          originalIndex: item.originalIndex,
+          newIndex
+        }))
+        .filter(item => question.correctAnswers.includes(item.originalIndex))
+        .map(item => item.newIndex);
+      
+      return {
+        ...question,
+        options: shuffledOptionsWithIndices.map(item => item.option),
+        correctAnswers
+      };
+    });
+    
+    return {
+      ...quizData,
+      questions: questionsWithShuffledOptions
+    };
+  }
+  private shuffleArray(array: any[]): any[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+}
+function generateId(): string {
+  return Math.random().toString(36).substr(2, 9);
+}
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\test-creator\test-creator.component.css ---
+
+.test-creator-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  margin-top: -90px;
+}
+
+.creator-header {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--dark-color);
+  text-align: center;
+}
+
+.creator-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  flex-grow: 1;
+}
+
+.filters-section {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow);
+  height: fit-content;
+  position: sticky;
+  top: 1rem;
+}
+
+.filter-group {
+  margin-bottom: 10px;
+}
+
+.filter-group h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.tags-container {
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.tag-category {
+  margin-bottom: 1.5rem;
+}
+
+.tag-category h4 {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: var(--gray-color);
+}
+
+.tag-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-buttons button {
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  background-color: var(--light-gray);
+  color: var(--dark-color);
+  transition: var(--transition);
+}
+
+.tag-buttons button.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.tag-buttons button:hover {
+  background-color: var(--primary-light);
+}
+.range-slider-container {
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: -10px;
+}
+
+.range-slider-container input[type="range"] {
+  width: 100%;
+}
+
+
+.range-value {
+  min-width: 30px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.question-count-input {
+  width: 100%;
+  max-width: 100px;
+  margin-bottom: 1rem;
+}
+
+.auto-generate-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-actions {
+  margin-top: 0px;
+}
+
+.reset-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius);
+}
+
+.reset-btn:hover {
+  background-color: #e2e2e2;
+}
+
+.questions-section {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow);
+}
+
+.questions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.questions-header h3 {
+  font-size: 1.25rem;
+  color: var(--dark-color);
+}
+
+.questions-count {
+  font-size: 0.9rem;
+  color: var(--gray-color);
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 2rem;
+  color: var(--gray-color);
+}
+
+.no-questions {
+  text-align: center;
+  padding: 2rem;
+  color: var(--gray-color);
+}
+
+.questions-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.question-card {
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  background-color: var(--light-gray);
+  transition: var(--transition);
+}
+
+.question-card:hover {
+  background-color: #e2e2e2;
+}
+
+.question-text {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.question-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--gray-color);
+}
+
+.question-tags {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.question-tags .tag {
+  background-color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+}
+
+.action-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+  z-index: 50;
+}
+
+.panel-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.questions-summary {
+  font-weight: 500;
+}
+
+.start-test-btn {
+  padding: 0.75rem 2rem;
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.start-test-btn:hover {
+  background-color: var(--secondary-color);
+}
+
+.start-test-btn:disabled {
+  background-color: var(--gray-color);
+  cursor: not-allowed;
+}
+
+@media (max-width: 992px) {
+  .creator-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .filters-section {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .question-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .panel-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .start-test-btn {
+    width: 100%;
+  }
 }
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\test-creator\test-creator.component.html ---
 
-<div class="test-creator">
-    <h2>Создать тест</h2>
-    
-    <div class="creator-container">
-      <div class="filters">
-        <h3>Фильтры</h3>
-        
-        <div class="filter-group">
-          <label>Теги:</label>
-          <div class="tags-selector">
-            <div *ngFor="let category of tags" class="tag-category">
-              <h4>{{ category.theme }}</h4>
-              <div class="tag-options">
-                <label *ngFor="let tag of category.tags">
-                  <input type="checkbox" 
-                         [value]="tag" 
-                         [(ngModel)]="selectedTags"
-                         [checked]="selectedTags.includes(tag)">
-                  {{ tag }}
-                </label>
-              </div>
+<div class="test-creator-container">
+  <h1 class="creator-header"></h1>
+  
+  <div class="creator-content">
+    <!-- Фильтры -->
+    <div class="filters-section">
+      <div class="filter-group">
+        <h3>Теги</h3>
+        <div class="tags-container">
+          <div *ngFor="let category of tags" class="tag-category">
+            <h4>{{category.theme}}</h4>
+            <div class="tag-buttons">
+              <button *ngFor="let tag of category.tags" 
+                      [class.active]="selectedTags.includes(tag)"
+                      (click)="toggleTag(tag)">
+                {{tag}}
+              </button>
             </div>
           </div>
         </div>
-        
-        <div class="filter-group">
-          <label>Сложность: {{ difficultyRange[0] }} - {{ difficultyRange[1] }}</label>
-          <div class="range-slider">
-            <input type="range" min="0" max="100" step="5" 
-                   [(ngModel)]="difficultyRange[0]" (input)="applyFilters()">
-            <input type="range" min="0" max="100" step="5" 
-                   [(ngModel)]="difficultyRange[1]" (input)="applyFilters()">
-          </div>
-        </div>
-        
-        <div class="filter-group">
-          <label>Количество вопросов:</label>
-          <input type="number" min="1" max="50" [(ngModel)]="questionCount">
-        </div>
-        
-        <div class="filter-actions">
-          <button (click)="applyFilters()">Применить</button>
-          <button (click)="resetFilters()">Сбросить</button>
+      </div>
+
+      <div class="filter-group">
+        <h3>Сложность</h3>
+        <div class="range-slider-container">
+          <span class="range-value">{{difficultyRange[0]}}</span>
+          <input type="range" min="0" max="100" step="5" 
+                 [(ngModel)]="difficultyRange[0]" (input)="applyFilters()">
+          <input type="range" min="0" max="100" step="5" 
+                 [(ngModel)]="difficultyRange[1]" (input)="applyFilters()">
+          <span class="range-value">{{difficultyRange[1]}}</span>
         </div>
       </div>
-      
-      <div class="questions-list">
-        <h3>Вопросы ({{ filteredQuestions.length }})</h3>
-        
-        <div *ngIf="filteredQuestions.length === 0" class="no-questions">
-          Нет вопросов, соответствующих фильтрам
+
+      <div class="filter-group">
+        <h3>Количество вопросов</h3>
+        <input type="number" min="1" [max]="filteredQuestions.length" 
+               [(ngModel)]="questionCount" class="question-count-input">
+        <div class="auto-generate-toggle">
+          <label>
+          </label>
         </div>
-        
-        <div *ngFor="let question of filteredQuestions" 
-             class="question-item" 
-             [class.selected]="isSelected(question)"
-             (click)="toggleQuestionSelection(question)">
-          <div class="question-text">{{ question.text }}</div>
-          <div class="question-meta">
-            <span class="difficulty">Сложность: {{ question.difficulty }}/100</span>
-            <span class="tags">
-              <span *ngFor="let tag of question.tags" class="tag">{{ tag }}</span>
-            </span>
-          </div>
-        </div>
+      </div>
+
+      <div class="filter-actions">
+        <button (click)="resetFilters()" class="reset-btn">Сбросить фильтры</button>
       </div>
     </div>
-    
-    <div class="actions" *ngIf="selectedQuestions.length > 0">
-      <button (click)="startTest()">Начать тест ({{ selectedQuestions.length }})</button>
+
+    <!-- Список вопросов -->
+    <div class="questions-section">
+      <div class="questions-header">
+        <h3>Доступные вопросы ({{filteredQuestions.length}})</h3>
+        <div class="questions-count">
+          <span *ngIf="!autoGenerate">Выбрано: {{questionCount}}</span>
+        </div>
+      </div>
+
+      <div *ngIf="loading" class="loading-indicator">
+        Загрузка вопросов...
+      </div>
+
+      <div *ngIf="!loading && filteredQuestions.length === 0" class="no-questions">
+        Нет вопросов, соответствующих выбранным фильтрам
+      </div>
+
+      <div *ngIf="!loading && filteredQuestions.length > 0" class="questions-list">
+        <div *ngFor="let question of filteredQuestions" class="question-card">
+          <div class="question-text">{{question.text}}</div>
+          <div class="question-meta">
+            <span class="difficulty">Сложность: {{question.difficulty}}/100</span>
+            <div class="question-tags">
+              <span *ngFor="let tag of question.tags" class="tag">{{tag}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Фиксированная панель действий -->
+  <div class="action-panel">
+    <div class="panel-content">
+      <div class="questions-summary">
+        Доступно вопросов: {{filteredQuestions.length}}
+      </div>
+      <button (click)="startTest()" 
+              [disabled]="filteredQuestions.length === 0 || loading"
+              class="start-test-btn">
+        Начать тест ({{questionCount}})
+      </button>
+    </div>
+  </div>
+</div>
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\test-creator\test-creator.component.spec.ts ---
 
@@ -1815,7 +3539,8 @@ import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { Question } from '../../models/question.model' 
 import { TagCategory } from '../../models/tag.model';
-
+import { QuizDataService } from '../../services/quiz-data.service';
+import { QuizData } from '../../models/quiz-data.model';
 @Component({
   selector: 'app-test-creator',
   templateUrl: './test-creator.component.html',
@@ -1831,11 +3556,13 @@ export class TestCreatorComponent implements OnInit {
   difficultyRange: [number, number] = [0, 100];
   questionCount = 10;
   selectedQuestions: Question[] = [];
+  autoGenerate = true;
+  loading = false;
 
-  constructor(
-    
+  constructor(  
     private dataService: DataService,
-    private router: Router
+    private router: Router,
+    private quizDataService: QuizDataService
   ) {this.selectedTags = [];}
 
   ngOnInit(): void {
@@ -1849,22 +3576,40 @@ export class TestCreatorComponent implements OnInit {
       this.filteredQuestions = [...questions];
     });
   }
-
+  private getRandomQuestions(questions: Question[], count: number): Question[] {
+    const shuffled = [...questions].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, Math.min(count, shuffled.length));
+  }
   loadTags(): void {
     this.dataService.getTags().subscribe((tags: TagCategory[]) => {
       this.tags = tags;
+      // Initialize selected tags as empty array
+      this.selectedTags = [];
     });
   }
 
+  isTagSelected(tag: string): boolean {
+    return this.selectedTags.includes(tag);
+  }
+
+  toggleTagSelection(tag: string): void {
+    const index = this.selectedTags.indexOf(tag);
+    if (index > -1) {
+      this.selectedTags.splice(index, 1);
+    } else {
+      this.selectedTags.push(tag);
+    }
+    this.applyFilters();
+  }
   applyFilters(): void {
-    this.filteredQuestions = this.allQuestions.filter((question: Question) => {
-      const tagMatch = this.selectedTags.length === 0 || 
+    this.filteredQuestions = this.allQuestions.filter(question => {
+      const matchesTags = this.selectedTags.length === 0 || 
         this.selectedTags.some(tag => question.tags.includes(tag));
       
-      const difficultyMatch = question.difficulty >= this.difficultyRange[0] && 
+      const matchesDifficulty = question.difficulty >= this.difficultyRange[0] && 
         question.difficulty <= this.difficultyRange[1];
       
-      return tagMatch && difficultyMatch;
+      return matchesTags && matchesDifficulty;
     });
   }
 
@@ -1872,7 +3617,7 @@ export class TestCreatorComponent implements OnInit {
     this.selectedTags = [];
     this.difficultyRange = [0, 100];
     this.questionCount = 10;
-    this.filteredQuestions = [...this.allQuestions];
+    this.applyFilters();
   }
 
   toggleQuestionSelection(question: Question): void {
@@ -1889,25 +3634,158 @@ export class TestCreatorComponent implements OnInit {
   }
 
   startTest(): void {
-    if (this.selectedQuestions.length > 0) {
-      const test = {
-        name: 'Сгенерированный тест',
-        questions: this.selectedQuestions.map(q => ({
-          question: q.text,
-          options: q.options,
-          multiple: q.options.filter(o => o.correct).length > 1
-        }))
-      };
-  
-      console.log('Generated test:', test); // Для отладки
-      
-      this.router.navigate(['quiz'], {
-        state: {
-          test: test,
-          testType: 'custom'
-        }
-      });
+    if (this.loading) return;
+
+    const availableQuestions = [...this.filteredQuestions];
+    if (availableQuestions.length === 0) return;
+
+    const questionsToUse = this.autoGenerate
+      ? this.getRandomQuestions(availableQuestions, this.questionCount)
+      : availableQuestions;
+
+    const quizData: QuizData = {
+      name: 'Сгенерированный тест',
+      testType: 'custom',
+      questions: questionsToUse.map(q => ({
+        question: q.text,
+        options: this.shuffleArray(q.options).map(o => o.text),
+        correctAnswers: q.options
+          .map((o, i) => o.correct ? i : -1)
+          .filter(i => i !== -1),
+        multiple: q.options.filter(o => o.correct).length > 1
+      }))
+    };
+
+    this.quizDataService.setQuizData(quizData);
+    this.router.navigate(['/quiz']);
+  }
+  private shuffleArray(array: any[]): any[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
+    return array;
+  }
+  async loadData(): Promise<void> {
+    this.loading = true;
+    try {
+      const [questions, tags] = await Promise.all([
+        this.dataService.getQuestions().toPromise(),
+        this.dataService.getTags().toPromise()
+      ]);
+      this.allQuestions = questions || [];
+      this.tags = tags || [];
+      this.applyFilters();
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  toggleTag(tag: string): void {
+    const index = this.selectedTags.indexOf(tag);
+    if (index > -1) {
+      this.selectedTags.splice(index, 1);
+    } else {
+      this.selectedTags.push(tag);
+    }
+    this.applyFilters();
+  }
+}
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\theme-selector\theme-selector.component.css ---
+
+.theme-selector {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.theme-selector h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--dark-color);
+  text-align: center;
+}
+
+.test-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.test-card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.test-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.test-card.selected {
+  border-color: var(--primary-color);
+  background-color: var(--primary-light);
+}
+
+.test-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--dark-color);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  background-color: var(--light-gray);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  color: var(--gray-color);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+}
+
+.actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .test-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .actions button {
+    width: 100%;
+    max-width: 300px;
   }
 }
 
@@ -1970,7 +3848,8 @@ import { FormsModule } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { Test } from '../../models/test.model';
 import { Router } from '@angular/router';
-
+import { QuizDataService } from '../../services/quiz-data.service';
+import { QuizData } from '../../models/quiz-data.model';
 @Component({
   selector: 'app-theme-selector',
   templateUrl: './theme-selector.component.html',
@@ -1982,7 +3861,7 @@ export class ThemeSelectorComponent implements OnInit {
   tags: any[] = [];
   selectedTest: Test | null = null;
   
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(private dataService: DataService, private router: Router, private quizDataService: QuizDataService) {}
 
   ngOnInit(): void {
     this.loadThematicTests();
@@ -2001,23 +3880,25 @@ export class ThemeSelectorComponent implements OnInit {
     });
   }
 
-  // theme-selector.component.ts
   startTest(): void {
     if (this.selectedTest) {
-      console.log('Starting test with:', this.selectedTest); // Для отладки
-      this.router.navigate(['quiz'], {
-        state: {
-          test: this.selectedTest,
-          testType: 'thematic'
-        }
-      }).then(navSuccess => {
-        if (!navSuccess) {
-          console.error('Navigation failed');
-        }
-      });
+      const quizData: QuizData = { // Явно указываем тип QuizData
+        name: this.selectedTest.name,
+        testType: 'thematic', // Добавляем обязательное поле
+        questions: this.selectedTest.questions.map(q => ({
+          question: q.question,
+          options: q.options.map(o => o.text),
+          correctAnswers: q.options
+            .map((o, i) => o.correct ? i : -1)
+            .filter(i => i !== -1),
+          multiple: q.options.filter(o => o.correct).length > 1
+        }))
+      };
+      
+      this.quizDataService.setQuizData(quizData);
+      this.router.navigate(['/quiz']);
     }
   }
-  
 }
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\question.model.ts ---
@@ -2033,6 +3914,19 @@ export interface Question {
     }[];
     explanation?: string;
   }
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\quiz-data.model.ts ---
+
+export interface QuizData {
+  name: string;
+  testType: 'thematic' | 'custom';  // Добавляем это поле
+  questions: {
+    question: string;
+    options: string[];
+    correctAnswers: number[];
+    multiple: boolean;
+  }[];
+}
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\quiz-result.model.ts ---
 
@@ -2055,9 +3949,9 @@ export interface QuizResult {
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\tag.model.ts ---
 
 export interface TagCategory {
-    theme: string;
-    tags: string[];
-  }
+  theme: string;
+  tags: string[];
+}
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\test.model.ts ---
 
@@ -2071,6 +3965,23 @@ export interface Test {
         correct: boolean;
       }[];
     }[];
+  }
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\topic.model.ts ---
+
+// src/app/models/topic.model.ts
+export interface Topic {
+    id: string;
+    title: string;
+    difficulty: number;
+    time: string;
+    completed: boolean;
+    completedDate: Date | null;
+    notes: string;
+    dueDate: Date;
+    week: number;
+    day: number;
+    subtopics?: string[];
   }
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\services\data.service.ts ---
@@ -2116,8 +4027,18 @@ export class DataService {
 
   getTags(): Observable<TagCategory[]> {
     return this.http.get('/assets/data/tags.yml', { responseType: 'text' }).pipe(
-      map(yamlText => yaml.load(yamlText) as TagCategory[]),
-      catchError(() => of([]))
+      map(yamlText => {
+        try {
+          return yaml.load(yamlText) as TagCategory[];
+        } catch (e) {
+          console.error('Error parsing tags YAML', e);
+          return [];
+        }
+      }),
+      catchError(err => {
+        console.error('Error loading tags', err);
+        return of([]);
+      })
     );
   }
 
@@ -2155,36 +4076,163 @@ export class DataService {
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\services\history.service.ts ---
 
-// app/services/history.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { QuizResult } from '../models/quiz-result.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class HistoryService {
   private readonly STORAGE_KEY = 'astronomy_quiz_history';
 
-  constructor() {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   getHistory(): QuizResult[] {
+    if (!isPlatformBrowser(this.platformId)) return [];
+    
     const historyJson = localStorage.getItem(this.STORAGE_KEY);
     return historyJson ? JSON.parse(historyJson) : [];
   }
 
   addResult(result: QuizResult): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    
     const history = this.getHistory();
     history.unshift(result);
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(history));
   }
 
   clearHistory(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     localStorage.removeItem(this.STORAGE_KEY);
   }
 
   removeResult(id: string): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    
     const history = this.getHistory().filter(item => item.id !== id);
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(history));
+  }
+}
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\services\localStorage.service.ts ---
+
+// src/app/services/localStorage.service.ts
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
+@Injectable({ providedIn: 'root' })
+export class LocalStorageService {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  getItem(key: string): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(key);
+    }
+    return null;
+  }
+
+  setItem(key: string, value: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(key, value);
+    }
+  }
+
+  removeItem(key: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(key);
+    }
+  }
+}
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\services\plan-progress.service.ts ---
+
+// src/app/services/plan-progress.service.ts
+import { Injectable } from '@angular/core';
+
+export interface Topic {
+  id: string;
+  title: string;
+  difficulty: number;
+  time: string;
+  completed: boolean;
+  completedDate: Date | null;
+  notes: string;
+  dueDate: Date;
+  week: number;
+  day: number;
+  subtopics?: string[];
+}
+
+@Injectable({ providedIn: 'root' })
+export class PlanProgressService {
+  private readonly STORAGE_KEY = 'astronomy_progress';
+
+  getProgress(): Topic[] {
+    const data = localStorage.getItem(this.STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
+  }
+
+  saveProgress(topics: Topic[]): void {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(topics));
+  }
+}
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\services\progress-data.service.ts ---
+
+// src/app/services/progress-data.service.ts
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class ProgressDataService {
+  private progressSource = new BehaviorSubject<any>(null);
+  currentProgress$ = this.progressSource.asObservable();
+
+  updateProgress(data: any) {
+    this.progressSource.next(data);
+  }
+
+  // Добавьте этот метод вместо getCurrentValue()
+  getCurrentProgress() {
+    return this.progressSource.value;
+  }
+}
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\services\quiz-data.service.ts ---
+
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { QuizData } from '../models/quiz-data.model';
+
+@Injectable({ providedIn: 'root' })
+export class QuizDataService {
+  private readonly STORAGE_KEY = 'current_quiz_data';
+  private quizData: QuizData | null = null;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  setQuizData(data: QuizData): void {
+    this.quizData = data;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+    }
+  }
+
+  getQuizData(): QuizData | null {
+    if (this.quizData) return this.quizData;
+    
+    if (isPlatformBrowser(this.platformId)) {
+      const storedData = localStorage.getItem(this.STORAGE_KEY);
+      return storedData ? JSON.parse(storedData) : null;
+    }
+    return null;
+  }
+
+  clearQuizData(): void {
+    this.quizData = null;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.STORAGE_KEY);
+    }
   }
 }
 
@@ -2204,3 +4252,19 @@ export class TimePipe implements PipeTransform {
   }
 }
 
+" сделай, чтобы можно было сохранять сгенерированные тесты как тематические(и они были в отдельной вкладке страницы тематических тестов), и автоматически устанавливалось название соответствующее тегу. Так же сделай чтобы И У тематических тестов перемешивались варианты ответов. Так же сделай чтобы при ответе на вопрос в сгенерированном тесте(или сделанном тематическом тесте из сгенерированного) после ответа на вопрос показывалось объяснение из поля експланейшн. если надо вот шаблон вопроса "- id: i5j6k7l8-m9n0-1o2p-3q4r-5s6t7u8v9w0x
+  tags:
+    - астероиды
+    - исследования
+  text: "Какой астероид первым был сфотографирован с близкого расстояния?"
+  difficulty: 75
+  options:
+    - text: "(951) Гаспра (Galileo, 1991)"
+      correct: true
+    - text: "(243) Ида (Galileo, 1993)"
+      correct: false
+    - text: "(253) Матильда (NEAR, 1997)"
+      correct: false
+    - text: "(433) Эрос (NEAR, 1998)"
+      correct: false
+  explanation: "Galileo передал первые снимки Гаспры (18 км) в 1991 году по пути к Юпитеру.""

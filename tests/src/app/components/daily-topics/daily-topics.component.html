@@ -1,145 +1,51 @@
 <div class="container">
-    <div class="header">
-      <h1>{{ plan.name }}</h1>
-      <div class="progress-container">
-        <div class="total-progress">
-            <span>Общий прогресс: {{ totalProgress }}% ({{ completedTopicsCount }}/{{ allTopics.length }})</span>
-          <div class="progress-bar">
-            <div class="progress" [style.width.%]="totalProgress"></div>
-          </div>
+  <div class="header">
+    <h1>{{ plan.name }}</h1>
+    <div class="progress-container">
+      <div class="total-progress">
+        <span>Общий прогресс: {{ totalProgress }}% ({{ completedTopicsCount }}/{{ allTopics.length }})</span>
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="totalProgress"></div>
         </div>
       </div>
     </div>
-  
-    <div class="view-switcher">
-      <button (click)="setViewMode('today')" [class.active]="viewMode === 'today'">
-        <i class="icon-calendar"></i> Сегодня
-      </button>
-      <button (click)="setViewMode('future')" [class.active]="viewMode === 'future'">
-        <i class="icon-future"></i> Будущие
-      </button>
-      <button (click)="setViewMode('diary')" [class.active]="viewMode === 'diary'">
-        <i class="icon-book"></i> Все темы
-      </button>
-    </div>
-  
-    <!-- Today View -->
-    <div *ngIf="viewMode === 'today'" class="today-view">
-      <div class="day-info">
-        <h2>Темы на {{ currentDate | date:'dd.MM.yyyy' }}</h2>
-        <div class="today-progress">
-            <span>Прогресс дня: {{ todayProgress }}% ({{ getCompletedTodayCount() }}/{{ todayTopics.length }})</span>
-          <div class="progress-bar">
-            <div class="progress" [style.width.%]="todayProgress"></div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="topics-list">
-        <div *ngFor="let topic of todayTopics" class="topic-card" [class.completed]="topic.completed">
-          <div class="topic-content">
-            <h3>{{ topic.title }}</h3>
-            <div class="topic-meta">
-              <span class="difficulty">Сложность: {{ topic.difficulty }}/100</span>
-              <span class="time">Время: {{ topic.time }}</span>
-              <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
-            </div>
-            
-            <div *ngIf="topic.subtopics" class="subtopics">
-              <h4>Подтемы:</h4>
-              <ul>
-                <li *ngFor="let subtopic of topic.subtopics">{{ subtopic }}</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="topic-actions">
-            <label class="checkbox-container">
-              <input type="checkbox" [checked]="topic.completed" (change)="toggleTopicCompletion(topic)">
-              <span class="checkmark"></span>
-            </label>
-            <button class="notes-btn" (click)="selectTopic(topic)">
-              <i class="icon-edit"></i> Заметки
-            </button>
-          </div>
-        </div>
-  
-        <div *ngIf="todayTopics.length === 0" class="no-topics">
-          <p>На сегодня нет запланированных тем</p>
+  </div>
+
+  <div class="view-switcher">
+    <button (click)="setViewMode('today')" [class.active]="viewMode === 'today'">
+      <i class="icon"></i> Сегодня
+    </button>
+    <button (click)="setViewMode('future')" [class.active]="viewMode === 'future'">
+      <i class="icon"></i> Будущие
+    </button>
+    <button (click)="setViewMode('diary')" [class.active]="viewMode === 'diary'">
+      <i class="icon"></i> Все темы
+    </button>
+    <button (click)="setViewMode('charts')" [class.active]="viewMode === 'charts'">
+      <i class="icon"></i> Графики
+    </button>
+  </div>
+
+  <!-- Today View -->
+  <div *ngIf="viewMode === 'today'" class="today-view">
+    <div class="day-info">
+      <h2>Темы на {{ currentDate | date:'dd.MM.yyyy' }}</h2>
+      <div class="today-progress">
+        <span>Прогресс дня: {{ todayProgress }}% ({{ getCompletedTodayCount() }}/{{ todayTopics.length }})</span>
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="todayProgress"></div>
         </div>
       </div>
     </div>
-  
-    <!-- Future Topics View -->
-    <div *ngIf="viewMode === 'future'" class="future-view">
-      <h2>Будущие темы</h2>
-      <p>Вы можете отметить тему как выполненную заранее</p>
-  
-      <div class="topics-list">
-        <div *ngFor="let topic of futureTopics" class="topic-card future">
-          <div class="topic-content">
-            <h3>{{ topic.title }}</h3>
-            <div class="topic-meta">
-              <span class="due-date">На {{ topic.dueDate | date:'dd.MM.yyyy' }}</span>
-              <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
-              <span class="difficulty">Сложность: {{ topic.difficulty }}/100</span>
-              <span class="time">Время: {{ topic.time }}</span>
-            </div>
-            
-            <div *ngIf="topic.subtopics" class="subtopics">
-              <h4>Подтемы:</h4>
-              <ul>
-                <li *ngFor="let subtopic of topic.subtopics">{{ subtopic }}</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="topic-actions">
-            <button class="complete-btn" (click)="completeFutureTopic(topic)">
-              <i class="icon-check"></i> Выполнить
-            </button>
-            <button class="notes-btn" (click)="selectTopic(topic)">
-              <i class="icon-edit"></i> Заметки
-            </button>
-          </div>
-        </div>
-  
-        <div *ngIf="futureTopics.length === 0" class="no-topics">
-          <p>Нет будущих тем или все выполнены</p>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Diary View -->
-    <div *ngIf="viewMode === 'diary'" class="diary-view">
-      <div class="diary-header">
-        <div class="search-box">
-          <i class="icon-search"></i>
-          <input type="text" [ngModel]="searchQuery" (ngModelChange)="searchQuery = $event" placeholder="Поиск тем...">
-        </div>
-        <div class="filter-buttons">
-          <button [class.active]="filter === 'all'" (click)="filter = 'all'">Все</button>
-          <button [class.active]="filter === 'completed'" (click)="filter = 'completed'">Выполненные</button>
-          <button [class.active]="filter === 'pending'" (click)="filter = 'pending'">Ожидающие</button>
-        </div>
-      </div>
-  
-      <div *ngIf="!selectedTopic" class="topics-grid">
-        <div *ngFor="let topic of getFilteredTopics()" 
-             class="diary-topic-card" 
-             [class.completed]="topic.completed"
-             (click)="selectTopic(topic)">
-          <div class="card-header">
-            <h3>{{ topic.title }}</h3>
-            <span class="due-date" [class.future]="topic.dueDate > currentDate">
-              {{ topic.dueDate | date:'dd.MM.yyyy' }}
-            </span>
-          </div>
-          <div class="card-meta">
+
+    <div class="topics-list">
+      <div *ngFor="let topic of todayTopics" class="topic-card" [class.completed]="topic.completed">
+        <div class="topic-content">
+          <h3>{{ topic.title }}</h3>
+          <div class="topic-meta">
+            <span class="difficulty">Сложность: {{ topic.difficulty }}/100</span>
+            <span class="time">Время: {{ topic.time }}</span>
             <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
-            <span class="status" [class.completed]="topic.completed">
-              {{ topic.completed ? 'Выполнено ' + (topic.completedDate | date:'dd.MM.yyyy') : 'Ожидает' }}
-            </span>
           </div>
           
           <div *ngIf="topic.subtopics" class="subtopics">
@@ -148,44 +54,201 @@
               <li *ngFor="let subtopic of topic.subtopics">{{ subtopic }}</li>
             </ul>
           </div>
-          
-          <p class="notes-preview">{{ topic.notes || 'Заметок нет' }}</p>
+        </div>
+        
+        <div class="topic-actions">
+          <label class="checkbox-container">
+            <input type="checkbox" [checked]="topic.completed" (change)="toggleTopicCompletion(topic)">
+            <span class="checkmark" >Выполнено</span>
+          </label>
+          <button class="notes-btn" (click)="selectTopic(topic)">
+            <i class="icon-edit"></i> Заметки
+          </button>
+          <button (click)="showTermsEditor()" class="notes-btn">
+            <i class="icon-edit"></i> Термины({{selectedTopic?.terms?.length || 0}})
+          </button>
         </div>
       </div>
-  
-      <!-- Notes Editor -->
-      <div *ngIf="selectedTopic" class="notes-editor">
-        <div class="editor-header">
+
+      <div *ngIf="todayTopics.length === 0" class="no-topics">
+        <p>На сегодня нет запланированных тем</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Future Topics View -->
+  <div *ngIf="viewMode === 'future'" class="future-view">
+    <h2>Будущие темы</h2>
+    <p>Вы можете отметить тему как выполненную заранее</p>
+
+    <div class="topics-list">
+      <div *ngFor="let topic of futureTopics" class="topic-card future">
+        <div class="topic-content">
+          <h3>{{ topic.title }}</h3>
+          <div class="topic-meta">
+            <span class="due-date">На {{ topic.dueDate | date:'dd.MM.yyyy' }}</span>
+            <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
+            <span class="difficulty">Сложность: {{ topic.difficulty }}/100</span>
+            <span class="time">Время: {{ topic.time }}</span>
+          </div>
+          
+          <div *ngIf="topic.subtopics" class="subtopics">
+            <h4>Подтемы:</h4>
+            <ul>
+              <li *ngFor="let subtopic of topic.subtopics">{{ subtopic }}</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="topic-actions">
+          <button class="complete-btn" (click)="completeFutureTopic(topic)">
+            <i class="icon-check"></i> Выполнить
+          </button>
+          <button class="notes-btn" (click)="selectTopic(topic)">
+            <i class="icon-edit"></i> Заметки
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="futureTopics.length === 0" class="no-topics">
+        <p>Нет будущих тем или все выполнены</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diary View -->
+  <div *ngIf="viewMode === 'diary'" class="diary-view">
+    <div class="diary-header">
+      <div class="search-box">
+        <i class="icon-search"></i>
+        <input type="text" [ngModel]="searchQuery" (ngModelChange)="searchQuery = $event" placeholder="Поиск тем...">
+      </div>
+      <div class="filter-buttons">
+        <button [class.active]="filter === 'all'" (click)="filter = 'all'">Все</button>
+        <button [class.active]="filter === 'completed'" (click)="filter = 'completed'">Выполненные</button>
+        <button [class.active]="filter === 'pending'" (click)="filter = 'pending'">Ожидающие</button>
+      </div>
+    </div>
+
+    <div *ngIf="!selectedTopic" class="topics-grid">
+      <div *ngFor="let topic of getFilteredTopics()" 
+          class="diary-topic-card" 
+          [class.completed]="topic.completed"
+          (click)="selectTopic(topic)">
+        <div class="card-header">
+          <h3>{{ topic.title }}</h3>
+          <span class="due-date" [class.future]="topic.dueDate > currentDate">
+            {{ topic.dueDate | date:'dd.MM.yyyy' }}
+          </span>
+        </div>
+        <div class="card-meta">
+          <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
+          <span class="status" [class.completed]="topic.completed">
+            {{ topic.completed ? 'Выполнено ' + (topic.completedDate | date:'dd.MM.yyyy') : 'Ожидает' }}
+          </span>
+        </div>
+        
+        <div *ngIf="topic.subtopics" class="subtopics">
+          <h4>Подтемы:</h4>
+          <ul>
+            <li *ngFor="let subtopic of topic.subtopics">{{ subtopic }}</li>
+          </ul>
+        </div>
+        
+        <div class="notes-preview" [innerHTML]="topic.notesHtml || 'Заметок нет'"></div>
+        
+        <div *ngIf="selectedTopicWithTerms?.terms?.length" class="terms-preview">
+          <span class="term-count">{{ selectedTopicWithTerms?.terms?.length }} терминов</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes Editor -->
+    <div *ngIf="selectedTopic" class="notes-editor">
+      <div class="editor-header">
+        <div>
           <h2>{{ selectedTopic.title }}</h2>
           <div class="editor-meta">
             <span>Неделя {{ selectedTopic.week }}, День {{ selectedTopic.day }}</span>
             <span>На {{ selectedTopic.dueDate | date:'dd.MM.yyyy' }}</span>
-            <span>Сложность: {{ selectedTopic.difficulty }}/100</span>
-            <span>Время: {{ selectedTopic.time }}</span>
           </div>
-          <button class="close-btn" (click)="selectedTopic = null">
-            <i class="icon-close"></i>
+        </div>
+        <button class="close-btn" (click)="selectedTopic = null">×</button>
+      </div>
+      
+      <div class="editor-tabs">
+        <button [class.active]="!isEditingTerm" (click)="isEditingTerm = false">Заметки</button>
+        <button [class.active]="isEditingTerm" (click)="isEditingTerm = true">
+          Термины ({{ selectedTopic.terms?.length }})
+        </button>
+      </div>
+      
+      <!-- Заменим блок terms-editor на этот -->
+      <div *ngIf="isEditingTerm" class="terms-container">
+        <div class="terms-header">
+          <h3>Управление терминами</h3>
+          <button (click)="isEditingTerm = false" class="close-btn">
+            ✕
           </button>
         </div>
-        
-        <div *ngIf="selectedTopic.subtopics" class="subtopics">
-          <h3>Подтемы:</h3>
-          <ul>
-            <li *ngFor="let subtopic of selectedTopic.subtopics">{{ subtopic }}</li>
-          </ul>
+      
+        <div class="terms-toolbar">
+          <input type="text" [(ngModel)]="termSearch" placeholder="Поиск терминов..." class="search-input">
+          <button (click)="addEmptyTerm()" class="add-btn">+ Добавить термин</button>
         </div>
-        
-        <textarea [(ngModel)]="selectedTopic.notes" placeholder="Запишите свои заметки здесь..."></textarea>
-        <div class="editor-actions">
-          <button class="save-btn" (click)="saveNotes()">
-            <i class="icon-save"></i> Сохранить
-          </button>
-          <label class="checkbox-container large">
-            <input type="checkbox" [checked]="selectedTopic.completed" (change)="toggleTopicCompletion(selectedTopic)">
-            <span class="checkmark"></span>
-            <span class="label-text">Тема выполнена</span>
-          </label>
+      
+        <div class="terms-list">
+          <div *ngFor="let term of filteredTermsList; let i = index" 
+               class="term-card" 
+               [class.active]="currentTermIndex === i">
+            <div class="term-header">
+              <span class="term-name">{{term.term || 'Новый термин'}}</span>
+              <button (click)="removeTerm(i)" class="delete-btn">✕</button>
+            </div>
+            <textarea [(ngModel)]="term.definition" 
+                     class="term-definition" 
+                     placeholder="Введите определение..."
+                     (click)="currentTermIndex = i"></textarea>
+          </div>
         </div>
+      
+        <div class="terms-actions">
+          <button (click)="saveTerms()" class="save-btn">Сохранить</button>
+          <button (click)="isEditingTerm = false" class="cancel-btn">Отмена</button>
+        </div>
+      </div>
+      
+      <div class="editor-actions">
+        <button (click)="saveNotes()" class="save-btn">
+          Сохранить заметки
+        </button>
+        <label class="checkbox-container large">
+          <input type="checkbox" 
+                [(ngModel)]="selectedTopic.completed"
+                (change)="saveNotes()">
+          <span class="checkmark"></span>
+          <span class="label-text">Тема выполнена</span>
+        </label>
       </div>
     </div>
   </div>
+  
+  <div *ngIf="viewMode === 'charts'" class="charts-view">
+    <app-progress-charts 
+      [allTopics]="allTopics"
+      [completedTopics]="completedTopics"
+      [totalProgress]="totalProgress"
+      [todayProgress]="todayProgress"
+      [forecast]="forecast">
+    </app-progress-charts>
+    
+    <div class="forecast-details" *ngIf="forecast">
+      <h3>Прогноз завершения</h3>
+      <p>Ожидаемая дата: {{ forecast.expectedEndDate | date }}</p>
+      <p *ngIf="forecast.optimisticDate">Оптимистичный сценарий: {{ forecast.optimisticDate | date }}</p>
+      <p *ngIf="forecast.pessimisticDate">Пессимистичный сценарий: {{ forecast.pessimisticDate | date }}</p>
+      <p>Текущая скорость: {{ forecast.currentRate | number:'1.1-1' }} 
+        {{ forecast.basedOn === 'topics' ? 'тем/день' : 'часов/день' }}</p>
+    </div>
+  </div>
+</div>
