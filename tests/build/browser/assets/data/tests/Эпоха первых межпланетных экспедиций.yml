@@ -1,0 +1,875 @@
+name: "Эпоха первых межпланетных экспедиций"
+tags: ["астрономия", "планетология", "Солнечная-система"]
+questions:
+  - question: "Что такое сидерический период обращения Земли?"
+    options:
+      - text: "365.2564 суток (звездный год)"
+        correct: true
+      - text: "365.2422 суток (тропический год)"
+        correct: false
+      - text: "23 часа 56 минут (звездные сутки)"
+        correct: false
+
+  - question: "Как называется период вращения Земли относительно звезд?"
+    options:
+      - text: "Сидерические сутки (0.99727 суток)"
+        correct: true
+      - text: "Солнечные сутки (24 часа)"
+        correct: false
+      - text: "Тропический год"
+        correct: false
+
+  - question: "Чему равно среднее расстояние от Земли до Солнца?"
+    options:
+      - text: "1 а.е. = 1.496·10¹¹ м"
+        correct: true
+      - text: "149.6 млн км"
+        correct: true
+      - text: "108 млн км"
+        correct: false
+
+  - question: "Что характеризует эксцентриситет орбиты Земли?"
+    options:
+      - text: "Меру отклонения орбиты от круговой (0.0167)"
+        correct: true
+      - text: "Наклон орбиты к эклиптике"
+        correct: false
+      - text: "Скорость движения по орбите"
+        correct: false
+
+  - question: "Что такое сжатие Земли?"
+    options:
+      - text: "Отношение разности экваториального и полярного радиусов к экваториальному (1/298)"
+        correct: true
+      - text: "Разность экваториального и полярного радиусов"
+        correct: false
+      - text: "Отношение массы к объему"
+        correct: false
+
+  - question: "Что показывает безразмерный момент инерции Земли (0.3308)?"
+    options:
+      - text: "Распределение массы внутри планеты"
+        correct: true
+      - text: "Скорость вращения планеты"
+        correct: false
+      - text: "Форма магнитного поля"
+        correct: false
+
+  - question: "Что такое вторая космическая скорость для Земли?"
+    options:
+      - text: "11.19 км/с (скорость ускользания)"
+        correct: true
+      - text: "7.9 км/с (первая космическая)"
+        correct: false
+      - text: "29.8 км/с (орбитальная скорость)"
+        correct: false
+
+  - question: "Что характеризует сферическое альбедо Бонда?"
+    options:
+      - text: "Отношение отраженного планетой потока к падающему (0.306)"
+        correct: true
+      - text: "Яркость планеты в полной фазе"
+        correct: false
+      - text: "Температуру поверхности"
+        correct: false
+
+  - question: "Что такое эффективная температура Земли?"
+    options:
+      - text: "-26°C (температура как абсолютно черного тела)"
+        correct: true
+      - text: "14°C (средняя температура поверхности)"
+        correct: false
+      - text: "Температура ядра"
+        correct: false
+
+  - question: "Что такое кьюбивано?"
+    options:
+      - text: "Классические объекты пояса Койпера"
+        correct: true
+      - text: "Резонансные транснептуновые объекты"
+        correct: false
+      - text: "Астероиды главного пояса"
+        correct: false
+
+  - question: "Какие объекты называют плутино?"
+    options:
+      - text: "Транснептуновые объекты в резонансе 2:3 с Нептуном"
+        correct: true
+      - text: "Спутники Плутона"
+        correct: false
+      - text: "Карликовые планеты"
+        correct: false
+
+  - question: "Что такое тутино?"
+    options:
+      - text: "Транснептуновые объекты в резонансе 1:2 с Нептуном"
+        correct: true
+      - text: "Троянские астероиды"
+        correct: false
+      - text: "Спутники Урана"
+        correct: false
+
+  - question: "Что характеризует геометрическое альбедо?"
+    options:
+      - text: "Яркость планеты в полной фазе (0.367 для Земли)"
+        correct: true
+      - text: "Общее количество отраженного света"
+        correct: false
+      - text: "Цвет поверхности"
+        correct: false
+
+  - question: "Что такое дамоклоиды?"
+    options:
+      - text: "Объекты с кометными орбитами, но без кометной активности"
+        correct: true
+      - text: "Троянские астероиды Юпитера"
+        correct: false
+      - text: "Спутники неправильной формы"
+        correct: false
+
+  - question: "Что такое седноиды?"
+    options:
+      - text: "Обособленные транснептуновые объекты с перигелиями >75 а.е."
+        correct: true
+      - text: "Астероиды с высоким наклонением орбиты"
+        correct: false
+      - text: "Кометы с длинными периодами"
+        correct: false
+
+  - question: "Что такое кентавры?"
+    options:
+      - text: "Малые тела Солнечной системы между орбитами Юпитера и Нептуна"
+        correct: true
+      - text: "Троянские астероиды Нептуна"
+        correct: false
+      - text: "Спутники планет-гигантов"
+        correct: false
+
+  - question: "Что такое троянцы Нептуна?"
+    options:
+      - text: "Астероиды в точках Лагранжа L4 и L5 Нептуна"
+        correct: true
+      - text: "Спутники Нептуна"
+        correct: false
+      - text: "Объекты пояса Койпера"
+        correct: false
+
+  - question: "Что характеризует магнитный момент геоцентрического диполя?"
+    options:
+      - text: "Силу и ориентацию магнитного поля Земли (0.299 Гс·R³)"
+        correct: true
+      - text: "Скорость вращения ядра"
+        correct: false
+      - text: "Наклон оси вращения"
+        correct: false
+
+  - question: "Что такое планеты-карлики?"
+    options:
+      - text: "Небесные тела, недостаточно массивные для очистки своей орбиты"
+        correct: true
+      - text: "Спутники планет"
+        correct: false
+      - text: "Астероиды главного пояса"
+        correct: false
+
+  - question: "Что такое объекты рассеянного диска?"
+    options:
+      - text: "Транснептуновые объекты с высокими эксцентриситетами"
+        correct: true
+      - text: "Астероиды между орбитами планет"
+        correct: false
+      - text: "Кометы с короткими периодами"
+        correct: false
+
+  - question: "Что такое обособленные объекты?"
+    options:
+      - text: "Транснептуновые объекты, не испытывающие возмущений от планет"
+        correct: true
+      - text: "Спутники планет"
+        correct: false
+      - text: "Астероиды главного пояса"
+        correct: false
+
+  - question: "Что такое тропический год?"
+    options:
+      - text: "Период между последовательными прохождениями Солнца через точку весеннего равноденствия (365.2422 суток)"
+        correct: true
+      - text: "Период обращения вокруг Солнца относительно звезд"
+        correct: false
+      - text: "Период прецессии земной оси"
+        correct: false
+
+  - question: "Что такое резонансные транснептуновые объекты?"
+    options:
+      - text: "Объекты пояса Койпера с орбитальными периодами в простом соотношении с Нептуном"
+        correct: true
+      - text: "Спутники в орбитальном резонансе"
+        correct: false
+      - text: "Астероиды в резонансе с Юпитером"
+        correct: false
+
+  - question: "Что такое плутино?"
+    options:
+      - text: "Транснептуновые объекты в резонансе 2:3 с Нептуном (как Плутон)"
+        correct: true
+      - text: "Малые спутники Плутона"
+        correct: false
+      - text: "Астероиды, пересекающие орбиту Плутона"
+        correct: false
+
+  - question: "Что такое экзопланетолог?"
+    options:
+      - text: "Специалист по планетным системам других звезд"
+        correct: true
+      - text: "Исследователь экзотических планет"
+        correct: false
+      - text: "Специалист по внесолнечным кометам"
+        correct: false
+
+  - question: "Что такое планетолог?"
+    options:
+      - text: "Специалист по изучению планет и их спутников"
+        correct: true
+      - text: "Астроном, изучающий только Землю"
+        correct: false
+      - text: "Геолог, работающий с другими планетами"
+        correct: false
+
+  - question: "Что такое малые тела Солнечной системы?"
+    options:
+      - text: "Все объекты, кроме планет, карликовых планет и их спутников"
+        correct: true
+      - text: "Только астероиды и кометы"
+        correct: false
+      - text: "Объекты меньше 1000 км в диаметре"
+        correct: false
+
+  - question: "Что такое SSSB (Small Solar System Body)?"
+    options:
+      - text: "Официальный термин для малых тел Солнечной системы"
+        correct: true
+      - text: "Сверхмалые спутники планет"
+        correct: false
+      - text: "Особый класс астероидов"
+        correct: false
+
+  - question: "Что такое TNO (Trans-Neptunian Object)?"
+    options:
+      - text: "Объект, орбита которого целиком лежит за орбитой Нептуна"
+        correct: true
+      - text: "Астероид, пересекающий орбиту Нептуна"
+        correct: false
+      - text: "Спутник Нептуна"
+        correct: false
+
+  - question: "Что такое KBO (Kuiper Belt Object)?"
+    options:
+      - text: "Объект пояса Койпера"
+        correct: true
+      - text: "Комета с коротким периодом"
+        correct: false
+      - text: "Астероид главного пояса"
+        correct: false
+
+  - question: "Что такое SDO (Scattered Disc Object)?"
+    options:
+      - text: "Объект рассеянного диска с высоким эксцентриситетом"
+        correct: true
+      - text: "Спутник с нерегулярной орбитой"
+        correct: false
+      - text: "Астероид, рассеянный гравитацией Юпитера"
+        correct: false
+
+  - question: "Что такое OCO (Oort Cloud Object)?"
+    options:
+      - text: "Объект облака Оорта"
+        correct: true
+      - text: "Особый класс комет"
+        correct: false
+      - text: "Транснептуновый объект с очень большой орбитой"
+        correct: false
+
+  - question: "Что такое кувыркающиеся астероиды?"
+    options:
+      - text: "Астероиды с хаотическим вращением"
+        correct: true
+      - text: "Астероиды, меняющие орбиту"
+        correct: false
+      - text: "Двойные астероиды"
+        correct: false
+
+  - question: "Что такое временные спутники планет?"
+    options:
+      - text: "Астероиды, временно захваченные гравитацией планеты"
+        correct: true
+      - text: "Искусственные спутники"
+        correct: false
+      - text: "Спутники с нестабильными орбитами"
+        correct: false
+
+  - question: "Что такое двойные астероиды?"
+    options:
+      - text: "Системы из двух астероидов, обращающихся вокруг общего центра масс"
+        correct: true
+      - text: "Астероиды, распавшиеся на две части"
+        correct: false
+      - text: "Пара астероидов на схожих орбитах"
+        correct: false
+
+  - question: "Что такое сближающиеся с Землей астероиды?"
+    options:
+      - text: "Астероиды, орбиты которых пересекают земную"
+        correct: true
+      - text: "Астероиды, падающие на Землю"
+        correct: false
+      - text: "Троянские астероиды Земли"
+        correct: false
+
+  - question: "Что такое астероиды на подковообразных орбитах?"
+    options:
+      - text: "Астероиды, движущиеся в резонансе с Землей"
+        correct: true
+      - text: "Астероиды с очень вытянутыми орбитами"
+        correct: false
+      - text: "Астероиды, меняющие орбиту"
+        correct: false
+
+  - question: "Что такое кометы, сгорающие в атмосфере Солнца?"
+    options:
+      - text: "Кометы с перигелиями внутри солнечной короны"
+        correct: true
+      - text: "Кометы, разрушающиеся при приближении к Солнцу"
+        correct: false
+      - text: "Метеоры солнечного происхождения"
+        correct: false
+
+  - question: "Что такое спутники с нерегулярными орбитами?"
+    options:
+      - text: "Спутники с высокими наклонениями и/или эксцентриситетами"
+        correct: true
+      - text: "Спутники, меняющие орбиту"
+        correct: false
+      - text: "Временные спутники"
+        correct: false
+
+  - question: "Что такое поток солнечного излучения вне атмосферы Земли?"
+    options:
+      - text: "1369 Вт/м² (солнечная постоянная)"
+        correct: true
+      - text: "Количество энергии, поглощаемой Землей"
+        correct: false
+      - text: "Суммарная мощность солнечного излучения"
+        correct: false
+
+  - question: "Что такое полное поглощаемое Землей излучение?"
+    options:
+      - text: "1.2·10¹⁷ Вт"
+        correct: true
+      - text: "Солнечная постоянная"
+        correct: false
+      - text: "Поток тепла из недр Земли"
+        correct: false
+
+  - question: "Что такое поток тепла из недр Земли?"
+    options:
+      - text: "0.05 Вт/м²"
+        correct: true
+      - text: "Энергия радиоактивного распада"
+        correct: false
+      - text: "Тепло ядра Земли"
+        correct: false
+
+  - question: "Что такое наклон оси дипольного компонента магнитного поля Земли?"
+    options:
+      - text: "10.3° (угол между магнитной и вращательной осями)"
+        correct: true
+      - text: "Наклон магнитных полюсов"
+        correct: false
+      - text: "Угол прецессии магнитного поля"
+        correct: false
+
+  - question: "Что такое скорость ускользания (вторая космическая)?"
+    options:
+      - text: "11.19 км/с (минимальная скорость для преодоления земного притяжения)"
+        correct: true
+      - text: "7.9 км/с (первая космическая скорость)"
+        correct: false
+      - text: "29.8 км/с (орбитальная скорость Земли)"
+        correct: false
+
+  - question: "Что такое средняя плотность Земли?"
+    options:
+      - text: "5.51 г/см³"
+        correct: true
+      - text: "Плотность земной коры"
+        correct: false
+      - text: "Плотность ядра"
+        correct: false
+
+  - question: "Что такое средний радиус Земли?"
+    options:
+      - text: "6371.032 км"
+        correct: true
+      - text: "Радиус экватора"
+        correct: false
+      - text: "Радиус полярный"
+        correct: false
+
+  - question: "Что такое экваториальный радиус Земли?"
+    options:
+      - text: "6378.160 км"
+        correct: true
+      - text: "Средний радиус"
+        correct: false
+      - text: "Радиус сферы равного объема"
+        correct: false
+
+  - question: "Что такое полярный радиус Земли?"
+    options:
+      - text: "6356.777 км"
+        correct: true
+      - text: "Радиус ядра"
+        correct: false
+      - text: "Расстояние до центра масс системы Земля-Луна"
+        correct: false
+
+  - question: "Что такое ускорение свободного падения на экваторе?"
+    options:
+      - text: "9.78033 м/с² (на уровне моря)"
+        correct: true
+      - text: "9.80665 м/с² (стандартное значение)"
+        correct: false
+      - text: "Ускорение центробежной силы"
+        correct: false
+
+  - question: "Что такое скорость вращения Земли на экваторе?"
+    options:
+      - text: "465.11 м/с"
+        correct: true
+      - text: "29.8 км/с (орбитальная скорость)"
+        correct: false
+      - text: "Угловая скорость вращения"
+        correct: false
+
+  - question: "Что такое масса атмосферы Земли?"
+    options:
+      - text: "5.2·10¹⁸ кг"
+        correct: true
+      - text: "Масса облаков"
+        correct: false
+      - text: "Масса водяного пара"
+        correct: false
+
+  - question: "Что такое масса океана Земли?"
+    options:
+      - text: "1.4·10²¹ кг"
+        correct: true
+      - text: "Объем воды на Земле"
+        correct: false
+      - text: "Масса льдов Антарктиды"
+        correct: false
+
+  - question: "Какой параметр характеризует разницу между сидерическим и тропическим годом?"
+    options:
+      - text: "Прецессия земной оси (~20 минут в год)"
+        correct: true
+      - text: "Эксцентриситет орбиты"
+        correct: false
+      - text: "Наклон эклиптики"
+        correct: false
+
+  - question: "Что означает безразмерный момент инерции Земли 0.3308?"
+    options:
+      - text: "Большая концентрация массы к центру"
+        correct: true
+      - text: "Равномерное распределение массы"
+        correct: false
+      - text: "Жидкое состояние ядра"
+        correct: false
+
+  - question: "Как вычисляется сжатие Земли (1/298)?"
+    options:
+      - text: "(Re - Rp) / Re"
+        correct: true
+      - text: "Re / Rp"
+        correct: false
+      - text: "(Re - Rp) / (Re + Rp)"
+        correct: false
+
+  - question: "Почему ускорение свободного падения на экваторе (9.78033 м/с²) меньше стандартного (9.80665 м/с²)?"
+    options:
+      - text: "Центробежная сила и экваториальное вздутие"
+        correct: true
+      - text: "Меньшая плотность на экваторе"
+        correct: false
+      - text: "Влияние океанов"
+        correct: false
+
+  - question: "Чем отличается геометрическое альбедо от сферического?"
+    options:
+      - text: "Геометрическое - для полной фазы, сферическое - интегральное"
+        correct: true
+      - text: "Геометрическое - визуальное, сферическое - инфракрасное"
+        correct: false
+      - text: "Нет различий"
+        correct: false
+
+  - question: "Почему эффективная температура Земли (-26°C) ниже реальной (+14°C)?"
+    options:
+      - text: "Парниковый эффект атмосферы"
+        correct: true
+      - text: "Неточность измерений"
+        correct: false
+      - text: "Влияние океанов"
+        correct: false
+
+  - question: "Какой параметр отличает кьюбивано от других объектов пояса Койпера?"
+    options:
+      - text: "Отсутствие орбитальных резонансов с Нептуном"
+        correct: true
+      - text: "Большие размеры"
+        correct: false
+      - text: "Сферическая форма"
+        correct: false
+
+  - question: "Почему плутино (резонанс 2:3) стабильны относительно Нептуна?"
+    options:
+      - text: "Орбитальная синхронизация предотвращает сближения"
+        correct: true
+      - text: "Находятся в точках Лагранжа"
+        correct: false
+      - text: "Имеют малые эксцентриситеты"
+        correct: false
+
+  - question: "Чем тутино (резонанс 1:2) отличаются от плутино?"
+    options:
+      - text: "Большими орбитальными периодами (~330 лет)"
+        correct: true
+      - text: "Размерами"
+        correct: false
+      - text: "Наклонением орбит"
+        correct: false
+
+  - question: "Как идентифицируют дамоклоиды?"
+    options:
+      - text: "По кометным орбитам без кометной активности"
+        correct: true
+      - text: "По ретроградному движению"
+        correct: false
+      - text: "По высокому альбедо"
+        correct: false
+
+  - question: "Какая особенность орбит седноидов делает их обособленными?"
+    options:
+      - text: "Перигелий >75 а.е. (нет возмущений от планет)"
+        correct: true
+      - text: "Круговые орбиты"
+        correct: false
+      - text: "Нулевое наклонение"
+        correct: false
+
+  - question: "Почему кентавры неустойчивы на астрономических масштабах времени?"
+    options:
+      - text: "Сильные гравитационные возмущения от планет-гигантов"
+        correct: true
+      - text: "Распад из-за солнечного излучения"
+        correct: false
+      - text: "Столкновения между собой"
+        correct: false
+
+  - question: "Как троянцы Нептуна удерживаются в точках L4 и L5?"
+    options:
+      - text: "Гравитационным балансом Солнца и Нептуна"
+        correct: true
+      - text: "Собственной гравитацией"
+        correct: false
+      - text: "Магнитным полем Нептуна"
+        correct: false
+
+  - question: "Почему наклон оси геомагнитного диполя (10.3°) меняется со временем?"
+    options:
+      - text: "Динамические процессы в жидком ядре"
+        correct: true
+      - text: "Влияние Луны"
+        correct: false
+      - text: "Движение континентов"
+        correct: false
+
+  - question: "Какое свойство отличает планеты-карлики от классических планет?"
+    options:
+      - text: "Неспособность очистить свою орбиту"
+        correct: true
+      - text: "Размеры"
+        correct: false
+      - text: "Состав"
+        correct: false
+
+  - question: "Почему объекты рассеянного диска имеют высокие эксцентриситеты?"
+    options:
+      - text: "Гравитационное рассеяние Нептуном"
+        correct: true
+      - text: "Первоначальные условия формирования"
+        correct: false
+      - text: "Взаимные столкновения"
+        correct: false
+
+  - question: "Чем объясняется стабильность обособленных объектов?"
+    options:
+      - text: "Большие перигелийные расстояния (>40 а.е.)"
+        correct: true
+      - text: "Малые размеры"
+        correct: false
+      - text: "Специфический состав"
+        correct: false
+
+  - question: "Почему тропический год короче сидерического?"
+    options:
+      - text: "Прецессия земной оси (~50'' в год)"
+        correct: true
+      - text: "Изменение эксцентриситета"
+        correct: false
+      - text: "Гравитационное влияние Луны"
+        correct: false
+
+  - question: "Как резонанс 2:3 защищает плутино от столкновений с Нептуном?"
+    options:
+      - text: "Синхронизация орбит предотвращает сближения"
+        correct: true
+      - text: "Отталкивание магнитными полями"
+        correct: false
+      - text: "Физический барьер"
+        correct: false
+
+  - question: "Почему Плутон классифицируется как плутино?"
+    options:
+      - text: "Имеет орбитальный резонанс 2:3 с Нептуном"
+        correct: true
+      - text: "Находится в поясе Койпера"
+        correct: false
+      - text: "Малый размер"
+        correct: false
+
+  - question: "Какие методы использует экзопланетолог?"
+    options:
+      - text: "Транзитный метод, метод лучевых скоростей"
+        correct: true
+      - text: "Сейсмические исследования"
+        correct: false
+      - text: "Прямую визуализацию"
+        correct: false
+
+  - question: "Чем занимается планетолог в отличие от астронома?"
+    options:
+      - text: "Изучает физику и геологию планет"
+        correct: true
+      - text: "Наблюдает звезды"
+        correct: false
+      - text: "Исследует галактики"
+        correct: false
+
+  - question: "Почему спутники планет не считаются малыми телами?"
+    options:
+      - text: "Гравитационно связаны с планетами"
+        correct: true
+      - text: "Слишком большие"
+        correct: false
+      - text: "Имеют атмосферу"
+        correct: false
+
+  - question: "Какие объекты исключены из класса SSSB?"
+    options:
+      - text: "Планеты, карликовые планеты и их спутники"
+        correct: true
+      - text: "Кометы и астероиды"
+        correct: false
+      - text: "Метеороиды"
+        correct: false
+
+  - question: "Чем TNO отличаются от кентавров?"
+    options:
+      - text: "Орбиты полностью за Нептуном"
+        correct: true
+      - text: "Размерами"
+        correct: false
+      - text: "Составом"
+        correct: false
+
+  - question: "Почему KBO важны для изучения ранней Солнечной системы?"
+    options:
+      - text: "Сохранились в первозданном виде из-за низких температур"
+        correct: true
+      - text: "Содержат радиоактивные элементы"
+        correct: false
+      - text: "Часто сталкиваются"
+        correct: false
+
+  - question: "Чем SDO отличаются от классических KBO?"
+    options:
+      - text: "Высокими эксцентриситетами и наклонениями"
+        correct: true
+      - text: "Размерами"
+        correct: false
+      - text: "Периодом обращения"
+        correct: false
+
+  - question: "Почему OCO редко наблюдаются?"
+    options:
+      - text: "Очень далекие и тусклые"
+        correct: true
+      - text: "Малые размеры"
+        correct: false
+      - text: "Быстро движутся"
+        correct: false
+
+  - question: "Что вызывает кувыркание астероидов?"
+    options:
+      - text: "Неравномерное тепловое излучение (эффект YORP)"
+        correct: true
+      - text: "Столкновения"
+        correct: false
+      - text: "Приливные силы"
+        correct: false
+
+  - question: "Как образуются временные спутники планет?"
+    options:
+      - text: "Временный гравитационный захват"
+        correct: true
+      - text: "Распад основного спутника"
+        correct: false
+      - text: "Конденсация из кольца"
+        correct: false
+
+  - question: "Как формируются двойные астероиды?"
+    options:
+      - text: "Распад при быстром вращении или столкновениях"
+        correct: true
+      - text: "Гравитационный захват"
+        correct: false
+      - text: "Конденсация из протопланетного облака"
+        correct: false
+
+  - question: "Почему сближающиеся с Землей астероиды опасны?"
+    options:
+      - text: "Возможность столкновения с Землей"
+        correct: true
+      - text: "Сильное гравитационное воздействие"
+        correct: false
+      - text: "Радиоактивность"
+        correct: false
+
+  - question: "Как образуются подковообразные орбиты?"
+    options:
+      - text: "В 1:1 резонансе с Землей при особых начальных условиях"
+        correct: true
+      - text: "Приливным воздействием Луны"
+        correct: false
+      - text: "Гравитацией Юпитера"
+        correct: false
+
+  - question: "Почему кометы сгорают в солнечной атмосфере?"
+    options:
+      - text: "Очень маленький перигелий (<0.01 а.е.)"
+        correct: true
+      - text: "Высокая скорость"
+        correct: false
+      - text: "Малый размер"
+        correct: false
+
+  - question: "Что вызывает нерегулярность орбит некоторых спутников?"
+    options:
+      - text: "Гравитационный захват вместо формирования на месте"
+        correct: true
+      - text: "Приливные силы"
+        correct: false
+      - text: "Солнечное излучение"
+        correct: false
+
+  - question: "Как вычисляется полное поглощаемое Землей излучение (1.2·10¹⁷ Вт)?"
+    options:
+      - text: "Солнечная постоянная × площадь проекции Земли"
+        correct: true
+      - text: "Площадь поверхности × поток тепла из недр"
+        correct: false
+      - text: "Масса атмосферы × теплоемкость"
+        correct: false
+
+  - question: "Почему поток тепла из недр (0.05 Вт/м²) мал по сравнению с солнечным?"
+    options:
+      - text: "Земля остыла за 4.5 млрд лет"
+        correct: true
+      - text: "Тепло уходит в космос"
+        correct: false
+      - text: "Низкая теплопроводность мантии"
+        correct: false
+
+  - question: "Как скорость ускользания (11.19 км/с) зависит от радиуса Земли?"
+    options:
+      - text: "Обратно пропорционально квадратному корню из радиуса"
+        correct: false
+      - text: "Прямо пропорционально квадратному корню из радиуса"
+        correct: false
+      - text: "Не зависит, определяется массой"
+        correct: true
+
+  - question: "Почему средняя плотность Земли (5.51 г/см³) выше, чем у поверхностных пород?"
+    options:
+      - text: "Плотное металлическое ядро"
+        correct: true
+      - text: "Сжатие под действием гравитации"
+        correct: false
+      - text: "Радиоактивный распад"
+        correct: false
+
+  - question: "Как вычисляется средний радиус Земли (6371.032 км)?"
+    options:
+      - text: "По объему и площади поверхности"
+        correct: true
+      - text: "Среднее арифметическое полярного и экваториального"
+        correct: false
+      - text: "Радиус сферы равной массы"
+        correct: false
+
+  - question: "Почему экваториальный радиус больше полярного?"
+    options:
+      - text: "Центробежная сила вращения"
+        correct: true
+      - text: "Приливное воздействие Луны"
+        correct: false
+      - text: "Неоднородность мантии"
+        correct: false
+
+  - question: "Как зависит ускорение свободного падения от широты?"
+    options:
+      - text: "Уменьшается к экватору из-за центробежной силы"
+        correct: true
+      - text: "Увеличивается к полюсам из-за сжатия"
+        correct: false
+      - text: "Не зависит"
+        correct: false
+
+  - question: "Почему скорость вращения на экваторе (465 м/с) не приводит к отрыву тел?"
+    options:
+      - text: "Гравитация превышает центробежную силу"
+        correct: true
+      - text: "Атмосферное давление удерживает"
+        correct: false
+      - text: "Твердость поверхности"
+        correct: false
+
+  - question: "Как масса атмосферы (5.2·10¹⁸ кг) влияет на климат?"
+    options:
+      - text: "Определяет парниковый эффект и теплоемкость"
+        correct: true
+      - text: "Не влияет существенно"
+        correct: false
+      - text: "Защищает только от метеоритов"
+        correct: false
+
+  - question: "Почему масса океана (1.4·10²¹ кг) важна для климата?"
+    options:
+      - text: "Высокая теплоемкость воды регулирует температуру"
+        correct: true
+      - text: "Создает приливы"
+        correct: false
+      - text: "Поглощает солнечное излучение"
+        correct: false
