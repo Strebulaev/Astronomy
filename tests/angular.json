@@ -14,6 +14,7 @@
           "builder": "@angular/build:application",
           "options": {
             "outputPath": "build",
+            "externalDependencies": ["quill"],
             "allowedCommonJsDependencies": ["quill-delta"],
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
