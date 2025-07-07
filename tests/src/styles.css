@@ -228,3 +228,61 @@ input:focus, textarea:focus, select:focus {
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@media (max-width: 768px) {
+  :root {
+    --border-radius: 6px;
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .app-header {
+    padding: 0.75rem 0;
+    position: static;
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .main-nav ul {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .app-main {
+    padding: 1rem 0;
+  }
+
+  /* Утилитные классы */
+  .mt-1, .mt-2, .mt-3, .mt-4,
+  .mb-1, .mb-2, .mb-3, .mb-4 {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .flex, .flex-col {
+    flex-direction: column;
+  }
+
+  .gap-2 {
+    gap: 0.5rem;
+  }
+}

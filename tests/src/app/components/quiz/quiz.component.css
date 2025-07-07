@@ -240,3 +240,47 @@
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@media (max-width: 768px) {
+  .quiz-container {
+    padding: 0.5rem;
+  }
+
+  .quiz-in-progress {
+    padding: 1rem;
+  }
+
+  .quiz-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .options-container {
+    gap: 0.5rem;
+  }
+
+  .option {
+    padding: 0.75rem;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .navigation-buttons button {
+    width: 100%;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .action-buttons button {
+    width: 100%;
+  }
+
+  .explanation-box {
+    margin-top: 1rem;
+    padding: 0.75rem;
+  }
+}

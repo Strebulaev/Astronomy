@@ -387,3 +387,54 @@ input:checked + .slider:before {
   justify-content: space-between;
   align-items: center;
 }
+@media (max-width: 768px) {
+  .test-creator-container {
+    padding: 10px;
+    height: auto;
+    margin-top: 0;
+  }
+
+  .main-content-wrapper {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .left-filters-column, .right-filters-column {
+    width: 100%;
+    margin: 0;
+    height: auto;
+    max-height: 300px;
+  }
+
+  .questions-column {
+    height: 400px;
+  }
+
+  .tag-buttons button {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  .question-card {
+    padding: 10px;
+  }
+
+  .question-meta {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .action-panel {
+    position: static;
+    padding: 10px;
+  }
+
+  .panel-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .range-slider-container {
+    gap: 8px;
+  }
+}

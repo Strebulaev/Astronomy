@@ -1349,3 +1349,68 @@
   border-radius: 4px;
   cursor: pointer;
 }
+@media (max-width: 768px) {
+  .daily-topics-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .view-switcher {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .view-switcher button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .today-view, .future-view, .diary-view {
+    padding: 1rem;
+  }
+
+  .topic-card {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .topic-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
+
+  .diary-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .search-box {
+    max-width: 100%;
+  }
+
+  .filter-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .topics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .notes-editor {
+    padding: 1rem;
+  }
+
+  .editor-actions {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+  }
+
+  .save-btn {
+    width: 100%;
+  }
+}

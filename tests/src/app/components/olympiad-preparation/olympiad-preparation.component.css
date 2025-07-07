@@ -648,3 +648,82 @@
   background: #d32f2f;
   transform: translateY(-1px);
 }
+@media (max-width: 768px) {
+  .olympiad-container {
+    padding: 0.5rem;
+  }
+
+  .tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 5px;
+  }
+
+  .tabs button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .upload-form {
+    grid-template-columns: 1fr;
+  }
+
+  .upload-button {
+    grid-column: span 1;
+  }
+
+  .olympiad-item {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .pdf-container {
+    height: 60vh;
+    flex-direction: column;
+  }
+
+  .pdf-controls {
+    position: static;
+    transform: none;
+    width: 100%;
+    justify-content: center;
+    border-radius: 0;
+    padding: 5px;
+  }
+
+  .side-controls {
+    display: none;
+  }
+
+  .viewer-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .controls-strip {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .score-control-strip {
+    padding: 3px 6px;
+  }
+
+  .score-control-strip button {
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+  }
+
+  .current-score-strip {
+    min-width: 60px;
+    font-size: 14px;
+  }
+
+  .finish-button-strip {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
