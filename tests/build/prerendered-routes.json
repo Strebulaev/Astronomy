@@ -1,9 +1,0 @@
-{
-  "routes": {
-    "/": {},
-    "/creator": {},
-    "/daily-topics": {},
-    "/history": {},
-    "/quiz": {}
-  }
-}
