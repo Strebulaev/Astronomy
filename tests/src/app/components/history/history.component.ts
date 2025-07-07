@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HistoryService } from '../../services/history.service';
 import { QuizResult } from '../../models/quiz-result.model';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.css'],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIcon],
   standalone: true
 })
 export class HistoryComponent implements OnInit {

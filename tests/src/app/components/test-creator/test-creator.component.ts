@@ -142,7 +142,7 @@ export class TestCreatorComponent implements OnInit, AfterViewInit {
     const test: Test = {
       name: testName,
       tags: [...this.selectedTags],
-      isCustom: true,
+      isCustom: false,
       questions: questionsToUse.map(q => ({
         question: q.text,
         options: q.options.map(o => ({

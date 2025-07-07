@@ -1,0 +1,650 @@
+/* olympiad-preparation.component.css */
+.olympiad-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5px;
+  margin-bottom: -10px;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-bottom: 3px solid transparent;
+}
+
+.tabs button.active {
+  border-bottom-color: #4285f4;
+  font-weight: bold;
+}
+
+.upload-section {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.upload-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input, 
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.file-info {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+.upload-button {
+  grid-column: span 2;
+  padding: 10px;
+  background: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.upload-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.olympiad-list {
+  margin-top: 20px;
+}
+
+.empty-list {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.olympiad-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.olympiad-item:hover {
+  background: #f0f0f0;
+}
+
+.olympiad-info {
+  flex: 1;
+}
+
+.olympiad-name {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.olympiad-meta {
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.delete-button {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background: #d32f2f;
+}
+
+.olympiad-viewer {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.back-button {
+  background: #f0f0f0;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.controls-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.timer {
+  font-weight: 500;
+}
+
+.score-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.score-control button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.current-score {
+  font-weight: 500;
+  min-width: 80px;
+  text-align: center;
+}
+
+.finish-button {
+  background: #4285f4;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pdf-container {
+  height: calc(100vh - 300px);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.pdf-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.result-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.result-info {
+  margin: 20px 0;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.result-item .label {
+  font-weight: 500;
+}
+
+.close-button {
+  width: 100%;
+  padding: 10px;
+  background: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.pdf-container {
+  display: flex;
+  height: calc(100vh - 64px); /* Учитываем высоту шапки */
+  width: 100%;
+  position: relative;
+}
+
+.pdf-viewer-wrapper {
+  flex: 1;
+  overflow: auto;
+  background: #eee;
+}
+
+.controls-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 8px;
+  background: white;
+  border-left: 1px solid #ddd;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+}
+
+.scale-value {
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+}
+/* Добавьте это в olympiad-preparation.component.css */
+:host ::ng-deep .pdf-viewer-container {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+.pdf-container {
+  display: flex;
+  height: calc(100vh - 200px);
+  width: 100%;
+  position: relative;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-viewer-wrapper {
+  flex: 1;
+  overflow: auto;
+  background: #f5f5f5;
+   padding-bottom: 0 !important;
+}
+
+.pdf-controls {
+  display: flex;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 30px;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  gap: 8px;
+}
+
+.pdf-controls button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #555;
+}
+
+.pdf-controls button:hover {
+  background: #f1f1f1;
+  color: #4285f4;
+}
+
+.pdf-controls button mat-icon {
+  font-size: 20px;
+}
+
+.scale-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Для боковых панелей */
+.side-controls {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.left-controls {
+  left: 10px;
+}
+
+.right-controls {
+  right: 10px;
+}
+
+.side-controls button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.side-controls button:hover {
+  background: #4285f4;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+  .pdf-controls {
+    bottom: 10px;
+    padding: 6px;
+  }
+  
+  .pdf-controls button {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .side-controls {
+    display: none; /* Скрываем боковые панели на мобильных */
+  }
+}
+/* Добавьте это в ваш CSS файл */
+
+/* Обновленный заголовок олимпиады */
+.viewer-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.viewer-header h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #3f51b5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.viewer-header h3::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233f51b5"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Панель управления - современный стиль */
+.controls-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.timer {
+  font-size: 18px;
+  font-weight: 600;
+  color: #3f51b5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233f51b5"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>');
+}
+
+.score-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.score-control button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f0f2f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.score-control button:hover {
+  background: #3f51b5;
+  color: white;
+}
+
+.current-score {
+  font-size: 18px;
+  font-weight: 600;
+  min-width: 100px;
+  text-align: center;
+  color: #3f51b5;
+}
+
+.finish-button {
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(255, 75, 43, 0.3);
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.finish-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 75, 43, 0.4);
+}
+
+.finish-button::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>');
+}
+/* Обновленные стили для верхней панели */
+.viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 12px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.olympiad-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #3f51b5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.olympiad-year {
+  color: #666;
+  font-weight: normal;
+  font-size: 0.9em;
+  margin-left: 8px;
+}
+
+.controls-strip {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+.timer-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+}
+
+.score-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.score-control-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f5f5f5;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.score-control-strip button {
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: #e0e0e0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.score-control-strip button:hover {
+  background: #3f51b5;
+  color: white;
+}
+
+.current-score-strip {
+  font-weight: 600;
+  min-width: 80px;
+  text-align: center;
+}
+
+.finish-button-strip {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.finish-button-strip:hover {
+  background: #d32f2f;
+  transform: translateY(-1px);
+}

@@ -42,18 +42,12 @@
               
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "static",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]
           },
           "configurations": {
             "production": {
-              "ssr": false,
-              "prerender": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -102,6 +96,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ]
           }

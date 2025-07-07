@@ -7,6 +7,7 @@ import { QuizResult } from '../../models/quiz-result.model';
 import { HistoryService } from '../../services/history.service';
 import { TimePipe } from "../../shared/time.pipe";
 import { Pipe, PipeTransform } from '@angular/core';
+
 interface QuestionOption {
   text: string;
   correct: boolean;
@@ -43,7 +44,7 @@ export class QuizComponent implements OnInit {
   answerLocked = false;
   confirmedAnswers: boolean[] = [];
   constructor(
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private quizDataService: QuizDataService,
     public router: Router,
     private historyService: HistoryService
@@ -172,6 +173,7 @@ export class QuizComponent implements OnInit {
       testName: this.quizData?.name || 'Неизвестный тест',
       testType: this.quizData?.testType || 'custom',
       date: new Date(),
+      maxScore: NaN,
       correctAnswers: this.getCorrectAnswersCount(),
       totalQuestions: this.quizData?.questions.length || 0,
       timeSpent: this.timeSpent,

@@ -52,18 +52,15 @@ export class ThemeSelectorComponent implements OnInit {
       this.dataService.deleteTest(testId).subscribe({
         next: (success) => {
           if (success) {
-            // Полностью перезагружаем тесты
-            this.loadThematicTests();
-            
-            // Сбрасываем выбранный тест, если он был удален
+            this.loadThematicTests(); // Перезагружаем список
             if (this.selectedTest?.id === testId) {
-              this.selectedTest = null;
+              this.selectedTest = null; // Сбрасываем выбор, если удалён текущий
             }
           } else {
             console.error('Не удалось удалить тест');
           }
         },
-        error: (err) => console.error('Error deleting test:', err)
+        error: (err) => console.error('Ошибка при удалении:', err)
       });
     }
   }

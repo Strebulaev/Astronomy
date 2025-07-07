@@ -12,8 +12,7 @@
           <span *ngFor="let tag of test.tags" class="tag">{{ tag }}</span>
         </div>
       </div>
-      <button *ngIf="test.isCustom" 
-              class="delete-test-btn" 
+      <button class="delete-test-btn" 
               (click)="$event.stopPropagation(); deleteTest(test.id!)">
         Удалить
       </button>

@@ -8,6 +8,7 @@
           <option value="all">Все тесты</option>
           <option value="thematic">Тематические</option>
           <option value="custom">Сгенерированные</option>
+          <option value="olympiad">Олимпиады</option>
         </select>
       </div>
       
@@ -36,87 +37,105 @@
     @if (filteredResults.length > 0) {
       <table class="results-table">
         <thead>
-          <tr>
-            <th>Тест</th>
-            <th>Тип</th>
-            <th>Дата</th>
-            <th>Результат</th>
-            <th>Действия</th>
-          </tr>
+            <tr>
+                <th>Тест</th>
+                <th>Тип</th>
+                <th>Дата</th>
+                <th>Результат</th>
+                <th>Действия</th>
+            </tr>
         </thead>
         <tbody>
-          @for (result of filteredResults; track result.id) {
-            <tr>
-              <td>{{ result.testName }}</td>
-              <td>
-                <span class="test-type" [class.thematic]="result.testType === 'thematic'">
-                  {{ result.testType === 'thematic' ? 'Тематический' : 'Сгенерированный' }}
-                </span>
-              </td>
-              <td>{{ formatDate(result.date) }}</td>
-              <td>
-                <span class="result-badge" [class]="getResultColor(result)">
-                  {{ result.correctAnswers }}/{{ result.totalQuestions }} ({{ getPercentage(result) }}%)
-                </span>
-              </td>
-              <td class="actions">
-                <button (click)="showDetails(result)">Подробнее</button>
-                <button (click)="restartTest(result)">Пройти снова</button>
-                <button (click)="deleteResult(result.id)">Удалить</button>
-              </td>
-            </tr>
-          }
+            @for (result of filteredResults; track result.id) {
+                <tr>
+                    <td>{{ result.testName }}</td>
+                    <td>
+                        <span class="test-type" 
+                              [class.thematic]="result.testType === 'thematic'"
+                              [class.olympiad]="result.testType === 'olympiad'">
+                            @switch (result.testType) {
+                                @case ('thematic') { Тематический }
+                                @case ('custom') { Сгенерированный }
+                                @case ('olympiad') { Олимпиада }
+                            }
+                        </span>
+                    </td>
+                    <td>{{ formatDate(result.date) }}</td>
+                    <td>
+                        <span class="result-badge" [class]="getResultColor(result)">
+                            {{ result.correctAnswers }}/{{ result.totalQuestions }} ({{ getPercentage(result) }}%)
+                        </span>
+                    </td>
+                    <td class="actions">
+                        <button (click)="showDetails(result)">Подробнее</button>
+                        @if (result.testType !== 'olympiad') {
+                            <button (click)="restartTest(result)">Пройти снова</button>
+                        }
+                        <button (click)="deleteResult(result.id)">Удалить</button>
+                    </td>
+                </tr>
+            }
         </tbody>
-      </table>
+    </table>
     }
     
     @if (selectedResult) {
       <div class="modal-overlay">
-        <div class="modal">
-          <div class="modal-header">
-            <h3>{{ selectedResult.testName }}</h3>
-            <button (click)="closeDetails()">×</button>
-          </div>
-          
-          <div class="modal-body">
-            <div class="modal-stats">
-              <div class="stat">
-                <span class="stat-value">{{ selectedResult.correctAnswers }}</span>
-                <span class="stat-label">Правильных ответов</span>
+          <div class="modal">
+              <div class="modal-header">
+                  <h3>{{ selectedResult.testName }}</h3>
+                  <button (click)="closeDetails()">×</button>
               </div>
-              <div class="stat">
-                <span class="stat-value">{{ selectedResult.totalQuestions }}</span>
-                <span class="stat-label">Всего вопросов</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">{{ getPercentage(selectedResult) }}%</span>
-                <span class="stat-label">Процент правильных</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">{{ formatTime(selectedResult.timeSpent) }}</span>
-                <span class="stat-label">Затраченное время</span>
-              </div>
-            </div>
-            
-            <div class="detailed-questions">
-              <h4>Подробные результаты:</h4>
-              @for (detail of selectedResult.details; track $index) {
-                <div class="question-detail" [class.correct]="detail.isCorrect">
-                  <div class="question-number">Вопрос {{ $index + 1 }}</div>
-                  <div class="question-text">{{ detail.question }}</div>
-                  <div class="user-answer">Ваш ответ: {{ detail.userAnswer }}</div>
-                  @if (!detail.isCorrect) {
-                    <div class="correct-answer">Правильный ответ: {{ detail.correctAnswer }}</div>
+              
+              <div class="modal-body">
+                  <div class="modal-stats">
+                      <div class="stat">
+                          <span class="stat-value">{{ selectedResult.correctAnswers }}</span>
+                          <span class="stat-label">Правильных ответов</span>
+                      </div>
+                      <div class="stat">
+                          <span class="stat-value">{{ selectedResult.totalQuestions }}</span>
+                          <span class="stat-label">Всего вопросов</span>
+                      </div>
+                      <div class="stat">
+                          <span class="stat-value">{{ getPercentage(selectedResult) }}%</span>
+                          <span class="stat-label">Процент правильных</span>
+                      </div>
+                      <div class="stat">
+                          <span class="stat-value">{{ formatTime(selectedResult.timeSpent) }}</span>
+                          <span class="stat-label">Затраченное время</span>
+                      </div>
+                  </div>
+                  
+                  @if (selectedResult.testType === 'olympiad' && selectedResult.pdfUrl) {
+                    <div class="olympiad-details">
+                      <h4>Ссылка на задания олимпиады:</h4>
+                      <a [href]="selectedResult.pdfUrl" target="_blank" class="pdf-link" download>
+                        <mat-icon>picture_as_pdf</mat-icon>
+                        Скачать PDF с заданиями
+                      </a>
+                    </div>
+                  } @else {
+                      <div class="detailed-questions">
+                          <h4>Подробные результаты:</h4>
+                          @for (detail of selectedResult.details; track $index) {
+                              <div class="question-detail" [class.correct]="detail.isCorrect">
+                                  <div class="question-number">Вопрос {{ $index + 1 }}</div>
+                                  <div class="question-text">{{ detail.question }}</div>
+                                  <div class="user-answer">Ваш ответ: {{ detail.userAnswer }}</div>
+                                  @if (!detail.isCorrect) {
+                                      <div class="correct-answer">Правильный ответ: {{ detail.correctAnswer }}</div>
+                                  }
+                              </div>
+                          }
+                      </div>
                   }
-                </div>
-              }
-            </div>
+              </div>
+              
+              <div class="modal-footer">
+                  <button (click)="closeDetails()">Закрыть</button>
+              </div>
           </div>
-          
-          <div class="modal-footer">
-            <button (click)="closeDetails()">Закрыть</button>
-          </div>
-        </div>
       </div>
-    }
+  }
   </div>

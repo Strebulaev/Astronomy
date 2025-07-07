@@ -1,0 +1,178 @@
+<div class="olympiad-container">
+  <div class="tabs">
+    <button 
+      [class.active]="activeTab === 'upload'" 
+      (click)="activeTab = 'upload'; selectedOlympiad = null">
+      Загрузить файл
+    </button>
+    <button 
+      [class.active]="activeTab === 'list'" 
+      (click)="activeTab = 'list'; selectedOlympiad = null">
+      Список олимпиад
+    </button>
+  </div>
+
+  <div class="tab-content">
+    @if (activeTab === 'upload') {
+      <div class="upload-section">
+        <h3>Загрузить новую олимпиаду</h3>
+        <div class="upload-form">
+          <div class="form-group">
+            <label>PDF файл с заданиями:</label>
+            <input type="file" accept=".pdf" (change)="onFileSelected($event)">
+            @if (pdfFile) {
+              <div class="file-info">{{ pdfFile.name }}</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>Название олимпиады:</label>
+            <input type="text" [(ngModel)]="pdfName" placeholder="Например: ВсОШ по астрономии">
+          </div>
+
+          <div class="form-group">
+            <label>Год проведения:</label>
+            <input type="number" [(ngModel)]="olympiadYear" min="2000" max="2030">
+          </div>
+
+          <div class="form-group">
+            <label>Этап:</label>
+            <select [(ngModel)]="olympiadStage">
+              <option value="school">Школьный</option>
+              <option value="municipal">Муниципальный</option>
+              <option value="regional">Региональный</option>
+              <option value="final">Заключительный</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Максимальный балл:</label>
+            <input type="number" [(ngModel)]="maxScore" min="1" max="200">
+          </div>
+
+          <button 
+            class="upload-button" 
+            (click)="uploadOlympiad()" 
+            [disabled]="!pdfFile || !pdfName">
+            Загрузить олимпиаду
+          </button>
+        </div>
+      </div>
+    }
+
+    @if (activeTab === 'list' && !selectedOlympiad) {
+      <div class="olympiad-list">
+        <h3>Доступные олимпиады</h3>
+        @if (olympiads.length === 0) {
+          <div class="empty-list">Нет загруженных олимпиад</div>
+        }
+        @for (olympiad of olympiads; track olympiad.id) {
+          <div class="olympiad-item" (click)="openOlympiad(olympiad)">
+            <div class="olympiad-info">
+              <div class="olympiad-name">{{ olympiad.name }}</div>
+              <div class="olympiad-meta">
+                <span class="year">{{ olympiad.year }} год</span>
+                <span class="stage">{{ getStageName(olympiad.stage) }}</span>
+                <span class="max-score">Макс. балл: {{ olympiad.maxScore }}</span>
+              </div>
+            </div>
+            <button class="delete-button" (click)="deleteOlympiad(olympiad.id, $event)">
+              Удалить
+            </button>
+          </div>
+        }
+      </div>
+    }
+
+    @if (selectedOlympiad) {
+      <div class="olympiad-viewer">
+        <div class="viewer-header">
+          <h3 class="olympiad-title">
+            {{ selectedOlympiad.name }}
+            <span class="olympiad-year">{{ selectedOlympiad.year }}</span>
+          </h3>
+          
+          <div class="controls-strip">
+            <div class="timer-strip">
+              <mat-icon>schedule</mat-icon>
+              {{ formatTime(timer) }}
+            </div>
+            
+            <div class="score-strip">
+              <div class="score-control-strip">
+                <button (click)="adjustScore(-1)">-</button>
+                <span class="current-score-strip">
+                  {{ currentScore }} / {{ selectedOlympiad.maxScore }}
+                </span>
+                <button (click)="adjustScore(1)">+</button>
+              </div>
+            </div>
+            
+            <button class="finish-button-strip" (click)="finishOlympiad()">
+              <mat-icon>flag</mat-icon>
+              Закончить
+            </button>
+          </div>
+        </div>
+
+        <div class="pdf-container">
+          <!-- Левая панель управления -->
+          <div class="side-controls left-controls">
+            <button mat-mini-fab (click)="zoomOut()" matTooltip="Уменьшить">
+              <mat-icon>zoom_out</mat-icon>
+            </button>
+            <button mat-mini-fab (click)="resetZoom()" matTooltip="Сбросить">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+        
+          <!-- PDF Viewer -->
+          <div class="pdf-viewer-wrapper">
+            @if (selectedOlympiad.pdfUrl) {
+              <pdf-viewer 
+                [src]="selectedOlympiad.pdfUrl" 
+                [style.width]="'100%'"
+                [style.height]="'100%'"
+                [zoom]="currentScale"
+                [original-size]="false">
+              </pdf-viewer>
+            }
+          </div>
+        
+          <!-- Правая панель управления -->
+          <div class="side-controls right-controls">
+            <button mat-mini-fab (click)="zoomIn()" matTooltip="Увеличить">
+              <mat-icon>zoom_in</mat-icon>
+            </button>
+            <button mat-mini-fab (click)="fitToWidth()" matTooltip="По ширине">
+              <mat-icon>fit_screen</mat-icon>
+            </button>
+          </div>
+        
+
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (showResultModal) {
+    <div class="result-modal">
+      <div class="modal-content">
+        <h3>Результаты олимпиады</h3>
+        <div class="result-info">
+          <div class="result-item">
+            <span class="label">Набрано баллов:</span>
+            <span class="value">{{ resultData.score }} / {{ resultData.maxScore }}</span>
+          </div>
+          <div class="result-item">
+            <span class="label">Затраченное время:</span>
+            <span class="value">{{ resultData.timeSpent }}</span>
+          </div>
+        </div>
+        <button class="close-button" (click)="closeResultModal()">
+          Закрыть
+        </button>
+      </div>
+    </div>
+  }
+</div>
