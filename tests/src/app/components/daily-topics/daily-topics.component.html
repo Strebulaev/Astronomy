@@ -253,19 +253,19 @@
       
       <div class="forecast-dates">
         <div class="date-card optimistic">
-          <span class="label">Оптимистично</span>
+          <span class="label">Оптимистично </span>
           <span class="date">{{ forecast.optimisticDate | date:'dd MMM yyyy' }}</span>
           <span class="days">({{ daysBetween(forecast.optimisticDate) }} дней)</span>
         </div>
         
         <div class="date-card expected">
-          <span class="label">Ожидаемо</span>
+          <span class="label">Ожидаемо </span>
           <span class="date">{{ forecast.expectedEndDate | date:'dd MMM yyyy' }}</span>
           <span class="days">({{ daysBetween(forecast.expectedEndDate) }} дней)</span>
         </div>
         
         <div class="date-card pessimistic">
-          <span class="label">Пессимистично</span>
+          <span class="label">Пессимистично </span>
           <span class="date">{{ forecast.pessimisticDate | date:'dd MMM yyyy' }}</span>
           <span class="days">({{ daysBetween(forecast.pessimisticDate) }} дней)</span>
         </div>
@@ -273,15 +273,15 @@
       
       <div class="time-estimates">
         <div class="estimate">
-          <span class="label">Всего часов:</span>
+          <span class="label">Всего часов: </span>
           <span class="value">{{ forecast.totalHours | number:'1.1-1' }}</span>
         </div>
         <div class="estimate">
-          <span class="label">Выполнено часов:</span>
+          <span class="label">Выполнено часов: </span>
           <span class="value">{{ forecast.completedHours | number:'1.1-1' }}</span>
         </div>
         <div class="estimate">
-          <span class="label">Осталось часов:</span>
+          <span class="label">Осталось часов: </span>
           <span class="value">{{ forecast.remainingHours | number:'1.1-1' }}</span>
         </div>
       </div>
