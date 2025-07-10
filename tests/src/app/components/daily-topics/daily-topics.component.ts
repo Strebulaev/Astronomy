@@ -245,19 +245,18 @@ private readonly planVersion = '1.0.2'
         const data = JSON.parse(savedData);
         this.allTopics = data.topics.map((t: any) => ({
           ...t,
-          dueDate: new Date(t.dueDate),
-          completedDate: t.completed ? (t.completedDate ? new Date(t.completedDate) : new Date()) : null,
+          dueDate: new Date(t.dueDate), 
+          // Важно: сохраняем исходную completedDate без изменений
+          completedDate: t.completedDate ? new Date(t.completedDate) : null,
           terms: t.terms || []
         }));
       } catch (e) {
-        console.error('Error loading data:', e);
+        console.error('Error parsing saved data:', e);
         this.initializeAllTopics();
       }
     } else {
       this.initializeAllTopics();
     }
-    
-    this.processNotesForDisplay();
   }
   completeFutureTopic(topic: Topic): void {
     const updatedTopic = {
@@ -453,6 +452,7 @@ private readonly planVersion = '1.0.2'
     const monthDay = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     return holidays.includes(monthDay);
   }
+  
   private parseTimeToHours(timeStr: string): number {
     if (!timeStr) return 1; // По умолчанию 1 час, если время не указано
     
@@ -520,7 +520,7 @@ private readonly planVersion = '1.0.2'
   private processNotesForDisplay(): void {
     this.allTopics.forEach(topic => {
       if (!topic.notes) {
-        topic.notesHtml = this.sanitizer.bypassSecurityTrustHtml('');
+        topic.notesHtml = 'Заметок нет';
         return;
       }
 
@@ -831,22 +831,22 @@ private readonly planVersion = '1.0.2'
   toggleTopicCompletion(topic: Topic): void {
     const newCompletedStatus = !topic.completed;
     
-    // Обновляем тему с новой датой выполнения
+    // Обновляем тему
     const updatedTopic = {
       ...topic,
       completed: newCompletedStatus,
+      // Устанавливаем текущую дату при выполнении, null при отмене
       completedDate: newCompletedStatus ? new Date() : null
     };
   
-    // Находим и заменяем тему в массиве
+    // Находим и обновляем тему в массиве
     const index = this.allTopics.findIndex(t => t.id === topic.id);
     if (index !== -1) {
       this.allTopics[index] = updatedTopic;
       this.saveProgress();
-      this.organizeTopics();
       
-      // Обновляем выбранную тему, если она открыта
-      if (this.selectedTopic && this.selectedTopic.id === topic.id) {
+      // Обновляем выбранную тему если она открыта
+      if (this.selectedTopic?.id === topic.id) {
         this.selectedTopic = {...updatedTopic};
       }
     }
@@ -856,7 +856,8 @@ private readonly planVersion = '1.0.2'
       topics: this.allTopics.map(topic => ({
         ...topic,
         dueDate: topic.dueDate.toISOString(),
-        completedDate: topic.completed ? new Date().toISOString() : null,
+        // Сохраняем completedDate в ISO формате (или null если нет)
+        completedDate: topic.completedDate?.toISOString() || null,
         notes: topic.notes || '',
         terms: topic.terms || []
       })),
@@ -864,7 +865,6 @@ private readonly planVersion = '1.0.2'
     };
     
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
-    this.topicsSubject.next([...this.allTopics]);
   }
   
 

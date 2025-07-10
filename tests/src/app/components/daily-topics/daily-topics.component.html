@@ -42,17 +42,18 @@
       <div *ngFor="let topic of todayTopics" class="topic-card" [class.completed]="topic.completed">
         <div class="topic-content">
           <h3>{{ topic.title }}</h3>
+          
           <div class="topic-meta">
+            <span class="due-date">
+              {{ topic.dueDate | date:'dd.MM.yyyy' }}
+            </span>
             <span class="difficulty">Сложность: {{ topic.difficulty }}/100</span>
-            <span class="time">Время: {{ topic.time }}</span>
-            <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
           </div>
           
-          <div *ngIf="topic.subtopics" class="subtopics">
-            <h4>Подтемы:</h4>
-            <ul>
-              <li *ngFor="let subtopic of topic.subtopics">{{ subtopic }}</li>
-            </ul>
+          <div class="topic-actions">
+            <button (click)="toggleTopicCompletion(topic)">
+              {{ topic.completed ? '✓' : 'Выполнить' }}
+            </button>
           </div>
         </div>
         
@@ -134,14 +135,19 @@
           (click)="selectTopic(topic)">
         <div class="card-header">
           <h3>{{ topic.title }}</h3>
-          <span class="due-date" [class.future]="topic.dueDate > currentDate">
-            {{ topic.dueDate | date:'dd.MM.yyyy' }}
+          <span class="due-date">
+            {{ (topic.dueDate | date:'dd.MM.yyyy') || 'Дата не указана' }}
           </span>
         </div>
         <div class="card-meta">
           <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
           <span class="status" [class.completed]="topic.completed">
-            {{ topic.completed ? ('Выполнено ' + (topic.completedDate | date:'dd.MM.yyyy')) : 'Ожидает' }}
+            <ng-container *ngIf="topic.completed; else notCompleted">
+              Выполнено {{ topic.completedDate ? (topic.completedDate | date:'dd.MM.yyyy') : 'сегодня' }}
+            </ng-container>
+            <ng-template #notCompleted>
+              Ожидает
+            </ng-template>
           </span>
         </div>
         
@@ -152,7 +158,6 @@
           </ul>
         </div>
         
-        <div class="notes-preview" [innerHTML]="topic.notesHtml || 'Заметок нет'"></div>
       </div>
     </div>
 
