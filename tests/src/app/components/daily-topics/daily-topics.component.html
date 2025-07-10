@@ -59,13 +59,10 @@
         <div class="topic-actions">
           <label class="checkbox-container">
             <input type="checkbox" [checked]="topic.completed" (change)="toggleTopicCompletion(topic)">
-            <span class="checkmark" >Выполнено</span>
+            <span class="checkmark">Выполнено</span>
           </label>
           <button class="notes-btn" (click)="selectTopic(topic)">
             <i class="icon-edit"></i> Заметки
-          </button>
-          <button (click)="showTermsEditor()" class="notes-btn">
-            <i class="icon-edit"></i> Термины({{selectedTopic?.terms?.length || 0}})
           </button>
         </div>
       </div>
@@ -121,7 +118,7 @@
     <div class="diary-header">
       <div class="search-box">
         <i class="icon-search"></i>
-        <input type="text" [ngModel]="searchQuery" (ngModelChange)="searchQuery = $event" placeholder="Поиск тем...">
+        <input type="text" [(ngModel)]="searchQuery" placeholder="Поиск тем...">
       </div>
       <div class="filter-buttons">
         <button [class.active]="filter === 'all'" (click)="filter = 'all'">Все</button>
@@ -144,7 +141,7 @@
         <div class="card-meta">
           <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
           <span class="status" [class.completed]="topic.completed">
-            {{ topic.completed ? 'Выполнено ' + (topic.completedDate | date:'dd.MM.yyyy') : 'Ожидает' }}
+            {{ topic.completed ? ('Выполнено ' + (topic.completedDate | date:'dd.MM.yyyy')) : 'Ожидает' }}
           </span>
         </div>
         
@@ -156,10 +153,6 @@
         </div>
         
         <div class="notes-preview" [innerHTML]="topic.notesHtml || 'Заметок нет'"></div>
-        
-        <div *ngIf="selectedTopicWithTerms?.terms?.length" class="terms-preview">
-          <span class="term-count">{{ selectedTopicWithTerms?.terms?.length }} терминов</span>
-        </div>
       </div>
     </div>
 
@@ -179,41 +172,36 @@
       <div class="editor-tabs">
         <button [class.active]="!isEditingTerm" (click)="isEditingTerm = false">Заметки</button>
         <button [class.active]="isEditingTerm" (click)="isEditingTerm = true">
-          Термины ({{ selectedTopic.terms?.length }})
+          Термины ({{ selectedTopic.terms?.length || 0 }})
         </button>
       </div>
       
-      <!-- Заменим блок terms-editor на этот -->
+      <div *ngIf="!isEditingTerm" class="editor-content" 
+           contenteditable="true" 
+           [innerHTML]="selectedTopic.notes"
+           (input)="onEditorInput($event)">
+      </div>
+      
       <div *ngIf="isEditingTerm" class="terms-container">
-        <div class="terms-header">
-          <h3>Управление терминами</h3>
-          <button (click)="isEditingTerm = false" class="close-btn">
-            ✕
-          </button>
-        </div>
-      
         <div class="terms-toolbar">
-          <input type="text" [(ngModel)]="termSearch" placeholder="Поиск терминов..." class="search-input">
-          <button (click)="addEmptyTerm()" class="add-btn">+ Добавить термин</button>
+          <input type="text" [(ngModel)]="termSearchQuery" 
+                 (input)="updateFilteredTerms()"
+                 placeholder="Поиск терминов..." class="search-input">
+          <button (click)="addNewTerm()" class="add-btn">+ Добавить термин</button>
         </div>
-      
+        
         <div class="terms-list">
-          <div *ngFor="let term of filteredTermsList; let i = index" 
-               class="term-card" 
-               [class.active]="currentTermIndex === i">
+          <div *ngFor="let term of filteredTerms; let i = index" class="term-item">
             <div class="term-header">
-              <span class="term-name">{{term.term || 'Новый термин'}}</span>
-              <button (click)="removeTerm(i)" class="delete-btn">✕</button>
+              <input type="text" [(ngModel)]="term.term" placeholder="Термин" class="term-input">
+              <button (click)="removeTerm(i)" class="delete-term">×</button>
             </div>
-            <textarea [(ngModel)]="term.definition" 
-                     class="term-definition" 
-                     placeholder="Введите определение..."
-                     (click)="currentTermIndex = i"></textarea>
+            <textarea [(ngModel)]="term.definition" placeholder="Определение" class="term-definition"></textarea>
           </div>
         </div>
-      
+        
         <div class="terms-actions">
-          <button (click)="saveTerms()" class="save-btn">Сохранить</button>
+          <button (click)="saveTerms()" class="save-btn">Сохранить термины</button>
           <button (click)="isEditingTerm = false" class="cancel-btn">Отмена</button>
         </div>
       </div>
@@ -229,10 +217,13 @@
           <span class="checkmark"></span>
           <span class="label-text">Тема выполнена</span>
         </label>
+        <span class="word-count">Слов: {{ wordCount }}</span>
+        <span *ngIf="autoSaved" class="auto-saved">Автосохранено</span>
       </div>
     </div>
   </div>
   
+  <!-- Charts View -->
   <div *ngIf="viewMode === 'charts'" class="charts-view">
     <app-progress-charts 
       [allTopics]="allTopics"
@@ -244,11 +235,56 @@
     
     <div class="forecast-details" *ngIf="forecast">
       <h3>Прогноз завершения</h3>
-      <p>Ожидаемая дата: {{ forecast.expectedEndDate | date }}</p>
-      <p *ngIf="forecast.optimisticDate">Оптимистичный сценарий: {{ forecast.optimisticDate | date }}</p>
-      <p *ngIf="forecast.pessimisticDate">Пессимистичный сценарий: {{ forecast.pessimisticDate | date }}</p>
-      <p>Текущая скорость: {{ forecast.currentRate | number:'1.1-1' }} 
-        {{ forecast.basedOn === 'topics' ? 'тем/день' : 'часов/день' }}</p>
+      
+      <div class="forecast-metrics">
+        <div class="metric">
+          <span class="label">Текущая скорость:</span>
+          <span class="value">{{ forecast.currentRate | number:'1.1-1' }} тем/день</span>
+        </div>
+        <div class="metric">
+          <span class="label">Осталось тем:</span>
+          <span class="value">{{ allTopics.length - completedTopics.length }}</span>
+        </div>
+        <div class="metric">
+          <span class="label">Сложность:</span>
+          <span class="value">{{ calculateAverageDifficulty() | number:'1.0-0' }}/100</span>
+        </div>
+      </div>
+      
+      <div class="forecast-dates">
+        <div class="date-card optimistic">
+          <span class="label">Оптимистично</span>
+          <span class="date">{{ forecast.optimisticDate | date:'dd MMM yyyy' }}</span>
+          <span class="days">({{ daysBetween(forecast.optimisticDate) }} дней)</span>
+        </div>
+        
+        <div class="date-card expected">
+          <span class="label">Ожидаемо</span>
+          <span class="date">{{ forecast.expectedEndDate | date:'dd MMM yyyy' }}</span>
+          <span class="days">({{ daysBetween(forecast.expectedEndDate) }} дней)</span>
+        </div>
+        
+        <div class="date-card pessimistic">
+          <span class="label">Пессимистично</span>
+          <span class="date">{{ forecast.pessimisticDate | date:'dd MMM yyyy' }}</span>
+          <span class="days">({{ daysBetween(forecast.pessimisticDate) }} дней)</span>
+        </div>
+      </div>
+      
+      <div class="time-estimates">
+        <div class="estimate">
+          <span class="label">Всего часов:</span>
+          <span class="value">{{ forecast.totalHours | number:'1.1-1' }}</span>
+        </div>
+        <div class="estimate">
+          <span class="label">Выполнено часов:</span>
+          <span class="value">{{ forecast.completedHours | number:'1.1-1' }}</span>
+        </div>
+        <div class="estimate">
+          <span class="label">Осталось часов:</span>
+          <span class="value">{{ forecast.remainingHours | number:'1.1-1' }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>

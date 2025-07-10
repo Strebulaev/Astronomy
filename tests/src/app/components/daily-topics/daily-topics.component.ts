@@ -197,47 +197,261 @@ private readonly planVersion = '1.0.2'
     height: '300px',
     backgroundColor: '#fff'
   };
+  private initializeAllTopics(): void {
+    // Проверяем, нужно ли инициализировать темы
+    if (this.shouldSkipInitialization()) {
+      return;
+    }
+  
+    // Создаем массив тем с использованием современных методов массива
+    this.allTopics = this.plan.schedule?.flatMap((week: any) => 
+      week.days?.flatMap((day: any) => 
+        day.topics?.map((topic: any) => this.createTopic(topic, week.week, day.day))) || []
+    ) || [];
+  
+    this.saveProgress();
+  }
+  
+  // Вспомогательный метод для проверки необходимости инициализации
+  private shouldSkipInitialization(): boolean {
+    return this.allTopics.length > 0 && 
+           typeof localStorage !== 'undefined' && 
+           localStorage.getItem(this.STORAGE_KEY) !== null;
+  }
+  
+  // Вспомогательный метод для создания темы
+  private createTopic(topic: any, week: number, day: number): Topic {
+    // Обрабатываем как строку или объект
+    const parsed = typeof topic === 'string' ? this.parseTopicString(topic) : topic;
+    
+    return {
+      id: this.generateId(),
+      ...parsed,
+      completed: false,
+      completedDate: null,  // Явно указываем null для новых тем
+      notes: '',
+      dueDate: this.calculateDueDate(week, day),
+      week,
+      day,
+      terms: []
+    };
+  }
+  
   private loadProgress(): void {
     const savedData = localStorage.getItem(this.STORAGE_KEY);
+    
     if (savedData) {
       try {
         const data = JSON.parse(savedData);
         this.allTopics = data.topics.map((t: any) => ({
           ...t,
           dueDate: new Date(t.dueDate),
-          completedDate: t.completedDate ? new Date(t.completedDate) : new Date(),
+          completedDate: t.completed ? (t.completedDate ? new Date(t.completedDate) : new Date()) : null,
           terms: t.terms || []
         }));
-        this.processNotesForDisplay();
       } catch (e) {
-        console.error('Error parsing saved data:', e);
+        console.error('Error loading data:', e);
         this.initializeAllTopics();
       }
     } else {
       this.initializeAllTopics();
     }
-    this.topicsSubject.next(this.allTopics);
+    
+    this.processNotesForDisplay();
+  }
+  completeFutureTopic(topic: Topic): void {
+    const updatedTopic = {
+      ...topic,
+      completed: true,
+      completedDate: new Date() // Всегда текущая дата
+    };
+  
+    const index = this.allTopics.findIndex(t => t.id === topic.id);
+    if (index !== -1) {
+      this.allTopics[index] = updatedTopic;
+      this.saveProgress();
+      this.organizeTopics();
+    }
   }
   calculateForecast(): ProgressForecast {
-    // Расчет на основе количества тем
-    const completedTopicsCount = this.completedTopics.length;
-    const remainingTopics = this.allTopics.length - completedTopicsCount;
-    const daysPassed = this.getDaysPassed();
-    const topicsPerDay = daysPassed > 0 ? completedTopicsCount / daysPassed : 0;
+    // 1. Сбор статистики
+    const completedTopics = this.completedTopics;
+    const totalTopics = this.allTopics.length;
+    const remainingTopics = totalTopics - completedTopics.length;
     
-    // Расчет на основе времени изучения
-    const totalHours = this.allTopics.reduce((sum, topic) => sum + this.parseTimeToHours(topic.time), 0);
-    const completedHours = this.completedTopics.reduce((sum, topic) => sum + this.parseTimeToHours(topic.time), 0);
-    const hoursPerDay = daysPassed > 0 ? completedHours / daysPassed : 0;
+    // 2. Расчет скорости по разным периодам
+    const now = new Date();
+    const startDate = this.allTopics.reduce((min, t) => 
+      t.dueDate < min ? t.dueDate : min, new Date(9999, 0));
     
-    // Возвращаем прогноз
-    return {
-      expectedEndDate: this.calculateEndDate(topicsPerDay, remainingTopics),
-      basedOn: topicsPerDay > 0 ? 'topics' : 'hours',
-      currentRate: topicsPerDay || hoursPerDay,
-      optimisticDate: this.calculateEndDate(topicsPerDay * 1.2, remainingTopics),
-      pessimisticDate: this.calculateEndDate(topicsPerDay * 0.8, remainingTopics)
+    // Разбиваем на периоды для анализа тренда
+    const allPeriods = this.calculatePeriodStats(startDate, now);
+    
+    // 3. Взвешенное прогнозирование
+    const weights = {
+      recent: 0.6,    // Последние 7 дней
+      medium: 0.3,    // Предыдущие 14 дней
+      overall: 0.1    // Все время
     };
+    
+    // Рассчитываем скорости для разных периодов
+    const rates = {
+      recent: this.calculateRate(allPeriods.slice(-7)),
+      medium: this.calculateRate(allPeriods.slice(-21, -7)),
+      overall: this.calculateRate(allPeriods)
+    };
+    
+    // Взвешенная средняя скорость
+    const weightedRate = 
+      rates.recent * weights.recent + 
+      rates.medium * weights.medium + 
+      rates.overall * weights.overall;
+    
+    // 4. Коррекция на сложность и время
+    const difficultyFactor = this.calculateDifficultyFactor();
+    const timeFactor = this.calculateTimeFactor();
+    const adjustedRate = weightedRate * difficultyFactor * timeFactor;
+    
+    // 5. Прогноз с учетом выходных и праздников
+    return {
+      expectedEndDate: this.calculateAdjustedEndDate(adjustedRate, remainingTopics, now),
+      basedOn: 'topics',
+      currentRate: adjustedRate,
+      optimisticDate: this.calculateAdjustedEndDate(adjustedRate * 1.2, remainingTopics, now),
+      pessimisticDate: this.calculateAdjustedEndDate(adjustedRate * 0.8, remainingTopics, now),
+      totalHours: this.calculateTotalPlanHours(),
+      completedHours: this.calculateCompletedHours(),
+      remainingHours: this.calculateRemainingHours()
+    };
+  }
+  private calculatePeriodStats(start: Date, end: Date): any[] {
+    // Группировка выполненных тем по дням
+    const dailyStats: {[key: string]: number} = {};
+    
+    this.completedTopics.forEach(topic => {
+      if (!topic.completedDate) return;
+      const dateKey = topic.completedDate.toISOString().split('T')[0];
+      dailyStats[dateKey] = (dailyStats[dateKey] || 0) + 1;
+    });
+    
+    // Преобразование в массив периодов
+    const result = [];
+    const currentDay = new Date(start);
+    
+    while (currentDay <= end) {
+      const dateKey = currentDay.toISOString().split('T')[0];
+      result.push({
+        date: new Date(currentDay),
+        count: dailyStats[dateKey] || 0,
+        dayOfWeek: currentDay.getDay()
+      });
+      currentDay.setDate(currentDay.getDate() + 1);
+    }
+    
+    return result;
+  }
+  private calculateCompletedHours(): number {
+    return this.completedTopics.reduce((sum, topic) => sum + this.parseTimeToHours(topic.time), 0);
+  }
+  
+  private calculateRemainingHours(): number {
+    return this.allTopics
+      .filter(topic => !topic.completed)
+      .reduce((sum, topic) => sum + this.parseTimeToHours(topic.time), 0);
+  }
+  
+  private calculateTotalPlanHours(): number {
+    return this.allTopics.reduce((sum, topic) => sum + this.parseTimeToHours(topic.time), 0);
+  }
+  
+  public calculateAverageDifficulty(): number {
+    if (this.allTopics.length === 0) return 0;
+    return this.allTopics.reduce((sum, topic) => sum + (topic.difficulty || 50), 0) / this.allTopics.length;
+  }
+  
+  public daysBetween(endDate: Date): number {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(endDate);
+    end.setHours(0, 0, 0, 0);
+    return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+  }
+  private calculateRate(periods: any[]): number {
+    if (periods.length === 0) return 0;
+    
+    // Фильтрация выходных (суббота=6, воскресенье=0)
+    const workDays = periods.filter(p => p.dayOfWeek !== 0 && p.dayOfWeek !== 6);
+    const totalCompleted = workDays.reduce((sum, day) => sum + day.count, 0);
+    
+    return workDays.length > 0 ? totalCompleted / workDays.length : 0;
+  }
+  
+  private calculateDifficultyFactor(): number {
+    if (this.completedTopics.length === 0) return 1;
+    
+    const completedDifficulty = this.completedTopics.reduce(
+      (sum, t) => sum + (t.difficulty || 50), 0) / this.completedTopics.length;
+    
+    const remainingDifficulty = this.allTopics
+      .filter(t => !t.completed)
+      .reduce((sum, t) => sum + (t.difficulty || 50), 0) / 
+      (this.allTopics.length - this.completedTopics.length) || 50;
+    
+    // Чем сложнее оставшиеся темы, тем больше замедление
+    return 1 + (remainingDifficulty - completedDifficulty) / 200;
+  }
+  
+  private calculateTimeFactor(): number {
+    if (this.completedTopics.length === 0) return 1;
+    
+    const avgCompletedTime = this.completedTopics.reduce(
+      (sum, t) => sum + this.parseTimeToHours(t.time), 0) / this.completedTopics.length;
+    
+    const avgRemainingTime = this.allTopics
+      .filter(t => !t.completed)
+      .reduce((sum, t) => sum + this.parseTimeToHours(t.time), 0) / 
+      (this.allTopics.length - this.completedTopics.length) || 1;
+    
+    return avgCompletedTime / avgRemainingTime;
+  }
+  
+  private calculateAdjustedEndDate(rate: number, remaining: number, fromDate: Date): Date {
+    if (rate <= 0) {
+      const futureDate = new Date(fromDate);
+      futureDate.setFullYear(futureDate.getFullYear() + 1);
+      return futureDate;
+    }
+    
+    let date = new Date(fromDate);
+    let daysNeeded = remaining / rate;
+    let workDaysPassed = 0;
+    
+    while (daysNeeded > 0) {
+      date.setDate(date.getDate() + 1);
+      
+      // Пропускаем выходные
+      const dayOfWeek = date.getDay();
+      if (dayOfWeek === 0 || dayOfWeek === 6) continue;
+      
+      // Учитываем праздники (можно добавить больше)
+      const isHoliday = this.isHoliday(date);
+      if (isHoliday) continue;
+      
+      workDaysPassed++;
+      daysNeeded--;
+    }
+    
+    return date;
+  }
+  
+  private isHoliday(date: Date): boolean {
+    const holidays = [
+      '01-01', '01-02', '01-07', '02-23', '03-08', 
+      '05-01', '05-09', '06-12', '11-04'
+    ];
+    
+    const monthDay = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    return holidays.includes(monthDay);
   }
   private parseTimeToHours(timeStr: string): number {
     if (!timeStr) return 1; // По умолчанию 1 час, если время не указано
@@ -302,44 +516,6 @@ private readonly planVersion = '1.0.2'
     
     return endDate;
   }
-  
-  // Дополнительный метод для расчета общего времени плана
-  private calculateTotalPlanHours(): number {
-    return this.allTopics.reduce((sum, topic) => {
-      return sum + this.parseTimeToHours(topic.time);
-    }, 0);
-  }
-  
-  // Дополнительный метод для расчета оставшегося времени
-  private calculateRemainingHours(): number {
-    return this.allTopics
-      .filter(topic => !topic.completed)
-      .reduce((sum, topic) => {
-        return sum + this.parseTimeToHours(topic.time);
-      }, 0);
-  }
-  private saveProgress(): void {
-    const data = {
-      topics: this.allTopics.map(topic => ({
-        ...topic,
-        dueDate: topic.dueDate.toISOString(),
-        completedDate: topic.completedDate?.toISOString() || new Date(),
-        notes: topic.notes || '',
-        terms: topic.terms || []
-      })),
-      lastUpdated: new Date().toISOString()
-    };
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
-    this.topicsSubject.next(this.allTopics);
-    this.processNotesForDisplay();
-  }
-
-  toggleTopicCompletion(topic: Topic): void {
-    topic.completed = !topic.completed;
-    topic.completedDate = topic.completed ? new Date() : new Date();
-    this.saveProgress();
-    this.organizeTopics();
-  }
 
   private processNotesForDisplay(): void {
     this.allTopics.forEach(topic => {
@@ -381,14 +557,6 @@ private readonly planVersion = '1.0.2'
       this.wordCount = this.countWords(this.selectedTopic?.notes || '');
     });
   }
-
-  completeFutureTopic(topic: Topic): void {
-    topic.completed = true;
-    topic.completedDate = new Date();
-    this.saveProgress();
-    this.organizeTopics();
-  }
-
   cancelTermEdit(): void {
     this.isEditingTerm = false;
     this.currentTerm = null;
@@ -652,46 +820,6 @@ private readonly planVersion = '1.0.2'
   get todayCompletedCount(): number {
     return this.todayTopics.filter(t => t.completed).length;
   }
-  private initializeAllTopics(): void {
-    if (this.allTopics.length > 0 && typeof localStorage !== 'undefined' && 
-        localStorage.getItem('astronomyProgress')) {
-      return;
-    }
-
-    const newTopics: Topic[] = [];
-    
-    this.plan.schedule?.forEach((week: any) => {
-      week.days?.forEach((day: any) => {
-        day.topics?.forEach((topic: any) => {
-          if (typeof topic === 'string') {
-            const parsed = this.parseTopicString(topic);
-            const dueDate = this.calculateDueDate(week.week, day.day);
-            
-            const existingTopic = this.findExistingTopic(parsed.title, week.week, day.day);
-            
-            if (existingTopic) {
-              newTopics.push(existingTopic);
-            } else {
-              newTopics.push({
-                id: this.generateId(),
-                ...parsed,
-                completed: false,
-                completedDate: new Date(),
-                notes: '',
-                dueDate,
-                week: week.week,
-                day: day.day,
-                terms: []
-              });
-            }
-          }
-        });
-      });
-    });
-    
-    this.allTopics = newTopics;
-    this.saveProgress();
-  }
   
   private findExistingTopic(title: string, week: number, day: number): Topic | undefined {
     return this.allTopics.find(t => 
@@ -700,7 +828,45 @@ private readonly planVersion = '1.0.2'
       t.day === day
     );
   }
-
+  toggleTopicCompletion(topic: Topic): void {
+    const newCompletedStatus = !topic.completed;
+    
+    // Обновляем тему с новой датой выполнения
+    const updatedTopic = {
+      ...topic,
+      completed: newCompletedStatus,
+      completedDate: newCompletedStatus ? new Date() : null
+    };
+  
+    // Находим и заменяем тему в массиве
+    const index = this.allTopics.findIndex(t => t.id === topic.id);
+    if (index !== -1) {
+      this.allTopics[index] = updatedTopic;
+      this.saveProgress();
+      this.organizeTopics();
+      
+      // Обновляем выбранную тему, если она открыта
+      if (this.selectedTopic && this.selectedTopic.id === topic.id) {
+        this.selectedTopic = {...updatedTopic};
+      }
+    }
+  }
+  private saveProgress(): void {
+    const data = {
+      topics: this.allTopics.map(topic => ({
+        ...topic,
+        dueDate: topic.dueDate.toISOString(),
+        completedDate: topic.completed ? new Date().toISOString() : null,
+        notes: topic.notes || '',
+        terms: topic.terms || []
+      })),
+      lastUpdated: new Date().toISOString()
+    };
+    
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+    this.topicsSubject.next([...this.allTopics]);
+  }
+  
 
   private calculateDueDate(week: number, day: number): Date {
     const startDate = new Date(2025, 5, 1);
