@@ -12,14 +12,33 @@ export class HistoryService {
     if (!isPlatformBrowser(this.platformId)) return [];
     
     const historyJson = localStorage.getItem(this.STORAGE_KEY);
-    return historyJson ? JSON.parse(historyJson) : [];
+    if (!historyJson) return [];
+    
+    try {
+      return JSON.parse(historyJson).map((item: any) => ({
+        ...item,
+        date: new Date(item.date),
+        // Добавляем поддержку новых полей при загрузке
+        solutionUrl: item.solutionUrl || undefined,
+        hasSolution: item.hasSolution || false
+      }));
+    } catch (e) {
+      console.error('Error parsing history', e);
+      return [];
+    }
   }
 
   addResult(result: QuizResult): void {
     if (!isPlatformBrowser(this.platformId)) return;
     
     const history = this.getHistory();
-    history.unshift(result);
+    // Добавляем поддержку новых полей при сохранении
+    const resultToSave = {
+      ...result,
+      solutionUrl: result.solutionUrl || undefined,
+      hasSolution: result.hasSolution || false
+    };
+    history.unshift(resultToSave);
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(history));
   }
 

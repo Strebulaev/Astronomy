@@ -6,7 +6,6 @@ export interface QuizResult {
   date: Date;
   correctAnswers: number;
   totalQuestions: number;
-  maxScore: number;
   timeSpent: number; // in seconds
   details?: {
     question: string;
@@ -14,5 +13,8 @@ export interface QuizResult {
     correctAnswer: string;
     isCorrect: boolean;
   }[];
-  pdfUrl?: string; // Only for olympiad type
+  maxScore: number;
+  pdfUrl?: string;
+  solutionUrl?: string;
+  hasSolution?: boolean;
 }
