@@ -51,7 +51,7 @@ export class OlympiadService {
   }
 
   private loadFromLocalStorage(): void {
-    const saved = localStorage.getItem('olympiads');
+    const saved = localStorage.getItem('astronomy_olympiads');
     if (saved) {
       try {
         this.olympiads = JSON.parse(saved).map((o: any) => ({
@@ -66,6 +66,6 @@ export class OlympiadService {
   }
 
   private saveToLocalStorage(): void {
-    localStorage.setItem('olympiads', JSON.stringify(this.olympiads));
+    localStorage.setItem('astronomy_olympiads', JSON.stringify(this.olympiads));
   }
 }
