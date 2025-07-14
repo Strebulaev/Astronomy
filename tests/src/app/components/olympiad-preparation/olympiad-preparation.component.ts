@@ -74,7 +74,7 @@ export class OlympiadPreparationComponent implements OnInit {
 
   private generateAvailableYears(): void {
     const currentYear = new Date().getFullYear();
-    this.availableYears = Array.from({length: 30}, (_, i) => currentYear - i);
+    this.availableYears = Array.from({length: 19}, (_, i) => currentYear - i);
   }
 
   loadOlympiads(): void {
