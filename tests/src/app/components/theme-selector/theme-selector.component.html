@@ -8,11 +8,20 @@
          (click)="selectedTest = test">
       <div class="test-info">
         <h3>{{ test.name }}</h3>
+        <div class="test-meta">
+          <span class="meta-item">
+            Вопросов: {{ test.questionCount || test.questions.length }}
+          </span>
+          <span *ngIf="test.averageDifficulty !== undefined" class="meta-item">
+            Сложность: {{ test.averageDifficulty | number:'1.0-0' }}/100
+          </span>
+        </div>
         <div class="tags">
           <span *ngFor="let tag of test.tags" class="tag">{{ tag }}</span>
         </div>
       </div>
-      <button class="delete-test-btn" 
+      <button *ngIf="test.isCustom || test.isCustomThematic" 
+              class="delete-test-btn" 
               (click)="$event.stopPropagation(); deleteTest(test.id!)">
         Удалить
       </button>

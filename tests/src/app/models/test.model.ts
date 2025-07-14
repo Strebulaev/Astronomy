@@ -1,5 +1,5 @@
 export interface Test {
-  id?: string;  // Добавляем опциональный id
+  id?: string;
   name: string;
   tags: string[];
   questions: {
@@ -9,6 +9,10 @@ export interface Test {
       correct: boolean;
     }[];
     explanation?: string;
+    difficulty?: number; // Добавляем необязательную сложность для вопросов
   }[];
   isCustom?: boolean;
+  isCustomThematic?: boolean;
+  questionCount?: number; // Добавим для удобства
+  averageDifficulty?: number; // Добавим для удобства
 }

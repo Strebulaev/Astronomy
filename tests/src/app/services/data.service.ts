@@ -58,22 +58,20 @@ export class DataService {
             .pipe(
               map(text => {
                 const test = yaml.load(text) as Test;
-                if (!test.questions) {
-                  test.questions = [];
-                }
                 test.isCustom = false;
                 
-                // Добавляем explanation если его нет
-                test.questions = test.questions.map(q => ({
-                  ...q,
-                  explanation: q.explanation || ''
-                }));
+                // Вычисляем среднюю сложность, если есть данные
+                if (test.questions.some(q => q.difficulty !== undefined)) {
+                  const sum = test.questions.reduce((acc, q) => acc + (q.difficulty || 0), 0);
+                  test.averageDifficulty = Math.round(sum / test.questions.length);
+                }
+                
+                test.questionCount = test.questions.length;
                 
                 return test;
               }),
               catchError(err => of(null))
-            )
-        );
+        ));
         return forkJoin(requests).pipe(
           map(tests => tests.filter(t => t !== null) as Test[])
         );
@@ -85,15 +83,29 @@ export class DataService {
       const customTests = this.getCustomTests();
       const updatedTests = customTests.filter(t => t.id !== testId);
       localStorage.setItem(this.CUSTOM_TESTS_KEY, JSON.stringify(updatedTests));
-      return of(true); // Возвращаем true при успешном удалении
+      return of(true);
     } catch (error) {
       console.error('Error deleting test:', error);
-      return of(false); // Возвращаем false при ошибке
+      return of(false);
     }
   }
   saveCustomTest(test: Test): void {
+    // Вычисляем сложность для кастомных тестов
+    if (test.questions.some(q => q.difficulty !== undefined)) {
+      const sum = test.questions.reduce((acc, q) => acc + (q.difficulty || 0), 0);
+      test.averageDifficulty = Math.round(sum / test.questions.length);
+    }
+    test.questionCount = test.questions.length;
+    
     const customTests = this.getCustomTests();
-    customTests.push(test);
+    const existingIndex = test.id ? customTests.findIndex(t => t.id === test.id) : -1;
+    
+    if (existingIndex >= 0) {
+      customTests[existingIndex] = test;
+    } else {
+      customTests.push(test);
+    }
+    
     localStorage.setItem(this.CUSTOM_TESTS_KEY, JSON.stringify(customTests));
   }
 

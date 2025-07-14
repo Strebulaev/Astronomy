@@ -118,3 +118,15 @@
     width: 100%;
   }
 }
+.test-meta {
+  display: flex;
+  gap: 1rem;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+}

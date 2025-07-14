@@ -125,7 +125,7 @@ export class TestCreatorComponent implements OnInit, AfterViewInit {
     return this.selectedQuestions.some(q => q.id === question.id);
   }
 
-  saveAsThematicTest(startTestImmediately = true): void {
+  saveAsCustomThematicTest(startTestImmediately = true): void {
     if (this.loading) return;
   
     const availableQuestions = [...this.filteredQuestions];
@@ -137,14 +137,23 @@ export class TestCreatorComponent implements OnInit, AfterViewInit {
   
     const testName = this.selectedTags.length > 0 
       ? `${this.selectedTags.join(', ')}` 
-      : 'Сгенерированный тест';
+      : 'Кастомный тематический тест';
+  
+    // Вычисляем среднюю сложность
+    const sumDifficulty = questionsToUse.reduce((sum, q) => sum + q.difficulty, 0);
+    const avgDifficulty = Math.round(sumDifficulty / questionsToUse.length);
   
     const test: Test = {
+      id: this.generateUniqueId(),
       name: testName,
       tags: [...this.selectedTags],
       isCustom: false,
+      isCustomThematic: true,
+      questionCount: questionsToUse.length,
+      averageDifficulty: avgDifficulty,
       questions: questionsToUse.map(q => ({
         question: q.text,
+        difficulty: q.difficulty, // Сохраняем сложность вопроса
         options: q.options.map(o => ({
           text: o.text,
           correct: o.correct
@@ -158,11 +167,13 @@ export class TestCreatorComponent implements OnInit, AfterViewInit {
     if (startTestImmediately) {
       this.startTest(test);
     } else {
-      // Показываем уведомление или выполняем другие действия
       alert(`Тест "${testName}" успешно сохранен!`);
     }
   }
-
+  
+  private generateUniqueId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+  }
   public startTest(testData?: Test): void {
     if (this.loading) return;
 

@@ -116,10 +116,10 @@
               class="start-test-btn">
         Начать тест ({{questionCount}})
       </button>
-      <button (click)="saveAsThematicTest(false)"
-            [disabled]="filteredQuestions.length === 0 || loading"
-            class="start-test-btn">
-      Сохранить как тематический тест
+      <button (click)="saveAsCustomThematicTest(false)"
+              [disabled]="filteredQuestions.length === 0 || loading"
+              class="start-test-btn">
+        Сохранить как тематический тест
       </button>
     </div>
   </div>
