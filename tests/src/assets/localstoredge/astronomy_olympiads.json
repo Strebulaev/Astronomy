@@ -1,0 +1,852 @@
+[
+  {
+    "name": "ВСОШ группа 4",
+    "year": 2024,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/60bb5004-c6e2-464d-8d0b-52197e354453",
+    "maxScore": 100,
+    "id": "f0f7gmo",
+    "uploadDate": "2025-07-13T20:13:18.635Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ группа 3",
+    "year": 2024,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/5334f617-e209-438b-8789-5cd4871662f0",
+    "maxScore": 100,
+    "id": "mdqmyuo",
+    "uploadDate": "2025-07-13T20:13:05.451Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ группа 2",
+    "year": 2024,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/f63e74b2-fb42-4c12-90c0-adc5c9bb6e18",
+    "maxScore": 100,
+    "id": "he28rrv",
+    "uploadDate": "2025-07-13T20:12:47.684Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ группа 1",
+    "year": 2024,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/46355cd3-499f-448f-aaaf-b4af57895ca2",
+    "maxScore": 100,
+    "id": "44dyf0r",
+    "uploadDate": "2025-07-13T20:11:31.940Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теор",
+    "year": 2023,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/e6110c89-883a-4f64-818f-cda8d49a8060",
+    "maxScore": 6,
+    "id": "uflmjt0",
+    "uploadDate": "2025-07-13T20:07:57.071Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ тестовый",
+    "year": 2023,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/2945b4bb-9617-4fbe-b8e0-6d7f3368e388",
+    "maxScore": 7,
+    "id": "su0hfyp",
+    "uploadDate": "2025-07-13T20:07:19.343Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ прак",
+    "year": 2023,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/feccbffe-5925-407b-9ffb-b700e0f8d2b4",
+    "maxScore": 2,
+    "id": "fvacohg",
+    "uploadDate": "2025-07-13T20:06:45.655Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2023,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/d14a7979-7353-4ff1-a1c5-77289fc739d2",
+    "maxScore": 3,
+    "id": "0bnyz6l",
+    "uploadDate": "2025-07-13T20:06:15.535Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2023,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/34428ad8-6a8f-44b5-81ee-490c6e03136c",
+    "maxScore": 77,
+    "id": "dsk1z31",
+    "uploadDate": "2025-07-13T20:05:44.447Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2023,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/588c8dc5-f00c-4faa-b66e-e15cd84de204",
+    "maxScore": 100,
+    "id": "zycrscw",
+    "uploadDate": "2025-07-13T20:05:25.896Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теор",
+    "year": 2022,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/e81238ee-a37c-48ea-a017-68c8cc88a905",
+    "maxScore": 6,
+    "id": "60f09cj",
+    "uploadDate": "2025-07-13T20:04:56.009Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ тестовый",
+    "year": 2022,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/6acbc28b-ad61-462c-b73a-c6868b81399e",
+    "maxScore": 7,
+    "id": "504ldri",
+    "uploadDate": "2025-07-13T20:04:33.129Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ прак",
+    "year": 2022,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/aeede6a4-35d7-4e47-9959-8f7dde2c6806",
+    "maxScore": 4,
+    "id": "m2dglf6",
+    "uploadDate": "2025-07-13T20:03:23.002Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2022,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/9b74794f-7b94-4c17-9dd4-387f9ce12103",
+    "maxScore": 6,
+    "id": "ton9e6t",
+    "uploadDate": "2025-07-13T20:02:54.041Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2022,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/3d1f13fc-027d-410e-b416-7bcb0f792a67",
+    "maxScore": 79,
+    "id": "dqvpitt",
+    "uploadDate": "2025-07-13T20:02:33.098Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ 4 группа",
+    "year": 2022,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/67088bef-1839-4602-becd-8cf41816420b",
+    "maxScore": 100,
+    "id": "6a9ewhi",
+    "uploadDate": "2025-07-13T20:02:06.377Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ 3 группа",
+    "year": 2022,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/91798f9a-d237-4b8b-abfd-6070ff9fb188",
+    "maxScore": 100,
+    "id": "ywdnkaa",
+    "uploadDate": "2025-07-13T20:01:49.242Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ 2 группа",
+    "year": 2022,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/fdbd0806-b681-43cd-8407-c6f46a5986e0",
+    "maxScore": 100,
+    "id": "1wws4px",
+    "uploadDate": "2025-07-13T20:01:31.611Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ 1 группа",
+    "year": 2022,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/04f874be-03a2-4222-b1e5-6ccb550a08d5",
+    "maxScore": 100,
+    "id": "khh8h7j",
+    "uploadDate": "2025-07-13T20:01:06.530Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ тестовый",
+    "year": 2021,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/00019986-bbb1-4133-ac65-42aae6e3a50c",
+    "maxScore": 8,
+    "id": "mf5p4um",
+    "uploadDate": "2025-07-13T20:00:09.123Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ базовый",
+    "year": 2021,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/eec7bc45-3598-4bf9-a289-d077b1ebefc9",
+    "maxScore": 6,
+    "id": "dwfmgc2",
+    "uploadDate": "2025-07-13T19:59:38.347Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2021,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/9646618a-aaf8-49d8-8f61-d3b4a268a014",
+    "maxScore": 6,
+    "id": "jtn571l",
+    "uploadDate": "2025-07-13T19:58:59.796Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2021,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/d736ab9a-a1f7-4cbb-b5d5-a72ace9f1a32",
+    "maxScore": 25,
+    "id": "5pafac6",
+    "uploadDate": "2025-07-13T19:58:39.180Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2021,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/8885c622-dd37-4af5-b10e-99934e10cfbc",
+    "maxScore": 10,
+    "id": "krr5tak",
+    "uploadDate": "2025-07-13T19:58:10.636Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ тестовый",
+    "year": 2020,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/c4cc78bd-4eac-475e-8f82-7e59f241f54f",
+    "maxScore": 8,
+    "id": "psvrc33",
+    "uploadDate": "2025-07-13T19:57:24.358Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теор",
+    "year": 2020,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/6ddd19c1-28e0-49ac-a9f6-0d330581221f",
+    "maxScore": 6,
+    "id": "uundhnm",
+    "uploadDate": "2025-07-13T19:56:52.613Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2020,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/89d207b2-b061-4fbb-a973-e7d54f36d319",
+    "maxScore": 6,
+    "id": "n0omypk",
+    "uploadDate": "2025-07-13T19:56:23.701Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2020,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/66a6a91c-7831-44aa-9587-133040c22b48",
+    "maxScore": 19,
+    "id": "ebxpea3",
+    "uploadDate": "2025-07-13T19:55:58.016Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2020,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/17da0938-4c5e-4b1a-ba3b-db27a769e88c",
+    "maxScore": 15,
+    "id": "iqex8ry",
+    "uploadDate": "2025-07-13T19:55:09.693Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2019,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/ecae100b-a3c0-4d02-8b98-ae4d5c3ed3ee",
+    "maxScore": 6,
+    "id": "taazhk1",
+    "uploadDate": "2025-07-13T19:54:35.852Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2019,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/13a03604-b497-4124-9a28-18c4591e3db3",
+    "maxScore": 6,
+    "id": "hwztc6a",
+    "uploadDate": "2025-07-13T19:54:13.699Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2019,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/d3abf83f-3f9d-4c59-b8e4-45dcfe1401f3",
+    "maxScore": 18,
+    "id": "abphkx6",
+    "uploadDate": "2025-07-13T19:53:51.263Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ прак",
+    "year": 2018,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/2fcd4543-7580-4eb9-9643-374292fede65",
+    "maxScore": 3,
+    "id": "kgn2uzx",
+    "uploadDate": "2025-07-13T19:52:54.752Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теор",
+    "year": 2018,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/d438d9bd-d44a-4bb1-b516-153a52f7ba23",
+    "maxScore": 6,
+    "id": "vpcbibv",
+    "uploadDate": "2025-07-13T19:52:33.983Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ блиц",
+    "year": 2018,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/2ea9cfd5-1b55-4963-8652-4145c797295d",
+    "maxScore": 6,
+    "id": "0r8gxmi",
+    "uploadDate": "2025-07-13T19:52:05.304Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2018,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/7ecf0638-4986-46e6-8e41-59277cca713a",
+    "maxScore": 6,
+    "id": "0vx4gor",
+    "uploadDate": "2025-07-13T19:51:36.040Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2018,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/4d5b3e26-d8fd-4d1b-affe-3e705e27ddec",
+    "maxScore": 48,
+    "id": "m3qc9p3",
+    "uploadDate": "2025-07-13T19:51:09.450Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2018,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/ff764e4b-bb02-4428-82b4-710152e536fa",
+    "maxScore": 48,
+    "id": "m31d94o",
+    "uploadDate": "2025-07-13T19:50:49.960Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ прак",
+    "year": 2017,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/2bb62820-94f8-48db-87d7-d8edd5bfef08",
+    "maxScore": 3,
+    "id": "mmec2by",
+    "uploadDate": "2025-07-13T19:49:57.800Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теор",
+    "year": 2017,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/e7c11038-ead2-4ea8-8e92-b1ce653b5c6b",
+    "maxScore": 6,
+    "id": "mz46ip8",
+    "uploadDate": "2025-07-13T19:49:27.191Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ блиц",
+    "year": 2017,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/16732382-0b66-410d-af10-43d4a85ba3eb",
+    "maxScore": 4,
+    "id": "6ixr2ws",
+    "uploadDate": "2025-07-13T19:49:07.586Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2017,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/231ac661-e09b-4f86-92ef-c524e91a0795",
+    "maxScore": 6,
+    "id": "1vqcop6",
+    "uploadDate": "2025-07-13T19:48:40.610Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2017,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/e5dfe0ee-0a91-474f-b122-061a6c36c893",
+    "maxScore": 48,
+    "id": "gsext7a",
+    "uploadDate": "2025-07-13T19:48:16.097Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2017,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/df428eec-296e-44f5-a9ae-60b36e27d7ea",
+    "maxScore": 48,
+    "id": "41p0ptt",
+    "uploadDate": "2025-07-13T19:47:57.121Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ прак",
+    "year": 2016,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/54fc7d9f-91fa-4d64-a97c-ff237512ea26",
+    "maxScore": 3,
+    "id": "y09efz0",
+    "uploadDate": "2025-07-13T19:46:29.307Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теор",
+    "year": 2016,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/0ce1138d-469b-4a8e-8b9c-ab7abb8e6d91",
+    "maxScore": 6,
+    "id": "67ii25v",
+    "uploadDate": "2025-07-13T19:45:59.923Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ блиц",
+    "year": 2016,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/301f64f6-ad8e-4411-9e24-099a74008a9e",
+    "maxScore": 4,
+    "id": "c24dywp",
+    "uploadDate": "2025-07-13T19:45:39.827Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2016,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/70e1e9f8-9a5a-4f11-aca6-635700b647f3",
+    "maxScore": 6,
+    "id": "t15hajc",
+    "uploadDate": "2025-07-13T19:45:18.236Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2016,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/5e1ca2ad-e174-47fd-8cdd-a57d774d93e3",
+    "maxScore": 73,
+    "id": "lpz3xzo",
+    "uploadDate": "2025-07-13T19:44:48.426Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2016,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/e3de58e1-afbd-46d2-8fd9-051790188a30",
+    "maxScore": 44,
+    "id": "iu7pxjh",
+    "uploadDate": "2025-07-13T19:44:22.540Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ прак",
+    "year": 2015,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/78497b9d-669b-4bb3-81cb-82e36c768858",
+    "maxScore": 3,
+    "id": "cnd5jzg",
+    "uploadDate": "2025-07-13T19:41:53.885Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теор",
+    "year": 2015,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/dbbc3b46-2383-4556-beb8-3573c1328ee1",
+    "maxScore": 6,
+    "id": "guw9hx3",
+    "uploadDate": "2025-07-13T19:41:25.246Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ блиц",
+    "year": 2015,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/8e8b5a83-162f-4a3f-8268-8956918dd71e",
+    "maxScore": 4,
+    "id": "ibx4uvb",
+    "uploadDate": "2025-07-13T19:41:03.687Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2015,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/65468555-c6a9-42c9-b89d-3d945f83715f",
+    "maxScore": 6,
+    "id": "2qawr1g",
+    "uploadDate": "2025-07-13T19:40:33.078Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2015,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/8e90dc1c-07f8-4fc6-94b4-b6ee50700ed9",
+    "maxScore": 6,
+    "id": "qcv9rmp",
+    "uploadDate": "2025-07-13T19:40:09.216Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2015,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/4b04b4cb-fd84-4739-b949-6a8671dee0d0",
+    "maxScore": 10,
+    "id": "vy7eb27",
+    "uploadDate": "2025-07-13T19:39:44.743Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теор",
+    "year": 2014,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/f5ab16e8-fab0-4735-bda4-5eeec6da3344",
+    "maxScore": 6,
+    "id": "qlnldlb",
+    "uploadDate": "2025-07-13T19:38:43.759Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ прак",
+    "year": 2014,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/ae63bc56-9d14-465b-8830-abacbb94762f",
+    "maxScore": 3,
+    "id": "9y3q1lu",
+    "uploadDate": "2025-07-13T19:38:22.559Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2014,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/01986860-60a3-474e-a14e-838a4df2424f",
+    "maxScore": 6,
+    "id": "98ejdo9",
+    "uploadDate": "2025-07-13T19:37:46.821Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2014,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/20cd0081-9d53-4a2e-8d90-8ef1db48964c",
+    "maxScore": 6,
+    "id": "zqicn0a",
+    "uploadDate": "2025-07-13T19:37:05.456Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2014,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/7eb50f45-2251-4dd2-9a25-c1bf94cfedcd",
+    "maxScore": 20,
+    "id": "ru6tkge",
+    "uploadDate": "2025-07-13T19:36:37.937Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2013,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/c196abd5-cbc8-4798-ac93-08498edb0323",
+    "maxScore": 8,
+    "id": "pjztw9x",
+    "uploadDate": "2025-07-13T19:35:24.825Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2013,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/432070f5-26d5-4994-aeae-955ca104953c",
+    "maxScore": 6,
+    "id": "9as2tja",
+    "uploadDate": "2025-07-13T19:34:41.160Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2013,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/c0676b12-7614-4779-bdf3-5dfc42bbc6c6",
+    "maxScore": 6,
+    "id": "ef85sd6",
+    "uploadDate": "2025-07-13T19:34:11.282Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2013,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/e5878576-ab82-403b-8c86-9c87733f5668",
+    "maxScore": 6,
+    "id": "gbke17g",
+    "uploadDate": "2025-07-13T19:33:26.546Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ прак",
+    "year": 2012,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/5743aea5-cf58-44f9-96e5-9fb9da3e73c2",
+    "maxScore": 3,
+    "id": "1mos2i7",
+    "uploadDate": "2025-07-13T19:30:20.012Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теор",
+    "year": 2012,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/913ca335-7409-45fd-aca3-c9a964e58c54",
+    "maxScore": 7,
+    "id": "n995n2e",
+    "uploadDate": "2025-07-13T19:29:43.380Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2012,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/4b662afa-adc4-4c9f-9027-33ff7856cd74",
+    "maxScore": 6,
+    "id": "rmlpzay",
+    "uploadDate": "2025-07-13T19:29:04.422Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2012,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/c98e6147-84a7-457e-9f5a-d792cd10a2f7",
+    "maxScore": 6,
+    "id": "e28kfdc",
+    "uploadDate": "2025-07-13T19:28:45.989Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2012,
+    "stage": "school",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/e6f93fd7-f5fe-4ed8-a032-f8632c1e05da",
+    "maxScore": 6,
+    "id": "2r82qrj",
+    "uploadDate": "2025-07-13T19:27:47.310Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теор",
+    "year": 2011,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/bac2783e-e713-4513-86e3-d5fc52c27071",
+    "maxScore": 6,
+    "id": "abjnf4r",
+    "uploadDate": "2025-07-13T19:25:34.132Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ прак",
+    "year": 2011,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/ea85b859-5ed0-46f4-9a79-e8c2b923e071",
+    "maxScore": 3,
+    "id": "veihwmb",
+    "uploadDate": "2025-07-13T19:25:06.399Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2011,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/131cae55-24da-489b-9cc3-719f9c070a06",
+    "maxScore": 6,
+    "id": "1ttz078",
+    "uploadDate": "2025-07-13T19:24:18.960Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2011,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/1f8bc3e3-39a7-4ab8-85cb-231f55d2e268",
+    "maxScore": 6,
+    "id": "td22p6g",
+    "uploadDate": "2025-07-13T19:23:38.096Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теор",
+    "year": 2010,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/27fde0ae-c53e-4b81-b25a-e412cb5220b8",
+    "maxScore": 6,
+    "id": "8hhmr4b",
+    "uploadDate": "2025-07-13T19:22:11.433Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ прак",
+    "year": 2010,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/9fbb4d98-b0e2-475f-860b-3481d506e9ca",
+    "maxScore": 3,
+    "id": "8flu9dv",
+    "uploadDate": "2025-07-13T19:21:23.721Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2010,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/a5de8509-4855-4820-b38b-983698c11818",
+    "maxScore": 6,
+    "id": "1i708ri",
+    "uploadDate": "2025-07-13T19:20:41.169Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2010,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/bee9f1c6-c743-41f6-89a8-a0a94a6e8792",
+    "maxScore": 48,
+    "id": "eph905p",
+    "uploadDate": "2025-07-13T19:19:50.690Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ теоретический тур",
+    "year": 2009,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/3a55f599-e29b-4966-bcd2-ad205ec2606f",
+    "maxScore": 6,
+    "id": "9er47ik",
+    "uploadDate": "2025-07-13T19:18:27.203Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2009,
+    "stage": "final",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/b0765b64-6f92-4c57-84ba-b0b68ce01c14",
+    "maxScore": 3,
+    "id": "32zkvh7",
+    "uploadDate": "2025-07-13T19:17:16.548Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2009,
+    "stage": "regional",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/3d4a23fb-c7a3-46d2-83a4-0e2d3537a029",
+    "maxScore": 6,
+    "id": "dlhjahg",
+    "uploadDate": "2025-07-13T19:16:18.708Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2009,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/71146914-f39b-4060-b1eb-d3091e2ed905",
+    "maxScore": 27,
+    "id": "a4497se",
+    "uploadDate": "2025-07-13T19:15:26.061Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2008,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/e6ae75a9-a757-45dd-bebe-ea272a8d166b",
+    "maxScore": 48,
+    "id": "vcyzcmz",
+    "uploadDate": "2025-07-13T19:14:22.231Z",
+    "createdAt": null
+  },
+  {
+    "name": "Второй тур всош",
+    "year": 2007,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/06bf41ad-fe30-4998-a268-ef07c2901975",
+    "maxScore": 88,
+    "id": "tqc39rb",
+    "uploadDate": "2025-07-13T19:12:35.718Z",
+    "createdAt": null
+  },
+  {
+    "name": "ВСОШ",
+    "year": 2007,
+    "stage": "municipal",
+    "pdfUrl": "blob:https://astrophysic.vercel.app/8836f810-d277-49c6-94e2-ac963861a441",
+    "maxScore": 48,
+    "id": "36fn1xd",
+    "uploadDate": "2025-07-13T19:11:14.479Z",
+    "createdAt": null
+  }
+]

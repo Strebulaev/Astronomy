@@ -245,8 +245,7 @@ private readonly planVersion = '1.0.2'
         const data = JSON.parse(savedData);
         this.allTopics = data.topics.map((t: any) => ({
           ...t,
-          dueDate: new Date(t.dueDate), 
-          // Важно: сохраняем исходную completedDate без изменений
+          dueDate: new Date(t.dueDate),
           completedDate: t.completedDate ? new Date(t.completedDate) : null,
           terms: t.terms || []
         }));
@@ -835,7 +834,7 @@ private readonly planVersion = '1.0.2'
     const updatedTopic = {
       ...topic,
       completed: newCompletedStatus,
-      // Устанавливаем текущую дату при выполнении, null при отмене
+      // Всегда сохраняем конкретную дату выполнения
       completedDate: newCompletedStatus ? new Date() : null
     };
   
@@ -856,8 +855,7 @@ private readonly planVersion = '1.0.2'
       topics: this.allTopics.map(topic => ({
         ...topic,
         dueDate: topic.dueDate.toISOString(),
-        // Сохраняем completedDate в ISO формате (или null если нет)
-        completedDate: topic.completedDate?.toISOString() || null,
+        completedDate: topic.completedDate ? topic.completedDate.toISOString() : null,
         notes: topic.notes || '',
         terms: topic.terms || []
       })),
