@@ -1,360 +1,3 @@
-"--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\index.html ---
-
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Tests</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-  <app-root></app-root>
-</body>
-</html>
-
-
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\main.server.ts ---
-
-import { bootstrapApplication } from '@angular/platform-browser';
-import { App } from './app/app';
-import { config } from './app/app.config.server';
-
-const bootstrap = () => bootstrapApplication(App, config);
-
-export default bootstrap;
-
-
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\main.ts ---
-
-import { bootstrapApplication } from '@angular/platform-browser';
-import { App } from './app/app';
-import { appConfig } from './app/app.config';
-import 'zone.js';
-bootstrapApplication(App, appConfig)
-  .catch(err => console.error(err));
-
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\server.ts ---
-
-import {
-  AngularNodeAppEngine,
-  createNodeRequestHandler,
-  isMainModule,
-  writeResponseToNodeResponse,
-} from '@angular/ssr/node';
-import express from 'express';
-import { join } from 'node:path';
-
-const browserDistFolder = join(import.meta.dirname, '../browser');
-
-const app = express();
-const angularApp = new AngularNodeAppEngine();
-
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
-
-/**
- * Serve static files from /browser
- */
-app.use(
-  express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: false,
-    redirect: false,
-  }),
-);
-
-/**
- * Handle all other requests by rendering the Angular application.
- */
-app.use((req, res, next) => {
-  angularApp
-    .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
-    .catch(next);
-});
-
-/**
- * Start the server if this module is the main entry point.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
- */
-if (isMainModule(import.meta.url)) {
-  const port = process.env['PORT'] || 4000;
-  app.listen(port, (error) => {
-    if (error) {
-      throw error;
-    }
-
-    console.log(`Node Express server listening on http://localhost:${port}`);
-  });
-}
-
-/**
- * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
- */
-export const reqHandler = createNodeRequestHandler(app);
-
-
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\styles.css ---
-
-/* Глобальные переменные */
-
-:root {
-  --primary-color: #4361ee;
-  --primary-light: #e0e7ff;
-  --secondary-color: #3f37c9;
-  --accent-color: #4895ef;
-  --danger-color: #f72585;
-  --success-color: #4cc9f0;
-  --warning-color: #f8961e;
-  --light-color: #f8f9fa;
-  --dark-color: #212529;
-  --gray-color: #6c757d;
-  --light-gray: #e9ecef;
-  --border-radius: 8px;
-  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
-}
-
-/* Глобальные сбросы и базовые стили */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-  color: var(--dark-color);
-  background-color: #f5f7fa;
-  min-height: 100vh;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-button {
-  cursor: pointer;
-  font-family: inherit;
-  border: none;
-  background: none;
-}
-
-input, textarea, select {
-  font-family: inherit;
-  border: 1px solid var(--light-gray);
-  border-radius: var(--border-radius);
-  padding: 0.5rem;
-  transition: var(--transition);
-}
-
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px var(--primary-light);
-}
-
-/* Общие классы */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
-  font-weight: 500;
-  transition: var(--transition);
-  white-space: nowrap;
-}
-
-.btn-primary {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: var(--secondary-color);
-}
-
-.btn-outline {
-  border: 1px solid var(--primary-color);
-  color: var(--primary-color);
-  background-color: white;
-}
-
-.btn-outline:hover {
-  background-color: var(--primary-light);
-}
-
-.btn-danger {
-  background-color: var(--danger-color);
-  color: white;
-}
-
-.btn-danger:hover {
-  background-color: #d11a6b;
-}
-
-.card {
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  padding: 1.5rem;
-  transition: var(--transition);
-}
-
-.card:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Хедер приложения */
-.app-header {
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  padding: 1rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.main-nav ul {
-  display: flex;
-  list-style: none;
-  gap: 1.5rem;
-}
-
-.main-nav a {
-  font-weight: 500;
-  padding: 0.5rem;
-  position: relative;
-}
-
-.main-nav a.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0.5rem;
-  right: 0.5rem;
-  height: 2px;
-  background-color: var(--primary-color);
-}
-
-.main-nav a:hover {
-  color: var(--primary-color);
-}
-
-/* Основной контент */
-.app-main {
-  padding: 2rem 0;
-  min-height: calc(100vh - 120px);
-}
-
-/* Утилиты */
-.text-center {
-  text-align: center;
-}
-
-.mt-1 { margin-top: 0.5rem; }
-.mt-2 { margin-top: 1rem; }
-.mt-3 { margin-top: 1.5rem; }
-.mt-4 { margin-top: 2rem; }
-
-.mb-1 { margin-bottom: 0.5rem; }
-.mb-2 { margin-bottom: 1rem; }
-.mb-3 { margin-bottom: 1.5rem; }
-.mb-4 { margin-bottom: 2rem; }
-
-.flex {
-  display: flex;
-}
-
-.flex-col {
-  flex-direction: column;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-between {
-  justify-content: space-between;
-}
-
-.gap-2 {
-  gap: 1rem;
-}
-
-/* Анимации */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.fade-in {
-  animation: fadeIn 0.3s ease-in;
-}
-
-/* Медиа-запросы */
-@media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .main-nav ul {
-    gap: 0.75rem;
-  }
-}
-
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\app.config.server.ts ---
-
-import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
-import { provideServerRendering, withRoutes } from '@angular/ssr';
-import { appConfig } from './app.config';
-import { serverRoutes } from './app.routes.server';
-
-const serverConfig: ApplicationConfig = {
-  providers: [
-    provideServerRendering(withRoutes(serverRoutes))
-  ]
-};
-
-export const config = mergeApplicationConfig(appConfig, serverConfig);
-
-
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\app.config.ts ---
 
 import { ApplicationConfig } from '@angular/core';
@@ -369,435 +12,30 @@ export const appConfig: ApplicationConfig = {
   ]
 };
 
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\app.css ---
-
-.app-header {
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 1rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header-content h1 {
-  font-size: 1.5rem;
-  color: var(--primary-color);
-  margin: 0;
-}
-
-.main-nav ul {
-  display: flex;
-  list-style: none;
-  gap: 1.5rem;
-  margin: 0;
-  padding: 0;
-}
-
-.main-nav a {
-  font-weight: 500;
-  color: var(--dark-color);
-  padding: 0.5rem;
-  position: relative;
-  transition: var(--transition);
-}
-
-.main-nav a.active {
-  color: var(--primary-color);
-}
-
-.main-nav a.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0.5rem;
-  right: 0.5rem;
-  height: 2px;
-  background-color: var(--primary-color);
-}
-
-.main-nav a:hover {
-  color: var(--primary-color);
-}
-
-.app-main {
-  padding: 2rem 0;
-  min-height: calc(100vh - 120px);
-}
-
-@media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .main-nav ul {
-    gap: 0.75rem;
-  }
-}
-
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\app.html ---
 
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-<style>
-  :host {
-    --bright-blue: oklch(51.01% 0.274 263.83);
-    --electric-violet: oklch(53.18% 0.28 296.97);
-    --french-violet: oklch(47.66% 0.246 305.88);
-    --vivid-pink: oklch(69.02% 0.277 332.77);
-    --hot-red: oklch(61.42% 0.238 15.34);
-    --orange-red: oklch(63.32% 0.24 31.68);
-
-    --gray-900: oklch(19.37% 0.006 300.98);
-    --gray-700: oklch(36.98% 0.014 302.71);
-    --gray-400: oklch(70.9% 0.015 304.04);
-
-    --red-to-pink-to-purple-vertical-gradient: linear-gradient(
-      180deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%
-    );
-
-    --red-to-pink-to-purple-horizontal-gradient: linear-gradient(
-      90deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%
-    );
-
-    --pill-accent: var(--bright-blue);
-
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol";
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1 {
-    font-size: 3.125rem;
-    color: var(--gray-900);
-    font-weight: 500;
-    line-height: 100%;
-    letter-spacing: -0.125rem;
-    margin: 0;
-    font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol";
-  }
-
-  p {
-    margin: 0;
-    color: var(--gray-700);
-  }
-
-  main {
-    width: 100%;
-    min-height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    box-sizing: inherit;
-    position: relative;
-  }
-
-  .angular-logo {
-    max-width: 9.2rem;
-  }
-
-  .content {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    max-width: 700px;
-    margin-bottom: 3rem;
-  }
-
-  .content h1 {
-    margin-top: 1.75rem;
-  }
-
-  .content p {
-    margin-top: 1.5rem;
-  }
-
-  .divider {
-    width: 1px;
-    background: var(--red-to-pink-to-purple-vertical-gradient);
-    margin-inline: 0.5rem;
-  }
-
-  .pill-group {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-  }
-
-  .pill {
-    display: flex;
-    align-items: center;
-    --pill-accent: var(--bright-blue);
-    background: color-mix(in srgb, var(--pill-accent) 5%, transparent);
-    color: var(--pill-accent);
-    padding-inline: 0.75rem;
-    padding-block: 0.375rem;
-    border-radius: 2.75rem;
-    border: 0;
-    transition: background 0.3s ease;
-    font-family: var(--inter-font);
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 1.4rem;
-    letter-spacing: -0.00875rem;
-    text-decoration: none;
-  }
-
-  .pill:hover {
-    background: color-mix(in srgb, var(--pill-accent) 15%, transparent);
-  }
-
-  .pill-group .pill:nth-child(6n + 1) {
-    --pill-accent: var(--bright-blue);
-  }
-  .pill-group .pill:nth-child(6n + 2) {
-    --pill-accent: var(--electric-violet);
-  }
-  .pill-group .pill:nth-child(6n + 3) {
-    --pill-accent: var(--french-violet);
-  }
-
-  .pill-group .pill:nth-child(6n + 4),
-  .pill-group .pill:nth-child(6n + 5),
-  .pill-group .pill:nth-child(6n + 6) {
-    --pill-accent: var(--hot-red);
-  }
-
-  .pill-group svg {
-    margin-inline-start: 0.25rem;
-  }
-
-  .social-links {
-    display: flex;
-    align-items: center;
-    gap: 0.73rem;
-    margin-top: 1.5rem;
-  }
-
-  .social-links path {
-    transition: fill 0.3s ease;
-    fill: var(--gray-400);
-  }
-
-  .social-links a:hover svg path {
-    fill: var(--gray-900);
-  }
-
-  @media screen and (max-width: 650px) {
-    .content {
-      flex-direction: column;
-      width: max-content;
-    }
-
-    .divider {
-      height: 1px;
-      width: 100%;
-      background: var(--red-to-pink-to-purple-horizontal-gradient);
-      margin-block: 1.5rem;
-    }
-  }
-</style>
-
-<main class="main">
-  <div class="content">
-    <div class="left-side">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 982 239"
-        fill="none"
-        class="angular-logo"
-      >
-        <g clip-path="url(#a)">
-          <path
-            fill="url(#b)"
-            d="M388.676 191.625h30.849L363.31 31.828h-35.758l-56.215 159.797h30.848l13.174-39.356h60.061l13.256 39.356Zm-65.461-62.675 21.602-64.311h1.227l21.602 64.311h-44.431Zm126.831-7.527v70.202h-28.23V71.839h27.002v20.374h1.392c2.782-6.71 7.2-12.028 13.255-15.956 6.056-3.927 13.584-5.89 22.503-5.89 8.264 0 15.465 1.8 21.684 5.318 6.137 3.518 10.964 8.673 14.319 15.382 3.437 6.71 5.074 14.81 4.992 24.383v76.175h-28.23v-71.92c0-8.019-2.046-14.237-6.219-18.819-4.173-4.5-9.819-6.791-17.102-6.791-4.91 0-9.328 1.063-13.174 3.272-3.846 2.128-6.792 5.237-9.001 9.328-2.046 4.009-3.191 8.918-3.191 14.728ZM589.233 239c-10.147 0-18.82-1.391-26.103-4.091-7.282-2.7-13.092-6.382-17.511-10.964-4.418-4.582-7.528-9.655-9.164-15.219l25.448-6.136c1.145 2.372 2.782 4.663 4.991 6.954 2.209 2.291 5.155 4.255 8.837 5.81 3.683 1.554 8.428 2.291 14.074 2.291 8.019 0 14.647-1.964 19.884-5.81 5.237-3.845 7.856-10.227 7.856-19.064v-22.665h-1.391c-1.473 2.946-3.601 5.892-6.383 9.001-2.782 3.109-6.464 5.645-10.965 7.691-4.582 2.046-10.228 3.109-17.101 3.109-9.165 0-17.511-2.209-25.039-6.545-7.446-4.337-13.42-10.883-17.757-19.474-4.418-8.673-6.628-19.473-6.628-32.565 0-13.091 2.21-24.301 6.628-33.383 4.419-9.082 10.311-15.955 17.839-20.7 7.528-4.746 15.874-7.037 25.039-7.037 7.037 0 12.846 1.145 17.347 3.518 4.582 2.373 8.182 5.236 10.883 8.51 2.7 3.272 4.746 6.382 6.137 9.327h1.554v-19.8h27.821v121.749c0 10.228-2.454 18.737-7.364 25.447-4.91 6.709-11.538 11.7-20.048 15.055-8.509 3.355-18.165 4.991-28.884 4.991Zm.245-71.266c5.974 0 11.047-1.473 15.302-4.337 4.173-2.945 7.446-7.118 9.573-12.519 2.21-5.482 3.274-12.027 3.274-19.637 0-7.609-1.064-14.155-3.274-19.8-2.127-5.646-5.318-10.064-9.491-13.255-4.174-3.11-9.329-4.746-15.384-4.746s-11.537 1.636-15.792 4.91c-4.173 3.272-7.365 7.772-9.492 13.418-2.128 5.727-3.191 12.191-3.191 19.392 0 7.2 1.063 13.745 3.273 19.228 2.127 5.482 5.318 9.736 9.573 12.764 4.174 3.027 9.41 4.582 15.629 4.582Zm141.56-26.51V71.839h28.23v119.786h-27.412v-21.273h-1.227c-2.7 6.709-7.119 12.191-13.338 16.446-6.137 4.255-13.747 6.382-22.748 6.382-7.855 0-14.81-1.718-20.783-5.237-5.974-3.518-10.72-8.591-14.075-15.382-3.355-6.709-5.073-14.891-5.073-24.464V71.839h28.312v71.921c0 7.609 2.046 13.664 6.219 18.083 4.173 4.5 9.655 6.709 16.365 6.709 4.173 0 8.183-.982 12.111-3.028 3.927-2.045 7.118-5.072 9.655-9.082 2.537-4.091 3.764-9.164 3.764-15.218Zm65.707-109.395v159.796h-28.23V31.828h28.23Zm44.841 162.169c-7.61 0-14.402-1.391-20.457-4.091-6.055-2.7-10.883-6.791-14.32-12.109-3.518-5.319-5.237-11.946-5.237-19.801 0-6.791 1.228-12.355 3.765-16.773 2.536-4.419 5.891-7.937 10.228-10.637 4.337-2.618 9.164-4.664 14.647-6.055 5.4-1.391 11.046-2.373 16.856-3.027 7.037-.737 12.683-1.391 17.102-1.964 4.337-.573 7.528-1.555 9.574-2.782 1.963-1.309 3.027-3.273 3.027-5.973v-.491c0-5.891-1.718-10.391-5.237-13.664-3.518-3.191-8.51-4.828-15.056-4.828-6.955 0-12.356 1.473-16.447 4.5-4.009 3.028-6.71 6.546-8.183 10.719l-26.348-3.764c2.046-7.282 5.483-13.336 10.31-18.328 4.746-4.909 10.638-8.59 17.511-11.045 6.955-2.455 14.565-3.682 22.912-3.682 5.809 0 11.537.654 17.265 2.045s10.965 3.6 15.711 6.71c4.746 3.109 8.51 7.282 11.455 12.6 2.864 5.318 4.337 11.946 4.337 19.883v80.184h-27.166v-16.446h-.9c-1.719 3.355-4.092 6.464-7.201 9.328-3.109 2.864-6.955 5.237-11.619 6.955-4.828 1.718-10.229 2.536-16.529 2.536Zm7.364-20.701c5.646 0 10.556-1.145 14.729-3.354 4.173-2.291 7.364-5.237 9.655-9.001 2.292-3.763 3.355-7.854 3.355-12.273v-14.155c-.9.737-2.373 1.391-4.5 2.046-2.128.654-4.419 1.145-7.037 1.636-2.619.491-5.155.9-7.692 1.227-2.537.328-4.746.655-6.628.901-4.173.572-8.019 1.472-11.292 2.781-3.355 1.31-5.973 3.11-7.855 5.401-1.964 2.291-2.864 5.318-2.864 8.918 0 5.237 1.882 9.164 5.728 11.782 3.682 2.782 8.51 4.091 14.401 4.091Zm64.643 18.328V71.839h27.412v19.965h1.227c2.21-6.955 5.974-12.274 11.292-16.038 5.319-3.763 11.456-5.645 18.329-5.645 1.555 0 3.355.082 5.237.163 1.964.164 3.601.328 4.91.573v25.938c-1.227-.41-3.109-.819-5.646-1.146a58.814 58.814 0 0 0-7.446-.49c-5.155 0-9.738 1.145-13.829 3.354-4.091 2.209-7.282 5.236-9.655 9.164-2.373 3.927-3.519 8.427-3.519 13.5v70.448h-28.312ZM222.077 39.192l-8.019 125.923L137.387 0l84.69 39.192Zm-53.105 162.825-57.933 33.056-57.934-33.056 11.783-28.556h92.301l11.783 28.556ZM111.039 62.675l30.357 73.803H80.681l30.358-73.803ZM7.937 165.115 0 39.192 84.69 0 7.937 165.115Z"
-          />
-          <path
-            fill="url(#c)"
-            d="M388.676 191.625h30.849L363.31 31.828h-35.758l-56.215 159.797h30.848l13.174-39.356h60.061l13.256 39.356Zm-65.461-62.675 21.602-64.311h1.227l21.602 64.311h-44.431Zm126.831-7.527v70.202h-28.23V71.839h27.002v20.374h1.392c2.782-6.71 7.2-12.028 13.255-15.956 6.056-3.927 13.584-5.89 22.503-5.89 8.264 0 15.465 1.8 21.684 5.318 6.137 3.518 10.964 8.673 14.319 15.382 3.437 6.71 5.074 14.81 4.992 24.383v76.175h-28.23v-71.92c0-8.019-2.046-14.237-6.219-18.819-4.173-4.5-9.819-6.791-17.102-6.791-4.91 0-9.328 1.063-13.174 3.272-3.846 2.128-6.792 5.237-9.001 9.328-2.046 4.009-3.191 8.918-3.191 14.728ZM589.233 239c-10.147 0-18.82-1.391-26.103-4.091-7.282-2.7-13.092-6.382-17.511-10.964-4.418-4.582-7.528-9.655-9.164-15.219l25.448-6.136c1.145 2.372 2.782 4.663 4.991 6.954 2.209 2.291 5.155 4.255 8.837 5.81 3.683 1.554 8.428 2.291 14.074 2.291 8.019 0 14.647-1.964 19.884-5.81 5.237-3.845 7.856-10.227 7.856-19.064v-22.665h-1.391c-1.473 2.946-3.601 5.892-6.383 9.001-2.782 3.109-6.464 5.645-10.965 7.691-4.582 2.046-10.228 3.109-17.101 3.109-9.165 0-17.511-2.209-25.039-6.545-7.446-4.337-13.42-10.883-17.757-19.474-4.418-8.673-6.628-19.473-6.628-32.565 0-13.091 2.21-24.301 6.628-33.383 4.419-9.082 10.311-15.955 17.839-20.7 7.528-4.746 15.874-7.037 25.039-7.037 7.037 0 12.846 1.145 17.347 3.518 4.582 2.373 8.182 5.236 10.883 8.51 2.7 3.272 4.746 6.382 6.137 9.327h1.554v-19.8h27.821v121.749c0 10.228-2.454 18.737-7.364 25.447-4.91 6.709-11.538 11.7-20.048 15.055-8.509 3.355-18.165 4.991-28.884 4.991Zm.245-71.266c5.974 0 11.047-1.473 15.302-4.337 4.173-2.945 7.446-7.118 9.573-12.519 2.21-5.482 3.274-12.027 3.274-19.637 0-7.609-1.064-14.155-3.274-19.8-2.127-5.646-5.318-10.064-9.491-13.255-4.174-3.11-9.329-4.746-15.384-4.746s-11.537 1.636-15.792 4.91c-4.173 3.272-7.365 7.772-9.492 13.418-2.128 5.727-3.191 12.191-3.191 19.392 0 7.2 1.063 13.745 3.273 19.228 2.127 5.482 5.318 9.736 9.573 12.764 4.174 3.027 9.41 4.582 15.629 4.582Zm141.56-26.51V71.839h28.23v119.786h-27.412v-21.273h-1.227c-2.7 6.709-7.119 12.191-13.338 16.446-6.137 4.255-13.747 6.382-22.748 6.382-7.855 0-14.81-1.718-20.783-5.237-5.974-3.518-10.72-8.591-14.075-15.382-3.355-6.709-5.073-14.891-5.073-24.464V71.839h28.312v71.921c0 7.609 2.046 13.664 6.219 18.083 4.173 4.5 9.655 6.709 16.365 6.709 4.173 0 8.183-.982 12.111-3.028 3.927-2.045 7.118-5.072 9.655-9.082 2.537-4.091 3.764-9.164 3.764-15.218Zm65.707-109.395v159.796h-28.23V31.828h28.23Zm44.841 162.169c-7.61 0-14.402-1.391-20.457-4.091-6.055-2.7-10.883-6.791-14.32-12.109-3.518-5.319-5.237-11.946-5.237-19.801 0-6.791 1.228-12.355 3.765-16.773 2.536-4.419 5.891-7.937 10.228-10.637 4.337-2.618 9.164-4.664 14.647-6.055 5.4-1.391 11.046-2.373 16.856-3.027 7.037-.737 12.683-1.391 17.102-1.964 4.337-.573 7.528-1.555 9.574-2.782 1.963-1.309 3.027-3.273 3.027-5.973v-.491c0-5.891-1.718-10.391-5.237-13.664-3.518-3.191-8.51-4.828-15.056-4.828-6.955 0-12.356 1.473-16.447 4.5-4.009 3.028-6.71 6.546-8.183 10.719l-26.348-3.764c2.046-7.282 5.483-13.336 10.31-18.328 4.746-4.909 10.638-8.59 17.511-11.045 6.955-2.455 14.565-3.682 22.912-3.682 5.809 0 11.537.654 17.265 2.045s10.965 3.6 15.711 6.71c4.746 3.109 8.51 7.282 11.455 12.6 2.864 5.318 4.337 11.946 4.337 19.883v80.184h-27.166v-16.446h-.9c-1.719 3.355-4.092 6.464-7.201 9.328-3.109 2.864-6.955 5.237-11.619 6.955-4.828 1.718-10.229 2.536-16.529 2.536Zm7.364-20.701c5.646 0 10.556-1.145 14.729-3.354 4.173-2.291 7.364-5.237 9.655-9.001 2.292-3.763 3.355-7.854 3.355-12.273v-14.155c-.9.737-2.373 1.391-4.5 2.046-2.128.654-4.419 1.145-7.037 1.636-2.619.491-5.155.9-7.692 1.227-2.537.328-4.746.655-6.628.901-4.173.572-8.019 1.472-11.292 2.781-3.355 1.31-5.973 3.11-7.855 5.401-1.964 2.291-2.864 5.318-2.864 8.918 0 5.237 1.882 9.164 5.728 11.782 3.682 2.782 8.51 4.091 14.401 4.091Zm64.643 18.328V71.839h27.412v19.965h1.227c2.21-6.955 5.974-12.274 11.292-16.038 5.319-3.763 11.456-5.645 18.329-5.645 1.555 0 3.355.082 5.237.163 1.964.164 3.601.328 4.91.573v25.938c-1.227-.41-3.109-.819-5.646-1.146a58.814 58.814 0 0 0-7.446-.49c-5.155 0-9.738 1.145-13.829 3.354-4.091 2.209-7.282 5.236-9.655 9.164-2.373 3.927-3.519 8.427-3.519 13.5v70.448h-28.312ZM222.077 39.192l-8.019 125.923L137.387 0l84.69 39.192Zm-53.105 162.825-57.933 33.056-57.934-33.056 11.783-28.556h92.301l11.783 28.556ZM111.039 62.675l30.357 73.803H80.681l30.358-73.803ZM7.937 165.115 0 39.192 84.69 0 7.937 165.115Z"
-          />
-        </g>
-        <defs>
-          <radialGradient
-            id="c"
-            cx="0"
-            cy="0"
-            r="1"
-            gradientTransform="rotate(118.122 171.182 60.81) scale(205.794)"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="#FF41F8" />
-            <stop offset=".707" stop-color="#FF41F8" stop-opacity=".5" />
-            <stop offset="1" stop-color="#FF41F8" stop-opacity="0" />
-          </radialGradient>
-          <linearGradient
-            id="b"
-            x1="0"
-            x2="982"
-            y1="192"
-            y2="192"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="#F0060B" />
-            <stop offset="0" stop-color="#F0070C" />
-            <stop offset=".526" stop-color="#CC26D5" />
-            <stop offset="1" stop-color="#7702FF" />
-          </linearGradient>
-          <clipPath id="a"><path fill="#fff" d="M0 0h982v239H0z" /></clipPath>
-        </defs>
-      </svg>
-      <h1>Hello, {{ title }}</h1>
-      <p>Congratulations! Your app is running. 🎉</p>
-    </div>
-    <div class="divider" role="separator" aria-label="Divider"></div>
-    <div class="right-side">
-      <div class="pill-group">
-        @for (item of [
-          { title: 'Explore the Docs', link: 'https://angular.dev' },
-          { title: 'Learn with Tutorials', link: 'https://angular.dev/tutorials' },
-          { title: 'Prompt and best practices for AI', link: 'https://angular.dev/ai/develop-with-ai'},
-          { title: 'CLI Docs', link: 'https://angular.dev/tools/cli' },
-          { title: 'Angular Language Service', link: 'https://angular.dev/tools/language-service' },
-          { title: 'Angular DevTools', link: 'https://angular.dev/tools/devtools' },
-        ]; track item.title) {
-          <a
-            class="pill"
-            [href]="item.link"
-            target="_blank"
-            rel="noopener"
-          >
-            <span>{{ item.title }}</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="14"
-              viewBox="0 -960 960 960"
-              width="14"
-              fill="currentColor"
-            >
-              <path
-                d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"
-              />
-            </svg>
-          </a>
-        }
-      </div>
-      <div class="social-links">
-        <a
-          href="https://github.com/angular/angular"
-          aria-label="Github"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg
-            width="25"
-            height="24"
-            viewBox="0 0 25 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            alt="Github"
-          >
-            <path
-              d="M12.3047 0C5.50634 0 0 5.50942 0 12.3047C0 17.7423 3.52529 22.3535 8.41332 23.9787C9.02856 24.0946 9.25414 23.7142 9.25414 23.3871C9.25414 23.0949 9.24389 22.3207 9.23876 21.2953C5.81601 22.0377 5.09414 19.6444 5.09414 19.6444C4.53427 18.2243 3.72524 17.8449 3.72524 17.8449C2.61064 17.082 3.81137 17.0973 3.81137 17.0973C5.04697 17.1835 5.69604 18.3647 5.69604 18.3647C6.79321 20.2463 8.57636 19.7029 9.27978 19.3881C9.39052 18.5924 9.70736 18.0499 10.0591 17.7423C7.32641 17.4347 4.45429 16.3765 4.45429 11.6618C4.45429 10.3185 4.9311 9.22133 5.72065 8.36C5.58222 8.04931 5.16694 6.79833 5.82831 5.10337C5.82831 5.10337 6.85883 4.77319 9.2121 6.36459C10.1965 6.09082 11.2424 5.95546 12.2883 5.94931C13.3342 5.95546 14.3801 6.09082 15.3644 6.36459C17.7023 4.77319 18.7328 5.10337 18.7328 5.10337C19.3942 6.79833 18.9789 8.04931 18.8559 8.36C19.6403 9.22133 20.1171 10.3185 20.1171 11.6618C20.1171 16.3888 17.2409 17.4296 14.5031 17.7321C14.9338 18.1012 15.3337 18.8559 15.3337 20.0084C15.3337 21.6552 15.3183 22.978 15.3183 23.3779C15.3183 23.7009 15.5336 24.0854 16.1642 23.9623C21.0871 22.3484 24.6094 17.7341 24.6094 12.3047C24.6094 5.50942 19.0999 0 12.3047 0Z"
-            />
-          </svg>
-        </a>
-        <a
-          href="https://twitter.com/angular"
-          aria-label="Twitter"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            alt="Twitter"
-          >
-            <path
-              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-            />
-          </svg>
-        </a>
-        <a
-          href="https://www.youtube.com/channel/UCbn1OgGei-DV7aSRo_HaAiw"
-          aria-label="Youtube"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg
-            width="29"
-            height="20"
-            viewBox="0 0 29 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            alt="Youtube"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M27.4896 1.52422C27.9301 1.96749 28.2463 2.51866 28.4068 3.12258C29.0004 5.35161 29.0004 10 29.0004 10C29.0004 10 29.0004 14.6484 28.4068 16.8774C28.2463 17.4813 27.9301 18.0325 27.4896 18.4758C27.0492 18.9191 26.5 19.2389 25.8972 19.4032C23.6778 20 14.8068 20 14.8068 20C14.8068 20 5.93586 20 3.71651 19.4032C3.11363 19.2389 2.56449 18.9191 2.12405 18.4758C1.68361 18.0325 1.36732 17.4813 1.20683 16.8774C0.613281 14.6484 0.613281 10 0.613281 10C0.613281 10 0.613281 5.35161 1.20683 3.12258C1.36732 2.51866 1.68361 1.96749 2.12405 1.52422C2.56449 1.08095 3.11363 0.76113 3.71651 0.596774C5.93586 0 14.8068 0 14.8068 0C14.8068 0 23.6778 0 25.8972 0.596774C26.5 0.76113 27.0492 1.08095 27.4896 1.52422ZM19.3229 10L11.9036 5.77905V14.221L19.3229 10Z"
-            />
-          </svg>
-        </a>
-      </div>
+<header class="app-header" >
+  <div class="container">
+    <div class="header-content">
+      <h1>AstroTests</h1>
+      <nav class="main-nav">
+        <ul>
+          <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Главная</a></li>
+          <li><a routerLink="/creator" routerLinkActive="active">Генератор</a></li>
+          <li><a routerLink="/history" routerLinkActive="active">История</a></li>
+          <li><a routerLink="/daily-topics" routerLinkActive="active">План</a></li>
+          <li><a routerLink="/olympiad-preparation" routerLinkActive="active">Олимпиады</a></li>
+        </ul>
+      </nav>
     </div>
   </div>
+</header>
+
+<main class="app-main">
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
 </main>
-
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-
-<router-outlet />
-
-
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\app.routes.server.ts ---
-
-import { RenderMode, ServerRoute } from '@angular/ssr';
-
-export const serverRoutes: ServerRoute[] = [
-  {
-    path: '**',
-    renderMode: RenderMode.Prerender
-  }
-];
-
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\app.routes.ts ---
 
@@ -809,6 +47,7 @@ import { TestCreatorComponent } from './components/test-creator/test-creator.com
 import { HistoryComponent } from './components/history/history.component';
 import { DailyTopicsComponent } from './components/daily-topics/daily-topics.component';
 import { ProgressChartsComponent } from './components/progress-charts/progress-charts.component';
+import { OlympiadPreparationComponent } from './components/olympiad-preparation/olympiad-preparation.component';
 
 export const routes: Routes = [
   { path: '', component: ThemeSelectorComponent },
@@ -816,7 +55,7 @@ export const routes: Routes = [
   { path: 'creator', component: TestCreatorComponent },
   { path: 'history', component: HistoryComponent },
   { path: 'daily-topics', component: DailyTopicsComponent},
-  // { path: 'progress', component: ProgressChartsComponent },
+  { path: 'olympiad-preparation', component: OlympiadPreparationComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -857,208 +96,2416 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <header class="app-header">
-      <div class="container">
-        <div class="header-content">
-          <h1>AstroTests</h1>
-          <nav class="main-nav">
-            <ul>
-              <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Главная</a></li>
-              <li><a routerLink="/creator" routerLinkActive="active">Генератор</a></li>
-              <li><a routerLink="/history" routerLinkActive="active">История</a></li>
-              <li><a routerLink="/daily-topics" routerLinkActive="active">План</a></li>
-              <!-- <li><a routerLink="/progress" routerLinkActive="active">График</a></li> -->
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </header>
-
-    <main class="app-main">
-      <div class="container">
-        <router-outlet></router-outlet>
-      </div>
-    </main>
-  `,
+  templateUrl: "./app.html",
   styleUrls: ['./app.css'],
   imports: [RouterModule, CommonModule],
   standalone: true
 })
 export class App {}
 
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\progress-charts\progress-charts.component.css ---
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\daily-topics\daily-topics.component.html ---
 
-.charts-container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+<div class="container">
+  <div class="header">
+    <h1>{{ plan.name }}</h1>
+    <div class="progress-container">
+      <div class="total-progress">
+        <span>Общий прогресс: {{ totalProgress }}% ({{ completedTopicsCount }}/{{ allTopics.length }})</span>
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="totalProgress"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="view-switcher">
+    <button (click)="setViewMode('today')" [class.active]="viewMode === 'today'">
+      <i class="icon"></i> Сегодня
+    </button>
+    <button (click)="setViewMode('future')" [class.active]="viewMode === 'future'">
+      <i class="icon"></i> Будущие
+    </button>
+    <button (click)="setViewMode('diary')" [class.active]="viewMode === 'diary'">
+      <i class="icon"></i> Все темы
+    </button>
+    <button (click)="setViewMode('charts')" [class.active]="viewMode === 'charts'">
+      <i class="icon"></i> Графики
+    </button>
+  </div>
+
+  <!-- Today View -->
+  <div *ngIf="viewMode === 'today'" class="today-view">
+    <div class="day-info">
+      <h2>Темы на {{ currentDate | date:'dd.MM.yyyy' }}</h2>
+      <div class="today-progress">
+        <span>Прогресс дня: {{ todayProgress }}% ({{ getCompletedTodayCount() }}/{{ todayTopics.length }})</span>
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="todayProgress"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topics-list">
+      <div *ngFor="let topic of todayTopics" class="topic-card" [class.completed]="topic.completed">
+        <div class="topic-content">
+          <h3>{{ topic.title }}</h3>
+          
+          <div class="topic-meta">
+            <span class="due-date">
+              {{ topic.dueDate | date:'dd.MM.yyyy' }}
+            </span>
+            <span class="difficulty">Сложность: {{ topic.difficulty }}/100</span>
+          </div>
+          
+          <div class="topic-actions">
+            <button (click)="toggleTopicCompletion(topic)">
+              {{ topic.completed ? '✓' : 'Выполнить' }}
+            </button>
+          </div>
+        </div>
+        
+        <div class="topic-actions">
+          <label class="checkbox-container">
+            <input type="checkbox" [checked]="topic.completed" (change)="toggleTopicCompletion(topic)">
+            <span class="checkmark">Выполнено</span>
+          </label>
+          <button class="notes-btn" (click)="selectTopic(topic)">
+            <i class="icon-edit"></i> Заметки
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="todayTopics.length === 0" class="no-topics">
+        <p>На сегодня нет запланированных тем</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Future Topics View -->
+  <div *ngIf="viewMode === 'future'" class="future-view">
+    <h2>Будущие темы</h2>
+    <p>Вы можете отметить тему как выполненную заранее</p>
+
+    <div class="topics-list">
+      <div *ngFor="let topic of futureTopics" class="topic-card future">
+        <div class="topic-content">
+          <h3>{{ topic.title }}</h3>
+          <div class="topic-meta">
+            <span class="due-date">На {{ topic.dueDate | date:'dd.MM.yyyy' }}</span>
+            <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
+            <span class="difficulty">Сложность: {{ topic.difficulty }}/100</span>
+            <span class="time">Время: {{ topic.time }}</span>
+          </div>
+          
+          <div *ngIf="topic.subtopics" class="subtopics">
+            <h4>Подтемы:</h4>
+            <ul>
+              <li *ngFor="let subtopic of topic.subtopics">{{ subtopic }}</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="topic-actions">
+          <button class="complete-btn" (click)="completeFutureTopic(topic)">
+            <i class="icon-check"></i> Выполнить
+          </button>
+          <button class="notes-btn" (click)="selectTopic(topic)">
+            <i class="icon-edit"></i> Заметки
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="futureTopics.length === 0" class="no-topics">
+        <p>Нет будущих тем или все выполнены</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diary View -->
+  <div *ngIf="viewMode === 'diary'" class="diary-view">
+    <div class="diary-header">
+      <div class="search-box">
+        <i class="icon-search"></i>
+        <input type="text" [(ngModel)]="searchQuery" placeholder="Поиск тем...">
+      </div>
+      <div class="filter-buttons">
+        <button [class.active]="filter === 'all'" (click)="filter = 'all'">Все</button>
+        <button [class.active]="filter === 'completed'" (click)="filter = 'completed'">Выполненные</button>
+        <button [class.active]="filter === 'pending'" (click)="filter = 'pending'">Ожидающие</button>
+      </div>
+    </div>
+
+    <div *ngIf="!selectedTopic" class="topics-grid">
+      <div *ngFor="let topic of getFilteredTopics()" 
+          class="diary-topic-card" 
+          [class.completed]="topic.completed"
+          (click)="selectTopic(topic)">
+        <div class="card-header">
+          <h3>{{ topic.title }}</h3>
+          <span class="due-date">
+            {{ (topic.dueDate | date:'dd.MM.yyyy') || 'Дата не указана' }}
+          </span>
+        </div>
+        <div class="card-meta">
+          <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
+          <span class="status" [class.completed]="topic.completed">
+            <ng-container *ngIf="topic.completed">
+              Выполнено {{ topic.completedDate | date:'dd.MM.yyyy' }}
+            </ng-container>
+            <ng-template #notCompleted>
+              Ожидает
+            </ng-template>
+          </span>
+        </div>
+        
+        <div *ngIf="topic.subtopics" class="subtopics">
+          <h4>Подтемы:</h4>
+          <ul>
+            <li *ngFor="let subtopic of topic.subtopics">{{ subtopic }}</li>
+          </ul>
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- Notes Editor -->
+    <div *ngIf="selectedTopic" class="notes-editor">
+      <div class="editor-header">
+        <div>
+          <h2>{{ selectedTopic.title }}</h2>
+          <div class="editor-meta">
+            <span>Неделя {{ selectedTopic.week }}, День {{ selectedTopic.day }}</span>
+            <span>На {{ selectedTopic.dueDate | date:'dd.MM.yyyy' }}</span>
+          </div>
+        </div>
+        <button class="close-btn" (click)="selectedTopic = null">×</button>
+      </div>
+      
+      <div class="editor-tabs">
+        <button [class.active]="!isEditingTerm" (click)="isEditingTerm = false">Заметки</button>
+        <button [class.active]="isEditingTerm" (click)="isEditingTerm = true">
+          Термины ({{ selectedTopic.terms?.length || 0 }})
+        </button>
+      </div>
+      
+      <div *ngIf="!isEditingTerm" class="editor-content" 
+           contenteditable="true" 
+           [innerHTML]="selectedTopic.notes"
+           (input)="onEditorInput($event)">
+      </div>
+      
+      <div *ngIf="isEditingTerm" class="terms-container">
+        <div class="terms-toolbar">
+          <input type="text" [(ngModel)]="termSearchQuery" 
+                 (input)="updateFilteredTerms()"
+                 placeholder="Поиск терминов..." class="search-input">
+          <button (click)="addNewTerm()" class="add-btn">+ Добавить термин</button>
+        </div>
+        
+        <div class="terms-list">
+          <div *ngFor="let term of filteredTerms; let i = index" class="term-item">
+            <div class="term-header">
+              <input type="text" [(ngModel)]="term.term" placeholder="Термин" class="term-input">
+              <button (click)="removeTerm(i)" class="delete-term">×</button>
+            </div>
+            <textarea [(ngModel)]="term.definition" placeholder="Определение" class="term-definition"></textarea>
+          </div>
+        </div>
+        
+        <div class="terms-actions">
+          <button (click)="saveTerms()" class="save-btn">Сохранить термины</button>
+          <button (click)="isEditingTerm = false" class="cancel-btn">Отмена</button>
+        </div>
+      </div>
+      
+      <div class="editor-actions">
+        <button (click)="saveNotes()" class="save-btn">
+          Сохранить заметки
+        </button>
+        <label class="checkbox-container large">
+          <input type="checkbox" 
+                [(ngModel)]="selectedTopic.completed"
+                (change)="saveNotes()">
+          <span class="checkmark"></span>
+          <span class="label-text">Тема выполнена</span>
+        </label>
+        <span class="word-count">Слов: {{ wordCount }}</span>
+        <span *ngIf="autoSaved" class="auto-saved">Автосохранено</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Charts View -->
+  <div *ngIf="viewMode === 'charts'" class="charts-view">
+    <app-progress-charts 
+      [allTopics]="allTopics"
+      [completedTopics]="completedTopics"
+      [totalProgress]="totalProgress"
+      [todayProgress]="todayProgress"
+      [forecast]="forecast">
+    </app-progress-charts>
+    
+    <div class="forecast-details" *ngIf="forecast">
+      <h3>Прогноз завершения</h3>
+      
+      <div class="forecast-metrics">
+        <div class="metric">
+          <span class="label">Текущая скорость:</span>
+          <span class="value">{{ forecast.currentRate | number:'1.1-1' }} тем/день</span>
+        </div>
+        <div class="metric">
+          <span class="label">Осталось тем:</span>
+          <span class="value">{{ allTopics.length - completedTopics.length }}</span>
+        </div>
+        <div class="metric">
+          <span class="label">Сложность:</span>
+          <span class="value">{{ calculateAverageDifficulty() | number:'1.0-0' }}/100</span>
+        </div>
+      </div>
+      
+      <div class="forecast-dates">
+        <div class="date-card optimistic">
+          <span class="label">Оптимистично </span>
+          <span class="date">{{ forecast.optimisticDate | date:'dd MMM yyyy' }}</span>
+          <span class="days">({{ daysBetween(forecast.optimisticDate) }} дней)</span>
+        </div>
+        
+        <div class="date-card expected">
+          <span class="label">Ожидаемо </span>
+          <span class="date">{{ forecast.expectedEndDate | date:'dd MMM yyyy' }}</span>
+          <span class="days">({{ daysBetween(forecast.expectedEndDate) }} дней)</span>
+        </div>
+        
+        <div class="date-card pessimistic">
+          <span class="label">Пессимистично </span>
+          <span class="date">{{ forecast.pessimisticDate | date:'dd MMM yyyy' }}</span>
+          <span class="days">({{ daysBetween(forecast.pessimisticDate) }} дней)</span>
+        </div>
+      </div>
+      
+      <div class="time-estimates">
+        <div class="estimate">
+          <span class="label">Всего часов: </span>
+          <span class="value">{{ forecast.totalHours | number:'1.1-1' }}</span>
+        </div>
+        <div class="estimate">
+          <span class="label">Выполнено часов: </span>
+          <span class="value">{{ forecast.completedHours | number:'1.1-1' }}</span>
+        </div>
+        <div class="estimate">
+          <span class="label">Осталось часов: </span>
+          <span class="value">{{ forecast.remainingHours | number:'1.1-1' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\daily-topics\daily-topics.component.spec.ts ---
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { DailyTopicsComponent } from './daily-topics.component';
+
+describe('DailyTopicsComponent', () => {
+  let component: DailyTopicsComponent;
+  let fixture: ComponentFixture<DailyTopicsComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [DailyTopicsComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(DailyTopicsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\daily-topics\daily-topics.component.ts ---
+
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule, DatePipe } from '@angular/common';
+import * as yaml from 'js-yaml';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
+import { ProgressChartsComponent } from "../progress-charts/progress-charts.component";
+import { ProgressDataService } from '../../services/progress-data.service';
+import { QuillModule } from 'ngx-quill';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+interface Topic {
+  id: string;
+  title: string;
+  difficulty: number;
+  time: string;
+  notesHtml?: SafeHtml;
+  completed: boolean;
+  completedDate: Date | null;
+  notes: string;
+  dueDate: Date;
+  week: number;
+  day: number;
+  subtopics?: string[];
+  terms?: TermDefinition[]; // Добавляем это
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+interface TermDefinition {
+  term: string;
+  definition: string;
+}
+export interface ProgressForecast {
+  expectedEndDate: Date;
+  basedOn: 'topics' | 'hours';
+  currentRate: number;
+  optimisticDate: Date;
+  pessimisticDate: Date;
+  totalHours?: number;
+  completedHours?: number;
+  remainingHours?: number;
+}
+interface Plan {
+  name: string;
+  total_topics: number;
+  schedule: any[];
 }
 
-.summary-stats {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 30px;
+interface DayPlan {
+  day: number;
+  topics: (string | { topic: string, subtopics: string[] })[];
 }
+@Component({
+  selector: 'app-daily-topics',
+  standalone: true,
+  imports: [CommonModule, FormsModule, DatePipe, ProgressChartsComponent, QuillModule],
+  templateUrl: './daily-topics.component.html',
+  styleUrls: ['./daily-topics.component.css']
+})
+export class DailyTopicsComponent implements OnInit {
+  viewMode: 'today' | 'diary' | 'future' | 'charts' = 'today';
+  selectedTopic: Topic | null = null
+  searchQuery: string = '';
+  currentDate: Date = new Date();
+  filter: 'all' | 'completed' | 'pending' = 'all';
+  isEditingTerm = false;
+  currentTerm: TermDefinition | null = null;
+  forecast?: ProgressForecast;
+  autoSaved = false;
+  // Добавим новые свойства
+  termSearch: string = '';
+  currentTermIndex: number = -1;
+  wordCount = 0;
+  termSearchQuery: string = '';
+  filteredTerms: TermDefinition[] = [];
+  private saveTimeout: any;
+  plan: Plan = {
+    name: '',
+    total_topics: 0,
+    schedule: []
+  };
+  quillConfig = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ 'header': 1 }, { 'header': 2 }],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],
+      [{ 'indent': '-1'}, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      ['clean'],
+      ['link', 'image', 'video'],
+      ['add-term', 'add-subpoint']
+    ],
+    customButtons: {
+      'add-term': {
+        text: 'Термин',
+        onClick: () => this.markAsTerm()
+      },
+      'add-subpoint': {
+        text: 'Подпункт',
+        onClick: () => this.markAsSubpoint()
+      }
+    }
+  };
+  @Output() progressData = new EventEmitter<{
+    allTopics: Topic[];
+    completedTopics: Topic[];
+    totalProgress: number;
+    todayProgress: number;
+  }>();
+  todayTopics: Topic[] = [];
+  allTopics: Topic[] = [];
+  futureTopics: Topic[] = [];
+  completedTopics: Topic[] = [];
+  
+private readonly planVersion = '1.0.2'
+  private readonly STORAGE_KEY = `astronomyProgress_v${this.planVersion}`;
 
-.stat-card {
-  background: #f5f5f5;
-  border-radius: 8px;
-  padding: 15px;
-  text-align: center;
-  min-width: 120px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
+  private topicsSubject = new BehaviorSubject<Topic[]>([]);
+  topics$ = this.topicsSubject.asObservable();
 
-.stat-value {
-  font-size: 24px;
-  font-weight: bold;
-  color: #3f51b5;
-  margin-bottom: 5px;
-}
 
-.stat-label {
-  font-size: 14px;
-  color: #666;
-}
-
-.chart-row {
-  display: flex;
-  margin-bottom: 30px;
-  gap: 20px;
-}
-
-.chart-container {
-  flex: 1;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  padding: 15px;
-  position: relative;
-}
-
-.chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-.chart-header h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #333;
-}
-
-.chart-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.download-btn, .info-btn {
-  background: #3f51b5;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  transition: background 0.2s;
-}
-
-.download-btn:hover, .info-btn:hover {
-  background: #303f9f;
-}
-
-.icon-download, .icon-info {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.chart-description {
-  background: #f9f9f9;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 15px;
-  font-size: 14px;
-  line-height: 1.5;
-  border-left: 4px solid #3f51b5;
-}
-
-.chart-description p {
-  margin: 5px 0;
-}
-
-.chart-description strong {
-  color: #3f51b5;
-}
-
-.forecast-details {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #555;
-  padding: 10px;
-  background: #f0f7ff;
-  border-radius: 6px;
-}
-
-.forecast-details p {
-  margin: 5px 0;
-}
-
-.last-updated {
-  color: #666;
-  font-size: 14px;
-}
-
-@media (max-width: 1200px) {
-  .chart-row {
-    flex-direction: column;
+  constructor(
+    private http: HttpClient, 
+    private progressDataService: ProgressDataService,
+    private sanitizer: DomSanitizer
+  ) {}  
+  async ngOnInit() {
+    await this.loadData();
+    this.termSearchQuery = '';
+  }
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (!this.selectedTopic || this.isEditingTerm) return;
+  
+    if (event.ctrlKey || event.metaKey) {
+      switch (event.key.toLowerCase()) {
+        case 'b':
+          event.preventDefault();
+          this.formatText('bold');
+          break;
+        case 'i':
+          event.preventDefault();
+          this.formatText('italic');
+          break;
+        case 'k':
+          event.preventDefault();
+          this.insertLink();
+          break;
+        case 'enter':
+          event.preventDefault();
+          this.saveNotes();
+          break;
+      }
+    }
+  }
+  private async loadData() {
+    try {
+      await this.loadPlan();
+      this.loadProgress();
+      this.organizeTopics();
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  }
+  get selectedTopicWithTerms(): Topic | null {
+    return this.selectedTopic as Topic | null;
+  }
+  private async loadPlan() {
+    const yamlText = await this.http.get(`assets/plan.yml?v=${Date.now()}`, { 
+      responseType: 'text' 
+    }).toPromise();
+    
+    if (yamlText) {
+      const loadedData = yaml.load(yamlText) as any;
+      this.plan = loadedData.plan || loadedData;
+    }
+  }
+  editorModules = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'header': [1, 2, 3, false] }],
+      [{ 'color': [] }, { 'background': [] }],
+      ['blockquote', 'code-block'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['link', 'image'],
+      ['clean']
+    ]
+  };
+  
+  editorStyles = {
+    height: '300px',
+    backgroundColor: '#fff'
+  };
+  private initializeAllTopics(): void {
+    // Проверяем, нужно ли инициализировать темы
+    if (this.shouldSkipInitialization()) {
+      return;
+    }
+  
+    // Создаем массив тем с использованием современных методов массива
+    this.allTopics = this.plan.schedule?.flatMap((week: any) => 
+      week.days?.flatMap((day: any) => 
+        day.topics?.map((topic: any) => this.createTopic(topic, week.week, day.day))) || []
+    ) || [];
+  
+    this.saveProgress();
   }
   
-  .summary-stats {
-    flex-wrap: wrap;
-    gap: 10px;
+  // Вспомогательный метод для проверки необходимости инициализации
+  private shouldSkipInitialization(): boolean {
+    return this.allTopics.length > 0 && 
+           typeof localStorage !== 'undefined' && 
+           localStorage.getItem(this.STORAGE_KEY) !== null;
   }
   
-  .stat-card {
-    min-width: calc(50% - 20px);
+  // Вспомогательный метод для создания темы
+  private createTopic(topic: any, week: number, day: number): Topic {
+    // Обрабатываем как строку или объект
+    const parsed = typeof topic === 'string' ? this.parseTopicString(topic) : topic;
+    
+    return {
+      id: this.generateId(),
+      ...parsed,
+      completed: false,
+      completedDate: null,  // Явно указываем null для новых тем
+      notes: '',
+      dueDate: this.calculateDueDate(week, day),
+      week,
+      day,
+      terms: []
+    };
+  }
+  
+  private loadProgress(): void {
+    const savedData = localStorage.getItem(this.STORAGE_KEY);
+    
+    if (savedData) {
+      try {
+        const data = JSON.parse(savedData);
+        this.allTopics = data.topics.map((t: any) => ({
+          ...t,
+          dueDate: new Date(t.dueDate),
+          completedDate: t.completedDate ? new Date(t.completedDate) : null,
+          terms: t.terms || []
+        }));
+      } catch (e) {
+        console.error('Error parsing saved data:', e);
+        this.initializeAllTopics();
+      }
+    } else {
+      this.initializeAllTopics();
+    }
+  }
+  completeFutureTopic(topic: Topic): void {
+    const updatedTopic = {
+      ...topic,
+      completed: true,
+      completedDate: new Date() // Всегда текущая дата
+    };
+  
+    const index = this.allTopics.findIndex(t => t.id === topic.id);
+    if (index !== -1) {
+      this.allTopics[index] = updatedTopic;
+      this.saveProgress();
+      this.organizeTopics();
+    }
+  }
+  calculateForecast(): ProgressForecast {
+    // 1. Сбор статистики
+    const completedTopics = this.completedTopics;
+    const totalTopics = this.allTopics.length;
+    const remainingTopics = totalTopics - completedTopics.length;
+    
+    // 2. Расчет скорости по разным периодам
+    const now = new Date();
+    const startDate = this.allTopics.reduce((min, t) => 
+      t.dueDate < min ? t.dueDate : min, new Date(9999, 0));
+    
+    // Разбиваем на периоды для анализа тренда
+    const allPeriods = this.calculatePeriodStats(startDate, now);
+    
+    // 3. Взвешенное прогнозирование
+    const weights = {
+      recent: 0.6,    // Последние 7 дней
+      medium: 0.3,    // Предыдущие 14 дней
+      overall: 0.1    // Все время
+    };
+    
+    // Рассчитываем скорости для разных периодов
+    const rates = {
+      recent: this.calculateRate(allPeriods.slice(-7)),
+      medium: this.calculateRate(allPeriods.slice(-21, -7)),
+      overall: this.calculateRate(allPeriods)
+    };
+    
+    // Взвешенная средняя скорость
+    const weightedRate = 
+      rates.recent * weights.recent + 
+      rates.medium * weights.medium + 
+      rates.overall * weights.overall;
+    
+    // 4. Коррекция на сложность и время
+    const difficultyFactor = this.calculateDifficultyFactor();
+    const timeFactor = this.calculateTimeFactor();
+    const adjustedRate = weightedRate * difficultyFactor * timeFactor;
+    
+    // 5. Прогноз с учетом выходных и праздников
+    return {
+      expectedEndDate: this.calculateAdjustedEndDate(adjustedRate, remainingTopics, now),
+      basedOn: 'topics',
+      currentRate: adjustedRate,
+      optimisticDate: this.calculateAdjustedEndDate(adjustedRate * 1.2, remainingTopics, now),
+      pessimisticDate: this.calculateAdjustedEndDate(adjustedRate * 0.8, remainingTopics, now),
+      totalHours: this.calculateTotalPlanHours(),
+      completedHours: this.calculateCompletedHours(),
+      remainingHours: this.calculateRemainingHours()
+    };
+  }
+  private calculatePeriodStats(start: Date, end: Date): any[] {
+    // Группировка выполненных тем по дням
+    const dailyStats: {[key: string]: number} = {};
+    
+    this.completedTopics.forEach(topic => {
+      if (!topic.completedDate) return;
+      const dateKey = topic.completedDate.toISOString().split('T')[0];
+      dailyStats[dateKey] = (dailyStats[dateKey] || 0) + 1;
+    });
+    
+    // Преобразование в массив периодов
+    const result = [];
+    const currentDay = new Date(start);
+    
+    while (currentDay <= end) {
+      const dateKey = currentDay.toISOString().split('T')[0];
+      result.push({
+        date: new Date(currentDay),
+        count: dailyStats[dateKey] || 0,
+        dayOfWeek: currentDay.getDay()
+      });
+      currentDay.setDate(currentDay.getDate() + 1);
+    }
+    
+    return result;
+  }
+  private calculateCompletedHours(): number {
+    return this.completedTopics.reduce((sum, topic) => sum + this.parseTimeToHours(topic.time), 0);
+  }
+  
+  private calculateRemainingHours(): number {
+    return this.allTopics
+      .filter(topic => !topic.completed)
+      .reduce((sum, topic) => sum + this.parseTimeToHours(topic.time), 0);
+  }
+  
+  private calculateTotalPlanHours(): number {
+    return this.allTopics.reduce((sum, topic) => sum + this.parseTimeToHours(topic.time), 0);
+  }
+  
+  public calculateAverageDifficulty(): number {
+    if (this.allTopics.length === 0) return 0;
+    return this.allTopics.reduce((sum, topic) => sum + (topic.difficulty || 50), 0) / this.allTopics.length;
+  }
+  
+  public daysBetween(endDate: Date): number {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(endDate);
+    end.setHours(0, 0, 0, 0);
+    return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+  }
+  private calculateRate(periods: any[]): number {
+    if (periods.length === 0) return 0;
+    
+    // Фильтрация выходных (суббота=6, воскресенье=0)
+    const workDays = periods.filter(p => p.dayOfWeek !== 0 && p.dayOfWeek !== 6);
+    const totalCompleted = workDays.reduce((sum, day) => sum + day.count, 0);
+    
+    return workDays.length > 0 ? totalCompleted / workDays.length : 0;
+  }
+  
+  private calculateDifficultyFactor(): number {
+    if (this.completedTopics.length === 0) return 1;
+    
+    const completedDifficulty = this.completedTopics.reduce(
+      (sum, t) => sum + (t.difficulty || 50), 0) / this.completedTopics.length;
+    
+    const remainingDifficulty = this.allTopics
+      .filter(t => !t.completed)
+      .reduce((sum, t) => sum + (t.difficulty || 50), 0) / 
+      (this.allTopics.length - this.completedTopics.length) || 50;
+    
+    // Чем сложнее оставшиеся темы, тем больше замедление
+    return 1 + (remainingDifficulty - completedDifficulty) / 200;
+  }
+  
+  private calculateTimeFactor(): number {
+    if (this.completedTopics.length === 0) return 1;
+    
+    const avgCompletedTime = this.completedTopics.reduce(
+      (sum, t) => sum + this.parseTimeToHours(t.time), 0) / this.completedTopics.length;
+    
+    const avgRemainingTime = this.allTopics
+      .filter(t => !t.completed)
+      .reduce((sum, t) => sum + this.parseTimeToHours(t.time), 0) / 
+      (this.allTopics.length - this.completedTopics.length) || 1;
+    
+    return avgCompletedTime / avgRemainingTime;
+  }
+  
+  private calculateAdjustedEndDate(rate: number, remaining: number, fromDate: Date): Date {
+    if (rate <= 0) {
+      const futureDate = new Date(fromDate);
+      futureDate.setFullYear(futureDate.getFullYear() + 1);
+      return futureDate;
+    }
+    
+    let date = new Date(fromDate);
+    let daysNeeded = remaining / rate;
+    let workDaysPassed = 0;
+    
+    while (daysNeeded > 0) {
+      date.setDate(date.getDate() + 1);
+      
+      // Пропускаем выходные
+      const dayOfWeek = date.getDay();
+      if (dayOfWeek === 0 || dayOfWeek === 6) continue;
+      
+      // Учитываем праздники (можно добавить больше)
+      const isHoliday = this.isHoliday(date);
+      if (isHoliday) continue;
+      
+      workDaysPassed++;
+      daysNeeded--;
+    }
+    
+    return date;
+  }
+  
+  private isHoliday(date: Date): boolean {
+    const holidays = [
+      '01-01', '01-02', '01-07', '02-23', '03-08', 
+      '05-01', '05-09', '06-12', '11-04'
+    ];
+    
+    const monthDay = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    return holidays.includes(monthDay);
+  }
+  
+  private parseTimeToHours(timeStr: string): number {
+    if (!timeStr) return 1; // По умолчанию 1 час, если время не указано
+    
+    let hours = 0;
+    let minutes = 0;
+    
+    // Обрабатываем разные форматы времени:
+    // "2ч 30мин", "2 часа", "30 минут", "2.5ч" и т.д.
+    const hourMatch = timeStr.match(/(\d+\.?\d*)\s*(ч|час|часа|hours?|h)/i);
+    if (hourMatch) {
+      hours = parseFloat(hourMatch[1]);
+    }
+    
+    const minuteMatch = timeStr.match(/(\d+)\s*(мин|минут|minutes?|m)/i);
+    if (minuteMatch) {
+      minutes = parseInt(minuteMatch[1], 10);
+    }
+    
+    // Преобразуем минуты в десятичную часть часа
+    return hours + (minutes / 60);
+  }
+  
+  private getDaysPassed(): number {
+    if (this.allTopics.length === 0) return 0;
+    
+    // Находим самую раннюю дату среди всех тем
+    const startDate = new Date(Math.min(...this.allTopics.map(t => t.dueDate.getTime())));
+    startDate.setHours(0, 0, 0, 0);
+    
+    // Текущая дата без времени
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // Разница в днях
+    const diffTime = today.getTime() - startDate.getTime();
+    return Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+  }
+  
+  private calculateEndDate(rate: number, remaining: number): Date {
+    if (rate <= 0) {
+      // Если нет прогресса, возвращаем дату через год
+      const futureDate = new Date();
+      futureDate.setFullYear(futureDate.getFullYear() + 1);
+      return futureDate;
+    }
+    
+    const daysNeeded = remaining / rate;
+    const endDate = new Date();
+    
+    // Добавляем рабочие дни (исключаем выходные)
+    let daysAdded = 0;
+    while (daysAdded < daysNeeded) {
+      endDate.setDate(endDate.getDate() + 1);
+      
+      // Проверяем, не выходной ли это день (суббота или воскресенье)
+      const dayOfWeek = endDate.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        daysAdded++;
+      }
+    }
+    
+    return endDate;
+  }
+
+  private processNotesForDisplay(): void {
+    this.allTopics.forEach(topic => {
+      if (!topic.notes) {
+        topic.notesHtml = 'Заметок нет';
+        return;
+      }
+
+      let processedNotes = topic.notes;
+      
+      // Process terms for display
+      if (topic.terms?.length) {
+        topic.terms.forEach((term, index) => {
+          const regex = new RegExp(`(${term.term})(?![^<]*>|[^<>]*<\/)`, 'gi');
+          processedNotes = processedNotes.replace(
+            regex, 
+            `<strong class="term" data-term="${index}">$1<sup>${index + 1}</sup></strong>`
+          );
+        });
+      }
+
+      // Process subpoints (assuming they are marked with • or -)
+      processedNotes = processedNotes.replace(
+        /(^|\n)(\s*)[•\-]\s+(.*?)(?=\n|$)/g, 
+        '$1$2<span class="subpoint">$3</span>'
+      );
+
+      topic.notesHtml = this.sanitizer.bypassSecurityTrustHtml(processedNotes);
+    });
+  }
+  selectTopic(topic: Topic): void {
+    this.selectedTopic = { ...topic };
+    this.isEditingTerm = false;
+    this.currentTerm = null;
+    
+    // Инициализация редактора после отрисовки
+    setTimeout(() => {
+      this.focusEditor();
+      this.wordCount = this.countWords(this.selectedTopic?.notes || '');
+    });
+  }
+  cancelTermEdit(): void {
+    this.isEditingTerm = false;
+    this.currentTerm = null;
+  }
+
+  editTerm(index: number): void {
+    if (!this.selectedTopic?.terms || index < 0 || index >= this.selectedTopic.terms.length) {
+      return;
+    }
+    this.currentTerm = { ...this.selectedTopic.terms[index] };
+  }
+  updateFilteredTerms(): void {
+    if (!this.selectedTopic?.terms) {
+      this.filteredTerms = [];
+      return;
+    }
+    
+    this.filteredTerms = this.selectedTopic.terms.filter(term => 
+      term.term.toLowerCase().includes(this.termSearchQuery.toLowerCase()) ||
+      term.definition.toLowerCase().includes(this.termSearchQuery.toLowerCase())
+    );
+  }  
+
+  markAsSubpoint(): void {
+    if (!this.selectedTopic) return;
+    
+    const selection = window.getSelection();
+    if (!selection || selection.toString().trim().length === 0) return;
+    
+    const range = selection.getRangeAt(0);
+    const span = document.createElement('span');
+    span.className = 'subpoint';
+    span.textContent = selection.toString();
+    
+    range.deleteContents();
+    range.insertNode(span);
+    selection.removeAllRanges();
+    
+    // Update notes with the new HTML
+    if (this.selectedTopic) {
+      const editor = document.querySelector('.notes-editor-content');
+      if (editor) {
+        this.selectedTopic.notes = editor.innerHTML;
+      }
+    }
+  }
+  saveNotes(): void {
+    if (!this.selectedTopic) return;
+    
+    // Обработка терминов перед сохранением
+    const editor = document.querySelector('.editor-content') as HTMLElement;
+    if (editor) {
+      this.selectedTopic.notes = editor.innerHTML;
+      
+      // Обновляем список терминов из выделенного текста
+      const termElements = editor.querySelectorAll('.term-highlight');
+      termElements.forEach(el => {
+        const termText = el.textContent?.trim();
+        if (termText && !this.selectedTopic?.terms?.some(t => t.term === termText)) {
+          this.selectedTopic?.terms?.push({
+            term: termText,
+            definition: ''
+          });
+        }
+      });
+    }
+    
+    const topicIndex = this.allTopics.findIndex(t => t.id === this.selectedTopic!.id);
+    if (topicIndex !== -1) {
+      this.allTopics[topicIndex] = { ...this.selectedTopic };
+      this.saveProgress();
+      this.organizeTopics();
+    }
+    this.autoSaved = true;
+  }
+  onEditorInput(event: Event): void {
+    
+    const element = event.target as HTMLElement;
+    if (this.selectedTopic && this.currentTerm) {
+      if (!this.selectedTopic.terms) {
+        this.selectedTopic.terms = [];
+      }
+      this.selectedTopic.terms.push({ ...this.currentTerm });
+    }
+    this.wordCount = this.countWords(element.innerText);
+    
+    // Автосохранение через 2 секунды после последнего изменения
+    clearTimeout(this.saveTimeout);
+    this.autoSaved = false;
+    this.saveTimeout = setTimeout(() => {
+      this.saveNotes();
+      this.autoSaved = true;
+    }, 2000);
+  }
+  
+  formatText(command: string): void {
+    document.execCommand(command, false);
+    this.focusEditor();
+  }
+  
+  insertList(type: 'ul' | 'ol'): void {
+    document.execCommand('insert' + (type === 'ol' ? 'Ordered' : 'Unordered') + 'List');
+    this.focusEditor();
+  }
+  
+  insertLink(): void {
+    const url = prompt('Enter URL:', 'http://');
+    if (url) {
+      document.execCommand('createLink', false, url);
+    }
+    this.focusEditor();
+  }
+  
+  insertImage(): void {
+    const url = prompt('Enter image URL:', 'http://');
+    if (url) {
+      document.execCommand('insertImage', false, url);
+    }
+    this.focusEditor();
+  }
+  addNewTerm(): void {
+    if (!this.selectedTopic) return;
+    
+    if (!this.selectedTopic.terms) {
+      this.selectedTopic.terms = [];
+    }
+  
+    this.currentTerm = {
+      term: '',
+      definition: ''
+    };
+    
+    // Фокус на поле ввода после добавления
+    setTimeout(() => {
+      const input = document.querySelector('.term-input') as HTMLInputElement;
+      input?.focus();
+    });
+  }
+  addTerm(): void {
+    // Проверяем наличие выделенного текста
+    const selection = window.getSelection();
+    const selectedText = selection?.toString().trim();
+  
+    if (selectedText) {
+      // Если есть выделенный текст - используем markAsTerm
+      this.markAsTerm();
+      return;
+    }
+  
+    // Если нет выделенного текста - запрашиваем термин через prompt
+    const term = prompt('Enter term:');
+    if (!term) return; // Если пользователь отменил ввод
+  
+    // Получаем диапазон выделения (если есть)
+    const range = selection?.rangeCount ? selection.getRangeAt(0) : null;
+  
+    // Создаем элемент для выделения термина
+    const span = document.createElement('span');
+    span.className = 'term-highlight';
+    span.textContent = term;
+  
+    // Вставляем новый термин в редактор (если есть диапазон)
+    if (range) {
+      range.deleteContents();
+      range.insertNode(span);
+    }
+  
+    // Проверяем и инициализируем selectedTopic и terms
+    if (!this.selectedTopic) {
+      console.warn('No topic selected');
+      return;
+    }
+  
+    // Инициализируем массив terms, если его нет
+    if (!this.selectedTopic.terms) {
+      this.selectedTopic.terms = [];
+    }
+  
+    // Создаем новый термин
+    const newTerm = {
+      term: term,
+      definition: ''
+    };
+  
+    // Проверяем, есть ли такой термин уже в списке
+    const existingTermIndex = this.selectedTopic.terms.findIndex(t => t['term'] === term);
+    
+    if (existingTermIndex >= 0) {
+      // Если термин уже существует - используем существующий
+      this.currentTerm = { ...this.selectedTopic.terms[existingTermIndex] };
+    } else {
+      // Если термин новый - добавляем в список
+      this.selectedTopic.terms.push(newTerm);
+      this.currentTerm = { ...newTerm };
+    }
+  
+    this.isEditingTerm = true;
+  }
+  
+  private focusEditor(): void {
+    const editor = document.querySelector('.editor-content') as HTMLElement;
+    editor.focus();
+  }
+  
+  private countWords(text: string): number {
+    return text.trim() ? text.trim().split(/\s+/).length : 0;
+  }  
+  markAsTerm(): void {
+    if (!this.selectedTopic) return;
+    
+    const selection = window.getSelection();
+    if (!selection || selection.toString().trim().length === 0) return;
+    
+    const termText = selection.toString().trim();
+    this.currentTerm = {
+      term: termText,
+      definition: ''
+    };
+    
+    this.isEditingTerm = true;
+    
+    if (!this.selectedTopic.terms) {
+      this.selectedTopic.terms = [];
+    }
+    
+    // Check if term already exists
+    const existingTermIndex = this.selectedTopic.terms.findIndex(t => t.term === termText);
+    if (existingTermIndex >= 0) {
+      this.currentTerm = this.selectedTopic.terms[existingTermIndex];
+    }
+  }
+  private parseTopicString(topicStr: string): { title: string, difficulty: number, time: string } {
+    if (!topicStr.includes('(')) {
+      return { title: topicStr, difficulty: 0, time: '' };
+    }
+    
+    const titlePart = topicStr.split('(')[0].trim();
+    const paramsPart = topicStr.match(/\(([^)]+)\)/)?.[1] || '';
+    
+    let difficulty = 0;
+    let time = '';
+    
+    paramsPart.split(',').forEach(param => {
+      if (param.includes('сложность:')) {
+        difficulty = parseInt(param.split(':')[1]) || 0;
+      } else if (param.includes('время:')) {
+        time = param.split(':')[1].trim();
+      }
+    });
+    
+    return { title: titlePart, difficulty, time };
+  }
+  getCompletedTodayCount(): number {
+    return this.todayTopics.filter(t => t.completed).length;
+  }
+  
+  get completedTopicsCount(): number {
+    return this.allTopics.filter(t => t.completed).length;
+  }
+  
+  get todayCompletedCount(): number {
+    return this.todayTopics.filter(t => t.completed).length;
+  }
+  
+  private findExistingTopic(title: string, week: number, day: number): Topic | undefined {
+    return this.allTopics.find(t => 
+      t.title === title && 
+      t.week === week && 
+      t.day === day
+    );
+  }
+  toggleTopicCompletion(topic: Topic): void {
+    const newCompletedStatus = !topic.completed;
+    
+    // Обновляем тему
+    const updatedTopic = {
+      ...topic,
+      completed: newCompletedStatus,
+      // Всегда сохраняем конкретную дату выполнения
+      completedDate: newCompletedStatus ? new Date() : null
+    };
+  
+    // Находим и обновляем тему в массиве
+    const index = this.allTopics.findIndex(t => t.id === topic.id);
+    if (index !== -1) {
+      this.allTopics[index] = updatedTopic;
+      this.saveProgress();
+      
+      // Обновляем выбранную тему если она открыта
+      if (this.selectedTopic?.id === topic.id) {
+        this.selectedTopic = {...updatedTopic};
+      }
+    }
+  }
+  private saveProgress(): void {
+    const data = {
+      topics: this.allTopics.map(topic => ({
+        ...topic,
+        dueDate: topic.dueDate.toISOString(),
+        completedDate: topic.completedDate ? topic.completedDate.toISOString() : null,
+        notes: topic.notes || '',
+        terms: topic.terms || []
+      })),
+      lastUpdated: new Date().toISOString()
+    };
+    
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+  }
+  
+
+  private calculateDueDate(week: number, day: number): Date {
+    const startDate = new Date(2025, 5, 1);
+    const daysToAdd = (week - 1) * 7 + (day - 1);
+    const dueDate = new Date(startDate);
+    dueDate.setDate(startDate.getDate() + daysToAdd);
+    return dueDate;
+  }
+
+  private generateId(): string {
+    return Math.random().toString(36).substr(2, 9);
+  }
+  private organizeTopics(): void {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    this.todayTopics = this.allTopics.filter(topic => {
+      const topicDate = new Date(topic.dueDate);
+      topicDate.setHours(0, 0, 0, 0);
+      return topicDate.getTime() === today.getTime();
+    });
+  
+    this.futureTopics = this.allTopics
+      .filter(topic => {
+        const topicDate = new Date(topic.dueDate);
+        topicDate.setHours(0, 0, 0, 0);
+        return topicDate > today && !topic.completed;
+      })
+      .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime());
+  
+    this.completedTopics = this.allTopics
+      .filter(topic => topic.completed)
+      .sort((a, b) => (b.completedDate || new Date(0)).getTime() - (a.completedDate || new Date(0)).getTime());
+  
+    this.progressData.emit({
+      allTopics: this.allTopics,
+      completedTopics: this.completedTopics,
+      totalProgress: this.totalProgress,
+      todayProgress: this.todayProgress
+    });
+    this.forecast = this.calculateForecast();
+  }
+
+  setViewMode(mode: 'today' | 'diary' | 'future' | 'charts') {
+    this.viewMode = mode;
+    this.selectedTopic = null;
+    this.isEditingTerm = false;
+    this.currentTerm = null;
+  }
+
+  getFilteredTopics(): Topic[] {
+    let topics = this.allTopics;
+    if (this.searchQuery) {
+      topics = topics.filter(t => 
+        t.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        (t.notes && t.notes.toLowerCase().includes(this.searchQuery.toLowerCase())) ||
+        (t.terms && t.terms.some(term => 
+          term.term.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          term.definition.toLowerCase().includes(this.searchQuery.toLowerCase())
+        ))
+      );
+    }
+    switch (this.filter) {
+      case 'completed': return topics.filter(t => t.completed);
+      case 'pending': return topics.filter(t => !t.completed);
+      default: return topics;
+    }
+  }
+
+  get todayProgress() {
+    const total = this.todayTopics.length;
+    const completed = this.todayTopics.filter(t => t.completed).length;
+    return total > 0 ? Math.round((completed / total) * 100) : 0;
+  }
+  get totalProgress() {
+    const total = this.allTopics.length;
+    const completed = this.allTopics.filter(t => t.completed).length;
+    return total > 0 ? Math.round((completed / total) * 100) : 0;
+  }
+
+
+
+  showTermsEditor(): void {
+    if (!this.selectedTopic) return;
+    
+    if (!this.selectedTopic.terms) {
+      this.selectedTopic.terms = [];
+    }
+    
+    this.filteredTerms = [...this.selectedTopic.terms];
+    this.isEditingTerm = true;
+    this.currentTermIndex = this.filteredTerms.length > 0 ? 0 : -1;
+  }
+  
+  addEmptyTerm(): void {
+    this.filteredTerms.push({
+      term: '',
+      definition: ''
+    });
+    this.currentTermIndex = this.filteredTerms.length - 1;
+  }
+  
+  saveTerms(): void {
+    if (!this.selectedTopic) return ;
+    
+    this.selectedTopic.terms = this.filteredTerms.filter(t => t.term.trim() !== '');
+    this.saveNotes();
+    this.isEditingTerm = false;
+  }
+  
+  removeTerm(index: number): void {
+    this.filteredTerms.splice(index, 1);
+    if (this.currentTermIndex >= index) {
+      this.currentTermIndex = Math.max(0, this.currentTermIndex - 1);
+    }
+  }
+  
+  get filteredTermsList(): TermDefinition[] {
+    if (!this.termSearch) {
+      return this.filteredTerms;
+    }
+    const search = this.termSearch.toLowerCase();
+    return this.filteredTerms.filter(term => 
+      term.term.toLowerCase().includes(search) ||
+      term.definition.toLowerCase().includes(search)
+    );
   }
 }
 
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\history\history.component.html ---
+
+<div class="history-container">
+    <h2>История прохождения тестов</h2>
+    
+    <div class="controls">
+      <div class="filter-control">
+        <label>Фильтр:</label>
+        <select [(ngModel)]="selectedFilter" (change)="applyFiltersAndSort()">
+          <option value="all">Все тесты</option>
+          <option value="thematic">Тематические</option>
+          <option value="custom">Сгенерированные</option>
+          <option value="olympiad">Олимпиады</option>
+        </select>
+      </div>
+      
+      <div class="sort-control">
+        <label>Сортировка:</label>
+        <select [(ngModel)]="selectedSort" (change)="applyFiltersAndSort()">
+          <option value="newest">Новые сначала</option>
+          <option value="oldest">Старые сначала</option>
+          <option value="best">Лучшие результаты</option>
+          <option value="worst">Худшие результаты</option>
+        </select>
+      </div>
+      
+      <div class="actions">
+        <button (click)="exportHistory()">Экспорт истории</button>
+        <button (click)="clearHistory()">Очистить историю</button>
+      </div>
+    </div>
+    
+    @if (filteredResults.length === 0) {
+      <div class="no-results">
+        Нет результатов для отображения
+      </div>
+    }
+    
+    @if (filteredResults.length > 0) {
+      <table class="results-table">
+        <thead>
+            <tr>
+                <th>Тест</th>
+                <th>Тип</th>
+                <th>Дата</th>
+                <th>Результат</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (result of filteredResults; track result.id) {
+                <tr>
+                    <td>{{ result.testName }}</td>
+                    <td>
+                        <span class="test-type" 
+                              [class.thematic]="result.testType === 'thematic'"
+                              [class.olympiad]="result.testType === 'olympiad'">
+                            @switch (result.testType) {
+                                @case ('thematic') { Тематический }
+                                @case ('custom') { Сгенерированный }
+                                @case ('olympiad') { Олимпиада }
+                            }
+                        </span>
+                    </td>
+                    <td>{{ formatDate(result.date) }}</td>
+                    <td>
+                        <span class="result-badge" [class]="getResultColor(result)">
+                            {{ result.correctAnswers }}/{{ result.totalQuestions }} ({{ getPercentage(result) }}%)
+                        </span>
+                    </td>
+                    <td class="actions">
+                        <button (click)="showDetails(result)">Подробнее</button>
+                        @if (result.testType !== 'olympiad') {
+                            <button (click)="restartTest(result)">Пройти снова</button>
+                        }
+                        <button (click)="deleteResult(result.id)">Удалить</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+    
+    @if (selectedResult) {
+      <div class="modal-overlay">
+          <div class="modal">
+              <div class="modal-header">
+                  <h3>{{ selectedResult.testName }}</h3>
+                  <button (click)="closeDetails()">×</button>
+              </div>
+              
+              <div class="modal-body">
+                  <div class="modal-stats">
+                      <div class="stat">
+                          <span class="stat-value">{{ selectedResult.correctAnswers }}</span>
+                          <span class="stat-label">Правильных ответов</span>
+                      </div>
+                      <div class="stat">
+                          <span class="stat-value">{{ selectedResult.totalQuestions }}</span>
+                          <span class="stat-label">Всего вопросов</span>
+                      </div>
+                      <div class="stat">
+                          <span class="stat-value">{{ getPercentage(selectedResult) }}%</span>
+                          <span class="stat-label">Процент правильных</span>
+                      </div>
+                      <div class="stat">
+                          <span class="stat-value">{{ formatTime(selectedResult.timeSpent) }}</span>
+                          <span class="stat-label">Затраченное время</span>
+                      </div>
+                  </div>
+                  
+                  @if (selectedResult.testType === 'olympiad' && selectedResult.pdfUrl) {
+                    <div class="olympiad-details">
+                      <h4>Ссылка на задания олимпиады:</h4>
+                      <a [href]="selectedResult.pdfUrl" target="_blank" class="pdf-link" download>
+                        <mat-icon>picture_as_pdf</mat-icon>
+                        Скачать PDF с заданиями
+                      </a>
+                    </div>
+                  } @else {
+                      <div class="detailed-questions">
+                          <h4>Подробные результаты:</h4>
+                          @for (detail of selectedResult.details; track $index) {
+                              <div class="question-detail" [class.correct]="detail.isCorrect">
+                                  <div class="question-number">Вопрос {{ $index + 1 }}</div>
+                                  <div class="question-text">{{ detail.question }}</div>
+                                  <div class="user-answer">Ваш ответ: {{ detail.userAnswer }}</div>
+                                  @if (!detail.isCorrect) {
+                                      <div class="correct-answer">Правильный ответ: {{ detail.correctAnswer }}</div>
+                                  }
+                              </div>
+                          }
+                      </div>
+                  }
+              </div>
+              
+              <div class="modal-footer">
+                  <button (click)="closeDetails()">Закрыть</button>
+              </div>
+          </div>
+      </div>
+  }
+  </div>
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\history\history.component.spec.ts ---
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { HistoryComponent } from './history.component';
+
+describe('HistoryComponent', () => {
+  let component: HistoryComponent;
+  let fixture: ComponentFixture<HistoryComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [HistoryComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(HistoryComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\history\history.component.ts ---
+
+import { Component, OnInit } from '@angular/core';
+import { HistoryService } from '../../services/history.service';
+import { QuizResult } from '../../models/quiz-result.model';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+
+@Component({
+  selector: 'app-history',
+  templateUrl: './history.component.html',
+  styleUrls: ['./history.component.css'],
+  imports: [CommonModule, FormsModule, MatIcon],
+  standalone: true
+})
+export class HistoryComponent implements OnInit {
+  results: QuizResult[] = [];
+  filteredResults: QuizResult[] = [];
+  selectedFilter: string = 'all';
+  selectedSort: string = 'newest';
+  selectedResult: QuizResult | null = null;
+
+  constructor(private historyService: HistoryService) {}
+
+  ngOnInit(): void {
+    this.loadHistory();
+  }
+
+  loadHistory(): void {
+    this.results = this.historyService.getHistory();
+    this.applyFiltersAndSort();
+  }
+
+  applyFiltersAndSort(): void {
+    // Фильтрация
+    this.filteredResults = this.results.filter(result => {
+      if (this.selectedFilter === 'all') return true;
+      return result.testType === this.selectedFilter;
+    });
+
+    // Сортировка
+    this.filteredResults.sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      const percentageA = a.correctAnswers / a.totalQuestions;
+      const percentageB = b.correctAnswers / b.totalQuestions;
+
+      switch (this.selectedSort) {
+        case 'newest': return dateB - dateA;
+        case 'oldest': return dateA - dateB;
+        case 'best': return percentageB - percentageA;
+        case 'worst': return percentageA - percentageB;
+        default: return 0;
+      }
+    });
+  }
+
+  showDetails(result: QuizResult): void {
+    this.selectedResult = result;
+  }
+
+  closeDetails(): void {
+    this.selectedResult = null;
+  }
+
+  restartTest(result: QuizResult): void {
+    // Реализация будет добавлена после интеграции с сервисом тестов
+    console.log('Restart test:', result);
+  }
+
+  deleteResult(id: string): void {
+    this.historyService.removeResult(id);
+    this.loadHistory();
+  }
+
+  clearHistory(): void {
+    if (confirm('Вы уверены, что хотите очистить всю историю?')) {
+      this.historyService.clearHistory();
+      this.loadHistory();
+    }
+  }
+
+  exportHistory(): void {
+    const data = JSON.stringify(this.results, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'astronomy-quiz-history.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  getPercentage(result: QuizResult): number {
+    return Math.round((result.correctAnswers / result.totalQuestions) * 100);
+  }
+
+  getResultColor(result: QuizResult): string {
+    const percentage = this.getPercentage(result);
+    if (percentage >= 80) return 'green';
+    if (percentage >= 50) return 'orange';
+    return 'red';
+  }
+
+  formatDate(date: Date): string {
+    return new Date(date).toLocaleString('ru-RU');
+  }
+
+  formatTime(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes} мин ${secs} сек`;
+  }
+}
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\olympiad-preparation\olympiad-preparation.component.html ---
+
+<!-- olympiad-preparation.component.html -->
+<div class="olympiad-container">
+  <div class="tabs">
+    <button 
+      [class.active]="activeTab === 'upload'" 
+      (click)="activeTab = 'upload'; selectedOlympiad = null">
+      Загрузить файл
+    </button>
+    <button 
+      [class.active]="activeTab === 'list'" 
+      (click)="activeTab = 'list'; selectedOlympiad = null">
+      Список олимпиад
+    </button>
+  </div>
+
+  <div class="tab-content">
+    @if (activeTab === 'upload') {
+      <div class="upload-section">
+        <h3>Загрузить новую олимпиаду</h3>
+        <div class="upload-form">
+          <div class="form-group">
+            <label>PDF файл с заданиями:</label>
+            <input type="file" accept=".pdf" (change)="onFileSelected($event)" required>
+            @if (pdfFile) {
+              <div class="file-info">{{ pdfFile.name }}</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>Название олимпиады:</label>
+            <input type="text" [(ngModel)]="pdfName" placeholder="Например: ВсОШ по астрономии" required>
+          </div>
+
+          <div class="form-group">
+            <label>Год проведения:</label>
+            <select [(ngModel)]="olympiadYear">
+              @for (year of availableYears; track year) {
+                <option [value]="year">{{ year }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Этап:</label>
+            <select [(ngModel)]="olympiadStage">
+              <option value="school">Школьный</option>
+              <option value="municipal">Муниципальный</option>
+              <option value="regional">Региональный</option>
+              <option value="final">Заключительный</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Максимальный балл:</label>
+            <input type="number" [(ngModel)]="maxScore" min="1" max="200" required>
+          </div>
+
+          <div class="form-group">
+            <label>PDF файл с решениями (необязательно):</label>
+            <input type="file" accept=".pdf" (change)="onSolutionFileSelected($event)">
+            @if (solutionFile) {
+              <div class="file-info">{{ solutionFile.name }}</div>
+            }
+          </div>
+
+          <div class="form-actions">
+            <button 
+              class="upload-button" 
+              (click)="uploadOlympiad()" 
+              [disabled]="!pdfFile || !pdfName">
+              Загрузить олимпиаду
+            </button>
+            <button class="cancel-button" (click)="resetUploadForm()">
+              Очистить форму
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (activeTab === 'list' && !selectedOlympiad) {
+      <div class="olympiad-list">
+        <h3>Доступные олимпиады</h3>
+        
+        <div class="filters-section">
+          <div class="filter-group">
+            <input type="text" [(ngModel)]="filterName" (input)="applyFilters()" 
+                   placeholder="Поиск по названию">
+          </div>
+          
+          <div class="filter-group">
+            <select [(ngModel)]="filterYear" (change)="applyFilters()">
+              <option value="">Все годы</option>
+              @for (year of availableYears; track year) {
+                <option [value]="year">{{ year }}</option>
+              }
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <select [(ngModel)]="filterStage" (change)="applyFilters()">
+              <option value="">Все этапы</option>
+              <option value="school">Школьный</option>
+              <option value="municipal">Муниципальный</option>
+              <option value="regional">Региональный</option>
+              <option value="final">Заключительный</option>
+            </select>
+          </div>
+          
+          <button class="reset-filters" (click)="resetFilters()">
+            <mat-icon>refresh</mat-icon> Сбросить
+          </button>
+        </div>
+
+        @if (filteredOlympiads.length === 0) {
+          <div class="empty-list">Нет олимпиад, соответствующих фильтрам</div>
+        }
+        
+        <div class="olympiad-items">
+          @for (olympiad of filteredOlympiads; track olympiad.id) {
+            <div class="olympiad-item" (click)="openOlympiad(olympiad)">
+              <div class="olympiad-info">
+                <div class="olympiad-name">{{ olympiad.name }}</div>
+                <div class="olympiad-meta">
+                  <span class="year">{{ olympiad.year }} год</span>
+                  <span class="stage">{{ getStageName(olympiad.stage) }}</span>
+                  <span class="max-score">Макс. балл: {{ olympiad.maxScore }}</span>
+                  @if (olympiad.solutionUrl) {
+                    <span class="has-solution">
+                      <mat-icon>check_circle</mat-icon> Решения
+                    </span>
+                  }
+                </div>
+              </div>
+              <div class="olympiad-actions">
+                <button class="edit-button" (click)="startEditOlympiad(olympiad, $event)" 
+                        matTooltip="Редактировать">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="delete-button" (click)="deleteOlympiad(olympiad.id, $event)" 
+                        matTooltip="Удалить">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    @if (selectedOlympiad) {
+      <div class="olympiad-viewer">
+        <div class="viewer-header">
+          <div class="header-left">
+            <h3 class="olympiad-title">
+              {{ selectedOlympiad.name }}
+              <span class="olympiad-year">{{ selectedOlympiad.year }}</span>
+            </h3>
+            <div class="olympiad-stage">{{ getStageName(selectedOlympiad.stage) }}</div>
+          </div>
+          
+          <div class="controls-strip">
+            <div class="timer-strip">
+              <mat-icon>schedule</mat-icon>
+              {{ formatTime(timer) }}
+            </div>
+            
+            <div class="score-strip">
+              <div class="score-control-strip">
+                <button (click)="adjustScore(-1)" matTooltip="Уменьшить балл">
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <span class="current-score-strip">
+                  {{ currentScore }} / {{ selectedOlympiad.maxScore }}
+                </span>
+                <button (click)="adjustScore(1)" matTooltip="Увеличить балл">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+            
+            <button class="finish-button-strip" (click)="finishOlympiad()" 
+                    matTooltip="Завершить олимпиаду">
+              <mat-icon>flag</mat-icon>
+              Закончить
+            </button>
+          </div>
+        </div>
+
+        <div class="pdf-container">
+          <div class="side-controls left-controls">
+            <button mat-mini-fab (click)="zoomOut()" matTooltip="Уменьшить (Ctrl+-)">
+              <mat-icon>zoom_out</mat-icon>
+            </button>
+            <button mat-mini-fab (click)="resetZoom()" matTooltip="Сбросить масштаб">
+              <mat-icon>refresh</mat-icon>
+            </button>
+            <span class="zoom-percent">{{ (currentScale * 100).toFixed(0) }}%</span>
+          </div>
+        
+          <div class="pdf-viewer-wrapper">
+            @if (selectedOlympiad.pdfUrl) {
+              <pdf-viewer 
+                [src]="selectedOlympiad.pdfUrl"
+                [style.width]="'100%'"
+                [style.height]="'100%'"
+                [zoom]="currentScale"
+                (after-load-complete)="onPdfLoadComplete()"
+                (error)="onPdfLoadError($event)"
+                [original-size]="false">
+              </pdf-viewer>
+            }
+          </div>
+        
+          <div class="side-controls right-controls">
+            <button mat-mini-fab (click)="zoomIn()" matTooltip="Увеличить (Ctrl++)">
+              <mat-icon>zoom_in</mat-icon>
+            </button>
+            <button mat-mini-fab (click)="fitToWidth()" matTooltip="По ширине">
+              <mat-icon>fit_screen</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (isEditing && editedOlympiad) {
+    <div class="edit-modal-overlay">
+      <div class="edit-modal">
+        <div class="modal-header">
+          <h3>Редактирование олимпиады</h3>
+          <button class="close-button" (click)="cancelEdit()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        
+        <div class="edit-form">
+          <div class="form-group">
+            <label>Название олимпиады:</label>
+            <input type="text" [(ngModel)]="editedOlympiad.name" required>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>Год проведения:</label>
+              <select [(ngModel)]="editedOlympiad.year">
+                @for (year of availableYears; track year) {
+                  <option [value]="year">{{ year }}</option>
+                }
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label>Этап:</label>
+              <select [(ngModel)]="editedOlympiad.stage">
+                <option value="school">Школьный</option>
+                <option value="municipal">Муниципальный</option>
+                <option value="regional">Региональный</option>
+                <option value="final">Заключительный</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label>Макс. балл:</label>
+              <input type="number" [(ngModel)]="editedOlympiad.maxScore" min="1" max="200" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>PDF с заданиями:</label>
+            @if (currentPdfUrl) {
+              <div class="current-file">
+                <mat-icon>picture_as_pdf</mat-icon>
+                Текущий файл сохранен
+                <a [href]="currentPdfUrl" target="_blank" download class="pdf-link">Просмотреть</a>
+              </div>
+            }
+            <input type="file" accept=".pdf" (change)="onFileSelected($event)">
+            @if (pdfFile) {
+              <div class="file-info">Будет загружен: {{ pdfFile.name }}</div>
+            }
+          </div>
+          
+          <div class="form-group">
+            <label>PDF с решениями:</label>
+            @if (currentSolutionUrl !== null && !removeSolution) {
+              <div class="current-file">
+                <mat-icon>picture_as_pdf</mat-icon>
+                Текущий файл сохранен
+                <a [href]="currentSolutionUrl!" target="_blank" download class="pdf-link">Просмотреть</a>
+                <button class="remove-solution" (click)="removeSolution = true">
+                  <mat-icon>delete</mat-icon> Удалить
+                </button>
+              </div>
+            }
+            @if (currentSolutionUrl === null || removeSolution) {
+              <input type="file" accept=".pdf" (change)="onSolutionFileSelected($event)">
+              @if (solutionFile) {
+                <div class="file-info">Будет загружен: {{ solutionFile.name }}</div>
+              }
+            }
+          </div>
+          
+          <div class="form-actions">
+            <button class="save-button" (click)="saveOlympiadChanges()">
+              <mat-icon>save</mat-icon> Сохранить
+            </button>
+            <button class="cancel-button" (click)="cancelEdit()">
+              <mat-icon>cancel</mat-icon> Отмена
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (showResultModal) {
+    <div class="result-modal-overlay">
+      <div class="result-modal">
+        <div class="modal-header">
+          <h3>Результаты олимпиады</h3>
+          <button class="close-button" (click)="closeResultModal()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        
+        <div class="result-info">
+          <div class="result-item">
+            <span class="label">Олимпиада:</span>
+            <span class="value">{{ selectedOlympiad?.name }} ({{ selectedOlympiad?.year }})</span>
+          </div>
+          <div class="result-item">
+            <span class="label">Этап:</span>
+            <span class="value">{{ getStageName(selectedOlympiad?.stage || '') }}</span>
+          </div>
+          <div class="result-item">
+            <span class="label">Набрано баллов:</span>
+            <span class="value">{{ resultData.score }} / {{ resultData.maxScore }}</span>
+          </div>
+          <div class="result-item">
+            <span class="label">Затраченное время:</span>
+            <span class="value">{{ resultData.timeSpent }}</span>
+          </div>
+        </div>
+        
+        <div class="result-actions">
+          @if (resultData.hasSolution) {
+            <button class="solutions-button" (click)="viewSolutions()">
+              <mat-icon>visibility</mat-icon> Посмотреть решения
+            </button>
+          }
+          <button class="close-button" (click)="closeResultModal()">
+            <mat-icon>done</mat-icon> Закрыть
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (showSolutionsModal && selectedOlympiad?.solutionUrl) {
+    <div class="solutions-modal-overlay">
+      <div class="solutions-modal">
+        <div class="modal-header">
+          <h3>Решения олимпиады "{{ selectedOlympiad?.name }}"</h3>
+          <button class="close-button" (click)="closeSolutionsModal()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        
+        <div class="pdf-controls">
+          <button mat-mini-fab (click)="zoomOut()">
+            <mat-icon>zoom_out</mat-icon>
+          </button>
+          <button mat-mini-fab (click)="resetZoom()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+          <span class="zoom-percent">{{ (currentScale * 100).toFixed(0) }}%</span>
+          <button mat-mini-fab (click)="zoomIn()">
+            <mat-icon>zoom_in</mat-icon>
+          </button>
+        </div>
+        
+        <div class="pdf-viewer-wrapper">
+          <pdf-viewer 
+            [src]="selectedOlympiad?.solutionUrl" 
+            [style.width]="'100%'"
+            [style.height]="'calc(100% - 60px)'"
+            [zoom]="currentScale"
+            [original-size]="false">
+          </pdf-viewer>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\olympiad-preparation\olympiad-preparation.component.spec.ts ---
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { OlympiadPreparationComponent } from './olympiad-preparation.component';
+
+describe('OlympiadPreparationComponent', () => {
+  let component: OlympiadPreparationComponent;
+  let fixture: ComponentFixture<OlympiadPreparationComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [OlympiadPreparationComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(OlympiadPreparationComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\olympiad-preparation\olympiad-preparation.component.ts ---
+
+// olympiad-preparation.component.ts
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { OlympiadService } from '../../services/olympiad.service';
+import { HistoryService } from '../../services/history.service';
+import { QuizResult } from '../../models/quiz-result.model';
+import { Olympiad } from '../../models/olympiad.model';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { MatIconModule } from '@angular/material/icon';
+
+@Component({
+  selector: 'app-olympiad-preparation',
+  templateUrl: './olympiad-preparation.component.html',
+  styleUrls: ['./olympiad-preparation.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, PdfViewerModule, MatIconModule]
+})
+export class OlympiadPreparationComponent implements OnInit {
+  @ViewChild('pdfViewer') pdfViewer!: ElementRef;
+  
+  // Состояние компонента
+  activeTab: 'upload' | 'list' = 'list';
+  olympiads: Olympiad[] = [];
+  filteredOlympiads: Olympiad[] = [];
+  selectedOlympiad: Olympiad | null = null;
+  editedOlympiad: Olympiad | null = null;
+  
+  // Файлы
+  pdfFile: File | null = null;
+  solutionFile: File | null = null;
+  
+  // Флаги состояния
+  isPdfLoaded = false;
+  isEditing = false;
+  showResultModal = false;
+  showSolutionsModal = false;
+  
+  // Данные формы
+  pdfName = '';
+  olympiadYear = new Date().getFullYear();
+  olympiadStage = 'school';
+  maxScore = 100;
+  
+  // Таймер и результаты
+  currentScore = 0;
+  timer = 0;
+  timerInterval: any;
+  resultData: any = {};
+  
+  // Настройки PDF
+  currentScale = 1.0;
+  zoomStep = 0.1;
+  minZoom = 0.5;
+  maxZoom = 2.0;
+
+  // Фильтры
+  filterName = '';
+  filterYear = '';
+  filterStage = '';
+  availableYears: number[] = [];
+
+  constructor(
+    private olympiadService: OlympiadService,
+    private historyService: HistoryService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.loadOlympiads();
+    this.calculateInitialZoom();
+    this.generateAvailableYears();
+  }
+
+  private generateAvailableYears(): void {
+    const currentYear = new Date().getFullYear();
+    this.availableYears = Array.from({length: 19}, (_, i) => currentYear - i);
+  }
+
+  loadOlympiads(): void {
+    this.olympiads = this.olympiadService.getOlympiads();
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    this.filteredOlympiads = this.olympiads.filter(olympiad => {
+      const nameMatch = this.filterName 
+        ? olympiad.name.toLowerCase().includes(this.filterName.toLowerCase())
+        : true;
+      
+      const yearMatch = this.filterYear 
+        ? olympiad.year.toString() === this.filterYear
+        : true;
+      
+      const stageMatch = this.filterStage 
+        ? olympiad.stage === this.filterStage
+        : true;
+      
+      return nameMatch && yearMatch && stageMatch;
+    });
+
+    // Сортируем по году (новые сначала)
+    this.filteredOlympiads.sort((a, b) => b.year - a.year);
+  }
+
+  resetFilters(): void {
+    this.filterName = '';
+    this.filterYear = '';
+    this.filterStage = '';
+    this.applyFilters();
+  }
+
+  startEditOlympiad(olympiad: Olympiad, event: Event): void {
+    event.stopPropagation();
+    this.editedOlympiad = {...olympiad};
+    this.isEditing = true;
+    
+    this.pdfFile = null;
+    this.solutionFile = null;
+    this.removeSolution = false;
+    
+    // Сохраняем оригинальные URL
+    this.currentPdfUrl = olympiad.pdfUrl;
+    this.currentSolutionUrl = olympiad.solutionUrl; // может быть undefined
   }
   
-  .stat-card {
-    min-width: 100%;
+  
+  saveOlympiadChanges(): void {
+    if (!this.editedOlympiad) return;
+    
+    // Обработка PDF файла (всегда должен быть)
+    this.editedOlympiad.pdfUrl = this.pdfFile 
+      ? URL.createObjectURL(this.pdfFile)
+      : this.currentPdfUrl;
+  
+    // Обработка файла решений
+    if (this.solutionFile) {
+      this.editedOlympiad.solutionUrl = URL.createObjectURL(this.solutionFile);
+    } else if (this.removeSolution) {
+      this.editedOlympiad.solutionUrl = undefined; // явное удаление
+    } else {
+      this.editedOlympiad.solutionUrl = this.currentSolutionUrl; // сохраняем текущее
+    }
+  
+    this.olympiadService.updateOlympiad(this.editedOlympiad);
+    this.loadOlympiads();
+    this.cancelEdit();
   }
   
-  .chart-actions {
-    flex-direction: column;
-    gap: 5px;
+  cancelEdit(): void {
+    this.isEditing = false;
+    this.editedOlympiad = null;
+    this.pdfFile = null;
+    this.solutionFile = null;
+    this.removeSolution = false;
+    this.currentPdfUrl = '';
+    this.currentSolutionUrl = undefined;
   }
   
-  .download-btn, .info-btn {
-    width: 100%;
-    justify-content: center;
+  // Добавьте эти свойства в класс компонента:
+  currentPdfUrl: string = ''; // всегда строка
+  currentSolutionUrl: string | undefined;
+  removeSolution = false;
+
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      if (file.type === 'application/pdf') {
+        this.pdfFile = file;
+        
+        // Автозаполнение названия если поле пустое
+        if (!this.pdfName && !this.isEditing) {
+          this.pdfName = file.name.replace('.pdf', '');
+        }
+      } else {
+        alert('Пожалуйста, выберите PDF файл');
+      }
+    }
+  }
+
+  onSolutionFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      if (file.type === 'application/pdf') {
+        this.solutionFile = file;
+      } else {
+        alert('Пожалуйста, выберите PDF файл');
+      }
+    }
+  }
+
+  uploadOlympiad(): void {
+    if (!this.pdfFile) {
+      alert('Пожалуйста, выберите PDF файл');
+      return;
+    }
+
+    const pdfUrl = URL.createObjectURL(this.pdfFile);
+    let solutionUrl: string | undefined;
+
+    if (this.solutionFile) {
+      solutionUrl = URL.createObjectURL(this.solutionFile);
+    }
+
+    const olympiadName = this.pdfName.trim() || this.pdfFile.name.replace('.pdf', '');
+
+    this.olympiadService.addOlympiad({
+      name: olympiadName,
+      year: this.olympiadYear,
+      stage: this.olympiadStage,
+      pdfUrl: pdfUrl,
+      solutionUrl: solutionUrl,
+      maxScore: this.maxScore
+    });
+
+    this.loadOlympiads();
+    this.resetUploadForm();
+  }
+
+  resetUploadForm(): void {
+    this.pdfFile = null;
+    this.solutionFile = null;
+    this.pdfName = '';
+    this.olympiadYear = new Date().getFullYear();
+    this.olympiadStage = 'school';
+    this.maxScore = 100;
+  }
+
+  getStageName(stage: string): string {
+    switch (stage) {
+      case 'school': return 'Школьный этап';
+      case 'municipal': return 'Муниципальный этап';
+      case 'regional': return 'Региональный этап';
+      case 'final': return 'Заключительный этап';
+      default: return stage;
+    }
+  }
+
+  openOlympiad(olympiad: Olympiad): void {
+    this.selectedOlympiad = olympiad;
+    this.currentScore = 0;
+    this.timer = 0;
+    this.isPdfLoaded = false;
+    this.startTimer();
+    this.cdr.detectChanges();
+  }
+
+  startTimer(): void {
+    this.stopTimer();
+    this.timerInterval = setInterval(() => {
+      this.timer++;
+    }, 1000);
+  }
+
+  stopTimer(): void {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  }
+
+  adjustScore(amount: number): void {
+    if (!this.selectedOlympiad) return;
+    
+    this.currentScore = Math.max(0, 
+      Math.min(this.selectedOlympiad.maxScore, this.currentScore + amount));
+  }
+
+  finishOlympiad(): void {
+    this.stopTimer();
+    
+    if (!this.selectedOlympiad) return;
+
+    const result: QuizResult = {
+      id: this.generateId(),
+      testName: `${this.selectedOlympiad.name} (${this.selectedOlympiad.year})`,
+      testType: 'olympiad',
+      date: new Date(),
+      correctAnswers: this.currentScore,
+      totalQuestions: this.selectedOlympiad.maxScore,
+      maxScore: this.selectedOlympiad.maxScore,
+      timeSpent: this.timer,
+      pdfUrl: this.selectedOlympiad.pdfUrl,
+      solutionUrl: this.selectedOlympiad.solutionUrl, // Теперь это допустимо
+      hasSolution: !!this.selectedOlympiad.solutionUrl
+    };
+
+    this.historyService.addResult(result);
+    this.showResultModal = true;
+    this.resultData = {
+      score: this.currentScore,
+      maxScore: this.selectedOlympiad.maxScore,
+      timeSpent: this.formatTime(this.timer),
+      hasSolution: !!this.selectedOlympiad.solutionUrl
+    };
+}
+  viewSolutions(): void {
+    this.showResultModal = false;
+    this.showSolutionsModal = true;
+  }
+
+  closeResultModal(): void {
+    this.showResultModal = false;
+    this.selectedOlympiad = null;
+  }
+
+  closeSolutionsModal(): void {
+    this.showSolutionsModal = false;
+  }
+
+  deleteOlympiad(id: string, event: Event): void {
+    event.stopPropagation();
+    
+    if (confirm('Вы уверены, что хотите удалить эту олимпиаду?')) {
+      this.olympiadService.removeOlympiad(id);
+      this.loadOlympiads();
+    }
+  }
+
+  formatTime(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  private generateId(): string {
+    return Math.random().toString(36).substring(2, 9);
+  }
+
+  // PDF Viewer controls
+  zoomIn(): void {
+    this.currentScale = Math.min(this.currentScale + this.zoomStep, this.maxZoom);
+  }
+
+  zoomOut(): void {
+    this.currentScale = Math.max(this.currentScale - this.zoomStep, this.minZoom);
+  }
+
+  resetZoom(): void {
+    this.currentScale = 1.0;
+  }
+
+  fitToWidth(): void {
+    const container = document.querySelector('.pdf-viewer-wrapper');
+    if (container) {
+      const containerWidth = container.clientWidth;
+      this.currentScale = (containerWidth - 40) / 800; // 800 - предполагаемая ширина PDF
+    }
+  }
+
+  private calculateInitialZoom(): void {
+    setTimeout(() => this.fitToWidth(), 100);
+  }
+
+  onPdfLoadComplete(): void {
+    this.isPdfLoaded = true;
+  }
+  
+  onPdfLoadError(error: any): void {
+    console.error('PDF load error:', error);
+    this.isPdfLoaded = false;
+    alert('Ошибка загрузки PDF файла');
   }
 }
 
@@ -2483,189 +3930,6 @@ export class ProgressChartsComponent implements OnChanges {
   }
 }
 
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\quiz\quiz.component.css ---
-
-.quiz-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-
-.loading-state {
-  text-align: center;
-  padding: 2rem;
-}
-
-.quiz-in-progress {
-  background-color: white;
-  border-radius: var(--border-radius);
-  padding: 2rem;
-  box-shadow: var(--box-shadow);
-}
-
-.quiz-header {
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.quiz-header h1 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-}
-
-.progress-bar {
-  height: 8px;
-  background-color: var(--light-gray);
-  border-radius: 4px;
-  margin: 1rem 0;
-  overflow: hidden;
-}
-
-.progress {
-  height: 100%;
-  background-color: var(--primary-color);
-  transition: width 0.3s ease;
-}
-
-.time-spent {
-  font-size: 0.9rem;
-  color: var(--gray-color);
-  margin-bottom: 1rem;
-}
-
-.question-container {
-  margin-bottom: 2rem;
-}
-
-.question-container h2 {
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.4;
-}
-
-.options-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
-}
-
-.option {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  border-radius: var(--border-radius);
-  background-color: var(--light-gray);
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.option:hover {
-  background-color: #dbe4ff;
-}
-
-.option.selected {
-  background-color: var(--primary-light);
-  border: 1px solid var(--primary-color);
-}
-
-.option input {
-  margin-right: 1rem;
-  cursor: pointer;
-}
-
-.navigation-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
-}
-
-.navigation-buttons button {
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--border-radius);
-}
-
-.quiz-completed {
-  text-align: center;
-  padding: 2rem;
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-}
-
-.quiz-completed h2 {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-}
-
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
-}
-
-.detailed-results {
-  background-color: white;
-  border-radius: var(--border-radius);
-  padding: 2rem;
-  box-shadow: var(--box-shadow);
-}
-
-.result-item {
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  border-radius: var(--border-radius);
-  background-color: var(--light-gray);
-}
-
-.result-item h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
-.correct {
-  color: var(--success-color);
-}
-
-.incorrect {
-  color: var(--danger-color);
-}
-
-.not-answered {
-  color: var(--warning-color);
-}
-
-.start-test-btn {
-  background-color: var(--success-color);
-  color: white;
-}
-
-.start-test-btn:hover {
-  background-color: #3aa8d8;
-}
-
-@media (max-width: 600px) {
-  .quiz-container {
-    padding: 1rem 0.5rem;
-  }
-  
-  .quiz-in-progress, .quiz-completed, .detailed-results {
-    padding: 1.5rem;
-  }
-  
-  .navigation-buttons {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .navigation-buttons button {
-    width: 100%;
-  }
-}
-
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\quiz\quiz.component.html ---
 
 <div class="quiz-container">
@@ -2697,14 +3961,26 @@ export class ProgressChartsComponent implements OnChanges {
               @for (option of currentQuestion.options; track option; let i = $index) {
                 <div class="option" 
                      [class.selected]="isSelected(i)"
+                     [class.disabled]="confirmedAnswers[currentQuestionIndex] && !isSelected(i)"
                      (click)="selectAnswer(i)">
                   <input [type]="currentQuestion.multiple ? 'checkbox' : 'radio'" 
                          [checked]="isSelected(i)"
+                         [disabled]="confirmedAnswers[currentQuestionIndex]"
                          (click)="$event.stopPropagation()">
                   <label>{{ option }}</label>
+                  @if (confirmedAnswers[currentQuestionIndex] && isSelected(i)) {
+                    <span class="confirmed-badge"></span>
+                  }
                 </div>
               }
             </div>
+
+            @if (explanations[currentQuestionIndex] !== null && selectedAnswers[currentQuestionIndex] !== null) {
+              <div class="explanation-box">
+                <h4>Объяснение:</h4>
+                <p>{{ explanations[currentQuestionIndex] }}</p>
+              </div>
+            }
           </div>
         }
   
@@ -2712,7 +3988,15 @@ export class ProgressChartsComponent implements OnChanges {
           @if (currentQuestionIndex > 0) {
             <button (click)="prevQuestion()">Previous</button>
           }
-          <button (click)="nextQuestion()" class="start-test-btn">
+          
+          <button (click)="confirmAnswer()" 
+                  [disabled]="selectedAnswers[currentQuestionIndex] === null || confirmedAnswers[currentQuestionIndex]"
+                  class="confirm-btn">
+            {{ confirmedAnswers[currentQuestionIndex] ? 'Confirmed' : 'Confirm Answer' }}
+          </button>
+          
+          <button (click)="nextQuestion()" 
+                  class="next-btn">
             @if (currentQuestionIndex < quizData.questions.length - 1) {
               Next
             } @else {
@@ -2766,6 +4050,13 @@ export class ProgressChartsComponent implements OnChanges {
                 {{ getSingleCorrectText(question) }}
               }
             </p>
+
+            @if (question.explanation) {
+              <div class="explanation-box">
+                <h4>Объяснение:</h4>
+                <p>{{ question.explanation }}</p>
+              </div>
+            }
             
             <p [class.correct]="isAnswerCorrect(i)" [class.incorrect]="!isAnswerCorrect(i)">
               @if (isAnswerCorrect(i)) {
@@ -2819,16 +4110,22 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { QuizDataService } from '../../services/quiz-data.service';
-import { QuizData } from '../../models/quiz-data.model';
+import { QuizData, QuizQuestion } from '../../models/quiz-data.model';
 import { QuizResult } from '../../models/quiz-result.model';
 import { HistoryService } from '../../services/history.service';
 import { TimePipe } from "../../shared/time.pipe";
 import { Pipe, PipeTransform } from '@angular/core';
+
+interface QuestionOption {
+  text: string;
+  correct: boolean;
+} 
 interface Question {
   question: string;
   options: string[];
   correctAnswers: number[];
   multiple: boolean;
+  explanation?: string;
 }
 
 @Component({
@@ -2848,13 +4145,14 @@ export class QuizComponent implements OnInit {
   private startTime: number = 0;
   private timerInterval: any;
   public timeSpent: number = 0;
-  transform(seconds: number): string {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes} мин ${secs} сек`;
-  }
+  explanations: (string | null)[] = [];
+
+  answerSubmitted = false;
+  timerRunning = false;
+  answerLocked = false;
+  confirmedAnswers: boolean[] = [];
   constructor(
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private quizDataService: QuizDataService,
     public router: Router,
     private historyService: HistoryService
@@ -2871,35 +4169,39 @@ export class QuizComponent implements OnInit {
     }
   
     this.selectedAnswers = new Array(this.quizData.questions.length).fill(null);
+    this.confirmedAnswers = new Array(this.quizData.questions.length).fill(false); // Инициализируем
+    this.explanations = new Array(this.quizData?.questions.length ?? 0).fill(null);
   }
+
   private startTimer(): void {
     this.startTime = Date.now();
     this.timerInterval = setInterval(() => {
       this.timeSpent = Math.floor((Date.now() - this.startTime) / 1000);
     }, 1000);
   }
+  confirmAnswer(): void {
+    if (this.selectedAnswers[this.currentQuestionIndex] !== null) {
+      this.confirmedAnswers[this.currentQuestionIndex] = true;
+      this.showCurrentExplanation();
+    }
+  }
+  checkAndShowExplanation(): void {
+    if (this.selectedAnswers[this.currentQuestionIndex] !== null) {
+      this.showCurrentExplanation();
+    }
+  }
   private stopTimer(): void {
     if (this.timerInterval) {
       clearInterval(this.timerInterval);
     }
   }
+
   ngOnDestroy(): void {
     this.stopTimer();
     this.quizDataService.clearQuizData();
   }
-  private loadQuizData(): void {
-    this.quizData = history.state?.quizData;
-    
-    if (!this.quizData) {
-      console.error('No quiz data provided');
-      this.router.navigate(['/']);
-      return;
-    }
 
-    this.selectedAnswers = new Array(this.quizData.questions.length).fill(null);
-  }
-
-  get currentQuestion(): Question | null {
+  get currentQuestion(): QuizQuestion | null {
     return this.quizData?.questions[this.currentQuestionIndex] ?? null;
   }
 
@@ -2908,8 +4210,8 @@ export class QuizComponent implements OnInit {
   }
 
   selectAnswer(index: number): void {
-    if (!this.currentQuestion) return;
-
+    if (!this.currentQuestion || this.confirmedAnswers[this.currentQuestionIndex]) return;
+  
     if (this.currentQuestion.multiple) {
       const currentSelection = this.selectedAnswers[this.currentQuestionIndex] as number[] || [];
       const answerIndex = currentSelection.indexOf(index);
@@ -2923,9 +4225,19 @@ export class QuizComponent implements OnInit {
       this.selectedAnswers[this.currentQuestionIndex] = currentSelection.length ? currentSelection : null;
     } else {
       this.selectedAnswers[this.currentQuestionIndex] = index;
+      // Показываем объяснение сразу для одиночного выбора
     }
   }
-
+  private showCurrentExplanation(): void {
+    if (!this.quizData || !this.currentQuestion) return;
+    
+    const question = this.quizData.questions[this.currentQuestionIndex];
+    if (question.explanation) {
+      this.explanations[this.currentQuestionIndex] = question.explanation;
+    } else {
+      this.explanations[this.currentQuestionIndex] = null;
+    }
+  }
   isSelected(index: number): boolean {
     if (!this.currentQuestion) return false;
     
@@ -2939,20 +4251,26 @@ export class QuizComponent implements OnInit {
 
   nextQuestion(): void {
     if (!this.quizData) return;
-
+  
     if (this.currentQuestionIndex < this.quizData.questions.length - 1) {
       this.currentQuestionIndex++;
+      // Показываем объяснение если вопрос уже отвечен
+      if (this.selectedAnswers[this.currentQuestionIndex] !== null) {
+        this.showCurrentExplanation();
+      }
     } else {
       this.completeQuiz();
     }
   }
-
   prevQuestion(): void {
     if (this.currentQuestionIndex > 0) {
       this.currentQuestionIndex--;
+      // Показываем объяснение если вопрос уже отвечен
+      if (this.selectedAnswers[this.currentQuestionIndex] !== null) {
+        this.showCurrentExplanation();
+      }
     }
   }
-
   completeQuiz(): void {
     this.stopTimer();
     this.quizComplete = true;
@@ -2963,9 +4281,10 @@ export class QuizComponent implements OnInit {
       testName: this.quizData?.name || 'Неизвестный тест',
       testType: this.quizData?.testType || 'custom',
       date: new Date(),
+      maxScore: NaN,
       correctAnswers: this.getCorrectAnswersCount(),
       totalQuestions: this.quizData?.questions.length || 0,
-      timeSpent: this.timeSpent, // Используем значение из секундомера
+      timeSpent: this.timeSpent,
       details: this.getDetailedResults()
     };
     
@@ -2992,28 +4311,11 @@ export class QuizComponent implements OnInit {
       question: question.question,
       userAnswer: this.getUserAnswerText(question, index),
       correctAnswer: this.getCorrectAnswerText(question),
-      isCorrect: this.isAnswerCorrect(index)
+      isCorrect: this.isAnswerCorrect(index),
+      explanation: question.explanation
     }));
   }
-  private getUserAnswerText(question: any, index: number): string {
-    const answer = this.selectedAnswers[index];
-    if (answer === null) return 'Не отвечено';
-    
-    if (question.multiple) {
-      const selected = answer as number[];
-      return selected.map(i => question.options[i]).join(', ') || 'Не отвечено';
-    } else {
-      return question.options[answer as number] || 'Не отвечено';
-    }
-  }
-  
-  private getCorrectAnswerText(question: any): string {
-    if (question.multiple) {
-      return question.correctAnswers.map((i: number) => question.options[i]).join(', ');
-    } else {
-      return question.options[question.correctAnswers[0]];
-    }
-  }  
+
   calculateScore(): number {
     if (!this.quizData) return 0;
 
@@ -3040,12 +4342,16 @@ export class QuizComponent implements OnInit {
 
     return Math.round((correctAnswers / this.quizData.questions.length) * 100);
   }
+
   restartQuiz(): void {
     this.currentQuestionIndex = 0;
     this.selectedAnswers = new Array(this.quizData?.questions.length || 0).fill(null);
     this.quizComplete = false;
     this.showResults = false;
     this.score = null;
+    this.startTime = Date.now();
+    this.timeSpent = 0;
+    this.startTimer();
   }
 
   getMultiAnswerText(question: Question, index: number): string {
@@ -3065,9 +4371,11 @@ export class QuizComponent implements OnInit {
   getSingleCorrectText(question: Question): string {
     return question.options[question.correctAnswers[0]] ?? '';
   }
+
   showDetailedResults(): void {
     this.showResults = true;
   }
+
   isAnswerCorrect(index: number): boolean {
     if (!this.quizData || !this.quizData.questions[index]) return false;
     
@@ -3085,20 +4393,18 @@ export class QuizComponent implements OnInit {
       return userAnswer === question.correctAnswers[0];
     }
   }
+
   private shuffleQuestionsAndOptions(quizData: QuizData): QuizData {
-    // Shuffle questions
     const shuffledQuestions = this.shuffleArray([...quizData.questions]);
     
-    // Shuffle options for each question
     const questionsWithShuffledOptions = shuffledQuestions.map(question => {
-      const optionsWithIndices = question.options.map((option: any, index: any) => ({
+      const optionsWithIndices = question.options.map((option, index) => ({
         option,
         originalIndex: index
       }));
       
       const shuffledOptionsWithIndices = this.shuffleArray([...optionsWithIndices]);
       
-      // Update correct answers indices
       const correctAnswers = shuffledOptionsWithIndices
         .map((item, newIndex) => ({
           originalIndex: item.originalIndex,
@@ -3119,305 +4425,56 @@ export class QuizComponent implements OnInit {
       questions: questionsWithShuffledOptions
     };
   }
-  private shuffleArray(array: any[]): any[] {
+
+  private shuffleArray<T>(array: T[]): T[] {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
   }
+
+  private getUserAnswerText(question: QuizQuestion, index: number): string {
+    const answer = this.selectedAnswers[index];
+    if (answer === null) return 'Не отвечено';
+    
+    if (question.multiple) {
+      const selected = answer as number[];
+      return selected.map(i => question.options[i]).join(', ') || 'Не отвечено';
+    } else {
+      return question.options[answer as number] || 'Не отвечено';
+    }
+  }
+  private getCorrectAnswerText(question: QuizQuestion): string {
+    if (question.multiple) {
+      return question.correctAnswers.map(i => question.options[i]).join(', ');
+    } else {
+      return question.options[question.correctAnswers[0]];
+    }
+  }
 }
+
 function generateId(): string {
   return Math.random().toString(36).substr(2, 9);
-}
-
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\test-creator\test-creator.component.css ---
-
-.test-creator-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-  min-height: calc(100vh - 120px);
-  display: flex;
-  flex-direction: column;
-  margin-top: -90px;
-}
-
-.creator-header {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: var(--dark-color);
-  text-align: center;
-}
-
-.creator-content {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 2rem;
-  flex-grow: 1;
-}
-
-.filters-section {
-  background-color: white;
-  border-radius: var(--border-radius);
-  padding: 1.5rem;
-  box-shadow: var(--box-shadow);
-  height: fit-content;
-  position: sticky;
-  top: 1rem;
-}
-
-.filter-group {
-  margin-bottom: 10px;
-}
-
-.filter-group h3 {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-}
-
-.tags-container {
-  max-height: 150px;
-  overflow-y: auto;
-  padding-right: 0.5rem;
-}
-
-.tag-category {
-  margin-bottom: 1.5rem;
-}
-
-.tag-category h4 {
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  color: var(--gray-color);
-}
-
-.tag-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.tag-buttons button {
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.8rem;
-  background-color: var(--light-gray);
-  color: var(--dark-color);
-  transition: var(--transition);
-}
-
-.tag-buttons button.active {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-.tag-buttons button:hover {
-  background-color: var(--primary-light);
-}
-.range-slider-container {
-  flex-direction: column;
-  align-items: stretch;
-  margin-top: -10px;
-}
-
-.range-slider-container input[type="range"] {
-  width: 100%;
-}
-
-
-.range-value {
-  min-width: 30px;
-  text-align: center;
-  font-size: 0.9rem;
-}
-
-.question-count-input {
-  width: 100%;
-  max-width: 100px;
-  margin-bottom: 1rem;
-}
-
-.auto-generate-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.filter-actions {
-  margin-top: 0px;
-}
-
-.reset-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: var(--light-gray);
-  border-radius: var(--border-radius);
-}
-
-.reset-btn:hover {
-  background-color: #e2e2e2;
-}
-
-.questions-section {
-  background-color: white;
-  border-radius: var(--border-radius);
-  padding: 1.5rem;
-  box-shadow: var(--box-shadow);
-}
-
-.questions-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.questions-header h3 {
-  font-size: 1.25rem;
-  color: var(--dark-color);
-}
-
-.questions-count {
-  font-size: 0.9rem;
-  color: var(--gray-color);
-}
-
-.loading-indicator {
-  text-align: center;
-  padding: 2rem;
-  color: var(--gray-color);
-}
-
-.no-questions {
-  text-align: center;
-  padding: 2rem;
-  color: var(--gray-color);
-}
-
-.questions-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-.question-card {
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-  background-color: var(--light-gray);
-  transition: var(--transition);
-}
-
-.question-card:hover {
-  background-color: #e2e2e2;
-}
-
-.question-text {
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.question-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.85rem;
-  color: var(--gray-color);
-}
-
-.question-tags {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.question-tags .tag {
-  background-color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 1rem;
-  font-size: 0.75rem;
-}
-
-.action-panel {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: white;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  padding: 1rem 0;
-  z-index: 50;
-}
-
-.panel-content {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.questions-summary {
-  font-weight: 500;
-}
-
-.start-test-btn {
-  padding: 0.75rem 2rem;
-  font-weight: 500;
-  border-radius: var(--border-radius);
-  background-color: var(--primary-color);
-  color: white;
-}
-
-.start-test-btn:hover {
-  background-color: var(--secondary-color);
-}
-
-.start-test-btn:disabled {
-  background-color: var(--gray-color);
-  cursor: not-allowed;
-}
-
-@media (max-width: 992px) {
-  .creator-content {
-    grid-template-columns: 1fr;
-  }
-  
-  .filters-section {
-    position: static;
-  }
-}
-
-@media (max-width: 768px) {
-  .question-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .panel-content {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .start-test-btn {
-    width: 100%;
-  }
 }
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\test-creator\test-creator.component.html ---
 
 <div class="test-creator-container">
-  <h1 class="creator-header"></h1>
   
-  <div class="creator-content">
-    <!-- Фильтры -->
-    <div class="filters-section">
+  <div class="main-content-wrapper">
+    <!-- Левая колонка - поиск тегов -->
+    <div class="left-filters-column">
       <div class="filter-group">
-        <h3>Теги</h3>
+        <h3>Поиск тегов</h3>
+        <input type="text" 
+               [(ngModel)]="tagSearchQuery" 
+               (input)="filterTags()"
+               placeholder="Введите название тега..."
+               class="tag-search-input">
+        
         <div class="tags-container">
-          <div *ngFor="let category of tags" class="tag-category">
+          <div *ngFor="let category of filteredTags" class="tag-category">
             <h4>{{category.theme}}</h4>
             <div class="tag-buttons">
               <button *ngFor="let tag of category.tags" 
@@ -3429,36 +4486,10 @@ function generateId(): string {
           </div>
         </div>
       </div>
-
-      <div class="filter-group">
-        <h3>Сложность</h3>
-        <div class="range-slider-container">
-          <span class="range-value">{{difficultyRange[0]}}</span>
-          <input type="range" min="0" max="100" step="5" 
-                 [(ngModel)]="difficultyRange[0]" (input)="applyFilters()">
-          <input type="range" min="0" max="100" step="5" 
-                 [(ngModel)]="difficultyRange[1]" (input)="applyFilters()">
-          <span class="range-value">{{difficultyRange[1]}}</span>
-        </div>
-      </div>
-
-      <div class="filter-group">
-        <h3>Количество вопросов</h3>
-        <input type="number" min="1" [max]="filteredQuestions.length" 
-               [(ngModel)]="questionCount" class="question-count-input">
-        <div class="auto-generate-toggle">
-          <label>
-          </label>
-        </div>
-      </div>
-
-      <div class="filter-actions">
-        <button (click)="resetFilters()" class="reset-btn">Сбросить фильтры</button>
-      </div>
     </div>
 
-    <!-- Список вопросов -->
-    <div class="questions-section">
+    <!-- Центральная колонка - вопросы -->
+    <div class="questions-column">
       <div class="questions-header">
         <h3>Доступные вопросы ({{filteredQuestions.length}})</h3>
         <div class="questions-count">
@@ -3486,6 +4517,54 @@ function generateId(): string {
         </div>
       </div>
     </div>
+
+    <!-- Правая колонка - другие фильтры -->
+    <div class="right-filters-column">
+      <div class="filter-group">
+        <h3>Сложность</h3>
+        <div class="range-slider-container">
+          <div class="slider-wrapper">
+            <span class="range-label">Минимум:</span>
+            <span class="range-value">{{difficultyRange[0]}}</span>
+            <input type="range" min="0" max="100" step="5" 
+                   [(ngModel)]="difficultyRange[0]" (input)="applyFilters()"
+                   class="difficulty-slider">
+          </div>
+          <div class="slider-wrapper">
+            <span class="range-label">Максимум:</span>
+            <span class="range-value">{{difficultyRange[1]}}</span>
+            <input type="range" min="0" max="100" step="5" 
+                   [(ngModel)]="difficultyRange[1]" (input)="applyFilters()"
+                   class="difficulty-slider">
+          </div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <h3>Количество вопросов</h3>
+        <input type="number" min="1" [max]="filteredQuestions.length" 
+               [(ngModel)]="questionCount" class="question-count-input">
+      <div  class="filter-actions">
+        <button (click)="toggleMaxQuestions()" 
+          [class.active]="maxQuestionsAvailable"
+          class="reset-btn">
+          Максимум
+        </button>
+      </div>
+
+      </div>
+
+      <div class="filter-group">
+        <h3>Автогенерация</h3>
+        <label class="toggle-switch">
+          <input type="checkbox" [(ngModel)]="autoGenerate">
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <div class="filter-actions">
+        <button (click)="resetFilters()" class="reset-btn">Сбросить фильтры</button>
+      </div>
+    </div>
   </div>
 
   <!-- Фиксированная панель действий -->
@@ -3498,6 +4577,11 @@ function generateId(): string {
               [disabled]="filteredQuestions.length === 0 || loading"
               class="start-test-btn">
         Начать тест ({{questionCount}})
+      </button>
+      <button (click)="saveAsCustomThematicTest(false)"
+              [disabled]="filteredQuestions.length === 0 || loading"
+              class="start-test-btn">
+        Сохранить как тематический тест
       </button>
     </div>
   </div>
@@ -3532,15 +4616,17 @@ describe('TestCreatorComponent', () => {
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\test-creator\test-creator.component.ts ---
 
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
-import { Question } from '../../models/question.model' 
+import { Question } from '../../models/question.model';
 import { TagCategory } from '../../models/tag.model';
 import { QuizDataService } from '../../services/quiz-data.service';
-import { QuizData } from '../../models/quiz-data.model';
+import { QuizData, QuizQuestion } from '../../models/quiz-data.model';
+import { Test } from '../../models/test.model';
+
 @Component({
   selector: 'app-test-creator',
   templateUrl: './test-creator.component.html',
@@ -3548,7 +4634,8 @@ import { QuizData } from '../../models/quiz-data.model';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule]
 })
-export class TestCreatorComponent implements OnInit {
+export class TestCreatorComponent implements OnInit, AfterViewInit {
+  @ViewChildren('difficultySlider') sliders!: QueryList<ElementRef>;
   allQuestions: Question[] = [];
   filteredQuestions: Question[] = [];
   tags: TagCategory[] = [];
@@ -3558,32 +4645,51 @@ export class TestCreatorComponent implements OnInit {
   selectedQuestions: Question[] = [];
   autoGenerate = true;
   loading = false;
-
+  tagSearchQuery = '';
+  filteredTags: TagCategory[] = [];
   constructor(  
     private dataService: DataService,
     private router: Router,
     private quizDataService: QuizDataService
   ) {this.selectedTags = [];}
-
+  maxQuestionsAvailable = false;
   ngOnInit(): void {
     this.loadQuestions();
     this.loadTags();
   }
-
+  ngAfterViewInit() {
+    this.fixSliderDirection();
+  }
+  toggleMaxQuestions(): void {
+    this.maxQuestionsAvailable = !this.maxQuestionsAvailable;
+    if (this.maxQuestionsAvailable) {
+      this.questionCount = this.filteredQuestions.length;
+    }
+  }
+  
+  private fixSliderDirection() {
+    setTimeout(() => {
+      this.sliders.forEach(slider => {
+        slider.nativeElement.style.direction = 'rtl';
+      });
+    });
+  }
   loadQuestions(): void {
     this.dataService.getQuestions().subscribe((questions: Question[]) => {
       this.allQuestions = questions;
       this.filteredQuestions = [...questions];
     });
   }
+
   private getRandomQuestions(questions: Question[], count: number): Question[] {
     const shuffled = [...questions].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, Math.min(count, shuffled.length));
   }
+
   loadTags(): void {
     this.dataService.getTags().subscribe((tags: TagCategory[]) => {
       this.tags = tags;
-      // Initialize selected tags as empty array
+      this.filteredTags = [...tags]; // Initialize filteredTags with all tags
       this.selectedTags = [];
     });
   }
@@ -3601,6 +4707,7 @@ export class TestCreatorComponent implements OnInit {
     }
     this.applyFilters();
   }
+
   applyFilters(): void {
     this.filteredQuestions = this.allQuestions.filter(question => {
       const matchesTags = this.selectedTags.length === 0 || 
@@ -3611,8 +4718,11 @@ export class TestCreatorComponent implements OnInit {
       
       return matchesTags && matchesDifficulty;
     });
+    
+    if (this.maxQuestionsAvailable) {
+      this.questionCount = this.filteredQuestions.length;
+    }
   }
-
   resetFilters(): void {
     this.selectedTags = [];
     this.difficultyRange = [0, 100];
@@ -3633,7 +4743,56 @@ export class TestCreatorComponent implements OnInit {
     return this.selectedQuestions.some(q => q.id === question.id);
   }
 
-  startTest(): void {
+  saveAsCustomThematicTest(startTestImmediately = true): void {
+    if (this.loading) return;
+  
+    const availableQuestions = [...this.filteredQuestions];
+    if (availableQuestions.length === 0) return;
+  
+    const questionsToUse = this.autoGenerate
+      ? this.getRandomQuestions(availableQuestions, this.questionCount)
+      : availableQuestions;
+  
+    const testName = this.selectedTags.length > 0 
+      ? `${this.selectedTags.join(', ')}` 
+      : 'Кастомный тематический тест';
+  
+    // Вычисляем среднюю сложность
+    const sumDifficulty = questionsToUse.reduce((sum, q) => sum + q.difficulty, 0);
+    const avgDifficulty = Math.round(sumDifficulty / questionsToUse.length);
+  
+    const test: Test = {
+      id: this.generateUniqueId(),
+      name: testName,
+      tags: [...this.selectedTags],
+      isCustom: false,
+      isCustomThematic: true,
+      questionCount: questionsToUse.length,
+      averageDifficulty: avgDifficulty,
+      questions: questionsToUse.map(q => ({
+        question: q.text,
+        difficulty: q.difficulty, // Сохраняем сложность вопроса
+        options: q.options.map(o => ({
+          text: o.text,
+          correct: o.correct
+        })),
+        explanation: q.explanation
+      }))
+    };
+  
+    this.dataService.saveCustomTest(test);
+    
+    if (startTestImmediately) {
+      this.startTest(test);
+    } else {
+      alert(`Тест "${testName}" успешно сохранен!`);
+    }
+  }
+  
+  private generateUniqueId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+  }
+  public startTest(testData?: Test): void {
     if (this.loading) return;
 
     const availableQuestions = [...this.filteredQuestions];
@@ -3643,17 +4802,39 @@ export class TestCreatorComponent implements OnInit {
       ? this.getRandomQuestions(availableQuestions, this.questionCount)
       : availableQuestions;
 
-    const quizData: QuizData = {
+    const test: Test = {
       name: 'Сгенерированный тест',
-      testType: 'custom',
+      tags: [...this.selectedTags],
+      isCustom: true,
       questions: questionsToUse.map(q => ({
         question: q.text,
-        options: this.shuffleArray(q.options).map(o => o.text),
-        correctAnswers: q.options
-          .map((o, i) => o.correct ? i : -1)
-          .filter(i => i !== -1),
-        multiple: q.options.filter(o => o.correct).length > 1
+        options: q.options.map(o => ({
+          text: o.text,
+          correct: o.correct
+        })),
+        explanation: q.explanation
       }))
+    };
+
+    this.prepareAndStartTest(testData || test);
+  }
+  private prepareAndStartTest(testData: Test): void {
+    const quizData: QuizData = {
+      name: testData.name,
+      testType: testData.isCustom ? 'custom' : 'thematic',
+      questions: testData.questions.map(q => {
+        const shuffledOptions = this.shuffleArray([...q.options]);
+        
+        return {
+          question: q.question,
+          options: shuffledOptions.map(o => o.text),
+          correctAnswers: shuffledOptions
+            .map((o, i) => o.correct ? i : -1)
+            .filter(i => i !== -1),
+          multiple: shuffledOptions.filter(o => o.correct).length > 1,
+          explanation: q.explanation
+        };
+      })
     };
 
     this.quizDataService.setQuizData(quizData);
@@ -3665,6 +4846,20 @@ export class TestCreatorComponent implements OnInit {
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+  }
+  filterTags(): void {
+    if (!this.tagSearchQuery) {
+      this.filteredTags = [...this.tags];
+      return;
+    }
+
+    const searchQuery = this.tagSearchQuery.toLowerCase();
+    this.filteredTags = this.tags.map(category => {
+      const filteredTags = category.tags.filter(tag => 
+        tag.toLowerCase().includes(searchQuery)
+      );
+      return { ...category, tags: filteredTags };
+    }).filter(category => category.tags.length > 0);
   }
   async loadData(): Promise<void> {
     this.loading = true;
@@ -3694,124 +4889,42 @@ export class TestCreatorComponent implements OnInit {
   }
 }
 
---- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\theme-selector\theme-selector.component.css ---
-
-.theme-selector {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-
-.theme-selector h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: var(--dark-color);
-  text-align: center;
-}
-
-.test-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
-}
-
-.test-card {
-  background-color: white;
-  border-radius: var(--border-radius);
-  padding: 1.5rem;
-  box-shadow: var(--box-shadow);
-  transition: var(--transition);
-  cursor: pointer;
-  border: 2px solid transparent;
-}
-
-.test-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.test-card.selected {
-  border-color: var(--primary-color);
-  background-color: var(--primary-light);
-}
-
-.test-card h3 {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-  color: var(--dark-color);
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.tag {
-  background-color: var(--light-gray);
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.75rem;
-  color: var(--gray-color);
-}
-
-.actions {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.actions button {
-  padding: 0.75rem 1.5rem;
-  font-weight: 500;
-}
-
-.actions button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-@media (max-width: 768px) {
-  .test-list {
-    grid-template-columns: 1fr;
-  }
-  
-  .actions {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .actions button {
-    width: 100%;
-    max-width: 300px;
-  }
-}
-
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\theme-selector\theme-selector.component.html ---
 
 <div class="theme-selector">
-    <h2>Выберите тему теста</h2>
-    
-    <div class="test-list">
-      <div *ngFor="let test of tests" 
-           class="test-card" 
-           [class.selected]="test === selectedTest"
-           (click)="selectedTest = test">
+  <h2>Выберите тему теста</h2>
+  
+  <div class="test-list">
+    <div *ngFor="let test of tests" 
+         class="test-card" 
+         [class.selected]="test === selectedTest"
+         (click)="selectedTest = test">
+      <div class="test-info">
         <h3>{{ test.name }}</h3>
+        <div class="test-meta">
+          <span class="meta-item">
+            Вопросов: {{ test.questionCount || test.questions.length }}
+          </span>
+          <span *ngIf="test.averageDifficulty !== undefined" class="meta-item">
+            Сложность: {{ test.averageDifficulty | number:'1.0-0' }}/100
+          </span>
+        </div>
         <div class="tags">
           <span *ngFor="let tag of test.tags" class="tag">{{ tag }}</span>
         </div>
       </div>
-    </div>
-  
-    <div class="actions">
-      <button (click)="startTest()" [disabled]="!selectedTest">Начать тест</button>
-      <button routerLink="/creator">Создать тест</button>
-      <button routerLink="/history">История тестов</button>
+      <button *ngIf="test.isCustom || test.isCustomThematic" 
+              class="delete-test-btn" 
+              (click)="$event.stopPropagation(); deleteTest(test.id!)">
+        Удалить
+      </button>
     </div>
   </div>
+
+  <div class="actions">
+    <button (click)="startTest()" [disabled]="!selectedTest">Начать тест</button>
+  </div>
+</div>
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\components\theme-selector\theme-selector.component.spec.ts ---
 
@@ -3850,18 +4963,24 @@ import { Test } from '../../models/test.model';
 import { Router } from '@angular/router';
 import { QuizDataService } from '../../services/quiz-data.service';
 import { QuizData } from '../../models/quiz-data.model';
+
 @Component({
   selector: 'app-theme-selector',
   templateUrl: './theme-selector.component.html',
   styleUrls: ['./theme-selector.component.css'],
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule]
 })
 export class ThemeSelectorComponent implements OnInit {
   tests: Test[] = [];
   tags: any[] = [];
   selectedTest: Test | null = null;
   
-  constructor(private dataService: DataService, private router: Router, private quizDataService: QuizDataService) {}
+  constructor(
+    private dataService: DataService, 
+    private router: Router, 
+    private quizDataService: QuizDataService
+  ) {}
 
   ngOnInit(): void {
     this.loadThematicTests();
@@ -3874,31 +4993,78 @@ export class ThemeSelectorComponent implements OnInit {
   }
 
   loadThematicTests(): void {
-    this.dataService.getThematicTests().subscribe({
-      next: (tests) => this.tests = tests,
+    this.dataService.getAllTests().subscribe({
+      next: (tests) => {
+        this.tests = tests;
+        // Восстанавливаем выбранный тест, если он остался в списке
+        if (this.selectedTest) {
+          this.selectedTest = this.tests.find(t => t.id === this.selectedTest?.id) || null;
+        }
+      },
       error: (err) => console.error('Error loading tests:', err)
     });
   }
-
+  deleteTest(testId: string): void {
+    if (confirm('Вы уверены, что хотите удалить этот тест?')) {
+      this.dataService.deleteTest(testId).subscribe({
+        next: (success) => {
+          if (success) {
+            this.loadThematicTests();
+            if (this.selectedTest?.id === testId) {
+              this.selectedTest = null;
+            }
+          } else {
+            console.error('Не удалось удалить тест');
+          }
+        },
+        error: (err) => console.error('Ошибка при удалении:', err)
+      });
+    }
+  }
   startTest(): void {
     if (this.selectedTest) {
-      const quizData: QuizData = { // Явно указываем тип QuizData
+      const quizData: QuizData = {
         name: this.selectedTest.name,
-        testType: 'thematic', // Добавляем обязательное поле
-        questions: this.selectedTest.questions.map(q => ({
-          question: q.question,
-          options: q.options.map(o => o.text),
-          correctAnswers: q.options
-            .map((o, i) => o.correct ? i : -1)
-            .filter(i => i !== -1),
-          multiple: q.options.filter(o => o.correct).length > 1
-        }))
+        testType: this.selectedTest.isCustom ? 'custom' : 'thematic',
+        questions: this.selectedTest.questions.map(q => {
+          const shuffledOptions = this.shuffleArray([...q.options]);
+          
+          return {
+            question: q.question,
+            options: shuffledOptions.map((o: { text: string }) => o.text),
+            correctAnswers: shuffledOptions
+              .map((o: { correct: boolean }, i: number) => o.correct ? i : -1)
+              .filter((i: number) => i !== -1),
+            multiple: shuffledOptions.filter((o: { correct: boolean }) => o.correct).length > 1,
+            explanation: q.explanation
+          };
+        })
       };
       
       this.quizDataService.setQuizData(quizData);
       this.router.navigate(['/quiz']);
     }
   }
+  private shuffleArray<T>(array: T[]): T[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+}
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\olympiad.model.ts ---
+
+export interface Olympiad {
+  id: string;
+  name: string;
+  year: number;
+  stage: string;
+  pdfUrl: string;
+  solutionUrl?: string;
+  maxScore: number;
+  createdAt: Date;
 }
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\question.model.ts ---
@@ -3917,34 +5083,42 @@ export interface Question {
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\quiz-data.model.ts ---
 
+export interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctAnswers: number[];
+  multiple: boolean;
+  explanation?: string;
+}
+
 export interface QuizData {
   name: string;
-  testType: 'thematic' | 'custom';  // Добавляем это поле
-  questions: {
-    question: string;
-    options: string[];
-    correctAnswers: number[];
-    multiple: boolean;
-  }[];
+  testType: 'thematic' | 'custom';
+  questions: QuizQuestion[];
 }
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\quiz-result.model.ts ---
 
+// models/quiz-result.model.ts
 export interface QuizResult {
-    id: string;
-    testName: string;
-    testType: 'thematic' | 'custom';
-    date: Date;
-    correctAnswers: number;
-    totalQuestions: number;
-    timeSpent: number; // in seconds
-    details: {
-      question: string;
-      userAnswer: string;
-      correctAnswer: string;
-      isCorrect: boolean;
-    }[];
-  }
+  id: string;
+  testName: string;
+  testType: 'thematic' | 'custom' | 'olympiad';
+  date: Date;
+  correctAnswers: number;
+  totalQuestions: number;
+  timeSpent: number; // in seconds
+  details?: {
+    question: string;
+    userAnswer: string;
+    correctAnswer: string;
+    isCorrect: boolean;
+  }[];
+  maxScore: number;
+  pdfUrl?: string;
+  solutionUrl?: string;
+  hasSolution?: boolean;
+}
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\tag.model.ts ---
 
@@ -3956,16 +5130,23 @@ export interface TagCategory {
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\test.model.ts ---
 
 export interface Test {
-    name: string;
-    tags: string[];
-    questions: {
-      question: string;
-      options: {
-        text: string;
-        correct: boolean;
-      }[];
+  id?: string;
+  name: string;
+  tags: string[];
+  questions: {
+    question: string;
+    options: {
+      text: string;
+      correct: boolean;
     }[];
-  }
+    explanation?: string;
+    difficulty?: number; // Добавляем необязательную сложность для вопросов
+  }[];
+  isCustom?: boolean;
+  isCustomThematic?: boolean;
+  questionCount?: number; // Добавим для удобства
+  averageDifficulty?: number; // Добавим для удобства
+}
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\models\topic.model.ts ---
 
@@ -3986,25 +5167,21 @@ export interface Topic {
 
 --- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\services\data.service.ts ---
 
-// app/services/data.service.ts
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as yaml from 'js-yaml';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { Question } from '../models/question.model';
-import { Test } from '../models/test.model' 
-import { TagCategory } from '../models/tag.model' 
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router } from 'express';
-
+import { Test } from '../models/test.model';
+import { TagCategory } from '../models/tag.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   private readonly TESTS_PATH = '/assets/data/tests/';
+  private readonly CUSTOM_TESTS_KEY = 'custom_tests';
 
   constructor(private http: HttpClient) {}
 
@@ -4050,25 +5227,67 @@ export class DataService {
             .pipe(
               map(text => {
                 const test = yaml.load(text) as Test;
-                if (!test.questions) {
-                  console.error(`Test ${file} has no questions array`);
-                  test.questions = [];
+                test.isCustom = false;
+                
+                // Вычисляем среднюю сложность, если есть данные
+                if (test.questions.some(q => q.difficulty !== undefined)) {
+                  const sum = test.questions.reduce((acc, q) => acc + (q.difficulty || 0), 0);
+                  test.averageDifficulty = Math.round(sum / test.questions.length);
                 }
+                
+                test.questionCount = test.questions.length;
+                
                 return test;
               }),
-              catchError(err => {
-                console.error(`Error loading test file ${file}:`, err);
-                return of(null);
-              })
-            )
-        );
-        return forkJoin(requests).pipe(
-          map(tests => tests.filter(t => t !== null) as Test[]
+              catchError(err => of(null))
         ));
-      }),
-      catchError(err => {
-        console.error('Error loading test index:', err);
-        return of([]);
+        return forkJoin(requests).pipe(
+          map(tests => tests.filter(t => t !== null) as Test[])
+        );
+      })
+    );
+  }
+  deleteTest(testId: string): Observable<boolean> {
+    try {
+      const customTests = this.getCustomTests();
+      const updatedTests = customTests.filter(t => t.id !== testId);
+      localStorage.setItem(this.CUSTOM_TESTS_KEY, JSON.stringify(updatedTests));
+      return of(true);
+    } catch (error) {
+      console.error('Error deleting test:', error);
+      return of(false);
+    }
+  }
+  saveCustomTest(test: Test): void {
+    // Вычисляем сложность для кастомных тестов
+    if (test.questions.some(q => q.difficulty !== undefined)) {
+      const sum = test.questions.reduce((acc, q) => acc + (q.difficulty || 0), 0);
+      test.averageDifficulty = Math.round(sum / test.questions.length);
+    }
+    test.questionCount = test.questions.length;
+    
+    const customTests = this.getCustomTests();
+    const existingIndex = test.id ? customTests.findIndex(t => t.id === test.id) : -1;
+    
+    if (existingIndex >= 0) {
+      customTests[existingIndex] = test;
+    } else {
+      customTests.push(test);
+    }
+    
+    localStorage.setItem(this.CUSTOM_TESTS_KEY, JSON.stringify(customTests));
+  }
+
+  getCustomTests(): Test[] {
+    const testsJson = localStorage.getItem(this.CUSTOM_TESTS_KEY);
+    return testsJson ? JSON.parse(testsJson) : [];
+  }
+
+  getAllTests(): Observable<Test[]> {
+    return this.getThematicTests().pipe(
+      map(thematicTests => {
+        const customTests = this.getCustomTests();
+        return [...thematicTests, ...customTests];
       })
     );
   }
@@ -4090,14 +5309,33 @@ export class HistoryService {
     if (!isPlatformBrowser(this.platformId)) return [];
     
     const historyJson = localStorage.getItem(this.STORAGE_KEY);
-    return historyJson ? JSON.parse(historyJson) : [];
+    if (!historyJson) return [];
+    
+    try {
+      return JSON.parse(historyJson).map((item: any) => ({
+        ...item,
+        date: new Date(item.date),
+        // Добавляем поддержку новых полей при загрузке
+        solutionUrl: item.solutionUrl || undefined,
+        hasSolution: item.hasSolution || false
+      }));
+    } catch (e) {
+      console.error('Error parsing history', e);
+      return [];
+    }
   }
 
   addResult(result: QuizResult): void {
     if (!isPlatformBrowser(this.platformId)) return;
     
     const history = this.getHistory();
-    history.unshift(result);
+    // Добавляем поддержку новых полей при сохранении
+    const resultToSave = {
+      ...result,
+      solutionUrl: result.solutionUrl || undefined,
+      hasSolution: result.hasSolution || false
+    };
+    history.unshift(resultToSave);
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(history));
   }
 
@@ -4141,6 +5379,80 @@ export class LocalStorageService {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(key);
     }
+  }
+}
+
+--- Файл: C:\Users\Serezhka\Documents\Совместные проекты\astronomy\tests\src\app\services\olympiad.service.ts ---
+
+// services/olympiad.service.ts
+import { Injectable } from '@angular/core';
+import { Olympiad } from '../models/olympiad.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class OlympiadService {
+  private olympiads: Olympiad[] = [];
+
+  constructor() {
+    this.loadFromLocalStorage();
+  }
+
+  getOlympiads(): Olympiad[] {
+    return this.olympiads.slice();
+  }
+
+  getOlympiadById(id: string): Olympiad | undefined {
+    return this.olympiads.find(o => o.id === id);
+  }
+
+  addOlympiad(olympiad: Omit<Olympiad, 'id' | 'createdAt'>): void {
+    const newOlympiad: Olympiad = {
+      ...olympiad,
+      id: this.generateId(),
+      createdAt: new Date()
+    };
+    this.olympiads.push(newOlympiad);
+    this.saveToLocalStorage();
+  }
+
+  updateOlympiad(updatedOlympiad: Olympiad): void {
+    const index = this.olympiads.findIndex(o => o.id === updatedOlympiad.id);
+    if (index !== -1) {
+      this.olympiads[index] = {
+        ...updatedOlympiad,
+        createdAt: this.olympiads[index].createdAt // Сохраняем оригинальную дату создания
+      };
+      this.saveToLocalStorage();
+    }
+  }
+
+  removeOlympiad(id: string): void {
+    this.olympiads = this.olympiads.filter(o => o.id !== id);
+    this.saveToLocalStorage();
+  }
+
+  private generateId(): string {
+    return Math.random().toString(36).substring(2, 9);
+  }
+
+  private loadFromLocalStorage(): void {
+    const saved = localStorage.getItem('astronomy_olympiads');
+    if (saved) {
+      try {
+        this.olympiads = JSON.parse(saved).map((o: any) => ({
+          ...o,
+          createdAt: new Date(o.createdAt)
+        }));
+      } catch (e) {
+        console.error('Failed to parse olympiads from localStorage', e);
+        this.olympiads = [];
+      }
+    }
+  }
+
+  private saveToLocalStorage(): void {
+    localStorage.setItem('astronomy_olympiads', JSON.stringify(this.olympiads));
   }
 }
 
@@ -4252,19 +5564,3 @@ export class TimePipe implements PipeTransform {
   }
 }
 
-" сделай, чтобы можно было сохранять сгенерированные тесты как тематические(и они были в отдельной вкладке страницы тематических тестов), и автоматически устанавливалось название соответствующее тегу. Так же сделай чтобы И У тематических тестов перемешивались варианты ответов. Так же сделай чтобы при ответе на вопрос в сгенерированном тесте(или сделанном тематическом тесте из сгенерированного) после ответа на вопрос показывалось объяснение из поля експланейшн. если надо вот шаблон вопроса "- id: i5j6k7l8-m9n0-1o2p-3q4r-5s6t7u8v9w0x
-  tags:
-    - астероиды
-    - исследования
-  text: "Какой астероид первым был сфотографирован с близкого расстояния?"
-  difficulty: 75
-  options:
-    - text: "(951) Гаспра (Galileo, 1991)"
-      correct: true
-    - text: "(243) Ида (Galileo, 1993)"
-      correct: false
-    - text: "(253) Матильда (NEAR, 1997)"
-      correct: false
-    - text: "(433) Эрос (NEAR, 1998)"
-      correct: false
-  explanation: "Galileo передал первые снимки Гаспры (18 км) в 1991 году по пути к Юпитеру.""

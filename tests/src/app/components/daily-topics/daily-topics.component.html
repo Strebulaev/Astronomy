@@ -142,12 +142,15 @@
         <div class="card-meta">
           <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
           <span class="status" [class.completed]="topic.completed">
-            <ng-container *ngIf="topic.completed">
+            <ng-container *ngIf="topic.completed && topic.completedDate">
               Выполнено {{ topic.completedDate | date:'dd.MM.yyyy' }}
             </ng-container>
-            <ng-template #notCompleted>
+            <ng-container *ngIf="topic.completed && !topic.completedDate">
+              Выполнено
+            </ng-container>
+            <ng-container *ngIf="!topic.completed">
               Ожидает
-            </ng-template>
+            </ng-container>
           </span>
         </div>
         
