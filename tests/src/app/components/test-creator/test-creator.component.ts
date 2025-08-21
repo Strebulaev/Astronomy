@@ -6,8 +6,9 @@ import { DataService } from '../../services/data.service';
 import { Question } from '../../models/question.model';
 import { TagCategory } from '../../models/tag.model';
 import { QuizDataService } from '../../services/quiz-data.service';
-import { QuizData, QuizQuestion } from '../../models/quiz-data.model';
+import { QuizData } from '../../models/quiz-data.model';
 import { Test } from '../../models/test.model';
+import * as yaml from 'js-yaml';
 
 @Component({
   selector: 'app-test-creator',
@@ -269,4 +270,147 @@ export class TestCreatorComponent implements OnInit, AfterViewInit {
     }
     this.applyFilters();
   }
+
+  async onFileUpload(event: any): Promise<void> {
+    const file = event.target.files[0];
+    if (!file) return;
+  
+    try {
+      const content = await this.readFileAsText(file);
+      
+      // Полностью обходим стандартный YAML парсер - используем свой
+      const questions = this.parseQuestionsFromContent(content);
+      
+      if (questions.length > 0) {
+        // Создаем тест напрямую, без вызова loadQuestions()
+        this.createTestDirectly(questions, file.name);
+      } else {
+        alert('Не найдено вопросов в файле.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Ошибка при чтении файла.');
+    }
+    
+    event.target.value = '';
+  }
+  
+  private parseQuestionsFromContent(content: string): any[] {
+    const questions: any[] = [];
+    
+    // Разбиваем на блоки вопросов
+    const questionBlocks = content.split(/\n(?=- id:)/).filter(block => block.trim());
+    
+    for (const block of questionBlocks) {
+      try {
+        const question: any = {};
+        
+        // ID
+        const idMatch = block.match(/id:\s*([^\n]+)/);
+        if (idMatch) question.id = idMatch[1].trim();
+        
+        // Tags
+        const tagsMatch = block.match(/tags:\s*([\s\S]*?)(?=\n\w+:|$)/);
+        if (tagsMatch) {
+          const tagsText = tagsMatch[1];
+          const tagMatches = tagsText.matchAll(/-\s*([^\n]+)/g);
+          question.tags = Array.from(tagMatches).map(m => m[1].trim());
+        }
+        
+        // Text
+        const textMatch = block.match(/text:\s*"([^"]+)"|text:\s*([^\n]+)/);
+        if (textMatch) {
+          question.text = (textMatch[1] || textMatch[2]).trim();
+        }
+        
+        // Difficulty
+        const diffMatch = block.match(/difficulty:\s*(\d+)/);
+        if (diffMatch) question.difficulty = parseInt(diffMatch[1]);
+        
+        // Options
+        const optionsMatch = block.match(/options:\s*([\s\S]*?)(?=\n\w+:|$)/);
+        if (optionsMatch) {
+          const optionsText = optionsMatch[1];
+          const optionMatches = optionsText.matchAll(/-\s*text:\s*"([^"]+)"\s*\n\s*correct:\s*(true|false)/g);
+          question.options = Array.from(optionMatches).map(m => ({
+            text: m[1].trim(),
+            correct: m[2] === 'true'
+          }));
+        }
+        
+        // Explanation
+        const expMatch = block.match(/explanation:\s*"([^"]+)"|explanation:\s*([^\n]+)/);
+        if (expMatch) {
+          question.explanation = (expMatch[1] || expMatch[2]).trim();
+        }
+        
+        // Проверяем минимальные требования
+        if (question.text && question.options && question.options.length >= 2) {
+          questions.push(question);
+        }
+        
+      } catch (e) {
+        console.warn('Error parsing question block:', e);
+      }
+    }
+    
+    return questions;
+  }
+  
+  private createTestDirectly(questions: any[], fileName: string): void {
+    const testName = fileName.replace('.yml', '').replace('.yaml', '');
+    const allTags = [...new Set(questions.flatMap(q => q.tags || []))];
+    
+    const test: Test = {
+      id: this.generateTestId(),
+      name: testName,
+      tags: allTags,
+      questions: questions.map(q => ({
+        question: q.text,
+        options: (q.options || []).map((opt: any) => ({
+          text: opt.text,
+          correct: opt.correct === true || opt.correct === 'true'
+        })),
+        explanation: q.explanation,
+        difficulty: q.difficulty || 50
+      })),
+      isCustom: true,
+      isCustomThematic: true,
+      questionCount: questions.length,
+      averageDifficulty: Math.round(questions.reduce((sum, q) => sum + (q.difficulty || 50), 0) / questions.length)
+    };
+  
+    this.saveTestDirectly(test);
+    alert(`Тест "${testName}" успешно загружен! Содержит ${questions.length} вопросов.`);
+    
+    this.updateUIAfterUpload();
+  }
+  
+  private saveTestDirectly(test: Test): void {
+    const customTests = this.getCustomTests();
+    customTests.push(test);
+    localStorage.setItem('custom_tests', JSON.stringify(customTests));
+  }
+  
+  private getCustomTests(): Test[] {
+    const testsJson = localStorage.getItem('custom_tests');
+    return testsJson ? JSON.parse(testsJson) : [];
+  }
+  
+  private updateUIAfterUpload(): void {
+    this.loading = false;
+  }
+  private readFileAsText(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target?.result as string);
+      reader.onerror = (e) => reject(e);
+      reader.readAsText(file);
+    });
+  }
+  
+  private generateTestId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
+
 }

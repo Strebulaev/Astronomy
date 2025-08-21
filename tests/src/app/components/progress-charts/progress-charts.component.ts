@@ -1161,4 +1161,133 @@ export class ProgressChartsComponent implements OnChanges {
       ? (completedUpToDate.length / this.allTopics.length) * 100 
       : 0;
   }
+  private calculateHistoricalProgress(): {date: Date, progress: number}[] {
+    if (!this.allTopics.length) return [];
+    
+    // Находим самую раннюю дату
+    const startDate = this.allTopics.reduce((min, topic) => 
+      topic.dueDate < min ? topic.dueDate : min, new Date());
+    
+    const completedByDate: {[key: string]: number} = {};
+    
+    // Группируем выполненные темы по дате
+    this.completedTopics.forEach(topic => {
+      if (!topic.completedDate) return;
+      const dateStr = topic.completedDate.toISOString().split('T')[0];
+      completedByDate[dateStr] = (completedByDate[dateStr] || 0) + 1;
+    });
+
+    const result: {date: Date, progress: number}[] = [];
+    let totalCompleted = 0;
+    const totalTopics = this.allTopics.length;
+    
+    // Создаем массив всех дат от начала до сегодня
+    const currentDate = new Date(startDate);
+    const today = new Date();
+    
+    while (currentDate <= today) {
+      const dateStr = currentDate.toISOString().split('T')[0];
+      totalCompleted += completedByDate[dateStr] || 0;
+      
+      result.push({
+        date: new Date(currentDate),
+        progress: (totalCompleted / totalTopics) * 100
+      });
+      
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    return result;
+  }
+
+  private calculateSpeedTrend(): {date: Date, speed: number}[] {
+    const historicalData = this.calculateHistoricalProgress();
+    if (historicalData.length < 2) return [];
+    
+    const speedData: {date: Date, speed: number}[] = [];
+    
+    // Рассчитываем скорость между точками прогресса
+    for (let i = 1; i < historicalData.length; i++) {
+      const prev = historicalData[i-1];
+      const curr = historicalData[i];
+      
+      const daysBetween = this.getWorkDaysBetween(prev.date, curr.date);
+      if (daysBetween === 0) continue;
+      
+      const progressDiff = curr.progress - prev.progress;
+      const speed = progressDiff / daysBetween; // % прогресса в день
+      
+      speedData.push({
+        date: curr.date,
+        speed: speed * (this.allTopics.length / 100) // преобразуем в темы/день
+      });
+    }
+    
+    return speedData;
+  }
+
+  private calculateCompletionForecast(): {date: Date, progress: number}[] {
+    const historicalProgress = this.calculateHistoricalProgress();
+    if (!historicalProgress.length) return [];
+    
+    const currentProgress = historicalProgress[historicalProgress.length - 1].progress;
+    const remainingProgress = 100 - currentProgress;
+    
+    // Рассчитываем среднюю скорость с учетом сложности
+    const speedData = this.calculateSpeedTrend();
+    const avgSpeed = speedData.reduce((sum, item) => sum + item.speed, 0) / speedData.length;
+    
+    // Корректируем скорость на основе сложности оставшихся тем
+    const remainingTopics = this.allTopics.filter(t => !t.completed);
+    const remainingDifficulty = remainingTopics.reduce((sum, t) => sum + t.difficulty, 0) / remainingTopics.length;
+    const completedDifficulty = this.completedTopics.reduce((sum, t) => sum + t.difficulty, 0) / this.completedTopics.length;
+    const difficultyFactor = 1 - (remainingDifficulty - completedDifficulty) / 200;
+    
+    const adjustedSpeed = avgSpeed * difficultyFactor;
+    
+    // Генерируем прогноз
+    const forecast: {date: Date, progress: number}[] = [];
+    let currentDate = new Date();
+    let progress = currentProgress;
+    
+    while (progress < 100) {
+      currentDate = this.addWorkDays(currentDate, 1);
+      progress = Math.min(100, progress + (adjustedSpeed * 100 / this.allTopics.length));
+      
+      forecast.push({
+        date: new Date(currentDate),
+        progress: progress
+      });
+    }
+    
+    return forecast;
+  }
+
+  // Вспомогательные методы
+  private getWorkDaysBetween(startDate: Date, endDate: Date): number {
+    let count = 0;
+    const current = new Date(startDate);
+    
+    while (current <= endDate) {
+      const day = current.getDay();
+      if (day !== 0 && day !== 6) count++; // не выходные
+      current.setDate(current.getDate() + 1);
+    }
+    
+    return count;
+  }
+
+  private addWorkDays(date: Date, days: number): Date {
+    const result = new Date(date);
+    let added = 0;
+    
+    while (added < days) {
+      result.setDate(result.getDate() + 1);
+      if (result.getDay() !== 0 && result.getDay() !== 6) {
+        added++;
+      }
+    }
+    
+    return result;
+  }
 }

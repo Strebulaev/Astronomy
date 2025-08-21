@@ -122,4 +122,47 @@ export class DataService {
       })
     );
   }
+
+  validateYamlQuestions(yamlContent: string): { valid: boolean; questions?: Question[]; error?: string } {
+    try {
+      const data = yaml.load(yamlContent);
+      if (!Array.isArray(data)) {
+        return { valid: false, error: 'YAML должен содержать массив вопросов' };
+      }
+  
+      const questions: Question[] = [];
+      for (const item of data) {
+        if (this.isValidQuestionStructure(item)) {
+          questions.push({
+            id: item.id || this.generateId(),
+            tags: item.tags || [],
+            text: item.text,
+            difficulty: item.difficulty || 50,
+            options: item.options.map((opt: any) => ({
+              text: opt.text,
+              correct: opt.correct || false
+            })),
+            explanation: item.explanation
+          });
+        }
+      }
+  
+      return { valid: questions.length > 0, questions };
+    } catch (error) {
+      return { valid: false, error: 'Ошибка парсинга YAML' };
+    }
+  }
+  
+  private isValidQuestionStructure(item: any): boolean {
+    return item && 
+           typeof item.text === 'string' &&
+           Array.isArray(item.options) &&
+           item.options.length >= 2 &&
+           item.options.every((opt: any) => typeof opt.text === 'string') &&
+           item.options.some((opt: any) => opt.correct === true);
+  }
+  
+  private generateId(): string {
+    return Math.random().toString(36).substr(2, 9);
+  }
 }

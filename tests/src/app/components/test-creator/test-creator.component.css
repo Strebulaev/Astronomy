@@ -315,13 +315,17 @@ input:checked + .slider:before {
 
 .difficulty-slider {
   flex: 1;
-  -webkit-appearance: none;
   height: 6px;
   background: #ddd;
   border-radius: 9px;
   outline: none;
 }
-
+.file-help {
+  display: block;
+  margin-top: 5px;
+  color: #666;
+  font-size: 12px;
+}
 .difficulty-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -437,4 +441,29 @@ input:checked + .slider:before {
   .range-slider-container {
     gap: 8px;
   }
+}
+.upload-actions {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.upload-btn {
+  padding: 8px 16px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.upload-btn:hover {
+  background-color: #1976D2;
+}
+
+.icon-upload {
+  font-size: 16px;
 }

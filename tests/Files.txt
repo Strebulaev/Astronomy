@@ -249,12 +249,15 @@ export class App {}
         <div class="card-meta">
           <span class="week-day">Неделя {{ topic.week }}, День {{ topic.day }}</span>
           <span class="status" [class.completed]="topic.completed">
-            <ng-container *ngIf="topic.completed">
+            <ng-container *ngIf="topic.completed && topic.completedDate">
               Выполнено {{ topic.completedDate | date:'dd.MM.yyyy' }}
             </ng-container>
-            <ng-template #notCompleted>
+            <ng-container *ngIf="topic.completed && !topic.completedDate">
+              Выполнено
+            </ng-container>
+            <ng-container *ngIf="!topic.completed">
               Ожидает
-            </ng-template>
+            </ng-container>
           </span>
         </div>
         
@@ -651,9 +654,7 @@ private readonly planVersion = '1.0.2'
            localStorage.getItem(this.STORAGE_KEY) !== null;
   }
   
-  // Вспомогательный метод для создания темы
   private createTopic(topic: any, week: number, day: number): Topic {
-    // Обрабатываем как строку или объект
     const parsed = typeof topic === 'string' ? this.parseTopicString(topic) : topic;
     
     return {
@@ -668,7 +669,6 @@ private readonly planVersion = '1.0.2'
       terms: []
     };
   }
-  
   private loadProgress(): void {
     const savedData = localStorage.getItem(this.STORAGE_KEY);
     
@@ -678,7 +678,9 @@ private readonly planVersion = '1.0.2'
         this.allTopics = data.topics.map((t: any) => ({
           ...t,
           dueDate: new Date(t.dueDate),
-          completedDate: t.completedDate ? new Date(t.completedDate) : null,
+          completedDate: t.completed ? 
+            (t.completedDate ? new Date(t.completedDate) : new Date()) : 
+            null,
           terms: t.terms || []
         }));
       } catch (e) {
@@ -690,17 +692,23 @@ private readonly planVersion = '1.0.2'
     }
   }
   completeFutureTopic(topic: Topic): void {
+    this.setTopicCompletion(topic, true);
+  }
+  private setTopicCompletion(topic: Topic, completed: boolean): void {
     const updatedTopic = {
       ...topic,
-      completed: true,
-      completedDate: new Date() // Всегда текущая дата
+      completed,
+      completedDate: completed ? new Date() : null // Всегда устанавливаем дату при выполнении
     };
   
     const index = this.allTopics.findIndex(t => t.id === topic.id);
     if (index !== -1) {
       this.allTopics[index] = updatedTopic;
       this.saveProgress();
-      this.organizeTopics();
+      
+      if (this.selectedTopic?.id === topic.id) {
+        this.selectedTopic = {...updatedTopic};
+      }
     }
   }
   calculateForecast(): ProgressForecast {
@@ -1037,30 +1045,18 @@ private readonly planVersion = '1.0.2'
   saveNotes(): void {
     if (!this.selectedTopic) return;
     
-    // Обработка терминов перед сохранением
-    const editor = document.querySelector('.editor-content') as HTMLElement;
-    if (editor) {
-      this.selectedTopic.notes = editor.innerHTML;
-      
-      // Обновляем список терминов из выделенного текста
-      const termElements = editor.querySelectorAll('.term-highlight');
-      termElements.forEach(el => {
-        const termText = el.textContent?.trim();
-        if (termText && !this.selectedTopic?.terms?.some(t => t.term === termText)) {
-          this.selectedTopic?.terms?.push({
-            term: termText,
-            definition: ''
-          });
-        }
-      });
+    // Если отмечаем как выполненное через чекбокс в редакторе заметок
+    if (this.selectedTopic.completed && !this.selectedTopic.completedDate) {
+      this.selectedTopic.completedDate = new Date();
     }
-    
+  
     const topicIndex = this.allTopics.findIndex(t => t.id === this.selectedTopic!.id);
     if (topicIndex !== -1) {
-      this.allTopics[topicIndex] = { ...this.selectedTopic };
+      this.allTopics[topicIndex] = {...this.selectedTopic!};
       this.saveProgress();
       this.organizeTopics();
     }
+    
     this.autoSaved = true;
   }
   onEditorInput(event: Event): void {
@@ -1260,35 +1256,16 @@ private readonly planVersion = '1.0.2'
     );
   }
   toggleTopicCompletion(topic: Topic): void {
-    const newCompletedStatus = !topic.completed;
-    
-    // Обновляем тему
-    const updatedTopic = {
-      ...topic,
-      completed: newCompletedStatus,
-      // Всегда сохраняем конкретную дату выполнения
-      completedDate: newCompletedStatus ? new Date() : null
-    };
-  
-    // Находим и обновляем тему в массиве
-    const index = this.allTopics.findIndex(t => t.id === topic.id);
-    if (index !== -1) {
-      this.allTopics[index] = updatedTopic;
-      this.saveProgress();
-      
-      // Обновляем выбранную тему если она открыта
-      if (this.selectedTopic?.id === topic.id) {
-        this.selectedTopic = {...updatedTopic};
-      }
-    }
-  }
+    this.setTopicCompletion(topic, !topic.completed);
+  }  
   private saveProgress(): void {
     const data = {
       topics: this.allTopics.map(topic => ({
         ...topic,
         dueDate: topic.dueDate.toISOString(),
-        completedDate: topic.completedDate ? topic.completedDate.toISOString() : null,
-        notes: topic.notes || '',
+        completedDate: topic.completed ? 
+          (topic.completedDate?.toISOString() || new Date().toISOString()) : 
+          null,
         terms: topic.terms || []
       })),
       lastUpdated: new Date().toISOString()
@@ -1296,7 +1273,6 @@ private readonly planVersion = '1.0.2'
     
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
   }
-  
 
   private calculateDueDate(week: number, day: number): Date {
     const startDate = new Date(2025, 5, 1);
