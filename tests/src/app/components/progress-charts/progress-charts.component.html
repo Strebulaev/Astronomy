@@ -37,14 +37,20 @@
           </button>
         </div>
       </div>
+      <div class="date-controls">
+        <label>Целевая дата окончания:</label>
+        <input type="date" [value]="targetDate | date:'yyyy-MM-dd'" 
+               (change)="updateTargetDate($event)">
+        <button (click)="resetTargetDate()">Сбросить</button>
+      </div>
       <apx-chart
-        [series]="completionChart().series"
-        [chart]="completionChart().chart"
-        [labels]="completionChart().labels"
-        [plotOptions]="completionChart().plotOptions"
-        [colors]="completionChart().colors"
-        [stroke]="completionChart().stroke"
-        [fill]="completionChart().fill">
+        [series]="completionChart()!.series!"
+        [chart]="completionChart()!.chart!"
+        [labels]="completionChart()!.labels!"
+        [plotOptions]="completionChart()!.plotOptions!"
+        [colors]="completionChart()!.colors!"
+        [stroke]="completionChart()!.stroke!"
+        [fill]="completionChart()!.fill!">
       </apx-chart>
       <div class="chart-description" *ngIf="showDescriptions()['completion']">
         <p><strong>Описание:</strong> Этот график показывает общий прогресс выполнения всех тем.</p>
@@ -67,14 +73,15 @@
         </div>
       </div>
       <apx-chart
-        [series]="forecastChart().series"
-        [chart]="forecastChart().chart"
-        [xaxis]="forecastChart().xaxis"
-        [yaxis]="forecastChart().yaxis"
-        [stroke]="forecastChart().stroke"
-        [markers]="forecastChart().markers"
-        [colors]="forecastChart().colors"
-        [tooltip]="forecastChart().tooltip">
+        [series]="forecastChart()!.series!"
+        [chart]="forecastChart()!.chart!"
+        [xaxis]="forecastChart()!.xaxis!"
+        [yaxis]="forecastChart()!.yaxis!"
+        [stroke]="forecastChart()!.stroke!"
+        [colors]="forecastChart()!.colors!"
+        [tooltip]="forecastChart()!.tooltip!"
+        [markers]="forecastChart()!.markers!"
+        [legend]="forecastChart()!.legend!">
       </apx-chart>
       <div class="chart-description" *ngIf="showDescriptions()['forecast']">
         <p><strong>Описание:</strong> Прогноз даты завершения всех тем на основе текущей скорости.</p>
@@ -108,13 +115,13 @@
         </div>
       </div>
       <apx-chart
-        [series]="difficultyChart().series"
-        [chart]="difficultyChart().chart"
-        [xaxis]="difficultyChart().xaxis"
-        [yaxis]="difficultyChart().yaxis"
-        [plotOptions]="difficultyChart().plotOptions"
-        [colors]="difficultyChart().colors"
-        [tooltip]="difficultyChart().tooltip">
+        [series]="difficultyChart()!.series!"
+        [chart]="difficultyChart()!.chart!"
+        [xaxis]="difficultyChart()!.xaxis!"
+        [yaxis]="difficultyChart()!.yaxis!"
+        [plotOptions]="difficultyChart()!.plotOptions!"
+        [colors]="difficultyChart()!.colors!"
+        [tooltip]="difficultyChart()!.tooltip!">
       </apx-chart>
       <div class="chart-description" *ngIf="showDescriptions()['difficulty']">
         <p><strong>Описание:</strong> Средняя сложность тем по неделям.</p>
@@ -137,14 +144,14 @@
         </div>
       </div>
       <apx-chart
-        [series]="timeChart().series"
-        [chart]="timeChart().chart"
-        [xaxis]="timeChart().xaxis"
-        [yaxis]="timeChart().yaxis"
-        [stroke]="timeChart().stroke"
-        [fill]="timeChart().fill"
-        [colors]="timeChart().colors"
-        [tooltip]="timeChart().tooltip">
+        [series]="timeChart()!.series!"
+        [chart]="timeChart()!.chart!"
+        [xaxis]="timeChart()!.xaxis!"
+        [yaxis]="timeChart()!.yaxis!"
+        [stroke]="timeChart()!.stroke!"
+        [fill]="timeChart()!.fill!"
+        [colors]="timeChart()!.colors!"
+        [tooltip]="timeChart()!.tooltip!">
       </apx-chart>
       <div class="chart-description" *ngIf="showDescriptions()['time']">
         <p><strong>Описание:</strong> Общее время изучения тем по неделям.</p>
@@ -170,13 +177,13 @@
         </div>
       </div>
       <apx-chart
-        [series]="dailyProgressChart().series"
-        [chart]="dailyProgressChart().chart"
-        [xaxis]="dailyProgressChart().xaxis"
-        [yaxis]="dailyProgressChart().yaxis"
-        [stroke]="dailyProgressChart().stroke"
-        [colors]="dailyProgressChart().colors"
-        [tooltip]="dailyProgressChart().tooltip">
+        [series]="dailyProgressChart()!.series!"
+        [chart]="dailyProgressChart()!.chart!"
+        [xaxis]="dailyProgressChart()!.xaxis!"
+        [yaxis]="dailyProgressChart()!.yaxis!"
+        [stroke]="dailyProgressChart()!.stroke!"
+        [colors]="dailyProgressChart()!.colors!"
+        [tooltip]="dailyProgressChart()!.tooltip!">
       </apx-chart>
       <div class="chart-description" *ngIf="showDescriptions()['daily']">
         <p><strong>Описание:</strong> Процент выполнения тем по дням.</p>
@@ -199,15 +206,15 @@
         </div>
       </div>
       <apx-chart
-        [series]="efficiencyChart().series"
-        [chart]="efficiencyChart().chart"
-        [xaxis]="efficiencyChart().xaxis"
-        [yaxis]="efficiencyChart().yaxis"
-        [plotOptions]="efficiencyChart().plotOptions"
-        [colors]="efficiencyChart().colors"
-        [tooltip]="efficiencyChart().tooltip"
-        [markers]="forecastChart().markers || {}"
-[legend]="forecastChart().legend || {}">
+        [series]="efficiencyChart()!.series!"
+        [chart]="efficiencyChart()!.chart!"
+        [xaxis]="efficiencyChart()!.xaxis!"
+        [yaxis]="efficiencyChart()!.yaxis!"
+        [plotOptions]="efficiencyChart()!.plotOptions!"
+        [colors]="efficiencyChart()!.colors!"
+        [tooltip]="efficiencyChart()!.tooltip!"
+        [markers]="efficiencyChart()!.markers!"
+        [legend]="efficiencyChart()!.legend!">
       </apx-chart>
       <div class="chart-description" *ngIf="showDescriptions()['efficiency']">
         <p><strong>Описание:</strong> Эффективность выполнения тем по неделям.</p>
@@ -218,6 +225,74 @@
         </p>
         <p><strong>Точность:</strong> Высокая, так как основана на точных данных о выполнении.</p>
         <p><strong>Что учитывается:</strong> Учитывается статус каждой темы (выполнена/в работе/пропущена).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Четвертый ряд графиков -->
+  <div class="chart-row">
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>Планирование подготовки</h3>
+        <div class="chart-actions">
+          <button (click)="downloadChart('planning')" class="download-btn">
+            <i class="icon-download"></i> Скачать
+          </button>
+          <button (click)="toggleDescription('planning')" class="info-btn">
+            <i class="icon-info"></i> Описание
+          </button>
+        </div>
+      </div>
+  
+      <!-- Date Picker -->
+      <div class="date-controls">
+        <label>Целевая дата окончания:</label>
+        <input type="date" [value]="targetDate | date:'yyyy-MM-dd'" 
+               (change)="updateTargetDate($event)">
+        <button (click)="resetTargetDate()">Сбросить</button>
+      </div>
+  
+      <apx-chart
+        [series]="planningChart()!.series!"
+        [chart]="planningChart()!.chart!"
+        [xaxis]="planningChart()!.xaxis!"
+        [yaxis]="planningChart()!.yaxis!"
+        [stroke]="planningChart()!.stroke!"
+        [markers]="planningChart()!.markers!"
+        [colors]="planningChart()!.colors!"
+        [tooltip]="planningChart()!.tooltip!"
+        [annotations]="planningChart()!.annotations!"
+        [legend]="planningChart()!.legend!">
+      </apx-chart>
+  
+      <div class="chart-description" *ngIf="showDescriptions()['planning']">
+        <p><strong>Планирование подготовки:</strong> Визуализация необходимого темпа изучения для достижения цели.</p>
+        <p><strong>Целевой темп</strong> (зеленая линия) - равномерное распределение оставшихся тем до выбранной даты</p>
+        <p><strong>Фактический темп</strong> (синяя линия) - ваша текущая скорость изучения</p>
+        <p><strong>Необходимый темп</strong> (красная пунктирная) - темп, необходимый для компенсации отставания</p>
+      </div>
+  
+      <div class="planning-stats">
+        <div class="stat">
+          <span class="label">Текущий темп:</span>
+          <span class="value">{{ calculateCurrentRate() | number:'1.2-2' }} тем/день</span>
+        </div>
+        <div class="stat">
+          <span class="label">Необходимый темп:</span>
+          <span class="value">{{ calculateRequiredRate() | number:'1.2-2' }} тем/день</span>
+        </div>
+        <div class="stat">
+          <span class="label">Отставание:</span>
+          <span class="value">{{ calculateBehindTopics() }} тем</span>
+        </div>
+        <div class="stat">
+          <span class="label">Осталось тем:</span>
+          <span class="value">{{ allTopics.length - completedTopics.length }}</span>
+        </div>
+        <div class="stat">
+          <span class="label">Дней осталось:</span>
+          <span class="value">{{ getDaysRemaining() }}</span>
+        </div>
       </div>
     </div>
   </div>

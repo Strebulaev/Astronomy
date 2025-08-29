@@ -14,8 +14,8 @@ def process_directory(directory, extensions, output_file):
                         out.write(f'--- Файл: {file_path} ---\n\nОшибка чтения файла: {str(e)}\n\n')
 
 if __name__ == "__main__":
-    directory = input("Введите путь к директории: ")
-    extensions = input("Введите расширения файлов через пробел: ").split()
-    output_file = input("Введите имя выходного файла: ")
+    directory = r"C:\Users\Serezhka\Documents\CollectiveProjects\astronomy\tests\src\app"
+    extensions = ".html .ts .css .scss".split()
+    output_file = "files.txt"
     
     process_directory(directory, extensions, output_file)

@@ -24,19 +24,19 @@ import {
 import { ProgressForecast } from '../daily-topics/daily-topics.component';
 
 export type ChartOptions = {
-  series: ApexAxisChartSeries | ApexNonAxisChartSeries;
-  chart: ApexChart;
+  series?: ApexAxisChartSeries | ApexNonAxisChartSeries;
+  chart?: ApexChart;
   dataLabels?: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  colors: string[];
-  labels: string[]; // Убедитесь, что это свойство присутствует во всех графиках
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis | ApexYAxis[];
-  stroke: ApexStroke;
-  markers: ApexMarkers; // Убрано "?"
-  fill: ApexFill;
-  tooltip: ApexTooltip;
-  legend: ApexLegend; // Убрано "?"
+  plotOptions?: ApexPlotOptions;
+  colors?: string[];
+  labels?: string[];
+  xaxis?: ApexXAxis;
+  yaxis?: ApexYAxis | ApexYAxis[];
+  stroke?: ApexStroke;
+  markers?: ApexMarkers;
+  fill?: ApexFill;
+  tooltip?: ApexTooltip;
+  legend?: ApexLegend;
   responsive?: ApexResponsive[];
   theme?: ApexTheme;
   title?: ApexTitleSubtitle;
@@ -73,17 +73,67 @@ export class ProgressChartsComponent implements OnChanges {
     time: false,
     forecast: false,
     daily: false,
-    efficiency: false
+    efficiency: false,
+    planning: false
   });
-  
+
   private chartInstances: {[key: string]: any} = {};
-  
-  completionChart = signal<ChartOptions>({} as ChartOptions);
-  difficultyChart = signal<ChartOptions>({} as ChartOptions);
-  timeChart = signal<ChartOptions>({} as ChartOptions);
-  forecastChart = signal<ChartOptions>({} as ChartOptions);
-  dailyProgressChart = signal<ChartOptions>({} as ChartOptions);
-  efficiencyChart = signal<ChartOptions>({} as ChartOptions);
+  targetDate: Date = new Date();
+  isTargetDateAdjusted = false;
+
+  // Default chart options
+  private defaultChartOptions: ChartOptions = {
+    series: [],
+    chart: {
+      type: 'line',
+      height: 350,
+      toolbar: {
+        show: false
+      }
+    } as ApexChart,
+    xaxis: {
+      categories: []
+    } as ApexXAxis,
+    yaxis: {
+      min: 0
+    } as ApexYAxis,
+    stroke: {
+      curve: 'smooth',
+      width: 3
+    } as ApexStroke,
+    markers: {
+      size: 5
+    } as ApexMarkers,
+    colors: ['#000000'],
+    tooltip: {
+      enabled: true
+    } as ApexTooltip,
+    plotOptions: {
+      bar: {
+        horizontal: false
+      }
+    } as ApexPlotOptions,
+    legend: {
+      show: true
+    } as ApexLegend,
+    annotations: {
+      points: []
+    } as ApexAnnotations,
+    fill: {
+      type: 'solid',
+      opacity: 1
+    } as ApexFill,
+    labels: []
+  };
+
+  // Chart signals
+  completionChart = signal<ChartOptions>({...this.defaultChartOptions});
+  difficultyChart = signal<ChartOptions>({...this.defaultChartOptions});
+  timeChart = signal<ChartOptions>({...this.defaultChartOptions});
+  forecastChart = signal<ChartOptions>({...this.defaultChartOptions});
+  dailyProgressChart = signal<ChartOptions>({...this.defaultChartOptions});
+  efficiencyChart = signal<ChartOptions>({...this.defaultChartOptions});
+  planningChart = signal<ChartOptions>({...this.defaultChartOptions});
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['allTopics'] || changes['completedTopics'] || changes['forecast']) {
@@ -118,9 +168,182 @@ export class ProgressChartsComponent implements OnChanges {
     }
   }
 
+  updateTargetDate(event: any): void {
+    this.targetDate = new Date(event.target.value);
+    this.isTargetDateAdjusted = true;
+    this.calculatePlanningData();
+  }
+  
+  resetTargetDate(): void {
+    this.targetDate = this.calculateRealisticEndDate();
+    this.isTargetDateAdjusted = false;
+    this.calculatePlanningData();
+  }
+
+  calculateCurrentRate(): number {
+    if (this.completedTopics.length === 0) return 0;
+    
+    const completedDates = this.completedTopics
+      .filter(t => t.completedDate)
+      .map(t => new Date(t.completedDate!).getTime());
+    
+    if (completedDates.length === 0) return 0;
+    
+    const minDate = Math.min(...completedDates);
+    const maxDate = Math.max(...completedDates);
+    const days = (maxDate - minDate) / (1000 * 60 * 60 * 24) + 1;
+    
+    return this.completedTopics.length / Math.max(1, days);
+  }
+  
+  calculateBehindTopics(): number {
+    const currentRate = this.calculateCurrentRate();
+    const daysPassed = this.getDaysPassed();
+    const expectedTopics = currentRate * daysPassed;
+    
+    return Math.max(0, Math.round(expectedTopics - this.completedTopics.length));
+  }
+
+  getEarliestTopicDate(): Date {
+    if (this.allTopics.length === 0) return new Date();
+    
+    return this.allTopics.reduce((min, topic) => 
+      topic.dueDate < min ? topic.dueDate : min, 
+      new Date(9999, 0)
+    );
+  }
+
+  getDaysBetween(start: Date, end: Date): number {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(0, 0, 0, 0);
+    
+    const timeDiff = endDate.getTime() - startDate.getTime();
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
+  }
+  getCurrentDate(): Date {
+    return new Date();
+  }
+  
+  getDaysRemaining(): number {
+    return this.getDaysBetween(new Date(), this.targetDate);
+  }
+  getDaysPassed(): number {
+    if (this.allTopics.length === 0) return 0;
+    
+    const startDate = this.getEarliestTopicDate();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    return this.getDaysBetween(startDate, today);
+  }
+
+  calculateHistoricalProgressRate(): { x: number; y: number }[] {
+    const historicalData: { x: number; y: number }[] = [];
+    const completedByDate: { [key: string]: number } = {};
+    
+    // Группируем выполненные темы по дате
+    this.completedTopics.forEach(topic => {
+      if (!topic.completedDate) return;
+      
+      const dateKey = new Date(topic.completedDate).toISOString().split('T')[0];
+      completedByDate[dateKey] = (completedByDate[dateKey] || 0) + 1;
+    });
+    
+    // Создаем данные для графика (темп в темах/день)
+    Object.entries(completedByDate).forEach(([date, count]) => {
+      historicalData.push({
+        x: new Date(date).getTime(),
+        y: count // Количество тем в этот день
+      });
+    });
+    
+    return historicalData.sort((a, b) => a.x - b.x);
+  }
+  generateTargetSeries(startDate: Date, endDate: Date): { x: number; y: number }[] {
+    const series: { x: number; y: number }[] = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const remainingTopics = this.allTopics.length - this.completedTopics.length;
+    const daysRemaining = this.getDaysBetween(today, endDate);
+    
+    if (daysRemaining <= 0) return series;
+    
+    const requiredDailyRate = remainingTopics / daysRemaining;
+    
+    series.push({
+      x: today.getTime(),
+      y: this.calculateCurrentRate() // Текущий темп в темах/день
+    });
+    
+    series.push({
+      x: endDate.getTime(),
+      y: requiredDailyRate // Необходимый темп в темах/день
+    });
+    
+    return series;
+  }
+
+  generateRequiredSeries(startDate: Date, endDate: Date): { x: number; y: number }[] {
+    const series: { x: number; y: number }[] = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const remainingTopics = this.allTopics.length - this.completedTopics.length;
+    const daysRemaining = this.getDaysBetween(today, endDate);
+    
+    if (daysRemaining <= 0) return series;
+    
+    const requiredDailyRate = remainingTopics / daysRemaining;
+    
+    // Начальная точка - сегодня (необходимый темп)
+    series.push({
+      x: today.getTime(),
+      y: requiredDailyRate
+    });
+    
+    // Конечная точка - дата окончания (тот же темп)
+    series.push({
+      x: endDate.getTime(),
+      y: requiredDailyRate
+    });
+    
+    return series;
+  }
+  calculateRealisticEndDate(): Date {
+    const currentRate = this.calculateCurrentRate();
+    const remainingTopics = this.allTopics.length - this.completedTopics.length;
+    
+    if (currentRate <= 0) {
+      const futureDate = new Date();
+      futureDate.setMonth(futureDate.getMonth() + 6);
+      return futureDate;
+    }
+    
+    const daysNeeded = remainingTopics / currentRate;
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + daysNeeded);
+    
+    return endDate;
+  }
+
+  calculateRequiredRate(): number {
+    const today = this.getCurrentDate();
+    today.setHours(0, 0, 0, 0);
+    
+    const daysRemaining = this.getDaysBetween(today, this.targetDate);
+    const remainingTopics = this.allTopics.length - this.completedTopics.length;
+    
+    if (daysRemaining <= 0) return 0;
+    
+    return remainingTopics / daysRemaining;
+  }
   private initCharts(): void {
     // 1. Completion Chart (Radial Bar)
     this.completionChart.set({
+      ...this.defaultChartOptions,
       chart: {
         type: 'radialBar',
         height: 350,
@@ -172,16 +395,6 @@ export class ProgressChartsComponent implements OnChanges {
       },
       colors: ['#4CAF50'],
       labels: ['Прогресс'],
-      xaxis: {
-        categories: [],
-        labels: { show: false },
-        axisBorder: { show: false },
-        axisTicks: { show: false }
-      },
-      yaxis: {
-        show: false,
-        labels: { show: false }
-      },
       stroke: {
         lineCap: 'round',
         width: 3,
@@ -204,17 +417,12 @@ export class ProgressChartsComponent implements OnChanges {
         y: {
           formatter: (val: number) => `${val.toFixed(1)}%`
         }
-      },
-      markers: {
-        size: 0
-      },
-      legend: {
-        show: false
       }
     });
   
     // 2. Difficulty Chart (Horizontal Bar)
     this.difficultyChart.set({
+      ...this.defaultChartOptions,
       chart: {
         type: 'bar',
         height: 350,
@@ -313,18 +521,12 @@ export class ProgressChartsComponent implements OnChanges {
       grid: {
         borderColor: '#f0f0f0',
         strokeDashArray: 4
-      },
-      markers: {
-        size: 0
-      },
-      legend: {
-        show: false
-      },
-      labels: []
+      }
     });
   
     // 3. Time Chart (Area)
     this.timeChart.set({
+      ...this.defaultChartOptions,
       chart: {
         type: 'area',
         height: 350,
@@ -429,15 +631,12 @@ export class ProgressChartsComponent implements OnChanges {
         hover: {
           size: 7
         }
-      },
-      legend: {
-        show: false
-      },
-      labels: []
+      }
     });
   
     // 4. Forecast Chart (Line)
     this.forecastChart.set({
+      ...this.defaultChartOptions,
       chart: {
         type: 'line',
         height: 350,
@@ -563,6 +762,7 @@ export class ProgressChartsComponent implements OnChanges {
   
     // 5. Daily Progress Chart (Line)
     this.dailyProgressChart.set({
+      ...this.defaultChartOptions,
       chart: {
         type: 'line',
         height: 350,
@@ -663,14 +863,12 @@ export class ProgressChartsComponent implements OnChanges {
         hover: {
           size: 7
         }
-      },
-      legend: {
-        show: false
       }
     });
   
     // 6. Efficiency Chart (Stacked Bar)
     this.efficiencyChart.set({
+      ...this.defaultChartOptions,
       chart: {
         type: 'bar',
         height: 350,
@@ -786,11 +984,110 @@ export class ProgressChartsComponent implements OnChanges {
           bottom: 0,
           left: 20
         }
+      }
+    });
+
+    // 7. Planning Chart
+    this.planningChart.set({
+      ...this.defaultChartOptions,
+      chart: {
+        type: 'line',
+        height: 400,
+        events: {
+          mounted: (chartContext: any) => {
+            this.chartInstances['planning'] = chartContext;
+          }
+        },
+        toolbar: { show: true },
+        zoom: { enabled: false }
+      },
+      series: [
+        { name: 'Целевой темп', data: [] },
+        { name: 'Фактический темп', data: [] },
+        { name: 'Необходимый темп', data: [] }
+      ],
+      colors: ['#00E396', '#008FFB', '#FF4560'],
+      stroke: {
+        width: [3, 3, 4],
+        curve: 'straight',
+        dashArray: [0, 0, 5]
       },
       markers: {
-        size: 0
+        size: [4, 4, 0]
       },
-      labels: []
+      xaxis: {
+        type: 'datetime',
+        title: {
+          text: 'Дата',
+          style: { fontSize: '14px', fontWeight: 'bold' }
+        },
+        labels: {
+          style: {
+            fontSize: '12px'
+          },
+          formatter: (value: string) => {
+            const date = new Date(value);
+            return date.toLocaleDateString('ru-RU', { 
+              day: 'numeric', 
+              month: 'short',
+              year: date.getMonth() === 0 ? 'numeric' : undefined // год только для января
+            });
+          }
+        },
+        axisBorder: {
+          show: true,
+          color: '#e0e0e0'
+        },
+        axisTicks: {
+          show: true,
+          color: '#e0e0e0'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Темы/день',
+          style: { fontSize: '14px', fontWeight: 'bold' }
+        },
+        min: 0,
+        labels: {
+          style: {
+            fontSize: '12px'
+          },
+          formatter: (value: number) => {
+            // Форматируем числа без лишних нулей
+            if (value === 0) return '0';
+            if (value < 0.01) return value.toExponential(2);
+            return value.toFixed(2).replace(/\.?0+$/, ''); // Убираем trailing zeros
+          }
+        }
+      },
+      tooltip: {
+        x: {
+          formatter: (val: number) => new Date(val).toLocaleDateString('ru-RU')
+        },
+        y: {
+          formatter: (val: number) => `${val.toFixed(2)} тем/день`
+        }
+      },
+      annotations: {
+        yaxis: [
+          {
+            y: this.calculateCurrentRate(),
+            borderColor: '#00E396',
+            label: {
+              borderColor: '#00E396',
+              style: {
+                color: '#fff',
+                background: '#00E396'
+              },
+              text: 'Текущий темп'
+            }
+          }
+        ]
+      },
+      legend: {
+        position: 'top'
+      }
     });
   }
 
@@ -801,6 +1098,7 @@ export class ProgressChartsComponent implements OnChanges {
     this.updateForecastChart();
     this.updateDailyProgressChart();
     this.updateEfficiencyChart();
+    this.updatePlanningChart();
   }
 
   private updateCompletionChart(): void {
@@ -808,24 +1106,32 @@ export class ProgressChartsComponent implements OnChanges {
     const totalCount = this.allTopics.length;
     const progress = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
     
-    this.completionChart.update(chart => ({
-      ...chart,
-      series: [progress],
-      labels: [`Выполнено: ${completedCount}/${totalCount}`],
-      plotOptions: {
-        ...chart.plotOptions,
-        radialBar: {
-          ...chart.plotOptions?.radialBar,
-          dataLabels: {
-            ...chart.plotOptions?.radialBar?.dataLabels,
-            total: {
-              ...chart.plotOptions?.radialBar?.dataLabels?.total,
-              formatter: () => `${progress.toFixed(1)}%`
+    this.completionChart.update(chart => {
+      const updatedChart = {
+        ...chart,
+        series: [progress],
+        labels: [`Выполнено: ${completedCount}/${totalCount}`]
+      };
+      
+      // Безопасное обновление plotOptions
+      if (chart.plotOptions && (chart.plotOptions as any).radialBar) {
+        updatedChart.plotOptions = {
+          ...chart.plotOptions,
+          radialBar: {
+            ...(chart.plotOptions as any).radialBar,
+            dataLabels: {
+              ...(chart.plotOptions as any).radialBar.dataLabels,
+              total: {
+                ...((chart.plotOptions as any).radialBar.dataLabels?.total || {}),
+                formatter: () => `${progress.toFixed(1)}%`
+              }
             }
           }
-        }
+        };
       }
-    }));
+      
+      return updatedChart;
+    });
   }
 
   private updateDifficultyChart(): void {
@@ -986,6 +1292,67 @@ export class ProgressChartsComponent implements OnChanges {
       xaxis: {
         ...chart.xaxis,
         categories: categories
+      }
+    }));
+  }
+
+  private updatePlanningChart(): void {
+    if (!this.allTopics.length) return;
+  
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const endDate = this.targetDate;
+    const daysRemaining = this.getDaysBetween(today, endDate);
+    
+    if (daysRemaining <= 0) return;
+    
+    const remainingTopics = this.allTopics.length - this.completedTopics.length;
+    const requiredRate = this.calculateRequiredRate();
+    
+    // Исторические данные (фактический темп)
+    const historicalData = this.calculateHistoricalProgressRate();
+    
+    // Целевой темп от текущей даты
+    const targetSeries = this.generateTargetSeries(today, endDate);
+  
+    // Необходимый темп (постоянный)
+    const requiredSeries = this.generateRequiredSeries(today, endDate);
+    
+    this.planningChart.update(chart => ({
+      ...chart,
+      series: [
+        { name: 'Целевой темп', data: targetSeries },
+        { name: 'Фактический темп', data: historicalData },
+        { name: 'Необходимый темп', data: requiredSeries }
+      ],
+      annotations: {
+        ...chart.annotations,
+        yaxis: [
+          {
+            y: this.calculateCurrentRate(),
+            borderColor: '#00E396',
+            label: {
+              borderColor: '#00E396',
+              style: {
+                color: '#fff',
+                background: '#00E396'
+              },
+              text: 'Текущий темп'
+            }
+          },
+          {
+            y: requiredRate,
+            borderColor: '#FF4560',
+            label: {
+              borderColor: '#FF4560',
+              style: {
+                color: '#fff',
+                background: '#FF4560'
+              },
+              text: `Необходимо: ${requiredRate.toFixed(2)} тем/день`
+            }
+          }
+        ]
       }
     }));
   }
@@ -1161,133 +1528,16 @@ export class ProgressChartsComponent implements OnChanges {
       ? (completedUpToDate.length / this.allTopics.length) * 100 
       : 0;
   }
-  private calculateHistoricalProgress(): {date: Date, progress: number}[] {
-    if (!this.allTopics.length) return [];
-    
-    // Находим самую раннюю дату
-    const startDate = this.allTopics.reduce((min, topic) => 
-      topic.dueDate < min ? topic.dueDate : min, new Date());
-    
-    const completedByDate: {[key: string]: number} = {};
-    
-    // Группируем выполненные темы по дате
-    this.completedTopics.forEach(topic => {
-      if (!topic.completedDate) return;
-      const dateStr = topic.completedDate.toISOString().split('T')[0];
-      completedByDate[dateStr] = (completedByDate[dateStr] || 0) + 1;
-    });
 
-    const result: {date: Date, progress: number}[] = [];
-    let totalCompleted = 0;
-    const totalTopics = this.allTopics.length;
+  private calculatePlanningData(): void {
+    if (!this.allTopics.length || !this.forecast) return;
     
-    // Создаем массив всех дат от начала до сегодня
-    const currentDate = new Date(startDate);
-    const today = new Date();
+    const startDate = this.getEarliestTopicDate();
+    const endDate = this.targetDate;
+    const totalDays = this.getDaysBetween(startDate, endDate);
     
-    while (currentDate <= today) {
-      const dateStr = currentDate.toISOString().split('T')[0];
-      totalCompleted += completedByDate[dateStr] || 0;
-      
-      result.push({
-        date: new Date(currentDate),
-        progress: (totalCompleted / totalTopics) * 100
-      });
-      
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
+    if (totalDays <= 0) return;
     
-    return result;
-  }
-
-  private calculateSpeedTrend(): {date: Date, speed: number}[] {
-    const historicalData = this.calculateHistoricalProgress();
-    if (historicalData.length < 2) return [];
-    
-    const speedData: {date: Date, speed: number}[] = [];
-    
-    // Рассчитываем скорость между точками прогресса
-    for (let i = 1; i < historicalData.length; i++) {
-      const prev = historicalData[i-1];
-      const curr = historicalData[i];
-      
-      const daysBetween = this.getWorkDaysBetween(prev.date, curr.date);
-      if (daysBetween === 0) continue;
-      
-      const progressDiff = curr.progress - prev.progress;
-      const speed = progressDiff / daysBetween; // % прогресса в день
-      
-      speedData.push({
-        date: curr.date,
-        speed: speed * (this.allTopics.length / 100) // преобразуем в темы/день
-      });
-    }
-    
-    return speedData;
-  }
-
-  private calculateCompletionForecast(): {date: Date, progress: number}[] {
-    const historicalProgress = this.calculateHistoricalProgress();
-    if (!historicalProgress.length) return [];
-    
-    const currentProgress = historicalProgress[historicalProgress.length - 1].progress;
-    const remainingProgress = 100 - currentProgress;
-    
-    // Рассчитываем среднюю скорость с учетом сложности
-    const speedData = this.calculateSpeedTrend();
-    const avgSpeed = speedData.reduce((sum, item) => sum + item.speed, 0) / speedData.length;
-    
-    // Корректируем скорость на основе сложности оставшихся тем
-    const remainingTopics = this.allTopics.filter(t => !t.completed);
-    const remainingDifficulty = remainingTopics.reduce((sum, t) => sum + t.difficulty, 0) / remainingTopics.length;
-    const completedDifficulty = this.completedTopics.reduce((sum, t) => sum + t.difficulty, 0) / this.completedTopics.length;
-    const difficultyFactor = 1 - (remainingDifficulty - completedDifficulty) / 200;
-    
-    const adjustedSpeed = avgSpeed * difficultyFactor;
-    
-    // Генерируем прогноз
-    const forecast: {date: Date, progress: number}[] = [];
-    let currentDate = new Date();
-    let progress = currentProgress;
-    
-    while (progress < 100) {
-      currentDate = this.addWorkDays(currentDate, 1);
-      progress = Math.min(100, progress + (adjustedSpeed * 100 / this.allTopics.length));
-      
-      forecast.push({
-        date: new Date(currentDate),
-        progress: progress
-      });
-    }
-    
-    return forecast;
-  }
-
-  // Вспомогательные методы
-  private getWorkDaysBetween(startDate: Date, endDate: Date): number {
-    let count = 0;
-    const current = new Date(startDate);
-    
-    while (current <= endDate) {
-      const day = current.getDay();
-      if (day !== 0 && day !== 6) count++; // не выходные
-      current.setDate(current.getDate() + 1);
-    }
-    
-    return count;
-  }
-
-  private addWorkDays(date: Date, days: number): Date {
-    const result = new Date(date);
-    let added = 0;
-    
-    while (added < days) {
-      result.setDate(result.getDate() + 1);
-      if (result.getDay() !== 0 && result.getDay() !== 6) {
-        added++;
-      }
-    }
-    
-    return result;
+    this.updatePlanningChart();
   }
 }
