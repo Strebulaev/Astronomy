@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { MatIconModule } from '@angular/material/icon';
+import { SubjectManagerService } from '../../services/subject-manager.service';
+import { Subject } from '../../models/subject.model';
 
 @Component({
   selector: 'app-olympiad-preparation',
@@ -60,26 +62,92 @@ export class OlympiadPreparationComponent implements OnInit {
   filterStage = '';
   availableYears: number[] = [];
 
+  currentSubject: Subject | null = null;
+
   constructor(
     private olympiadService: OlympiadService,
     private historyService: HistoryService,
+    private subjectManager: SubjectManagerService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.subjectManager.getCurrentSubject().subscribe(subject => {
+      this.currentSubject = subject;
+      this.loadOlympiads();
+      this.generateAvailableYears();
+    });
+  }
+
+  loadOlympiads(): void {
+    if (this.currentSubject) {
+      this.olympiads = this.olympiadService.getOlympiadsBySubject(this.currentSubject.id);
+    } else {
+      this.olympiads = this.olympiadService.getOlympiads();
+    }
+    this.applyFilters();
+  }
+
+  uploadOlympiad(): void {
+    if (!this.pdfFile || !this.currentSubject) return;
+
+    const pdfUrl = URL.createObjectURL(this.pdfFile);
+    let solutionUrl: string | undefined;
+
+    if (this.solutionFile) {
+      solutionUrl = URL.createObjectURL(this.solutionFile);
+    }
+
+    const olympiadName = this.pdfName.trim() || this.pdfFile.name.replace('.pdf', '');
+
+    this.olympiadService.addOlympiad({
+      subjectId: this.currentSubject.id, // Добавляем subjectId
+      name: olympiadName,
+      year: this.olympiadYear,
+      stage: this.olympiadStage,
+      pdfUrl: pdfUrl,
+      solutionUrl: solutionUrl,
+      maxScore: this.maxScore
+    });
+
     this.loadOlympiads();
-    this.calculateInitialZoom();
-    this.generateAvailableYears();
+    this.resetUploadForm();
+  }
+
+  finishOlympiad(): void {
+    this.stopTimer();
+    
+    if (!this.selectedOlympiad || !this.currentSubject) return;
+
+    const result: QuizResult = {
+      id: this.generateId(),
+      subjectId: this.currentSubject.id, // Добавляем subjectId
+      subjectName: this.currentSubject.name,
+      testName: `${this.selectedOlympiad.name} (${this.selectedOlympiad.year})`,
+      testType: 'olympiad',
+      date: new Date(),
+      correctAnswers: this.currentScore,
+      totalQuestions: this.selectedOlympiad.maxScore,
+      maxScore: this.selectedOlympiad.maxScore,
+      timeSpent: this.timer,
+      pdfUrl: this.selectedOlympiad.pdfUrl,
+      solutionUrl: this.selectedOlympiad.solutionUrl,
+      hasSolution: !!this.selectedOlympiad.solutionUrl
+    };
+
+    this.historyService.addResult(result);
+    this.showResultModal = true;
+    this.resultData = {
+      score: this.currentScore,
+      maxScore: this.selectedOlympiad.maxScore,
+      timeSpent: this.formatTime(this.timer),
+      hasSolution: !!this.selectedOlympiad.solutionUrl
+    };
   }
 
   private generateAvailableYears(): void {
     const currentYear = new Date().getFullYear();
     this.availableYears = Array.from({length: 19}, (_, i) => currentYear - i);
-  }
-
-  loadOlympiads(): void {
-    this.olympiads = this.olympiadService.getOlympiads();
-    this.applyFilters();
   }
 
   applyFilters(): void {
@@ -192,33 +260,6 @@ export class OlympiadPreparationComponent implements OnInit {
     }
   }
 
-  uploadOlympiad(): void {
-    if (!this.pdfFile) {
-      alert('Пожалуйста, выберите PDF файл');
-      return;
-    }
-
-    const pdfUrl = URL.createObjectURL(this.pdfFile);
-    let solutionUrl: string | undefined;
-
-    if (this.solutionFile) {
-      solutionUrl = URL.createObjectURL(this.solutionFile);
-    }
-
-    const olympiadName = this.pdfName.trim() || this.pdfFile.name.replace('.pdf', '');
-
-    this.olympiadService.addOlympiad({
-      name: olympiadName,
-      year: this.olympiadYear,
-      stage: this.olympiadStage,
-      pdfUrl: pdfUrl,
-      solutionUrl: solutionUrl,
-      maxScore: this.maxScore
-    });
-
-    this.loadOlympiads();
-    this.resetUploadForm();
-  }
 
   resetUploadForm(): void {
     this.pdfFile = null;
@@ -269,34 +310,6 @@ export class OlympiadPreparationComponent implements OnInit {
       Math.min(this.selectedOlympiad.maxScore, this.currentScore + amount));
   }
 
-  finishOlympiad(): void {
-    this.stopTimer();
-    
-    if (!this.selectedOlympiad) return;
-
-    const result: QuizResult = {
-      id: this.generateId(),
-      testName: `${this.selectedOlympiad.name} (${this.selectedOlympiad.year})`,
-      testType: 'olympiad',
-      date: new Date(),
-      correctAnswers: this.currentScore,
-      totalQuestions: this.selectedOlympiad.maxScore,
-      maxScore: this.selectedOlympiad.maxScore,
-      timeSpent: this.timer,
-      pdfUrl: this.selectedOlympiad.pdfUrl,
-      solutionUrl: this.selectedOlympiad.solutionUrl, // Теперь это допустимо
-      hasSolution: !!this.selectedOlympiad.solutionUrl
-    };
-
-    this.historyService.addResult(result);
-    this.showResultModal = true;
-    this.resultData = {
-      score: this.currentScore,
-      maxScore: this.selectedOlympiad.maxScore,
-      timeSpent: this.formatTime(this.timer),
-      hasSolution: !!this.selectedOlympiad.solutionUrl
-    };
-}
   viewSolutions(): void {
     this.showResultModal = false;
     this.showSolutionsModal = true;

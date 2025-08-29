@@ -6,6 +6,8 @@ import { Test } from '../../models/test.model';
 import { Router } from '@angular/router';
 import { QuizDataService } from '../../services/quiz-data.service';
 import { QuizData } from '../../models/quiz-data.model';
+import { SubjectManagerService } from '../../services/subject-manager.service';
+import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-theme-selector',
@@ -20,13 +22,37 @@ export class ThemeSelectorComponent implements OnInit {
   selectedTest: Test | null = null;
   
   constructor(
-    private dataService: DataService, 
+    private dataService: DataService,
     private router: Router, 
-    private quizDataService: QuizDataService
+    private quizDataService: QuizDataService,
+    private subjectManager: SubjectManagerService
   ) {}
 
   ngOnInit(): void {
+    console.log('ThemeSelectorComponent initialized');
     this.loadThematicTests();
+  }
+  
+  loadThematicTests(): void {
+    const currentSubject = this.subjectManager.getCurrentSubjectValue();
+    console.log('Current subject:', currentSubject);
+    
+    if (!currentSubject) {
+      console.log('No current subject found');
+      this.tests = [];
+      return;
+    }
+    
+    this.dataService.getTestsForSubject(currentSubject).subscribe({
+      next: (tests) => {
+        console.log('Loaded tests:', tests);
+        this.tests = tests;
+      },
+      error: (err) => {
+        console.error('Error loading tests:', err);
+        this.tests = [];
+      }
+    });
   }
 
   loadTags(): void {
@@ -35,18 +61,26 @@ export class ThemeSelectorComponent implements OnInit {
     });
   }
 
-  loadThematicTests(): void {
-    this.dataService.getAllTests().subscribe({
-      next: (tests) => {
-        this.tests = tests;
-        // Восстанавливаем выбранный тест, если он остался в списке
-        if (this.selectedTest) {
-          this.selectedTest = this.tests.find(t => t.id === this.selectedTest?.id) || null;
-        }
-      },
-      error: (err) => console.error('Error loading tests:', err)
-    });
+  private getFallbackTests(): Test[] {
+      return [
+          {
+              id: 'default',
+              name: 'Пример теста',
+              tags: ['астрономия'],
+              questions: [
+                  {
+                      question: "Пример вопроса",
+                      options: [
+                          { text: "Правильный ответ", correct: true },
+                          { text: "Неправильный ответ", correct: false }
+                      ]
+                  }
+              ],
+              isCustom: true
+          }
+      ];
   }
+
   deleteTest(testId: string): void {
     if (confirm('Вы уверены, что хотите удалить этот тест?')) {
       this.dataService.deleteTest(testId).subscribe({

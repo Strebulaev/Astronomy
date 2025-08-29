@@ -7,6 +7,8 @@ import { QuizResult } from '../../models/quiz-result.model';
 import { HistoryService } from '../../services/history.service';
 import { TimePipe } from "../../shared/time.pipe";
 import { Pipe, PipeTransform } from '@angular/core';
+import { SubjectManagerService } from '../../services/subject-manager.service';
+import { Subject } from '../../models/subject.model';
 
 interface QuestionOption {
   text: string;
@@ -43,17 +45,24 @@ export class QuizComponent implements OnInit {
   timerRunning = false;
   answerLocked = false;
   confirmedAnswers: boolean[] = [];
+  currentSubject: Subject | null = null;
+
   constructor(
     public route: ActivatedRoute,
     private quizDataService: QuizDataService,
     public router: Router,
-    private historyService: HistoryService
+    private historyService: HistoryService,
+    private subjectManager: SubjectManagerService
   ) {}
 
   ngOnInit(): void {
     this.startTimer();
     this.quizData = this.quizDataService.getQuizData();
     
+    this.subjectManager.getCurrentSubject().subscribe(subject => {
+      this.currentSubject = subject;
+    });
+
     if (!this.quizData) {
       console.error('No quiz data provided');
       this.router.navigate(['/']);
@@ -166,16 +175,20 @@ export class QuizComponent implements OnInit {
   completeQuiz(): void {
     this.stopTimer();
     this.quizComplete = true;
+    
+    if (!this.quizData || !this.currentSubject) return;
+    
     this.score = this.calculateScore();
     
     const result: QuizResult = {
       id: generateId(),
-      testName: this.quizData?.name || 'Неизвестный тест',
-      testType: this.quizData?.testType || 'custom',
+      subjectId: this.currentSubject.id,
+      subjectName: this.currentSubject.name,
+      testName: this.quizData.name,
+      testType: this.quizData.testType,
       date: new Date(),
-      maxScore: NaN,
       correctAnswers: this.getCorrectAnswersCount(),
-      totalQuestions: this.quizData?.questions.length || 0,
+      totalQuestions: this.quizData.questions.length,
       timeSpent: this.timeSpent,
       details: this.getDetailedResults()
     };

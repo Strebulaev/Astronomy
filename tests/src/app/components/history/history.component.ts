@@ -4,6 +4,8 @@ import { QuizResult } from '../../models/quiz-result.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
+import { SubjectManagerService } from '../../services/subject-manager.service';
+import { Subject } from '../../models/subject.model';
 
 @Component({
   selector: 'app-history',
@@ -18,15 +20,26 @@ export class HistoryComponent implements OnInit {
   selectedFilter: string = 'all';
   selectedSort: string = 'newest';
   selectedResult: QuizResult | null = null;
+  currentSubject: Subject | null = null;
 
-  constructor(private historyService: HistoryService) {}
+  constructor(
+    private historyService: HistoryService,
+    private subjectManager: SubjectManagerService
+  ) {}
 
   ngOnInit(): void {
-    this.loadHistory();
+    this.subjectManager.getCurrentSubject().subscribe(subject => {
+      this.currentSubject = subject;
+      this.loadHistory();
+    });
   }
 
   loadHistory(): void {
-    this.results = this.historyService.getHistory();
+    if (this.currentSubject) {
+      this.results = this.historyService.getHistoryBySubject(this.currentSubject.id);
+    } else {
+      this.results = this.historyService.getHistory();
+    }
     this.applyFiltersAndSort();
   }
 

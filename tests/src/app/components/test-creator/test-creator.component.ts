@@ -9,6 +9,9 @@ import { QuizDataService } from '../../services/quiz-data.service';
 import { QuizData } from '../../models/quiz-data.model';
 import { Test } from '../../models/test.model';
 import * as yaml from 'js-yaml';
+import { SubjectManagerService } from '../../services/subject-manager.service';
+import { of, switchMap } from 'rxjs';
+import { Subject } from '../../models/subject.model';
 
 @Component({
   selector: 'app-test-creator',
@@ -30,19 +33,28 @@ export class TestCreatorComponent implements OnInit, AfterViewInit {
   loading = false;
   tagSearchQuery = '';
   filteredTags: TagCategory[] = [];
-  constructor(  
+  maxQuestionsAvailable = false;
+  currentSubject: Subject | null = null;
+
+  constructor(
     private dataService: DataService,
     private router: Router,
-    private quizDataService: QuizDataService
+    private quizDataService: QuizDataService,
+    private subjectManager: SubjectManagerService
   ) {this.selectedTags = [];}
-  maxQuestionsAvailable = false;
+
   ngOnInit(): void {
-    this.loadQuestions();
-    this.loadTags();
+    this.subjectManager.getCurrentSubject().subscribe(subject => {
+      this.currentSubject = subject;
+      this.loadQuestions();
+      this.loadTags();
+    });
   }
+
   ngAfterViewInit() {
     this.fixSliderDirection();
   }
+  
   toggleMaxQuestions(): void {
     this.maxQuestionsAvailable = !this.maxQuestionsAvailable;
     if (this.maxQuestionsAvailable) {
@@ -58,7 +70,12 @@ export class TestCreatorComponent implements OnInit, AfterViewInit {
     });
   }
   loadQuestions(): void {
-    this.dataService.getQuestions().subscribe((questions: Question[]) => {
+    this.subjectManager.getCurrentSubject().pipe(
+      switchMap(subject => {
+        if (!subject) return of([]);
+        return this.dataService.getQuestionsForSubject(subject);
+      })
+    ).subscribe((questions: Question[]) => {
       this.allQuestions = questions;
       this.filteredQuestions = [...questions];
     });
@@ -70,10 +87,29 @@ export class TestCreatorComponent implements OnInit, AfterViewInit {
   }
 
   loadTags(): void {
-    this.dataService.getTags().subscribe((tags: TagCategory[]) => {
-      this.tags = tags;
-      this.filteredTags = [...tags]; // Initialize filteredTags with all tags
-      this.selectedTags = [];
+    const currentSubject = this.subjectManager.getCurrentSubjectValue();
+    if (!currentSubject) {
+      console.warn('No current subject for loading tags');
+      this.tags = [];
+      this.filteredTags = [];
+      return;
+    }
+    
+    console.log('Loading tags for subject:', currentSubject.name);
+    console.log('Tags path:', currentSubject.tagsPath);
+    
+    this.dataService.getTagsForSubject(currentSubject).subscribe({
+      next: (tags) => {
+        console.log('Loaded tags:', tags);
+        this.tags = tags;
+        this.filteredTags = [...tags];
+        this.applyFilters();
+      },
+      error: (err) => {
+        console.error('Error loading tags:', err);
+        this.tags = [];
+        this.filteredTags = [];
+      }
     });
   }
 
@@ -175,8 +211,8 @@ export class TestCreatorComponent implements OnInit, AfterViewInit {
   private generateUniqueId(): string {
     return Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
-  public startTest(testData?: Test): void {
-    if (this.loading) return;
+  startTest(testData?: Test): void {
+    if (this.loading || !this.currentSubject) return;
 
     const availableQuestions = [...this.filteredQuestions];
     if (availableQuestions.length === 0) return;
@@ -185,22 +221,23 @@ export class TestCreatorComponent implements OnInit, AfterViewInit {
       ? this.getRandomQuestions(availableQuestions, this.questionCount)
       : availableQuestions;
 
-    const test: Test = {
-      name: 'Сгенерированный тест',
-      tags: [...this.selectedTags],
-      isCustom: true,
-      questions: questionsToUse.map(q => ({
-        question: q.text,
-        options: q.options.map(o => ({
-          text: o.text,
-          correct: o.correct
-        })),
-        explanation: q.explanation
-      }))
-    };
-
-    this.prepareAndStartTest(testData || test);
-  }
+      const test: Test = {
+        name: 'Сгенерированный тест',
+        tags: [...this.selectedTags],
+        isCustom: true,
+        questions: questionsToUse.map(q => ({
+          question: q.text,
+          options: q.options.map(o => ({
+            text: o.text,
+            correct: o.correct
+          })),
+          explanation: q.explanation
+        }))
+      };
+  
+      this.prepareAndStartTest(testData || test);
+    }
+  
   private prepareAndStartTest(testData: Test): void {
     const quizData: QuizData = {
       name: testData.name,

@@ -1,10 +1,7 @@
-// services/olympiad.service.ts
 import { Injectable } from '@angular/core';
 import { Olympiad } from '../models/olympiad.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class OlympiadService {
   private olympiads: Olympiad[] = [];
 
@@ -14,6 +11,10 @@ export class OlympiadService {
 
   getOlympiads(): Olympiad[] {
     return this.olympiads.slice();
+  }
+
+  getOlympiadsBySubject(subjectId: string): Olympiad[] {
+    return this.olympiads.filter(o => o.subjectId === subjectId);
   }
 
   getOlympiadById(id: string): Olympiad | undefined {
@@ -33,10 +34,7 @@ export class OlympiadService {
   updateOlympiad(updatedOlympiad: Olympiad): void {
     const index = this.olympiads.findIndex(o => o.id === updatedOlympiad.id);
     if (index !== -1) {
-      this.olympiads[index] = {
-        ...updatedOlympiad,
-        createdAt: this.olympiads[index].createdAt // Сохраняем оригинальную дату создания
-      };
+      this.olympiads[index] = updatedOlympiad;
       this.saveToLocalStorage();
     }
   }
@@ -46,18 +44,20 @@ export class OlympiadService {
     this.saveToLocalStorage();
   }
 
+  removeSubjectOlympiads(subjectId: string): void {
+    this.olympiads = this.olympiads.filter(o => o.subjectId !== subjectId);
+    this.saveToLocalStorage();
+  }
+
   private generateId(): string {
     return Math.random().toString(36).substring(2, 9);
   }
 
   private loadFromLocalStorage(): void {
-    const saved = localStorage.getItem('astronomy_olympiads');
+    const saved = localStorage.getItem('olympiads');
     if (saved) {
       try {
-        this.olympiads = JSON.parse(saved).map((o: any) => ({
-          ...o,
-          createdAt: new Date(o.createdAt)
-        }));
+        this.olympiads = JSON.parse(saved);
       } catch (e) {
         console.error('Failed to parse olympiads from localStorage', e);
         this.olympiads = [];
@@ -66,6 +66,6 @@ export class OlympiadService {
   }
 
   private saveToLocalStorage(): void {
-    localStorage.setItem('astronomy_olympiads', JSON.stringify(this.olympiads));
+    localStorage.setItem('olympiads', JSON.stringify(this.olympiads));
   }
 }

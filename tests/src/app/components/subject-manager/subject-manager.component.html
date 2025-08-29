@@ -1,0 +1,141 @@
+<div class="subject-manager-container">
+    <div class="header">
+      <h1>Управление предметами</h1>
+      <p>Выберите или создайте новый предмет для обучения</p>
+    </div>
+  
+    <!-- Текущий предмет -->
+    <div class="current-subject-section" *ngIf="currentSubject">
+      <h2>Текущий предмет</h2>
+      <div class="current-subject-card">
+        <div class="subject-icon" [style.background-color]="currentSubject.color">
+          <span class="material-icons">{{currentSubject.icon}}</span>
+        </div>
+        <div class="subject-info">
+          <h3>{{currentSubject.name}}</h3>
+          <p>Создан: {{currentSubject.createdAt | date:'dd.MM.yyyy'}}</p>
+        </div>
+        <button class="select-btn" (click)="selectSubject(currentSubject)">
+          Перейти к обучению
+        </button>
+      </div>
+    </div>
+  
+    <!-- Создание нового предмета -->
+    <div class="create-subject-section">
+      <h2>Создать новый предмет</h2>
+      <div class="create-form">
+        <div class="form-group">
+          <label>Название предмета *</label>
+          <input type="text" [(ngModel)]="newSubject.name" 
+                 placeholder="Например: Математика, Физика...">
+        </div>
+  
+        <div class="advanced-toggle" (click)="showAdvanced = !showAdvanced">
+          <span>Дополнительные настройки</span>
+          <span class="material-icons">{{showAdvanced ? 'expand_less' : 'expand_more'}}</span>
+        </div>
+  
+        <div class="advanced-settings" *ngIf="showAdvanced">
+          <div class="form-group">
+            <label>Иконка</label>
+            <div class="icon-grid">
+              <div *ngFor="let icon of availableIcons" 
+                   class="icon-option"
+                   [class.selected]="newSubject.icon === icon"
+                   (click)="newSubject.icon = icon">
+                <span class="material-icons">{{icon}}</span>
+              </div>
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label>Цвет</label>
+            <div class="color-grid">
+              <div *ngFor="let color of availableColors" 
+                   class="color-option"
+                   [class.selected]="newSubject.color === color"
+                   [style.background-color]="color"
+                   (click)="newSubject.color = color">
+                <span class="material-icons" *ngIf="newSubject.color === color">check</span>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <button class="create-btn" (click)="createSubject()" 
+                [disabled]="!newSubject.name.trim()">
+          Создать предмет
+        </button>
+      </div>
+    </div>
+  
+    <!-- Все предметы -->
+    <div class="all-subjects-section">
+      <h2>Все предметы</h2>
+      <div class="subjects-grid">
+        <div *ngFor="let subject of subjects" class="subject-card">
+          <div class="subject-header">
+            <div class="subject-icon" [style.background-color]="subject.color">
+              <span class="material-icons">{{subject.icon}}</span>
+            </div>
+            <div class="subject-info">
+              <h3>{{subject.name}}</h3>
+              <p>Создан: {{subject.createdAt | date:'dd.MM.yyyy'}}</p>
+            </div>
+          </div>
+  
+          <div class="subject-actions">
+            <button class="action-btn select" (click)="selectSubject(subject)">
+              Выбрать
+            </button>
+            <button class="action-btn delete" (click)="deleteSubject(subject)">
+              Удалить
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Модальное окно редактирования -->
+    <div *ngIf="editingSubject" class="modal-overlay">
+      <div class="modal">
+        <h3>Редактирование предмета</h3>
+        
+        <div class="form-group">
+          <label>Название</label>
+          <input type="text" [(ngModel)]="editingSubject.name">
+        </div>
+  
+        <div class="form-group">
+          <label>Иконка</label>
+          <div class="icon-grid">
+            <div *ngFor="let icon of availableIcons" 
+                 class="icon-option"
+                 [class.selected]="editingSubject.icon === icon"
+                 (click)="editingSubject.icon = icon">
+              <span class="material-icons">{{icon}}</span>
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Цвет</label>
+          <div class="color-grid">
+            <div *ngFor="let color of availableColors" 
+                 class="color-option"
+                 [class.selected]="editingSubject.color === color"
+                 [style.background-color]="color"
+                 (click)="editingSubject.color = color">
+              <span class="material-icons" *ngIf="editingSubject.color === color">check</span>
+            </div>
+          </div>
+        </div>
+  
+        <div class="modal-actions">
+          <button class="btn-secondary" (click)="cancelEdit()">Отмена</button>
+          <button class="btn-primary" (click)="updateSubject()">Сохранить</button>
+        </div>
+      </div>
+    </div>
+  </div>

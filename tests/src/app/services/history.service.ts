@@ -3,8 +3,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { QuizResult } from '../models/quiz-result.model';
 
 @Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: 'root' })
 export class HistoryService {
-  private readonly STORAGE_KEY = 'astronomy_quiz_history';
+  private readonly STORAGE_KEY = 'quiz_history';
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -15,36 +16,35 @@ export class HistoryService {
     if (!historyJson) return [];
     
     try {
-      return JSON.parse(historyJson).map((item: any) => ({
-        ...item,
-        date: new Date(item.date),
-        // Добавляем поддержку новых полей при загрузке
-        solutionUrl: item.solutionUrl || undefined,
-        hasSolution: item.hasSolution || false
-      }));
+      return JSON.parse(historyJson);
     } catch (e) {
       console.error('Error parsing history', e);
       return [];
     }
   }
 
+  getHistoryBySubject(subjectId: string): QuizResult[] {
+    return this.getHistory().filter(result => result.subjectId === subjectId);
+  }
+
   addResult(result: QuizResult): void {
     if (!isPlatformBrowser(this.platformId)) return;
     
     const history = this.getHistory();
-    // Добавляем поддержку новых полей при сохранении
-    const resultToSave = {
-      ...result,
-      solutionUrl: result.solutionUrl || undefined,
-      hasSolution: result.hasSolution || false
-    };
-    history.unshift(resultToSave);
+    history.unshift(result);
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(history));
   }
 
   clearHistory(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     localStorage.removeItem(this.STORAGE_KEY);
+  }
+
+  clearSubjectHistory(subjectId: string): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    
+    const history = this.getHistory().filter(item => item.subjectId !== subjectId);
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(history));
   }
 
   removeResult(id: string): void {

@@ -1,0 +1,40 @@
+<div class="subject-selector">
+    <div class="current-subject" *ngIf="currentSubject">
+      <span class="subject-icon">{{currentSubject.icon}}</span>
+      {{currentSubject.name}}
+    </div>
+  
+    <div class="subjects-dropdown">
+      <div class="subject-list">
+        <div *ngFor="let subject of subjects" 
+             class="subject-item"
+             [class.active]="subject.id === currentSubject?.id"
+             (click)="selectSubject(subject)">
+          
+          <span class="subject-icon">{{subject.icon}}</span>
+          <span class="subject-name">{{subject.name}}</span>
+          
+          <button class="remove-btn" (click)="removeSubject(subject, $event)">
+            ×
+          </button>
+        </div>
+      </div>
+  
+      <div class="add-subject-section">
+        <button *ngIf="!showAddForm" 
+                (click)="showAddForm = true"
+                class="add-btn">
+          + Добавить предмет
+        </button>
+  
+        <div *ngIf="showAddForm" class="add-form">
+          <input type="text" 
+                 [(ngModel)]="newSubjectName" 
+                 placeholder="Название предмета"
+                 (keyup.enter)="addSubject()">
+          <button (click)="addSubject()">Добавить</button>
+          <button (click)="showAddForm = false">Отмена</button>
+        </div>
+      </div>
+    </div>
+  </div>

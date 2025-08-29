@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import * as yaml from 'js-yaml';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, take, takeUntil } from 'rxjs';
 import { ProgressChartsComponent } from "../progress-charts/progress-charts.component";
 import { ProgressDataService } from '../../services/progress-data.service';
 import { QuillModule } from 'ngx-quill';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { SubjectManagerService } from '../../services/subject-manager.service';
 
 interface Topic {
   id: string;
@@ -123,16 +124,28 @@ private readonly planVersion = '1.0.2'
 
   private topicsSubject = new BehaviorSubject<Topic[]>([]);
   topics$ = this.topicsSubject.asObservable();
-
-
+  private destroy$ = new Subject<void>();
+  
   constructor(
     private http: HttpClient, 
     private progressDataService: ProgressDataService,
-    private sanitizer: DomSanitizer
-  ) {}  
-  async ngOnInit() {
-    await this.loadData();
-    this.termSearchQuery = '';
+    private sanitizer: DomSanitizer,
+    private subjectManager: SubjectManagerService
+  ) {}
+
+  ngOnInit() {
+    this.subjectManager.getCurrentSubject()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(subject => {
+        if (subject) {
+          this.loadData();
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -168,19 +181,25 @@ private readonly planVersion = '1.0.2'
       console.error('Error loading data:', error);
     }
   }
-  get selectedTopicWithTerms(): Topic | null {
-    return this.selectedTopic as Topic | null;
-  }
+
   private async loadPlan() {
-    const yamlText = await this.http.get(`assets/plan.yml?v=${Date.now()}`, { 
-      responseType: 'text' 
-    }).toPromise();
+    const currentSubject = this.subjectManager.getCurrentSubjectValue();
+    if (!currentSubject) return;
+    
+    const yamlText = await this.http.get(
+      `${currentSubject.planPath}?v=${Date.now()}`, 
+      { responseType: 'text' }
+    ).toPromise();
     
     if (yamlText) {
       const loadedData = yaml.load(yamlText) as any;
       this.plan = loadedData.plan || loadedData;
     }
   }
+  get selectedTopicWithTerms(): Topic | null {
+    return this.selectedTopic as Topic | null;
+  }
+
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],

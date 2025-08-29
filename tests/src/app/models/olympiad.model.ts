@@ -1,5 +1,6 @@
 export interface Olympiad {
   id: string;
+  subjectId: string;
   name: string;
   year: number;
   stage: string;
