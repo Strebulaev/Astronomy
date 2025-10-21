@@ -28456,3 +28456,3198 @@
     - text: "Угарного газа"
       correct: false
   explanation: "Поверхность Харона на 90% состоит из водяного льда с примесью аммиака, в отличие от азотно-метанового Плутона."
+
+- id: 1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p
+  tags:
+    - луна
+    - орбита
+  text: "Каков средний радиус Луны?"
+  difficulty: 30
+  options:
+    - text: "1738 км"
+      correct: true
+    - text: "6371 км"
+      correct: false
+    - text: "3396 км"
+      correct: false
+    - text: "71492 км"
+      correct: false
+  explanation: "Средний радиус Луны составляет 1738 км, что примерно в 3,7 раза меньше радиуса Земли."
+
+- id: 2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q
+  tags:
+    - луна
+    - орбита
+  text: "Каково среднее расстояние от Земли до Луны?"
+  difficulty: 30
+  options:
+    - text: "384 400 км"
+      correct: true
+    - text: "149 600 000 км"
+      correct: false
+    - text: "57 900 000 км"
+      correct: false
+    - text: "1 500 000 км"
+      correct: false
+  explanation: "Среднее расстояние от Земли до Луны составляет 384 400 километров."
+
+- id: 3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r
+  tags:
+    - луна
+    - масса
+  text: "Во сколько раз масса Луны меньше массы Земли?"
+  difficulty: 40
+  options:
+    - text: "В 81,3 раза"
+      correct: true
+    - text: "В 6 раз"
+      correct: false
+    - text: "В 100 раз"
+      correct: false
+    - text: "В 50 раз"
+      correct: false
+  explanation: "Масса Луны составляет 7,35·10²² кг, что в 81,3 раза меньше массы Земли."
+
+- id: 4d5e6f7g-8h9i-0j1k-2l3m-4n5o6p7q8r9s
+  tags:
+    - луна
+    - гравитация
+  text: "Чему равно ускорение свободного падения на поверхности Луны?"
+  difficulty: 50
+  options:
+    - text: "1,623 м/с²"
+      correct: true
+    - text: "9,8 м/с²"
+      correct: false
+    - text: "3,7 м/с²"
+      correct: false
+    - text: "0,62 м/с²"
+      correct: false
+  explanation: "Ускорение свободного падения на Луне составляет 1,623 м/с², что примерно в 6 раз меньше, чем на Земле."
+
+- id: 5e6f7g8h-9i0j-1k2l-3m4n-5o6p7q8r9s0t
+  tags:
+    - луна
+    - скорость
+  text: "Чему равна первая космическая скорость для Луны?"
+  difficulty: 60
+  options:
+    - text: "1680 м/с"
+      correct: true
+    - text: "2375 м/с"
+      correct: false
+    - text: "7900 м/с"
+      correct: false
+    - text: "11200 м/с"
+      correct: false
+  explanation: "Первая космическая скорость для Луны составляет 1680 м/с, что позволяет объектам выходить на орбиту вокруг Луны."
+
+- id: 6f7g8h9i-0j1k-2l3m-4n5o-6p7q8r9s0t1u
+  tags:
+    - луна
+    - скорость
+  text: "Чему равна вторая космическая скорость (параболическая) для Луны?"
+  difficulty: 60
+  options:
+    - text: "2375 м/с"
+      correct: true
+    - text: "1680 м/с"
+      correct: false
+    - text: "11200 м/с"
+      correct: false
+    - text: "16300 м/с"
+      correct: false
+  explanation: "Вторая космическая скорость для Луны составляет 2375 м/с, что позволяет объектам преодолеть лунную гравитацию."
+
+- id: 7g8h9i0j-1k2l-3m4n-5o6p-7q8r9s0t1u2v
+  tags:
+    - луна
+    - плотность
+  text: "Какова средняя плотность Луны?"
+  difficulty: 40
+  options:
+    - text: "3,34 г/см³"
+      correct: true
+    - text: "5,52 г/см³"
+      correct: false
+    - text: "1,0 г/см³"
+      correct: false
+    - text: "2,7 г/см³"
+      correct: false
+  explanation: "Средняя плотность Луны составляет 3,34 г/см³, что примерно в 1,65 раза меньше плотности Земли."
+
+- id: 8h9i0j1k-2l3m-4n5o-6p7q-8r9s0t1u2v3w
+  tags:
+    - луна
+    - вращение
+  text: "Каков период вращения Луны вокруг своей оси?"
+  difficulty: 40
+  options:
+    - text: "27,3217 суток"
+      correct: true
+    - text: "24 часа"
+      correct: false
+    - text: "29,53 суток"
+      correct: false
+    - text: "365,25 суток"
+      correct: false
+  explanation: "Период вращения Луны вокруг своей оси составляет 27,3217 суток, что равно периоду обращения вокруг Земли."
+
+- id: 9i0j1k2l-3m4n-5o6p-7q8r-9s0t1u2v3w4x
+  tags:
+    - луна
+    - вращение
+  text: "Как называется тип вращения Луны, при котором она обращена к Земле одной стороной?"
+  difficulty: 50
+  options:
+    - text: "Синхронное вращение"
+      correct: true
+    - text: "Ретроградное вращение"
+      correct: false
+    - text: "Дифференциальное вращение"
+      correct: false
+    - text: "Прецессионное вращение"
+      correct: false
+  explanation: "Синхронное вращение означает, что период вращения Луны вокруг своей оси равен периоду обращения вокруг Земли."
+
+- id: 0j1k2l3m-4n5o-6p7q-8r9s-0t1u2v3w4x5y
+  tags:
+    - луна
+    - либрация
+  text: "Какой процент поверхности Луны доступен для наблюдений с Земли благодаря либрации?"
+  difficulty: 50
+  options:
+    - text: "59%"
+      correct: true
+    - text: "50%"
+      correct: false
+    - text: "75%"
+      correct: false
+    - text: "100%"
+      correct: false
+  explanation: "Благодаря либрации (покачиваниям Луны) с Земли можно наблюдать 59% лунной поверхности."
+
+- id: 1k2l3m4n-5o6p-7q8r-9s0t-1u2v3w4x5y6z
+  tags:
+    - луна
+    - температура
+  text: "Какая температура на поверхности Луны в центре видимого диска днем?"
+  difficulty: 40
+  options:
+    - text: "+130°C"
+      correct: true
+    - text: "-170°C"
+      correct: false
+    - text: "+50°C"
+      correct: false
+    - text: "+300°C"
+      correct: false
+  explanation: "Днем в центре видимого диска температура достигает +130°C из-за прямого солнечного нагрева."
+
+- id: 2l3m4n5o-6p7q-8r9s-0t1u-2v3w4x5y6z7a
+  tags:
+    - луна
+    - температура
+  text: "Какая температура на поверхности Луны ночью?"
+  difficulty: 40
+  options:
+    - text: "-170°C"
+      correct: true
+    - text: "+130°C"
+      correct: false
+    - text: "-50°C"
+      correct: false
+    - text: "0°C"
+      correct: false
+  explanation: "Ночью температура на Луне падает до -170°C из-за отсутствия атмосферы и быстрого охлаждения."
+
+- id: 3m4n5o6p-7q8r-9s0t-1u2v-3w4x5y6z7a8b
+  tags:
+    - луна
+    - альбедо
+  text: "Каково среднее геометрическое альбедо Луны?"
+  difficulty: 50
+  options:
+    - text: "0,073"
+      correct: true
+    - text: "0,3"
+      correct: false
+    - text: "0,5"
+      correct: false
+    - text: "0,8"
+      correct: false
+  explanation: "Среднее геометрическое альбедо Луны составляет 0,073, что указывает на довольно темную поверхность."
+
+- id: 4n5o6p7q-8r9s-0t1u-2v3w-4x5y6z7a8b9c
+  tags:
+    - луна
+    - рельеф
+  text: "Как называются темные, относительно ровные участки поверхности Луны?"
+  difficulty: 30
+  options:
+    - text: "Моря"
+      correct: true
+    - text: "Материки"
+      correct: false
+    - text: "Океаны"
+      correct: false
+    - text: "Пустыни"
+      correct: false
+  explanation: "Темные участки называются морями, хотя они не содержат воды и представляют собой застывшую лаву."
+
+- id: 5o6p7q8r-9s0t-1u2v-3w4x-5y6z7a8b9c0d
+  tags:
+    - луна
+    - рельеф
+  text: "Как называются светлые гористые участки поверхности Луны?"
+  difficulty: 30
+  options:
+    - text: "Материки"
+      correct: true
+    - text: "Моря"
+      correct: false
+    - text: "Океаны"
+      correct: false
+    - text: "Континенты"
+      correct: false
+  explanation: "Светлые гористые участки называются материками и занимают около 85% поверхности Луны."
+
+- id: 6p7q8r9s-0t1u-2v3w-4x5y-6z7a8b9c0d1e
+  tags:
+    - луна
+    - рельеф
+  text: "Какой процент поверхности Луны занимают материки?"
+  difficulty: 40
+  options:
+    - text: "Около 85%"
+      correct: true
+    - text: "Около 40%"
+      correct: false
+    - text: "Около 60%"
+      correct: false
+    - text: "Около 15%"
+      correct: false
+  explanation: "Материки занимают около 85% всей поверхности Луны, возвышаясь на 1-2 км над морями."
+
+- id: 7q8r9s0t-1u2v-3w4x-5y6z-7a8b9c0d1e2f
+  tags:
+    - луна
+    - рельеф
+  text: "Как называются кольцевые горы на Луне?"
+  difficulty: 40
+  options:
+    - text: "Цирки"
+      correct: true
+    - text: "Кратеры"
+      correct: false
+    - text: "Кальдеры"
+      correct: false
+    - text: "Котловины"
+      correct: false
+  explanation: "Кольцевые горы называются цирками и являются характерной формой лунного рельефа."
+
+- id: 8r9s0t1u-2v3w-4x5y-6z7a-8b9c0d1e2f3g
+  tags:
+    - луна
+    - исследования
+  text: "Какая станция первой сфотографировала обратную сторону Луны?"
+  difficulty: 50
+  options:
+    - text: "Луна-3"
+      correct: true
+    - text: "Луна-9"
+      correct: false
+    - text: "Луна-16"
+      correct: false
+    - text: "Зонд-3"
+      correct: false
+  explanation: "Станция 'Луна-3' в 1959 году впервые сфотографировала обратную сторону Луны."
+
+- id: 9s0t1u2v-3w4x-5y6z-7a8b-9c0d1e2f3g4h
+  tags:
+    - луна
+    - атмосфера
+  text: "Какова концентрация газов у поверхности Луны в ночное время?"
+  difficulty: 60
+  options:
+    - text: "2·10⁵ частиц/см³"
+      correct: true
+    - text: "2·10¹⁰ частиц/см³"
+      correct: false
+    - text: "2·10¹⁵ частиц/см³"
+      correct: false
+    - text: "2·10²⁰ частиц/см³"
+      correct: false
+  explanation: "Концентрация газов ночью не превышает 2·10⁵ частиц/см³, что соответствует глубокому вакууму."
+
+- id: 0t1u2v3w-4x5y-6z7a-8b9c-0d1e2f3g4h5i
+  tags:
+    - луна
+    - грунт
+  text: "Что такое лунный реголит?"
+  difficulty: 50
+  options:
+    - text: "Мелкообломочный материал поверхностного слоя"
+      correct: true
+    - text: "Лавовые потоки"
+      correct: false
+    - text: "Ледяные отложения"
+      correct: false
+    - text: "Газовые облака"
+      correct: false
+  explanation: "Реголит - это мелкообломочный материал, смесь обломков горных пород, минералов и стеклянных частиц."
+
+- id: 1u2v3w4x-5y6z-7a8b-9c0d-1e2f3g4h5i6j
+  tags:
+    - луна
+    - грунт
+  text: "Какова средняя пористость реголита в верхнем слое толщиной 15 см?"
+  difficulty: 60
+  options:
+    - text: "Около 50%"
+      correct: true
+    - text: "Около 10%"
+      correct: false
+    - text: "Около 30%"
+      correct: false
+    - text: "Около 70%"
+      correct: false
+  explanation: "Средняя пористость реголита составляет около 50%, что объясняет его низкую теплопроводность."
+
+- id: 2v3w4x5y-6z7a-8b9c-0d1e-2f3g4h5i6j7k
+  tags:
+    - луна
+    - грунт
+  text: "Какова толщина реголитового слоя в материковых районах?"
+  difficulty: 60
+  options:
+    - text: "4-12 м"
+      correct: true
+    - text: "1-2 м"
+      correct: false
+    - text: "20-30 м"
+      correct: false
+    - text: "50-100 м"
+      correct: false
+  explanation: "В материковых районах толщина реголита составляет 4-12 метров, в морских - 4-8 метров."
+
+- id: 3w4x5y6z-7a8b-9c0d-1e2f-3g4h5i6j7k8l
+  tags:
+    - луна
+    - строение
+  text: "Какая толщина лунной коры на обращенной к Земле стороне?"
+  difficulty: 70
+  options:
+    - text: "Около 48 км"
+      correct: true
+    - text: "Около 77 км"
+      correct: false
+    - text: "Около 20 км"
+      correct: false
+    - text: "Около 100 км"
+      correct: false
+  explanation: "Толщина коры на видимой стороне около 48 км, на обратной - около 77 км."
+
+- id: 4x5y6z7a-8b9c-0d1e-2f3g-4h5i6j7k8l9m
+  tags:
+    - луна
+    - строение
+  text: "На какой глубине находится верхняя мантия Луны?"
+  difficulty: 70
+  options:
+    - text: "До 300-400 км"
+      correct: true
+    - text: "До 100 км"
+      correct: false
+    - text: "До 700 км"
+      correct: false
+    - text: "До 1000 км"
+      correct: false
+  explanation: "Верхняя мантия простирается до глубины 300-400 км, затем следует средняя мантия до 1000 км."
+
+- id: 5y6z7a8b-9c0d-1e2f-3g4h-5i6j7k8l9m0n
+  tags:
+    - луна
+    - строение
+  text: "Каков предполагаемый радиус ядра Луны?"
+  difficulty: 70
+  options:
+    - text: "170-360 км"
+      correct: true
+    - text: "500-700 км"
+      correct: false
+    - text: "1000-1200 км"
+      correct: false
+    - text: "50-100 км"
+      correct: false
+  explanation: "Предполагаемый радиус железного или сернисто-железного ядра составляет 170-360 км."
+
+- id: 6z7a8b9c-0d1e-2f3g-4h5i-6j7k8l9m0n1o
+  tags:
+    - луна
+    - сейсмичность
+  text: "На каких глубинах происходят глубокофокусные приливные лунотрясения?"
+  difficulty: 70
+  options:
+    - text: "700-1100 км"
+      correct: true
+    - text: "25-300 км"
+      correct: false
+    - text: "0-25 км"
+      correct: false
+    - text: "300-600 км"
+      correct: false
+  explanation: "Глубокофокусные приливные лунотрясения происходят на глубинах 700-1100 км."
+
+- id: 7a8b9c0d-1e2f-3g4h-5i6j-7k8l9m0n1o2p
+  tags:
+    - луна
+    - сейсмичность
+  text: "На каких глубинах происходят тектонические лунотрясения?"
+  difficulty: 70
+  options:
+    - text: "25-300 км"
+      correct: true
+    - text: "700-1100 км"
+      correct: false
+    - text: "0-25 км"
+      correct: false
+    - text: "300-600 км"
+      correct: false
+  explanation: "Тектонические лунотрясения являются мелкофокусными и происходят на глубинах 25-300 км."
+
+- id: 8b9c0d1e-2f3g-4h5i-6j7k-8l9m0n1o2p3q
+  tags:
+    - луна
+    - магнетизм
+  text: "Какая напряженность межпланетного магнитного поля вблизи Луны?"
+  difficulty: 60
+  options:
+    - text: "5·10⁻⁵ Э (5γ)"
+      correct: true
+    - text: "1 Э"
+      correct: false
+    - text: "0,5 Э"
+      correct: false
+    - text: "0,01 Э"
+      correct: false
+  explanation: "Напряженность межпланетного магнитного поля составляет около 5·10⁻⁵ Э (5 гамма)."
+
+- id: 9c0d1e2f-3g4h-5i6j-7k8l-9m0n1o2p3q4r
+  tags:
+    - луна
+    - гравитация
+  text: "Что такое масконы на Луне?"
+  difficulty: 60
+  options:
+    - text: "Локализованные концентрации масс"
+      correct: true
+    - text: "Вулканические образования"
+      correct: false
+    - text: "Магнитные аномалии"
+      correct: false
+    - text: "Температурные аномалии"
+      correct: false
+  explanation: "Масконы - это локализованные концентрации масс, вызывающие гравитационные аномалии."
+
+- id: 0d1e2f3g-4h5i-6j7k-8l9m-0n1o2p3q4r5s
+  tags:
+    - луна
+    - тепловой-поток
+  text: "Каков тепловой поток из недр Луны в районе Тавр-Литров?"
+  difficulty: 70
+  options:
+    - text: "1,6·10⁻⁶ Вт·см⁻²"
+      correct: true
+    - text: "2,2·10⁻⁶ Вт·см⁻²"
+      correct: false
+    - text: "5,0·10⁻⁶ Вт·см⁻²"
+      correct: false
+    - text: "1,0·10⁻⁵ Вт·см⁻²"
+      correct: false
+  explanation: "Тепловой поток в районе Тавр-Литров составляет 1,6·10⁻⁶ Вт·см⁻², что в 3-4 раза меньше земного."
+
+- id: 1e2f3g4h-5i6j-7k8l-9m0n-1o2p3q4r5s6t
+  tags:
+    - луна
+    - геохимия
+  text: "Какие породы преобладают в лунных морях?"
+  difficulty: 60
+  options:
+    - text: "Базальты"
+      correct: true
+    - text: "Граниты"
+      correct: false
+    - text: "Известняки"
+      correct: false
+    - text: "Песчаники"
+      correct: false
+  explanation: "Морские районы сложены в основном базальтами - оливиновыми, глинозёмистыми и титанистыми."
+
+- id: 2f3g4h5i-6j7k-8l9m-0n1o-2p3q4r5s6t7u
+  tags:
+    - луна
+    - геохимия
+  text: "Какие породы преобладают в материковых районах Луны?"
+  difficulty: 60
+  options:
+    - text: "Габбро-норит-анортозитовый комплекс"
+      correct: true
+    - text: "Базальты"
+      correct: false
+    - text: "Граниты"
+      correct: false
+    - text: "Песчаники"
+      correct: false
+  explanation: "Материки сложены габбро-норит-анортозитовым комплексом пород с высоким содержанием щелочей."
+
+- id: 3g4h5i6j-7k8l-9m0n-1o2p-3q4r5s6t7u8v
+  tags:
+    - луна
+    - происхождение
+  text: "В каком возрасте находятся самые древние лунные породы?"
+  difficulty: 50
+  options:
+    - text: "4,5-3,5 млрд лет"
+      correct: true
+    - text: "1-2 млрд лет"
+      correct: false
+    - text: "500-700 млн лет"
+      correct: false
+    - text: "100-200 млн лет"
+      correct: false
+  explanation: "Возраст лунных пород колеблется в пределах 4,5-3,5 млрд лет, что близко к возрасту Земли."
+
+- id: 4h5i6j7k-8l9m-0n1o-2p3q-4r5s6t7u8v9w
+  tags:
+    - луна
+    - исследования
+  text: "Какие советские станции доставили образцы лунного грунта на Землю?"
+  difficulty: 50
+  options:
+    - text: "Луна-16, Луна-20, Луна-24"
+      correct: true
+    - text: "Луна-3, Луна-9, Луна-17"
+      correct: false
+    - text: "Луна-1, Луна-2, Луна-10"
+      correct: false
+    - text: "Зонд-3, Зонд-5, Зонд-7"
+      correct: false
+  explanation: "Станции 'Луна-16, -20, -24' доставили образцы лунного грунта на Землю в 1970-1976 годах."
+
+- id: 5i6j7k8l-9m0n-1o2p-3q4r-5s6t7u8v9w0x
+  tags:
+    - луна
+    - исследования
+  text: "Какие самоходные аппараты исследовали лунную поверхность?"
+  difficulty: 50
+  options:
+    - text: "Луноход-1 и Луноход-2"
+      correct: true
+    - text: "Венера-1 и Венера-2"
+      correct: false
+    - text: "Марс-1 и Марс-2"
+      correct: false
+    - text: "Сервейер-1 и Сервейер-2"
+      correct: false
+  explanation: "Луноход-1 (1970-73) и Луноход-2 (1973) обследовали поверхность на площади свыше 100 км²."
+
+- id: 6j7k8l9m-0n1o-2p3q-4r5s-6t7u8v9w0x1y
+  tags:
+    - луна
+    - орбита
+  text: "Сколько оборотов вокруг Земли совершает Луна за год?"
+  difficulty: 40
+  options:
+    - text: "13,5 об/год"
+      correct: true
+    - text: "12 об/год"
+      correct: false
+    - text: "24 об/год"
+      correct: false
+    - text: "365 об/год"
+      correct: false
+  explanation: "Луна совершает 13,5 оборотов вокруг Земли за год, так как период обращения составляет 27,3 суток."
+
+- id: 7k8l9m0n-1o2p-3q4r-5s6t-7u8v9w0x1y2z
+  tags:
+    - луна
+    - скорость
+  text: "Какова средняя скорость движения Луны по орбите?"
+  difficulty: 50
+  options:
+    - text: "1,02 км/с"
+      correct: true
+    - text: "3,07 км/с"
+      correct: false
+    - text: "7,9 км/с"
+      correct: false
+    - text: "29,8 км/с"
+      correct: false
+  explanation: "Средняя орбитальная скорость Луны составляет 1,02 км/с."
+
+- id: 8l9m0n1o-2p3q-4r5s-6t7u-8v9w0x1y2z3a
+  tags:
+    - луна
+    - форма
+  text: "Насколько различаются длины главных осей лунного эллипсоида?"
+  difficulty: 60
+  options:
+    - text: "Более 1 км"
+      correct: true
+    - text: "Менее 100 м"
+      correct: false
+    - text: "Около 10 км"
+      correct: false
+    - text: "Около 100 км"
+      correct: false
+  explanation: "Различия в длинах главных осей превышают 1 км (полярный радиус 1736 км, направленный к Земле - 1739 км)."
+
+- id: 9m0n1o2p-3q4r-5s6t-7u8v-9w0x1y2z3a4b
+  tags:
+    - луна
+    - форма
+  text: "Насколько центр масс Луны смещен относительно геометрического центра?"
+  difficulty: 70
+  options:
+    - text: "На 3 км к Земле и 1 км влево"
+      correct: true
+    - text: "На 10 км к Земле"
+      correct: false
+    - text: "На 1 км от центра"
+      correct: false
+    - text: "Не смещен"
+      correct: false
+  explanation: "Центр масс смещен на 3 км к Земле и на 1 км влево (если смотреть с Земли) из-за неоднородности недр."
+
+- id: 0n1o2p3q-4r5s-6t7u-8v9w-0x1y2z3a4b5c
+  tags:
+    - луна
+    - сутки
+  text: "Какова продолжительность лунных суток?"
+  difficulty: 40
+  options:
+    - text: "29,53 земных суток"
+      correct: true
+    - text: "27,32 земных суток"
+      correct: false
+    - text: "24 часа"
+      correct: false
+    - text: "15 земных суток"
+      correct: false
+  explanation: "Лунные сутки длятся 29,53 земных суток из-за годичного движения Луны вместе с Землей вокруг Солнца."
+
+- id: 1o2p3q4r-5s6t-7u8v-9w0x-1y2z3a4b5c6d
+  tags:
+    - луна
+    - сутки
+  text: "Сколько длятся лунный день и лунная ночь?"
+  difficulty: 40
+  options:
+    - text: "Около 15 суток каждый"
+      correct: true
+    - text: "Около 7 суток каждый"
+      correct: false
+    - text: "Около 24 часов каждый"
+      correct: false
+    - text: "Около 30 суток каждый"
+      correct: false
+  explanation: "Лунный день и лунная ночь длятся около 15 земных суток каждый из-за медленного вращения Луны."
+
+- id: 2p3q4r5s-6t7u-8v9w-0x1y-2z3a4b5c6d7e
+  tags:
+    - луна
+    - микрорельеф
+  text: "Каковы размеры микрошероховатостей лунной поверхности?"
+  difficulty: 60
+  options:
+    - text: "Не превышают нескольких мм"
+      correct: true
+    - text: "Около 1 м"
+      correct: false
+    - text: "Около 10 см"
+      correct: false
+    - text: "Около 1 см"
+      correct: false
+  explanation: "Радиолокационные исследования показали, что микрошероховатости не превышают нескольких миллиметров."
+
+- id: 3q4r5s6t-7u8v-9w0x-1y2z-3a4b5c6d7e8f
+  tags:
+    - луна
+    - теплопроводность
+  text: "Какова теплопроводность лунного грунта по сравнению с воздухом?"
+  difficulty: 70
+  options:
+    - text: "В 10 раз меньше"
+      correct: true
+    - text: "Такая же"
+      correct: false
+    - text: "В 10 раз больше"
+      correct: false
+    - text: "В 100 раз меньше"
+      correct: false
+  explanation: "Теплопроводность реголита примерно в 10 раз меньше теплопроводности воздуха, что делает его хорошим теплоизолятором."
+
+- id: 4r5s6t7u-8v9w-0x1y-2z3a-4b5c6d7e8f9g
+  tags:
+    - луна
+    - горячие-точки
+  text: "Что такое 'горячие точки' на Луне?"
+  difficulty: 60
+  options:
+    - text: "Участки, медленнее остывающие во время затмений"
+      correct: true
+    - text: "Вулканические кратеры"
+      correct: false
+    - text: "Места падения метеоритов"
+      correct: false
+    - text: "Солнечные батареи"
+      correct: false
+  explanation: "'Горячие точки' - это участки поверхности, которые медленнее остывают во время лунных затмений."
+
+- id: 5s6t7u8v-9w0x-1y2z-3a4b-5c6d7e8f9g0h
+  tags:
+    - луна
+    - активные-районы
+  text: "Какие районы Луны считаются наиболее активными?"
+  difficulty: 60
+  options:
+    - text: "Аристарх-Геродот, Долина Шретера"
+      correct: true
+    - text: "Море Спокойствия"
+      correct: false
+    - text: "Океан Бурь"
+      correct: false
+    - text: "Кратер Тихо"
+      correct: false
+  explanation: "Наиболее активны районы Аристарх-Геродот, Долина Шретера, а также кратеры Платон и Альфонс."
+
+- id: 6t7u8v9w-0x1y-2z3a-4b5c-6d7e8f9g0h1i
+  tags:
+    - луна
+    - исследования
+  text: "Какие американские станции проводили предварительный анализ лунного грунта?"
+  difficulty: 50
+  options:
+    - text: "Сервейер"
+      correct: true
+    - text: "Рейнджер"
+      correct: false
+    - text: "Маринер"
+      correct: false
+    - text: "Вояджер"
+      correct: false
+  explanation: "Станции серии 'Сервейер' (1966-68 гг.) передали данные предварительного анализа грунта."
+
+- id: 7u8v9w0x-1y2z-3a4b-5c6d-7e8f9g0h1i2j
+  tags:
+    - луна
+    - исследования
+  text: "Какие станции стали первыми искусственными спутниками Луны?"
+  difficulty: 50
+  options:
+    - text: "Луна-10 и Лунар Орбитер"
+      correct: true
+    - text: "Аполлон"
+      correct: false
+    - text: "Рейнджер"
+      correct: false
+    - text: "Сервейер"
+      correct: false
+  explanation: "5 КА серии 'Луна' и 5 станций 'Лунар Орбитер' стали первыми искусственными спутниками Луны."
+
+- id: 8v9w0x1y-2z3a-4b5c-6d7e-8f9g0h1i2j3k
+  tags:
+    - луна
+    - атмосфера
+  text: "Во сколько раз увеличивается концентрация газов у поверхности Луны днем?"
+  difficulty: 60
+  options:
+    - text: "На два порядка"
+      correct: true
+    - text: "В 2 раза"
+      correct: false
+    - text: "В 10 раз"
+      correct: false
+    - text: "Не изменяется"
+      correct: false
+  explanation: "Концентрация газов увеличивается днем на два порядка за счет дегазации грунта."
+
+- id: 9w0x1y2z-3a4b-5c6d-7e8f-9g0h1i2j3k4l
+  tags:
+    - луна
+    - моря
+  text: "Какой процент площади невидимого полушария Луны занимают моря?"
+  difficulty: 50
+  options:
+    - text: "3%"
+      correct: true
+    - text: "40%"
+      correct: false
+    - text: "15%"
+      correct: false
+    - text: "60%"
+      correct: false
+  explanation: "На обратной стороне Луны есть лишь два 'морских' участка, занимающих 3% площади."
+
+- id: 0x1y2z3a-4b5c-6d7e-8f9g-0h1i2j3k4l5m
+  tags:
+    - луна
+    - моря
+  text: "Какие моря есть на обратной стороне Луны?"
+  difficulty: 50
+  options:
+    - text: "Море Восточное и Море Москвы"
+      correct: true
+    - text: "Море Спокойствия и Море Дождей"
+      correct: false
+    - text: "Океан Бурь и Море Ясности"
+      correct: false
+    - text: "Море Изобилия и Море Нектара"
+      correct: false
+  explanation: "На обратной стороне находятся Море Восточное и Море Москвы."
+
+- id: 1y2z3a4b-5c6d-7e8f-9g0h-1i2j3k4l5m6n
+  tags:
+    - луна
+    - кратеры
+  text: "Что представляют собой светлые лучи вокруг некоторых кратеров?"
+  difficulty: 60
+  options:
+    - text: "Скопления мелких вторичных кратеров"
+      correct: true
+    - text: "Насыпные образования"
+      correct: false
+    - text: "Лавовые потоки"
+      correct: false
+    - text: "Ледяные отложения"
+      correct: false
+  explanation: "Светлые лучи распались на крупномасштабных снимках на мелкие кратеры-лунки вторичного происхождения."
+
+- id: 2z3a4b5c-6d7e-8f9g-0h1i-2j3k4l5m6n7o
+  tags:
+    - луна
+    - реголит
+  text: "Какова доля метеоритного вещества в реголите?"
+  difficulty: 60
+  options:
+    - text: "Не превышает 1%"
+      correct: true
+    - text: "Около 10%"
+      correct: false
+    - text: "Около 50%"
+      correct: false
+    - text: "Около 90%"
+      correct: false
+  explanation: "Доля метеоритного вещества в реголите не превышает 1%, основная часть - продукты дробления лунных пород."
+
+- id: 3a4b5c6d-7e8f-9g0h-1i2j-3k4l5m6n7o8p
+  tags:
+    - луна
+    - реголит
+  text: "Каков средний диаметр зерен реголита?"
+  difficulty: 60
+  options:
+    - text: "Менее 1 мм"
+      correct: true
+    - text: "Около 1 см"
+      correct: false
+    - text: "Около 10 см"
+      correct: false
+    - text: "Около 1 м"
+      correct: false
+  explanation: "Средний диаметр зерен реголита менее 1 мм, но присутствуют и более крупные обломки."
+
+- id: 4b5c6d7e-8f9g-0h1i-2j3k-4l5m6n7o8p9q
+  tags:
+    - луна
+    - реголит
+  text: "Какова плотность самого верхнего слоя реголита?"
+  difficulty: 60
+  options:
+    - text: "1,1-1,2 г/см³"
+      correct: true
+    - text: "2,0-2,5 г/см³"
+      correct: false
+    - text: "0,5-0,8 г/см³"
+      correct: false
+    - text: "3,0-3,5 г/см³"
+      correct: false
+  explanation: "Верхний слой имеет плотность 1,1-1,2 г/см³, но с глубиной плотность возрастает."
+
+- id: 5c6d7e8f-9g0h-1i2j-3k4l-5m6n7o8p9q0r
+  tags:
+    - луна
+    - реголит
+  text: "Какую нагрузку выдерживает верхний слой реголита?"
+  difficulty: 60
+  options:
+    - text: "До 1 кгс/см² (~ 10⁵ Па)"
+      correct: true
+    - text: "До 10 кгс/см²"
+      correct: false
+    - text: "До 100 кгс/см²"
+      correct: false
+    - text: "До 0,1 кгс/см²"
+      correct: false
+  explanation: "Верхний слой выдерживает нагрузку до 1 кгс/см², но уже на небольшой глубине прочность возрастает."
+
+- id: 6d7e8f9g-0h1i-2j3k-4l5m-6n7o8p9q0r1s
+  tags:
+    - луна
+    - строение
+  text: "Что такое литосфера Луны?"
+  difficulty: 70
+  options:
+    - text: "Жесткая холодная оболочка, хорошо проводящая сейсмические волны"
+      correct: true
+    - text: "Расплавленный слой"
+      correct: false
+    - text: "Поверхностный пылевой слой"
+      correct: false
+    - text: "Атмосферная оболочка"
+      correct: false
+  explanation: "Литосфера - мощная жесткая холодная оболочка, в которой хорошо распространяются сейсмические волны."
+
+- id: 7e8f9g0h-1i2j-3k4l-5m6n-7o8p9q0r1s2t
+  tags:
+    - луна
+    - строение
+  text: "На какой глубине практически исчезают температурные колебания?"
+  difficulty: 60
+  options:
+    - text: "~ 1 м"
+      correct: true
+    - text: "~ 10 см"
+      correct: false
+    - text: "~ 10 м"
+      correct: false
+    - text: "~ 100 м"
+      correct: false
+  explanation: "Уже на глубине около 1 м практически неощутимы температурные колебания, достигающие на поверхности 300°С."
+
+- id: 8f9g0h1i-2j3k-4l5m-6n7o-8p9q0r1s2t3u
+  tags:
+    - луна
+    - сейсмичность
+  text: "Сколько приливных лунотрясений происходит в год в районе кратера Декарт?"
+  difficulty: 70
+  options:
+    - text: "До 3000"
+      correct: true
+    - text: "Около 100"
+      correct: false
+    - text: "Около 600"
+      correct: false
+    - text: "Менее 50"
+      correct: false
+  explanation: "В районе кратера Декарт происходит до 3000 приливных лунотрясений в год."
+
+- id: 9g0h1i2j-3k4l-5m6n-7o8p-9q0r1s2t3u4v
+  tags:
+    - луна
+    - сейсмичность
+  text: "Какова годовая энергия всех лунотрясений?"
+  difficulty: 70
+  options:
+    - text: "10¹²-10¹⁴ эрг"
+      correct: true
+    - text: "10²⁵-10²⁶ эрг"
+      correct: false
+    - text: "10⁸-10¹⁰ эрг"
+      correct: false
+    - text: "10¹⁸-10²⁰ эрг"
+      correct: false
+  explanation: "Суммарная годовая энергия лунотрясений составляет 10¹²-10¹⁴ эрг, что намного меньше земной."
+
+- id: 0h1i2j3k-4l5m-6n7o-8p9q-0r1s2t3u4v5w
+  tags:
+    - луна
+    - сейсмичность
+  text: "Каков характер затухания сейсмических колебаний на Луне?"
+  difficulty: 70
+  options:
+    - text: "Медленное затухание в течение часов"
+      correct: true
+    - text: "Быстрое затухание за секунды"
+      correct: false
+    - text: "Незатухающие колебания"
+      correct: false
+    - text: "Затухание за минуты"
+      correct: false
+  explanation: "Колебания не затухают часами из-за высокой сейсмической добротности лунных недр."
+
+- id: 1i2j3k4l-5m6n-7o8p-9q0r-1s2t3u4v5w6x
+  tags:
+    - луна
+    - магнетизм
+  text: "Какая остаточная намагниченность у лунных базальтов?"
+  difficulty: 70
+  options:
+    - text: "10⁻⁵-10⁻⁶ Гс"
+      correct: true
+    - text: "10⁻²-10⁻³ Гс"
+      correct: false
+    - text: "10⁻⁷-10⁻⁸ Гс"
+      correct: false
+    - text: "10⁻¹-10⁻² Гс"
+      correct: false
+  explanation: "Остаточная намагниченность базальтов составляет 10⁻⁵-10⁻⁶ Гс, у брекчий - 10⁻³-10⁻⁴ Гс."
+
+- id: 2j3k4l5m-6n7o-8p9q-0r1s-2t3u4v5w6x7y
+  tags:
+    - луна
+    - электричество
+  text: "Каков характер электропроводности лунных недр?"
+  difficulty: 70
+  options:
+    - text: "Возрастает с глубиной"
+      correct: true
+    - text: "Уменьшается с глубиной"
+      correct: false
+    - text: "Постоянна по всей глубине"
+      correct: false
+    - text: "Имеет случайный характер"
+      correct: false
+  explanation: "Поверхностный слой - изолятор, но с глубиной электропроводность заметно возрастает."
+
+- id: 3k4l5m6n-7o8p-9q0r-1s2t-3u4v5w6x7y8z
+  tags:
+    - луна
+    - температура-недр
+  text: "Какая температура на глубине 400 км под поверхностью Луны?"
+  difficulty: 70
+  options:
+    - text: "1000°C"
+      correct: true
+    - text: "500°C"
+      correct: false
+    - text: "1500°C"
+      correct: false
+    - text: "200°C"
+      correct: false
+  explanation: "На глубине 400 км температура составляет около 1000°C, на глубине 1000 км - около 1400°C."
+
+- id: 4l5m6n7o-8p9q-0r1s-2t3u-4v5w6x7y8z9a
+  tags:
+    - луна
+    - гравитация
+  text: "Какова величина самых больших гравитационных аномалий на Луне?"
+  difficulty: 70
+  options:
+    - text: "До 200 мгал"
+      correct: true
+    - text: "До 50 мгал"
+      correct: false
+    - text: "До 500 мгал"
+      correct: false
+    - text: "До 1000 мгал"
+      correct: false
+  explanation: "Величина гравитационных аномалий может достигать 200 миллигал."
+
+- id: 5m6n7o8p-9q0r-1s2t-3u4v-5w6x7y8z9a0b
+  tags:
+    - луна
+    - масконы
+  text: "Какова суммарная масса всех масконов Луны?"
+  difficulty: 70
+  options:
+    - text: "0,0001 массы Луны"
+      correct: true
+    - text: "0,001 массы Луны"
+      correct: false
+    - text: "0,01 массы Луны"
+      correct: false
+    - text: "0,1 массы Луны"
+      correct: false
+  explanation: "Суммарная масса всех масконов составляет 0,0001 массы Луны."
+
+- id: 6n7o8p9q-0r1s-2t3u-4v5w-6x7y8z9a0b1c
+  tags:
+    - луна
+    - тепловой-поток
+  text: "Чему равен тепловой поток в районе Рима Хэдли?"
+  difficulty: 70
+  options:
+    - text: "2,2·10⁻⁶ Вт·см⁻²"
+      correct: true
+    - text: "1,6·10⁻⁶ Вт·см⁻²"
+      correct: false
+    - text: "5,0·10⁻⁶ Вт·см⁻²"
+      correct: false
+    - text: "1,0·10⁻⁵ Вт·см⁻²"
+      correct: false
+  explanation: "В районе Рима Хэдли тепловой поток составляет 2,2·10⁻⁶ Вт·см⁻²."
+
+- id: 7o8p9q0r-1s2t-3u4v-5w6x-7y8z9a0b1c2d
+  tags:
+    - луна
+    - геохимия
+  text: "Сколько типов пород выделено на поверхности Луны?"
+  difficulty: 60
+  options:
+    - text: "6 типов"
+      correct: true
+    - text: "3 типа"
+      correct: false
+    - text: "10 типов"
+      correct: false
+    - text: "15 типов"
+      correct: false
+  explanation: "Всего выделено 6 типов пород, залегающих на поверхности Луны."
+
+- id: 8p9q0r1s-2t3u-4v5w-6x7y-8z9a0b1c2d3e
+  tags:
+    - луна
+    - геохимия
+  text: "Сколько минералов обнаружено в лунных породах?"
+  difficulty: 60
+  options:
+    - text: "Более 50"
+      correct: true
+    - text: "Около 10"
+      correct: false
+    - text: "Около 200"
+      correct: false
+    - text: "Около 1000"
+      correct: false
+  explanation: "В лунных породах описано более 50 минералов, в земной коре - более 2000."
+
+- id: 9q0r1s2t-3u4v-5w6x-7y8z-9a0b1c2d3e4f
+  tags:
+    - луна
+    - геохимия
+  text: "Какой единственный лунный минерал содержит водород?"
+  difficulty: 70
+  options:
+    - text: "Акаганеит"
+      correct: true
+    - text: "Оливин"
+      correct: false
+    - text: "Плагиоклаз"
+      correct: false
+    - text: "Ильменит"
+      correct: false
+  explanation: "Акаганеит - единственный лунный минерал, содержащий водород и трехвалентное железо."
+
+- id: 0r1s2t3u-4v5w-6x7y-8z9a-0b1c2d3e4f5g
+  tags:
+    - луна
+    - происхождение
+  text: "Какие существуют гипотезы происхождения Луны?"
+  difficulty: 50
+  options:
+    - text: "Отторжение, совместное происхождение, захват, аккреция"
+      correct: true
+    - text: "Только вулканическое происхождение"
+      correct: false
+    - text: "Только метеоритное происхождение"
+      correct: false
+    - text: "Искусственное создание"
+      correct: false
+  explanation: "Основные гипотезы: отторжение из мантии Земли, совместное происхождение, захват, аккреция планетезималей."
+
+- id: 1s2t3u4v-5w6x-7y8z-9a0b-1c2d3e4f5g6h
+  tags:
+    - луна
+    - эволюция
+  text: "Сколько основных этапов включает эволюция Луны?"
+  difficulty: 50
+  options:
+    - text: "5 этапов"
+      correct: true
+    - text: "3 этапа"
+      correct: false
+    - text: "7 этапов"
+      correct: false
+    - text: "10 этапов"
+      correct: false
+  explanation: "Эволюция Луны включает 5 основных этапов, начиная с 4,6 млрд лет назад."
+
+- id: 2t3u4v5w-6x7y-8z9a-0b1c-2d3e4f5g6h7i
+  tags:
+    - луна
+    - эволюция
+  text: "Когда начался 'морской' этап эволюции Луны?"
+  difficulty: 60
+  options:
+    - text: "3,8-3,0 млрд лет назад"
+      correct: true
+    - text: "4,6-4,4 млрд лет назад"
+      correct: false
+    - text: "2,0-1,0 млрд лет назад"
+      correct: false
+    - text: "1,0-0,5 млрд лет назад"
+      correct: false
+  explanation: "'Морской' этап был в период 3,8-3,0 млрд лет назад, когда произошли массовые излияния базальтов."
+
+- id: 3u4v5w6x-7y8z-9a0b-1c2d-3e4f5g6h7i8j
+  tags:
+    - луна
+    - эволюция
+  text: "Когда начался современный 'послеморской' этап эволюции?"
+  difficulty: 60
+  options:
+    - text: "Около 3,0 млрд лет назад"
+      correct: true
+    - text: "Около 1,0 млрд лет назад"
+      correct: false
+    - text: "Около 4,0 млрд лет назад"
+      correct: false
+    - text: "Около 0,5 млрд лет назад"
+      correct: false
+  explanation: "Современный этап начался около 3,0 млрд лет назад и продолжается до настоящего времени."
+
+- id: 4v5w6x7y-8z9a-0b1c-2d3e-4f5g6h7i8j9k
+  tags:
+    - луна
+    - объем
+  text: "Каков объем Луны?"
+  difficulty: 50
+  options:
+    - text: "2,2·10¹⁰ км³"
+      correct: true
+    - text: "1,1·10¹² км³"
+      correct: false
+    - text: "5,1·10⁸ км³"
+      correct: false
+    - text: "7,2·10⁹ км³"
+      correct: false
+  explanation: "Объем Луны составляет 2,2·10¹⁰ км³, что примерно в 49 раз меньше объема Земли."
+
+- id: 5w6x7y8z-9a0b-1c2d-3e4f-5g6h7i8j9k0l
+  tags:
+    - луна
+    - кора
+  text: "Какова средняя толщина лунной коры?"
+  difficulty: 60
+  options:
+    - text: "50-60 км"
+      correct: true
+    - text: "20-30 км"
+      correct: false
+    - text: "100-120 км"
+      correct: false
+    - text: "5-10 км"
+      correct: false
+  explanation: "Средняя толщина лунной коры оценивается в 50-60 км."
+
+- id: 6x7y8z9a-0b1c-2d3e-4f5g-6h7i8j9k0l1m
+  tags:
+    - луна
+    - мантия
+  text: "На какой глубине находится граница между верхней и средней мантией?"
+  difficulty: 70
+  options:
+    - text: "300-400 км"
+      correct: true
+    - text: "100 км"
+      correct: false
+    - text: "700 км"
+      correct: false
+    - text: "1000 км"
+      correct: false
+  explanation: "Верхняя мантия простирается до глубины 300-400 км, затем следует средняя мантия."
+
+- id: 7y8z9a0b-1c2d-3e4f-5g6h-7i8j9k0l1m2n
+  tags:
+    - луна
+    - астеносфера
+  text: "С какой глубины начинается лунная астеносфера?"
+  difficulty: 70
+  options:
+    - text: "1000-1100 км"
+      correct: true
+    - text: "500-600 км"
+      correct: false
+    - text: "200-300 км"
+      correct: false
+    - text: "1500 км"
+      correct: false
+  explanation: "Астеносфера начинается с глубины 1000-1100 км, где вещество находится в состоянии частичного расплава."
+
+- id: 8z9a0b1c-2d3e-4f5g-6h7i-8j9k0l1m2n3o
+  tags:
+    - луна
+    - сейсмичность
+  text: "Каковы глубины зоны тектонических лунотрясений?"
+  difficulty: 70
+  options:
+    - text: "25-300 км"
+      correct: true
+    - text: "700-1100 км"
+      correct: false
+    - text: "0-25 км"
+      correct: false
+    - text: "300-600 км"
+      correct: false
+  explanation: "Тектонические лунотрясения происходят на глубинах 25-300 км."
+
+- id: 9a0b1c2d-3e4f-5g6h-7i8j-9k0l1m2n3o4p
+  tags:
+    - луна
+    - сейсмичность
+  text: "Каковы глубины зоны приливных лунотрясений?"
+  difficulty: 70
+  options:
+    - text: "700-1100 км"
+      correct: true
+    - text: "25-300 км"
+      correct: false
+    - text: "0-25 км"
+      correct: false
+    - text: "300-600 км"
+      correct: false
+  explanation: "Приливные лунотрясения происходят на глубинах 700-1100 км."
+
+- id: 0b1c2d3e-4f5g-6h7i-8j9k-0l1m2n3o4p5q
+  tags:
+    - луна
+    - магнитное-поле
+  text: "Каковы максимальные значения локальных магнитных полей на Луне?"
+  difficulty: 70
+  options:
+    - text: "До 3·10⁻³ Э"
+      correct: true
+    - text: "До 1 Э"
+      correct: false
+    - text: "До 0,1 Э"
+      correct: false
+    - text: "До 10⁻⁵ Э"
+      correct: false
+  explanation: "Локальная магнитная активность проявляется в полях до 3·10⁻³ Э."
+
+- id: 1c2d3e4f-5g6h-7i8j-9k0l-1m2n3o4p5q6r
+  tags:
+    - луна
+    - электрическое-поле
+  text: "Что представляет собой поверхностный слой Луны с точки зрения электропроводности?"
+  difficulty: 70
+  options:
+    - text: "Мощный изолятор"
+      correct: true
+    - text: "Хороший проводник"
+      correct: false
+    - text: "Полупроводник"
+      correct: false
+    - text: "Сверхпроводник"
+      correct: false
+  explanation: "Поверхностный слой Луны представляет собой мощный изолятор."
+
+- id: 2d3e4f5g-6h7i-8j9k-0l1m-2n3o4p5q6r7s
+  tags:
+    - луна
+    - тепловая-история
+  text: "Каковы общие черты тепловой истории Луны?"
+  difficulty: 70
+  options:
+    - text: "Ранний разогрев, дифференциация, остывание литосферы"
+      correct: true
+    - text: "Постоянная температура"
+      correct: false
+    - text: "Непрерывный разогрев"
+      correct: false
+    - text: "Быстрое остывание"
+      correct: false
+  explanation: "Тепловая история включает ранний разогрев, дифференциацию вещества, остывание и образование оболочек."
+
+- id: 3e4f5g6h-7i8j-9k0l-1m2n-3o4p5q6r7s8t
+  tags:
+    - луна
+    - химический-состав
+  text: "Какие элементы преобладают в лунных породах?"
+  difficulty: 60
+  options:
+    - text: "Силикаты и окислы"
+      correct: true
+    - text: "Карбонаты"
+      correct: false
+    - text: "Сульфаты"
+      correct: false
+    - text: "Галогениды"
+      correct: false
+  explanation: "Ведущее место в лунных породах принадлежит силикатам и окислам."
+
+- id: 4f5g6h7i-8j9k-0l1m-2n3o-4p5q6r7s8t9u
+  tags:
+    - луна
+    - химический-состав
+  text: "Какими элементами обеднены лунные породы по сравнению с земными?"
+  difficulty: 60
+  options:
+    - text: "Железом, водой и летучими компонентами"
+      correct: true
+    - text: "Кремнием и кислородом"
+      correct: false
+    - text: "Алюминием и кальцием"
+      correct: false
+    - text: "Магнием и титаном"
+      correct: false
+  explanation: "Лунные породы обеднены железом, водой и летучими компонентами."
+
+- id: 5g6h7i8j-9k0l-1m2n-3o4p-5q6r7s8t9u0v
+  tags:
+    - луна
+    - реголит
+  text: "От чего зависит химический состав реголита?"
+  difficulty: 60
+  options:
+    - text: "От места взятия пробы"
+      correct: true
+    - text: "От времени суток"
+      correct: false
+    - text: "От фазы Луны"
+      correct: false
+    - text: "От времени года"
+      correct: false
+  explanation: "Химический состав реголита существенно зависит от места взятия пробы (материк или море)."
+
+  - id: 9b8c7d6e-5f4g-3h2i-1j0k-9l8m7n6o5p4q
+  tags:
+    - эклиптика
+    - земля
+    - солнце
+  text: "Что такое эклиптика?"
+  difficulty: 40
+  options:
+    - text: "Большой круг небесной сферы, по которому происходит видимое годовое движение Солнца"
+      correct: true
+    - text: "Орбита Луны вокруг Земли"
+      correct: false
+    - text: "Линия горизонта"
+      correct: false
+    - text: "Небесный экватор"
+      correct: false
+  explanation: "Эклиптика - это видимый путь Солнца по небесной сфере в течение года, представляющий собой проекцию орбиты Земли на небесную сферу."
+
+- id: 8a7b6c5d-4e3f-2g1h-0i9j-8k7l6m5n4o3p
+  tags:
+    - наклон-оси
+    - времена-года
+  text: "Почему на Земле происходит смена времен года?"
+  difficulty: 50
+  options:
+    - text: "Из-за наклона оси вращения Земли к плоскости эклиптики"
+      correct: true
+    - text: "Из-за изменения расстояния от Земли до Солнца"
+      correct: false
+    - text: "Из-за вращения Земли вокруг своей оси"
+      correct: false
+    - text: "Из-за влияния Луны"
+      correct: false
+  explanation: "Смена времен года происходит потому, что ось вращения Земли наклонена к плоскости эклиптики под углом примерно 23,5°, что приводит к изменению угла падения солнечных лучей в течение года."
+
+- id: 7z6y5x4w-3v2u-1t0s-9r8q-7p6o5n4m3l2k
+  tags:
+    - равноденствие
+    - солнце
+  text: "Что происходит в дни равноденствий?"
+  difficulty: 40
+  options:
+    - text: "День равен ночи на всей Земле"
+      correct: true
+    - text: "Самый длинный день в году"
+      correct: false
+    - text: "Самый короткий день в году"
+      correct: false
+    - text: "Солнце в зените на экваторе"
+      correct: false
+  explanation: "В дни равноденствий (21 марта и 23 сентября) граница света и тени проходит через полюса, поэтому день равен ночи во всех точках Земли."
+
+- id: 6y5x4w3v-2u1t-0s9r-8q7p-6o5n4m3l2k1j
+  tags:
+    - солнцестояние
+    - времена-года
+  text: "Когда происходит летнее солнцестояние в северном полушарии?"
+  difficulty: 40
+  options:
+    - text: "22 июня"
+      correct: true
+    - text: "22 декабря"
+      correct: false
+    - text: "21 марта"
+      correct: false
+    - text: "23 сентября"
+      correct: false
+  explanation: "Летнее солнцестояние в северном полушарии происходит около 22 июня, когда северный полюс Земли максимально наклонен к Солнцу."
+
+- id: 5x4w3v2u-1t0s-9r8q-7p6o-5n4m3l2k1j0i
+  tags:
+    - солнцестояние
+    - времена-года
+  text: "Что характерно для дня зимнего солнцестояния в северном полушарии?"
+  difficulty: 40
+  options:
+    - text: "Самый короткий день и самая длинная ночь"
+      correct: true
+    - text: "День равен ночи"
+      correct: false
+    - text: "Самый длинный день и самая короткая ночь"
+      correct: false
+    - text: "Солнце в зените на экваторе"
+      correct: false
+  explanation: "22 декабря - день зимнего солнцестояния, когда в северном полушарии наблюдается самый короткий день и самая длинная ночь."
+
+- id: 4w3v2u1t-0s9r-8q7p-6o5n-4m3l2k1j0i9h
+  tags:
+    - координаты
+    - солнце
+  text: "Каковы координаты Солнца в день весеннего равноденствия?"
+  difficulty: 50
+  options:
+    - text: "α = 0h, δ = 0°"
+      correct: true
+    - text: "α = 6h, δ = +23,5°"
+      correct: false
+    - text: "α = 12h, δ = 0°"
+      correct: false
+    - text: "α = 18h, δ = -23,5°"
+      correct: false
+  explanation: "21 марта Солнце находится в точке весеннего равноденствия: прямое восхождение α = 0h, склонение δ = 0°."
+
+- id: 3v2u1t0s-9r8q-7p6o-5n4m-3l2k1j0i9h8g
+  tags:
+    - координаты
+    - солнце
+  text: "Каковы координаты Солнца в день летнего солнцестояния?"
+  difficulty: 50
+  options:
+    - text: "α = 6h, δ = +23°26'"
+      correct: true
+    - text: "α = 0h, δ = 0°"
+      correct: false
+    - text: "α = 12h, δ = 0°"
+      correct: false
+    - text: "α = 18h, δ = -23°26'"
+      correct: false
+  explanation: "22 июня Солнце имеет координаты: прямое восхождение α = 6h, склонение δ = +23°26'."
+
+- id: 2u1t0s9r-8q7p-6o5n-4m3l-2k1j0i9h8g7f
+  tags:
+    - движение-солнца
+    - эклиптика
+  text: "С какой средней скоростью Солнце движется по эклиптике?"
+  difficulty: 60
+  options:
+    - text: "Примерно 1° в сутки (59,2')"
+      correct: true
+    - text: "15° в сутки"
+      correct: false
+    - text: "30° в сутки"
+      correct: false
+    - text: "0,5° в сутки"
+      correct: false
+  explanation: "Солнце проходит по эклиптике 360° за 365 дней, что составляет примерно 1° (точнее 59,2') в сутки."
+
+- id: 1t0s9r8q-7p6o-5n4m-3l2k-1j0i9h8g7f6e
+  tags:
+    - склонение
+    - солнце
+  text: "Когда скорость изменения склонения Солнца максимальна?"
+  difficulty: 60
+  options:
+    - text: "Вблизи равноденствий"
+      correct: true
+    - text: "Вблизи солнцестояний"
+      correct: false
+    - text: "В середине между равноденствиями и солнцестояниями"
+      correct: false
+    - text: "Скорость постоянна"
+      correct: false
+  explanation: "Скорость изменения склонения Солнца максимальна вблизи равноденствий (около 0,4° в сутки) и минимальна вблизи солнцестояний."
+
+- id: 0s9r8q7p-6o5n-4m3l-2k1j-0i9h8g7f6e5d
+  tags:
+    - высота-солнца
+    - кульминация
+  text: "По какой формуле вычисляется максимальная высота Солнца в верхней кульминации?"
+  difficulty: 50
+  options:
+    - text: "hmax = δ + 90° - φ"
+      correct: true
+    - text: "hmax = 90° - φ"
+      correct: false
+    - text: "hmax = δ + φ"
+      correct: false
+    - text: "hmax = 180° - φ - δ"
+      correct: false
+  explanation: "Максимальная высота Солнца в верхней кульминации вычисляется по формуле: hmax = δ + 90° - φ, где δ - склонение Солнца, φ - широта места."
+
+- id: 9r8q7p6o-5n4m-3l2k-1j0i-9h8g7f6e5d4c
+  tags:
+    - луна
+    - фазы
+  text: "Что такое фазы Луны?"
+  difficulty: 40
+  options:
+    - text: "Изменение видимой формы Луны из-за ее положения относительно Солнца и Земли"
+      correct: true
+    - text: "Изменение цвета Луны"
+      correct: false
+    - text: "Вращение Луны вокруг своей оси"
+      correct: false
+    - text: "Движение Луны по орбите"
+      correct: false
+  explanation: "Фазы Луны - это изменение видимой формы Луны, обусловленное изменением взаимного положения Солнца, Земли и Луны."
+
+- id: 8q7p6o5n-4m3l-2k1j-0i9h-8g7f6e5d4c3b
+  tags:
+    - луна
+    - фазы
+  text: "В какой фазе находится Луна во время новолуния?"
+  difficulty: 40
+  options:
+    - text: "Луна не видна"
+      correct: true
+    - text: "Половина Луны освещена"
+      correct: false
+    - text: "Вся Луна освещена"
+      correct: false
+    - text: "Узкий серп"
+      correct: false
+  explanation: "Во время новолуния Луна находится между Солнцем и Землей, и к Земле обращена неосвещенная сторона Луны."
+
+- id: 7p6o5n4m-3l2k-1j0i-9h8g-7f6e5d4c3b2a
+  tags:
+    - луна
+    - фазы
+  text: "Когда происходит первая четверть Луны?"
+  difficulty: 40
+  options:
+    - text: "Через 7 суток после новолуния"
+      correct: true
+    - text: "Через 14 суток после новолуния"
+      correct: false
+    - text: "Через 3 суток после новолуния"
+      correct: false
+    - text: "Через 21 сутки после новолуния"
+      correct: false
+  explanation: "Первая четверть наступает примерно через 7 суток после новолуния, когда Луна находится в восточной квадратуре."
+
+- id: 6o5n4m3l-2k1j-0i9h-8g7f-6e5d4c3b2a1z
+  tags:
+    - луна
+    - фазы
+  text: "Как выглядит Луна в полнолуние?"
+  difficulty: 30
+  options:
+    - text: "Полный круг"
+      correct: true
+    - text: "Полукруг"
+      correct: false
+    - text: "Узкий серп"
+      correct: false
+    - text: "Не видна"
+      correct: false
+  explanation: "В полнолуние Луна находится в противостоянии с Солнцем, и к Земле обращено все освещенное полушарие Луны."
+
+- id: 5n4m3l2k-1j0i-9h8g-7f6e-5d4c3b2a1z0y
+  tags:
+    - луна
+    - периоды
+  text: "Чему равен синодический месяц?"
+  difficulty: 50
+  options:
+    - text: "29,53 суток"
+      correct: true
+    - text: "27,32 суток"
+      correct: false
+    - text: "30 суток"
+      correct: false
+    - text: "28 суток"
+      correct: false
+  explanation: "Синодический месяц - промежуток между двумя одинаковыми фазами Луны - равен 29,53 средних солнечных суток."
+
+- id: 4m3l2k1j-0i9h-8g7f-6e5d-4c3b2a1z0y9x
+  tags:
+    - луна
+    - периоды
+  text: "Чему равен сидерический месяц?"
+  difficulty: 50
+  options:
+    - text: "27,32 суток"
+      correct: true
+    - text: "29,53 суток"
+      correct: false
+    - text: "30 суток"
+      correct: false
+    - text: "28 суток"
+      correct: false
+  explanation: "Сидерический месяц - период обращения Луны вокруг Земли относительно звезд - равен 27,32 суток."
+
+- id: 3l2k1j0i-9h8g-7f6e-5d4c-3b2a1z0y9x8w
+  tags:
+    - луна
+    - периоды
+  text: "Почему синодический месяц длиннее сидерического?"
+  difficulty: 60
+  options:
+    - text: "Из-за движения Земли по орбите вокруг Солнца"
+      correct: true
+    - text: "Из-за вращения Луны вокруг своей оси"
+      correct: false
+    - text: "Из-за эллиптичности орбиты Луны"
+      correct: false
+    - text: "Из-за приливных сил"
+      correct: false
+  explanation: "Синодический месяц длиннее сидерического потому, что за время обращения Луны вокруг Земли сама Земля смещается по орбите вокруг Солнца."
+
+- id: 2k1j0i9h-8g7f-6e5d-4c3b-2a1z0y9x8w7v
+  tags:
+    - луна
+    - периоды
+  text: "Что такое аномалистический месяц?"
+  difficulty: 60
+  options:
+    - text: "Промежуток между двумя прохождениями Луны через перигей"
+      correct: true
+    - text: "Промежуток между двумя одинаковыми фазами"
+      correct: false
+    - text: "Период обращения относительно звезд"
+      correct: false
+    - text: "Промежуток между двумя прохождениями через узел орбиты"
+      correct: false
+  explanation: "Аномалистический месяц равен 27,55 суток - это период между двумя последовательными прохождениями Луны через перигей."
+
+- id: 1j0i9h8g-7f6e-5d4c-3b2a-1z0y9x8w7v6u
+  tags:
+    - луна
+    - периоды
+  text: "Что такое драконический месяц?"
+  difficulty: 60
+  options:
+    - text: "Промежуток между двумя прохождениями Луны через один узел орбиты"
+      correct: true
+    - text: "Промежуток между двумя одинаковыми фазами"
+      correct: false
+    - text: "Период обращения относительно звезд"
+      correct: false
+    - text: "Промежуток между двумя прохождениями через перигей"
+      correct: false
+  explanation: "Драконический месяц равен 27,21 суток - период между двумя прохождениями Луны через один и тот же узел орбиты."
+
+- id: 0i9h8g7f-6e5d-4c3b-2a1z-0y9x8w7v6u5t
+  tags:
+    - затмения
+    - солнце
+  text: "Когда происходят солнечные затмения?"
+  difficulty: 40
+  options:
+    - text: "Во время новолуния"
+      correct: true
+    - text: "Во время полнолуния"
+      correct: false
+    - text: "В первую четверть"
+      correct: false
+    - text: "В последнюю четверть"
+      correct: false
+  explanation: "Солнечные затмения происходят, когда Луна находится между Солнцем и Землей, то есть во время новолуния."
+
+- id: 9h8g7f6e-5d4c-3b2a-1z0y-9x8w7v6u5t4s
+  tags:
+    - затмения
+    - луна
+  text: "Когда происходят лунные затмения?"
+  difficulty: 40
+  options:
+    - text: "Во время полнолуния"
+      correct: true
+    - text: "Во время новолуния"
+      correct: false
+    - text: "В первую четверть"
+      correct: false
+    - text: "В последнюю четверть"
+      correct: false
+  explanation: "Лунные затмения происходят, когда Земля находится между Солнцем и Луной, то есть во время полнолуния."
+
+- id: 8g7f6e5d-4c3b-2a1z-0y9x-8w7v6u5t4s3r
+  tags:
+    - затмения
+    - солнце
+  text: "Что такое полное солнечное затмение?"
+  difficulty: 50
+  options:
+    - text: "Когда Луна полностью закрывает диск Солнца"
+      correct: true
+    - text: "Когда Луна частично закрывает диск Солнца"
+      correct: false
+    - text: "Когда Земля закрывает Солнце"
+      correct: false
+    - text: "Когда Луна проходит через земную тень"
+      correct: false
+  explanation: "Полное солнечное затмение наблюдается, когда Луна полностью закрывает диск Солнца для наблюдателя в полосе тени."
+
+- id: 7f6e5d4c-3b2a-1z0y-9x8w-7v6u5t4s3r2q
+  tags:
+    - затмения
+    - солнце
+  text: "Что такое кольцеобразное солнечное затмение?"
+  difficulty: 50
+  options:
+    - text: "Когда видно светящееся кольцо вокруг темного диска Луны"
+      correct: true
+    - text: "Когда Луна полностью закрывает Солнце"
+      correct: false
+    - text: "Когда Луна частично закрывает Солнце"
+      correct: false
+    - text: "Когда Земля закрывает Солнце"
+      correct: false
+  explanation: "Кольцеобразное затмение происходит, когда Луна слишком далеко от Земли и не может полностью закрыть Солнце, оставляя видимым светящееся кольцо."
+
+- id: 6e5d4c3b-2a1z-0y9x-8w7v-6u5t4s3r2q1p
+  tags:
+    - затмения
+    - луна
+  text: "Что такое полутеневое лунное затмение?"
+  difficulty: 60
+  options:
+    - text: "Когда Луна проходит через земную полутень"
+      correct: true
+    - text: "Когда Луна полностью входит в земную тень"
+      correct: false
+    - text: "Когда Луна частично входит в земную тень"
+      correct: false
+    - text: "Когда Земля закрывает Солнце"
+      correct: false
+  explanation: "Полутеневое затмение происходит, когда Луна проходит через земную полутень, и затемнение почти незаметно."
+
+- id: 5d4c3b2a-1z0y-9x8w-7v6u-5t4s3r2q1p0o
+  tags:
+    - расстояние
+    - астрономия
+  text: "Что такое астрономическая единица (а.е.)?"
+  difficulty: 50
+  options:
+    - text: "Среднее расстояние от Земли до Солнца"
+      correct: true
+    - text: "Расстояние от Земли до Луны"
+      correct: false
+    - text: "Расстояние, которое свет проходит за год"
+      correct: false
+    - text: "Расстояние, соответствующее параллаксу в 1''"
+      correct: false
+  explanation: "Астрономическая единица равна среднему расстоянию от Земли до Солнца - примерно 149,6 млн км."
+
+- id: 4c3b2a1z-0y9x-8w7v-6u5t-4s3r2q1p0o9n
+  tags:
+    - расстояние
+    - астрономия
+  text: "Что такое парсек?"
+  difficulty: 50
+  options:
+    - text: "Расстояние, с которого радиус земной орбиты виден под углом 1''"
+      correct: true
+    - text: "Расстояние от Земли до Солнца"
+      correct: false
+    - text: "Расстояние, которое свет проходит за год"
+      correct: false
+    - text: "Расстояние от Земли до Луны"
+      correct: false
+  explanation: "Парсек - расстояние, с которого большая полуось земной орбиты видна под углом в 1 секунду дуги."
+
+- id: 3b2a1z0y-9x8w-7v6u-5t4s-3r2q1p0o9n8m
+  tags:
+    - расстояние
+    - астрономия
+  text: "Что такое световой год?"
+  difficulty: 50
+  options:
+    - text: "Расстояние, которое свет проходит за один год"
+      correct: true
+    - text: "Расстояние от Земли до Солнца"
+      correct: false
+    - text: "Расстояние, соответствующее параллаксу в 1''"
+      correct: false
+    - text: "Период обращения Земли вокруг Солнца"
+      correct: false
+  explanation: "Световой год - расстояние, которое свет проходит за один год, двигаясь со скоростью около 300 000 км/с."
+
+- id: 2a1z0y9x-8w7v-6u5t-4s3r-2q1p0o9n8m7l
+  tags:
+    - расстояние
+    - астрономия
+  text: "Сколько астрономических единиц в одном парсеке?"
+  difficulty: 60
+  options:
+    - text: "206 265"
+      correct: true
+    - text: "149 600"
+      correct: false
+    - text: "63 240"
+      correct: false
+    - text: "30 860"
+      correct: false
+  explanation: "1 парсек = 206 265 астрономических единиц, так как tg(1'') ≈ 1/206265."
+
+- id: 1z0y9x8w-7v6u-5t4s-3r2q-1p0o9n8m7l6k
+  tags:
+    - расстояние
+    - астрономия
+  text: "Сколько световых лет в одном парсеке?"
+  difficulty: 60
+  options:
+    - text: "3,26"
+      correct: true
+    - text: "1,00"
+      correct: false
+    - text: "0,31"
+      correct: false
+    - text: "10,00"
+      correct: false
+  explanation: "1 парсек = 3,26 светового года, так как световой год меньше парсека."
+
+- id: 0y9x8w7v-6u5t-4s3r-2q1p-0o9n8m7l6k5j
+  tags:
+    - терминатор
+    - луна
+  text: "Что такое терминатор на Луне?"
+  difficulty: 50
+  options:
+    - text: "Линия, отделяющая освещенную часть от темной"
+      correct: true
+    - text: "Край лунного диска"
+      correct: false
+    - text: "Линия горизонта на Луне"
+      correct: false
+    - text: "Граница лунных морей"
+      correct: false
+  explanation: "Терминатор - это граница между освещенной и неосвещенной частями лунного диска, имеющая форму полуэллипса."
+
+- id: 9x8w7v6u-5t4s-3r2q-1p0o-9n8m7l6k5j4i
+  tags:
+    - фазовый-угол
+    - луна
+  text: "Что такое фазовый угол Луны?"
+  difficulty: 60
+  options:
+    - text: "Угол между направлениями от Солнца к Луне и от Луны к Земле"
+      correct: true
+    - text: "Угол наклона лунной орбиты"
+      correct: false
+    - text: "Угол между осью Луны и плоскостью орбиты"
+      correct: false
+    - text: "Угол между Луной и горизонтом"
+      correct: false
+  explanation: "Фазовый угол f - это угол при Луне в треугольнике Солнце-Луна-Земля, определяющий видимую фазу Луны."
+
+- id: 8w7v6u5t-4s3r-2q1p-0o9n-8m7l6k5j4i3h
+  tags:
+    - сизигии
+    - луна
+  text: "Что такое сизигии?"
+  difficulty: 60
+  options:
+    - text: "Соединение и противостояние Луны с Солнцем"
+      correct: true
+    - text: "Квадратуры Луны"
+      correct: false
+    - text: "Лунные фазы"
+      correct: false
+    - text: "Лунные затмения"
+      correct: false
+  explanation: "Сизигии - это положения Луны, когда она находится на линии Солнце-Земля: соединение (новолуние) и противостояние (полнолуние)."
+
+- id: 7v6u5t4s-3r2q-1p0o-9n8m-7l6k5j4i3h2g
+  tags:
+    - покрытия
+    - луна
+  text: "Что такое покрытие светил Луной?"
+  difficulty: 50
+  options:
+    - text: "Закрытие Луной более далеких небесных тел"
+      correct: true
+    - text: "Затмение Луны"
+      correct: false
+    - text: "Фазы Луны"
+      correct: false
+    - text: "Движение Луны по орбите"
+      correct: false
+  explanation: "Покрытие - это явление, когда Луна проходит перед более далекими светилами и закрывает их своим диском."
+
+- id: 6u5t4s3r-2q1p-0o9n-8m7l-6k5j4i3h2g1f
+  tags:
+    - тропический-месяц
+    - луна
+  text: "Что такое тропический месяц?"
+  difficulty: 70
+  options:
+    - text: "Период изменения лунной долготы на 360°"
+      correct: true
+    - text: "Период между одинаковыми фазами"
+      correct: false
+    - text: "Период обращения относительно звезд"
+      correct: false
+    - text: "Период между прохождениями через перигей"
+      correct: false
+  explanation: "Тропический месяц - период, за который долгота Луны увеличивается на 360°, он немного короче сидерического из-за прецессии."
+
+- id: 5t4s3r2q-1p0o-9n8m-7l6k-5j4i3h2g1f0e
+  tags:
+    - квадратура
+    - луна
+  text: "Что такое квадратура Луны?"
+  difficulty: 60
+  options:
+    - text: "Положение, когда Луна отстоит от Солнца на 90°"
+      correct: true
+    - text: "Новолуние"
+      correct: false
+    - text: "Полнолуние"
+      correct: false
+    - text: "Соединение с Солнцем"
+      correct: false
+  explanation: "Квадратура - положение Луны, когда ее угловое расстояние от Солнца составляет 90° (первая и последняя четверти)."
+
+- id: 9b8c7d6e-5f4g-3h2i-1j0k-9l8m7n6o5p4q
+  tags:
+    - эклиптика
+    - земля
+    - солнце
+  text: "Что такое эклиптика?"
+  difficulty: 40
+  options:
+    - text: "Большой круг небесной сферы, по которому происходит видимое годовое движение Солнца"
+      correct: true
+    - text: "Орбита Луны вокруг Земли"
+      correct: false
+    - text: "Линия горизонта"
+      correct: false
+    - text: "Небесный экватор"
+      correct: false
+  explanation: "Эклиптика - это видимый путь Солнца по небесной сфере в течение года, представляющий собой проекцию орбиты Земли на небесную сферу."
+
+- id: 8a7b6c5d-4e3f-2g1h-0i9j-8k7l6m5n4o3p
+  tags:
+    - наклон-оси
+    - времена-года
+  text: "Почему на Земле происходит смена времен года?"
+  difficulty: 50
+  options:
+    - text: "Из-за наклона оси вращения Земли к плоскости эклиптики"
+      correct: true
+    - text: "Из-за изменения расстояния от Земли до Солнца"
+      correct: false
+    - text: "Из-за вращения Земли вокруг своей оси"
+      correct: false
+    - text: "Из-за влияния Луны"
+      correct: false
+  explanation: "Смена времен года происходит потому, что ось вращения Земли наклонена к плоскости эклиптики под углом примерно 23,5°, что приводит к изменению угла падения солнечных лучей в течение года."
+
+- id: 7z6y5x4w-3v2u-1t0s-9r8q-7p6o5n4m3l2k
+  tags:
+    - равноденствие
+    - солнце
+  text: "Что происходит в дни равноденствий?"
+  difficulty: 40
+  options:
+    - text: "День равен ночи на всей Земле"
+      correct: true
+    - text: "Самый длинный день в году"
+      correct: false
+    - text: "Самый короткий день в году"
+      correct: false
+    - text: "Солнце в зените на экваторе"
+      correct: false
+  explanation: "В дни равноденствий (21 марта и 23 сентября) граница света и тени проходит через полюса, поэтому день равен ночи во всех точках Земли."
+
+- id: 6y5x4w3v-2u1t-0s9r-8q7p-6o5n4m3l2k1j
+  tags:
+    - солнцестояние
+    - времена-года
+  text: "Когда происходит летнее солнцестояние в северном полушарии?"
+  difficulty: 40
+  options:
+    - text: "22 июня"
+      correct: true
+    - text: "22 декабря"
+      correct: false
+    - text: "21 марта"
+      correct: false
+    - text: "23 сентября"
+      correct: false
+  explanation: "Летнее солнцестояние в северном полушарии происходит около 22 июня, когда северный полюс Земли максимально наклонен к Солнцу."
+
+- id: 5x4w3v2u-1t0s-9r8q-7p6o-5n4m3l2k1j0i
+  tags:
+    - солнцестояние
+    - времена-года
+  text: "Что характерно для дня зимнего солнцестояния в северном полушарии?"
+  difficulty: 40
+  options:
+    - text: "Самый короткий день и самая длинная ночь"
+      correct: true
+    - text: "День равен ночи"
+      correct: false
+    - text: "Самый длинный день и самая короткая ночь"
+      correct: false
+    - text: "Солнце в зените на экваторе"
+      correct: false
+  explanation: "22 декабря - день зимнего солнцестояния, когда в северном полушарии наблюдается самый короткий день и самая длинная ночь."
+
+- id: 4w3v2u1t-0s9r-8q7p-6o5n-4m3l2k1j0i9h
+  tags:
+    - координаты
+    - солнце
+  text: "Каковы координаты Солнца в день весеннего равноденствия?"
+  difficulty: 50
+  options:
+    - text: "α = 0h, δ = 0°"
+      correct: true
+    - text: "α = 6h, δ = +23,5°"
+      correct: false
+    - text: "α = 12h, δ = 0°"
+      correct: false
+    - text: "α = 18h, δ = -23,5°"
+      correct: false
+  explanation: "21 марта Солнце находится в точке весеннего равноденствия: прямое восхождение α = 0h, склонение δ = 0°."
+
+- id: 3v2u1t0s-9r8q-7p6o-5n4m-3l2k1j0i9h8g
+  tags:
+    - координаты
+    - солнце
+  text: "Каковы координаты Солнца в день летнего солнцестояния?"
+  difficulty: 50
+  options:
+    - text: "α = 6h, δ = +23°26'"
+      correct: true
+    - text: "α = 0h, δ = 0°"
+      correct: false
+    - text: "α = 12h, δ = 0°"
+      correct: false
+    - text: "α = 18h, δ = -23°26'"
+      correct: false
+  explanation: "22 июня Солнце имеет координаты: прямое восхождение α = 6h, склонение δ = +23°26'."
+
+- id: 2u1t0s9r-8q7p-6o5n-4m3l-2k1j0i9h8g7f
+  tags:
+    - движение-солнца
+    - эклиптика
+  text: "С какой средней скоростью Солнце движется по эклиптике?"
+  difficulty: 60
+  options:
+    - text: "Примерно 1° в сутки (59,2')"
+      correct: true
+    - text: "15° в сутки"
+      correct: false
+    - text: "30° в сутки"
+      correct: false
+    - text: "0,5° в сутки"
+      correct: false
+  explanation: "Солнце проходит по эклиптике 360° за 365 дней, что составляет примерно 1° (точнее 59,2') в сутки."
+
+- id: 1t0s9r8q-7p6o-5n4m-3l2k-1j0i9h8g7f6e
+  tags:
+    - склонение
+    - солнце
+  text: "Когда скорость изменения склонения Солнца максимальна?"
+  difficulty: 60
+  options:
+    - text: "Вблизи равноденствий"
+      correct: true
+    - text: "Вблизи солнцестояний"
+      correct: false
+    - text: "В середине между равноденствиями и солнцестояниями"
+      correct: false
+    - text: "Скорость постоянна"
+      correct: false
+  explanation: "Скорость изменения склонения Солнца максимальна вблизи равноденствий (около 0,4° в сутки) и минимальна вблизи солнцестояний."
+
+- id: 0s9r8q7p-6o5n-4m3l-2k1j-0i9h8g7f6e5d
+  tags:
+    - высота-солнца
+    - кульминация
+  text: "По какой формуле вычисляется максимальная высота Солнца в верхней кульминации?"
+  difficulty: 50
+  options:
+    - text: "hmax = δ + 90° - φ"
+      correct: true
+    - text: "hmax = 90° - φ"
+      correct: false
+    - text: "hmax = δ + φ"
+      correct: false
+    - text: "hmax = 180° - φ - δ"
+      correct: false
+  explanation: "Максимальная высота Солнца в верхней кульминации вычисляется по формуле: hmax = δ + 90° - φ, где δ - склонение Солнца, φ - широта места."
+
+- id: 9r8q7p6o-5n4m-3l2k-1j0i-9h8g7f6e5d4c
+  tags:
+    - луна
+    - фазы
+  text: "Что такое фазы Луны?"
+  difficulty: 40
+  options:
+    - text: "Изменение видимой формы Луны из-за ее положения относительно Солнца и Земли"
+      correct: true
+    - text: "Изменение цвета Луны"
+      correct: false
+    - text: "Вращение Луны вокруг своей оси"
+      correct: false
+    - text: "Движение Луны по орбите"
+      correct: false
+  explanation: "Фазы Луны - это изменение видимой формы Луны, обусловленное изменением взаимного положения Солнца, Земли и Луны."
+
+- id: 8q7p6o5n-4m3l-2k1j-0i9h-8g7f6e5d4c3b
+  tags:
+    - луна
+    - фазы
+  text: "В какой фазе находится Луна во время новолуния?"
+  difficulty: 40
+  options:
+    - text: "Луна не видна"
+      correct: true
+    - text: "Половина Луны освещена"
+      correct: false
+    - text: "Вся Луна освещена"
+      correct: false
+    - text: "Узкий серп"
+      correct: false
+  explanation: "Во время новолуния Луна находится между Солнцем и Землей, и к Земле обращена неосвещенная сторона Луны."
+
+- id: 7p6o5n4m-3l2k-1j0i-9h8g-7f6e5d4c3b2a
+  tags:
+    - луна
+    - фазы
+  text: "Когда происходит первая четверть Луны?"
+  difficulty: 40
+  options:
+    - text: "Через 7 суток после новолуния"
+      correct: true
+    - text: "Через 14 суток после новолуния"
+      correct: false
+    - text: "Через 3 суток после новолуния"
+      correct: false
+    - text: "Через 21 сутки после новолуния"
+      correct: false
+  explanation: "Первая четверть наступает примерно через 7 суток после новолуния, когда Луна находится в восточной квадратуре."
+
+- id: 6o5n4m3l-2k1j-0i9h-8g7f-6e5d4c3b2a1z
+  tags:
+    - луна
+    - фазы
+  text: "Как выглядит Луна в полнолуние?"
+  difficulty: 30
+  options:
+    - text: "Полный круг"
+      correct: true
+    - text: "Полукруг"
+      correct: false
+    - text: "Узкий серп"
+      correct: false
+    - text: "Не видна"
+      correct: false
+  explanation: "В полнолуние Луна находится в противостоянии с Солнцем, и к Земле обращено все освещенное полушарие Луны."
+
+- id: 5n4m3l2k-1j0i-9h8g-7f6e-5d4c3b2a1z0y
+  tags:
+    - луна
+    - периоды
+  text: "Чему равен синодический месяц?"
+  difficulty: 50
+  options:
+    - text: "29,53 суток"
+      correct: true
+    - text: "27,32 суток"
+      correct: false
+    - text: "30 суток"
+      correct: false
+    - text: "28 суток"
+      correct: false
+  explanation: "Синодический месяц - промежуток между двумя одинаковыми фазами Луны - равен 29,53 средних солнечных суток."
+
+- id: 4m3l2k1j-0i9h-8g7f-6e5d-4c3b2a1z0y9x
+  tags:
+    - луна
+    - периоды
+  text: "Чему равен сидерический месяц?"
+  difficulty: 50
+  options:
+    - text: "27,32 суток"
+      correct: true
+    - text: "29,53 суток"
+      correct: false
+    - text: "30 суток"
+      correct: false
+    - text: "28 суток"
+      correct: false
+  explanation: "Сидерический месяц - период обращения Луны вокруг Земли относительно звезд - равен 27,32 суток."
+
+- id: 3l2k1j0i-9h8g-7f6e-5d4c-3b2a1z0y9x8w
+  tags:
+    - луна
+    - периоды
+  text: "Почему синодический месяц длиннее сидерического?"
+  difficulty: 60
+  options:
+    - text: "Из-за движения Земли по орбите вокруг Солнца"
+      correct: true
+    - text: "Из-за вращения Луны вокруг своей оси"
+      correct: false
+    - text: "Из-за эллиптичности орбиты Луны"
+      correct: false
+    - text: "Из-за приливных сил"
+      correct: false
+  explanation: "Синодический месяц длиннее сидерического потому, что за время обращения Луны вокруг Земли сама Земля смещается по орбите вокруг Солнца."
+
+- id: 2k1j0i9h-8g7f-6e5d-4c3b-2a1z0y9x8w7v
+  tags:
+    - луна
+    - периоды
+  text: "Что такое аномалистический месяц?"
+  difficulty: 60
+  options:
+    - text: "Промежуток между двумя прохождениями Луны через перигей"
+      correct: true
+    - text: "Промежуток между двумя одинаковыми фазами"
+      correct: false
+    - text: "Период обращения относительно звезд"
+      correct: false
+    - text: "Промежуток между двумя прохождениями через узел орбиты"
+      correct: false
+  explanation: "Аномалистический месяц равен 27,55 суток - это период между двумя последовательными прохождениями Луны через перигей."
+
+- id: 1j0i9h8g-7f6e-5d4c-3b2a-1z0y9x8w7v6u
+  tags:
+    - луна
+    - периоды
+  text: "Что такое драконический месяц?"
+  difficulty: 60
+  options:
+    - text: "Промежуток между двумя прохождениями Луны через один узел орбиты"
+      correct: true
+    - text: "Промежуток между двумя одинаковыми фазами"
+      correct: false
+    - text: "Период обращения относительно звезд"
+      correct: false
+    - text: "Промежуток между двумя прохождениями через перигей"
+      correct: false
+  explanation: "Драконический месяц равен 27,21 суток - период между двумя прохождениями Луны через один и тот же узел орбиты."
+
+- id: 0i9h8g7f-6e5d-4c3b-2a1z-0y9x8w7v6u5t
+  tags:
+    - затмения
+    - солнце
+  text: "Когда происходят солнечные затмения?"
+  difficulty: 40
+  options:
+    - text: "Во время новолуния"
+      correct: true
+    - text: "Во время полнолуния"
+      correct: false
+    - text: "В первую четверть"
+      correct: false
+    - text: "В последнюю четверть"
+      correct: false
+  explanation: "Солнечные затмения происходят, когда Луна находится между Солнцем и Землей, то есть во время новолуния."
+
+- id: 9h8g7f6e-5d4c-3b2a-1z0y-9x8w7v6u5t4s
+  tags:
+    - затмения
+    - луна
+  text: "Когда происходят лунные затмения?"
+  difficulty: 40
+  options:
+    - text: "Во время полнолуния"
+      correct: true
+    - text: "Во время новолуния"
+      correct: false
+    - text: "В первую четверть"
+      correct: false
+    - text: "В последнюю четверть"
+      correct: false
+  explanation: "Лунные затмения происходят, когда Земля находится между Солнцем и Луной, то есть во время полнолуния."
+
+- id: 8g7f6e5d-4c3b-2a1z-0y9x-8w7v6u5t4s3r
+  tags:
+    - затмения
+    - солнце
+  text: "Что такое полное солнечное затмение?"
+  difficulty: 50
+  options:
+    - text: "Когда Луна полностью закрывает диск Солнца"
+      correct: true
+    - text: "Когда Луна частично закрывает диск Солнца"
+      correct: false
+    - text: "Когда Земля закрывает Солнце"
+      correct: false
+    - text: "Когда Луна проходит через земную тень"
+      correct: false
+  explanation: "Полное солнечное затмение наблюдается, когда Луна полностью закрывает диск Солнца для наблюдателя в полосе тени."
+
+- id: 7f6e5d4c-3b2a-1z0y-9x8w-7v6u5t4s3r2q
+  tags:
+    - затмения
+    - солнце
+  text: "Что такое кольцеобразное солнечное затмение?"
+  difficulty: 50
+  options:
+    - text: "Когда видно светящееся кольцо вокруг темного диска Луны"
+      correct: true
+    - text: "Когда Луна полностью закрывает Солнце"
+      correct: false
+    - text: "Когда Луна частично закрывает Солнце"
+      correct: false
+    - text: "Когда Земля закрывает Солнце"
+      correct: false
+  explanation: "Кольцеобразное затмение происходит, когда Луна слишком далеко от Земли и не может полностью закрыть Солнце, оставляя видимым светящееся кольцо."
+
+- id: 6e5d4c3b-2a1z-0y9x-8w7v-6u5t4s3r2q1p
+  tags:
+    - затмения
+    - луна
+  text: "Что такое полутеневое лунное затмение?"
+  difficulty: 60
+  options:
+    - text: "Когда Луна проходит через земную полутень"
+      correct: true
+    - text: "Когда Луна полностью входит в земную тень"
+      correct: false
+    - text: "Когда Луна частично входит в земную тень"
+      correct: false
+    - text: "Когда Земля закрывает Солнце"
+      correct: false
+  explanation: "Полутеневое затмение происходит, когда Луна проходит через земную полутень, и затемнение почти незаметно."
+
+- id: 5d4c3b2a-1z0y-9x8w-7v6u-5t4s3r2q1p0o
+  tags:
+    - расстояние
+    - астрономия
+  text: "Что такое астрономическая единица (а.е.)?"
+  difficulty: 50
+  options:
+    - text: "Среднее расстояние от Земли до Солнца"
+      correct: true
+    - text: "Расстояние от Земли до Луны"
+      correct: false
+    - text: "Расстояние, которое свет проходит за год"
+      correct: false
+    - text: "Расстояние, соответствующее параллаксу в 1''"
+      correct: false
+  explanation: "Астрономическая единица равна среднему расстоянию от Земли до Солнца - примерно 149,6 млн км."
+
+- id: 4c3b2a1z-0y9x-8w7v-6u5t-4s3r2q1p0o9n
+  tags:
+    - расстояние
+    - астрономия
+  text: "Что такое парсек?"
+  difficulty: 50
+  options:
+    - text: "Расстояние, с которого радиус земной орбиты виден под углом 1''"
+      correct: true
+    - text: "Расстояние от Земли до Солнца"
+      correct: false
+    - text: "Расстояние, которое свет проходит за год"
+      correct: false
+    - text: "Расстояние от Земли до Луны"
+      correct: false
+  explanation: "Парсек - расстояние, с которого большая полуось земной орбиты видна под углом в 1 секунду дуги."
+
+- id: 3b2a1z0y-9x8w-7v6u-5t4s-3r2q1p0o9n8m
+  tags:
+    - расстояние
+    - астрономия
+  text: "Что такое световой год?"
+  difficulty: 50
+  options:
+    - text: "Расстояние, которое свет проходит за один год"
+      correct: true
+    - text: "Расстояние от Земли до Солнца"
+      correct: false
+    - text: "Расстояние, соответствующее параллаксу в 1''"
+      correct: false
+    - text: "Период обращения Земли вокруг Солнца"
+      correct: false
+  explanation: "Световой год - расстояние, которое свет проходит за один год, двигаясь со скоростью около 300 000 км/с."
+
+- id: 2a1z0y9x-8w7v-6u5t-4s3r-2q1p0o9n8m7l
+  tags:
+    - расстояние
+    - астрономия
+  text: "Сколько астрономических единиц в одном парсеке?"
+  difficulty: 60
+  options:
+    - text: "206 265"
+      correct: true
+    - text: "149 600"
+      correct: false
+    - text: "63 240"
+      correct: false
+    - text: "30 860"
+      correct: false
+  explanation: "1 парсек = 206 265 астрономических единиц, так как tg(1'') ≈ 1/206265."
+
+- id: 1z0y9x8w-7v6u-5t4s-3r2q-1p0o9n8m7l6k
+  tags:
+    - расстояние
+    - астрономия
+  text: "Сколько световых лет в одном парсеке?"
+  difficulty: 60
+  options:
+    - text: "3,26"
+      correct: true
+    - text: "1,00"
+      correct: false
+    - text: "0,31"
+      correct: false
+    - text: "10,00"
+      correct: false
+  explanation: "1 парсек = 3,26 светового года, так как световой год меньше парсека."
+
+- id: 0y9x8w7v-6u5t-4s3r-2q1p-0o9n8m7l6k5j
+  tags:
+    - терминатор
+    - луна
+  text: "Что такое терминатор на Луне?"
+  difficulty: 50
+  options:
+    - text: "Линия, отделяющая освещенную часть от темной"
+      correct: true
+    - text: "Край лунного диска"
+      correct: false
+    - text: "Линия горизонта на Луне"
+      correct: false
+    - text: "Граница лунных морей"
+      correct: false
+  explanation: "Терминатор - это граница между освещенной и неосвещенной частями лунного диска, имеющая форму полуэллипса."
+
+- id: 9x8w7v6u-5t4s-3r2q-1p0o-9n8m7l6k5j4i
+  tags:
+    - фазовый-угол
+    - луна
+  text: "Что такое фазовый угол Луны?"
+  difficulty: 60
+  options:
+    - text: "Угол между направлениями от Солнца к Луне и от Луны к Земле"
+      correct: true
+    - text: "Угол наклона лунной орбиты"
+      correct: false
+    - text: "Угол между осью Луны и плоскостью орбиты"
+      correct: false
+    - text: "Угол между Луной и горизонтом"
+      correct: false
+  explanation: "Фазовый угол f - это угол при Луне в треугольнике Солнце-Луна-Земля, определяющий видимую фазу Луны."
+
+- id: 8w7v6u5t-4s3r-2q1p-0o9n-8m7l6k5j4i3h
+  tags:
+    - сизигии
+    - луна
+  text: "Что такое сизигии?"
+  difficulty: 60
+  options:
+    - text: "Соединение и противостояние Луны с Солнцем"
+      correct: true
+    - text: "Квадратуры Луны"
+      correct: false
+    - text: "Лунные фазы"
+      correct: false
+    - text: "Лунные затмения"
+      correct: false
+  explanation: "Сизигии - это положения Луны, когда она находится на линии Солнце-Земля: соединение (новолуние) и противостояние (полнолуние)."
+
+- id: 7v6u5t4s-3r2q-1p0o-9n8m-7l6k5j4i3h2g
+  tags:
+    - покрытия
+    - луна
+  text: "Что такое покрытие светил Луной?"
+  difficulty: 50
+  options:
+    - text: "Закрытие Луной более далеких небесных тел"
+      correct: true
+    - text: "Затмение Луны"
+      correct: false
+    - text: "Фазы Луны"
+      correct: false
+    - text: "Движение Луны по орбите"
+      correct: false
+  explanation: "Покрытие - это явление, когда Луна проходит перед более далекими светилами и закрывает их своим диском."
+
+- id: 6u5t4s3r-2q1p-0o9n-8m7l-6k5j4i3h2g1f
+  tags:
+    - тропический-месяц
+    - луна
+  text: "Что такое тропический месяц?"
+  difficulty: 70
+  options:
+    - text: "Период изменения лунной долготы на 360°"
+      correct: true
+    - text: "Период между одинаковыми фазами"
+      correct: false
+    - text: "Период обращения относительно звезд"
+      correct: false
+    - text: "Период между прохождениями через перигей"
+      correct: false
+  explanation: "Тропический месяц - период, за который долгота Луны увеличивается на 360°, он немного короче сидерического из-за прецессии."
+
+- id: 5t4s3r2q-1p0o-9n8m-7l6k-5j4i3h2g1f0e
+  tags:
+    - квадратура
+    - луна
+  text: "Что такое квадратура Луны?"
+  difficulty: 60
+  options:
+    - text: "Положение, когда Луна отстоит от Солнца на 90°"
+      correct: true
+    - text: "Новолуние"
+      correct: false
+    - text: "Полнолуние"
+      correct: false
+    - text: "Соединение с Солнцем"
+      correct: false
+  explanation: "Квадратура - положение Луны, когда ее угловое расстояние от Солнца составляет 90° (первая и последняя четверти)."
+
+- id: 4d3c2b1a-9e8f-7g6h-5i4j-3k2l1m0n9o8p
+  tags:
+    - луна
+    - фазы
+    - новолуние
+  text: "Сколько времени проходит от новолуния до первой четверти?"
+  difficulty: 40
+  options:
+    - text: "Примерно 7 суток"
+      correct: true
+    - text: "Примерно 14 суток"
+      correct: false
+    - text: "Примерно 3 суток"
+      correct: false
+    - text: "Примерно 10 суток"
+      correct: false
+  explanation: "От новолуния до первой четверти проходит примерно 7 суток - четверть синодического месяца."
+
+- id: 7q6p5o4n-3m2l-1k0j-9i8h-7g6f5e4d3c2b
+  tags:
+    - луна
+    - фазы
+    - последовательность
+  text: "В какой последовательности сменяются основные фазы Луны?"
+  difficulty: 30
+  options:
+    - text: "Новолуние → первая четверть → полнолуние → последняя четверть"
+      correct: true
+    - text: "Новолуние → полнолуние → первая четверть → последняя четверть"
+      correct: false
+    - text: "Первая четверть → новолуние → полнолуние → последняя четверть"
+      correct: false
+    - text: "Полнолуние → последняя четверть → новолуние → первая четверть"
+      correct: false
+  explanation: "Правильная последовательность: новолуние, первая четверть, полнолуние, последняя четверть."
+
+- id: 2a1b0c9d-8e7f-6g5h-4i3j-2k1l0m9n8o7p
+  tags:
+    - луна
+    - фазы
+    - видимость
+  text: "В какое время суток лучше всего видна Луна в первой четверти?"
+  difficulty: 40
+  options:
+    - text: "В первой половине ночи"
+      correct: true
+    - text: "Всю ночь"
+      correct: false
+    - text: "Только утром"
+      correct: false
+    - text: "Только днем"
+      correct: false
+  explanation: "Луна в первой четверти видна в первой половине ночи, заходит за горизонт около полуночи."
+
+- id: 5r4s3t2u-1v0w-9x8y-7z6a-5b4c3d2e1f0g
+  tags:
+    - луна
+    - фазы
+    - видимость
+  text: "Когда можно наблюдать Луну в последней четверти?"
+  difficulty: 40
+  options:
+    - text: "Во второй половине ночи и утром"
+      correct: true
+    - text: "Вечером"
+      correct: false
+    - text: "Днем"
+      correct: false
+    - text: "Всю ночь"
+      correct: false
+  explanation: "Луна в последней четверти видна во второй половине ночи и утром, восходит около полуночи."
+
+- id: 8h7i6j5k-4l3m-2n1o-0p9q-8r7s6t5u4v3w
+  tags:
+    - луна
+    - полнолуние
+    - видимость
+  text: "Сколько времени видна полная Луна?"
+  difficulty: 30
+  options:
+    - text: "Всю ночь"
+      correct: true
+    - text: "Только вечером"
+      correct: false
+    - text: "Только утром"
+      correct: false
+    - text: "Только несколько часов"
+      correct: false
+  explanation: "Полная Луна видна всю ночь - восходит при заходе Солнца и заходит при его восходе."
+
+- id: 1x0y9z8a-7b6c-5d4e-3f2g-1h0i9j8k7l6m
+  tags:
+    - луна
+    - новолуние
+    - видимость
+  text: "Почему Луна не видна в новолуние?"
+  difficulty: 50
+  options:
+    - text: "К Земле обращена неосвещенная сторона Луны"
+      correct: true
+    - text: "Луна уходит за горизонт"
+      correct: false
+    - text: "Солнце закрывает Луну"
+      correct: false
+    - text: "Луна слишком далеко от Земли"
+      correct: false
+  explanation: "В новолуние Луна находится между Солнцем и Землей, и к нам обращена ее неосвещенная сторона."
+
+- id: 4n3o2p1q-0r9s-8t7u-6v5w-4x3y2z1a0b9c
+  tags:
+    - луна
+    - фазы
+    - серп
+  text: "Куда обращена выпуклость лунного серпа после новолуния?"
+  difficulty: 40
+  options:
+    - text: "К Солнцу (на запад)"
+      correct: true
+    - text: "К востоку"
+      correct: false
+    - text: "К северу"
+      correct: false
+    - text: "К югу"
+      correct: false
+  explanation: "Выпуклость лунного серпа всегда обращена к Солнцу. После новолуния Солнце на западе, поэтому выпуклость к западу."
+
+- id: 7d6e5f4g-3h2i-1j0k-9l8m-7n6o5p4q3r2s
+  tags:
+    - луна
+    - продолжительность
+    - сутки
+  text: "Сколько длятся лунные сутки?"
+  difficulty: 50
+  options:
+    - text: "29,53 земных суток"
+      correct: true
+    - text: "27,32 земных суток"
+      correct: false
+    - text: "24 часа"
+      correct: false
+    - text: "15 земных суток"
+      correct: false
+  explanation: "Лунные сутки длятся 29,53 земных суток - это синодический месяц."
+
+- id: 0t9u8v7w-6x5y-4z3a-2b1c-0d9e8f7g6h5i
+  tags:
+    - луна
+    - день-ночь
+    - температура
+  text: "Сколько длится лунный день?"
+  difficulty: 40
+  options:
+    - text: "Около 15 земных суток"
+      correct: true
+    - text: "Около 7 земных суток"
+      correct: false
+    - text: "24 часа"
+      correct: false
+    - text: "Около 30 земных суток"
+      correct: false
+  explanation: "Лунный день длится около 15 земных суток, столько же длится и лунная ночь."
+
+- id: 3j2k1l0m-9n8o-7p6q-5r4s-3t2u1v0w9x8y
+  tags:
+    - луна
+    - температура
+    - день-ночь
+  text: "Какая температура на Луне днем и ночью?"
+  difficulty: 50
+  options:
+    - text: "Днем +130°C, ночью -170°C"
+      correct: true
+    - text: "Днем +50°C, ночью -50°C"
+      correct: false
+    - text: "Днем +30°C, ночью -30°C"
+      correct: false
+    - text: "Днем +200°C, ночью -100°C"
+      correct: false
+  explanation: "Из-за отсутствия атмосферы на Луне экстремальные перепады температуры: днем до +130°C, ночью до -170°C."
+
+- id: 6z5a4b3c-2d1e-0f9g-8h7i-6j5k4l3m2n1o
+  tags:
+    - луна
+    - фазы
+    - углы
+  text: "Чему равен фазовый угол в полнолуние?"
+  difficulty: 60
+  options:
+    - text: "0°"
+      correct: true
+    - text: "90°"
+      correct: false
+    - text: "180°"
+      correct: false
+    - text: "270°"
+      correct: false
+  explanation: "В полнолуние фазовый угол f = 0°, так как Солнце и Земля находятся по разные стороны от Луны."
+
+- id: 9p8q7r6s-5t4u-3v2w-1x0y-9z8a7b6c5d4e
+  tags:
+    - луна
+    - фазы
+    - углы
+  text: "Чему равен фазовый угол в новолуние?"
+  difficulty: 60
+  options:
+    - text: "180°"
+      correct: true
+    - text: "0°"
+      correct: false
+    - text: "90°"
+      correct: false
+    - text: "270°"
+      correct: false
+  explanation: "В новолуние фазовый угол f = 180°, так как Луна находится между Солнцем и Землей."
+
+- id: 2f1g0h9i-8j7k-6l5m-4n3o-2p1q0r9s8t7u
+  tags:
+    - луна
+    - фазы
+    - углы
+  text: "Чему равен фазовый угол в первой четверти?"
+  difficulty: 60
+  options:
+    - text: "90°"
+      correct: true
+    - text: "0°"
+      correct: false
+    - text: "180°"
+      correct: false
+    - text: "270°"
+      correct: false
+  explanation: "В первой четверти фазовый угол f = 90°, так как направления на Солнце и Землю образуют прямой угол."
+
+- id: 5v4w3x2y-1z0a-9b8c-7d6e-5f4g3h2i1j0k
+  tags:
+    - луна
+    - синодический-месяц
+    - расчет
+  text: "За сколько дней Луна проходит 180° по орбите относительно Солнца?"
+  difficulty: 70
+  options:
+    - text: "14,765 суток"
+      correct: true
+    - text: "27,32 суток"
+      correct: false
+    - text: "7 суток"
+      correct: false
+    - text: "29,53 суток"
+      correct: false
+  explanation: "За половину синодического месяца (29,53/2 = 14,765 суток) Луна проходит 180° относительно Солнца."
+
+- id: 8l7m6n5o-4p3q-2r1s-0t9u-8v7w6x5y4z3a
+  tags:
+    - луна
+    - положение
+    - небо
+  text: "Где на небе находится Луна в полнолуние относительно Солнца?"
+  difficulty: 40
+  options:
+    - text: "Противоположно Солнцу"
+      correct: true
+    - text: "Рядом с Солнцем"
+      correct: false
+    - text: "Под углом 90° к Солнцу"
+      correct: false
+    - text: "Над Солнцем"
+      correct: false
+  explanation: "В полнолуние Луна находится в противостоянии с Солнцем - в противоположной точке неба."
+
+- id: 1b0c9d8e-7f6g-5h4i-3j2k-1l0m9n8o7p6q
+  tags:
+    - луна
+    - положение
+    - небо
+  text: "Где на небе находится Луна в новолуние относительно Солнца?"
+  difficulty: 40
+  options:
+    - text: "Рядом с Солнцем"
+      correct: true
+    - text: "Противоположно Солнцу"
+      correct: false
+    - text: "Под углом 90° к Солнцу"
+      correct: false
+    - text: "Под горизонтом"
+      correct: false
+  explanation: "В новолуние Луна находится в соединении с Солнцем - близко к нему на небе."
+
+- id: 4r3s2t1u-0v9w-8x7y-6z5a-4b3c2d1e0f9g
+  tags:
+    - луна
+    - возраст
+    - расчет
+  text: "Как определить возраст Луны (дней от новолуния)?"
+  difficulty: 70
+  options:
+    - text: "По фазовому углу: возраст ≈ f(в градусах) × 29,53/360"
+      correct: true
+    - text: "По расстоянию до Земли"
+      correct: false
+    - text: "По цвету Луны"
+      correct: false
+    - text: "По скорости движения"
+      correct: false
+  explanation: "Возраст Луны в днях можно приблизительно вычислить по фазовому углу: возраст = f × 29,53/360."
+
+- id: 7h6i5j4k-3l2m-1n0o-9p8q-7r6s5t4u3v2w
+  tags:
+    - луна
+    - освещенность
+    - фазы
+  text: "Какая часть лунного диска освещена Солнцем в первой четверти?"
+  difficulty: 50
+  options:
+    - text: "50%"
+      correct: true
+    - text: "25%"
+      correct: false
+    - text: "100%"
+      correct: false
+    - text: "75%"
+      correct: false
+  explanation: "В первой четверти освещена ровно половина лунного диска, обращенного к Земле."
+
+- id: 0x9y8z7a-6b5c-4d3e-2f1g-0h9i8j7k6l5m
+  tags:
+    - луна
+    - освещенность
+    - фазы
+  text: "Когда с Земли видно 100% освещенной поверхности Луны?"
+  difficulty: 30
+  options:
+    - text: "В полнолуние"
+      correct: true
+    - text: "В первой четверти"
+      correct: false
+    - text: "В последней четверти"
+      correct: false
+    - text: "В новолуние"
+      correct: false
+  explanation: "Только в полнолуние мы видим всю освещенную Солнцем сторону Луны."
+
+- id: 3n2o1p0q-9r8s-7t6u-5v4w-3x2y1z0a9b8c
+  tags:
+    - луна
+    - серп
+    - пепельный-свет
+  text: "Когда можно наблюдать пепельный свет Луны?"
+  difficulty: 50
+  options:
+    - text: "Вскоре после новолуния или перед ним"
+      correct: true
+    - text: "В полнолуние"
+      correct: false
+    - text: "В первой четверти"
+      correct: false
+    - text: "Только днем"
+      correct: false
+  explanation: "Пепельный свет - это слабое свечение неосвещенной части Луны, видимое shortly после новолуния или перед ним, вызванное отражением солнечного света от Земли."
+
+- id: 6d5e4f3g-2h1i-0j9k-8l7m-6n5o4p3q2r1s
+  tags:
+    - луна
+    - движение
+    - скорость
+  text: "На сколько градусов смещается Луна относительно звезд за сутки?"
+  difficulty: 60
+  options:
+    - text: "Примерно 13°"
+      correct: true
+    - text: "Примерно 1°"
+      correct: false
+    - text: "Примерно 15°"
+      correct: false
+    - text: "Примерно 30°"
+      correct: false
+  explanation: "Луна проходит 360° за сидерический месяц (27,32 суток), поэтому за сутки смещается на 360/27,32 ≈ 13,2°."
+
+- id: 9t8u7v6w-5x4y-3z2a-1b0c-9d8e7f6g5h4i
+  tags:
+    - луна
+    - затмения
+    - условия
+  text: "Почему затмения не происходят каждое полнолуние и новолуние?"
+  difficulty: 70
+  options:
+    - text: "Орбита Луны наклонена к эклиптике"
+      correct: true
+    - text: "Луна слишком далеко"
+      correct: false
+    - text: "Земля слишком большая"
+      correct: false
+    - text: "Солнце слишком яркое"
+      correct: false
+  explanation: "Орбита Луны наклонена к эклиптике на 5°, поэтому в большинстве полнолуний и новолуний Луна проходит выше или ниже линии Солнце-Земля."
+
+- id: 2j1k0l9m-8n7o-6p5q-4r3s-2t1u0v9w8x7y
+  tags:
+    - луна
+    - узлы
+    - драконический-месяц
+  text: "Чему равен драконический месяц?"
+  difficulty: 60
+  options:
+    - text: "27,21 суток"
+      correct: true
+    - text: "27,32 суток"
+      correct: false
+    - text: "29,53 суток"
+      correct: false
+    - text: "27,55 суток"
+      correct: false
+  explanation: "Драконический месяц - период между прохождениями одного узла лунной орбиты - равен 27,21 суток."
+
+- id: 5z4a3b2c-1d0e-9f8g-7h6i-5j4k3l2m1n0o
+  tags:
+    - луна
+    - сарос
+    - циклы
+  text: "Через какой период повторяются похожие затмения?"
+  difficulty: 80
+  options:
+    - text: "18 лет 11 дней (сарос)"
+      correct: true
+    - text: "19 лет"
+      correct: false
+    - text: "27,32 суток"
+      correct: false
+    - text: "29,53 суток"
+      correct: false
+  explanation: "Сарос - период в 18 лет 11 дней, через который повторяются солнечные и лунные затмения в相似ных условиях."
+
+- id: 8p7q6r5s-4t3u-2v1w-0x9y-8z7a6b5c4d3e
+  tags:
+    - луна
+    - приливы
+    - фазы
+  text: "Когда происходят самые сильные приливы?"
+  difficulty: 50
+  options:
+    - text: "В новолуние и полнолуние"
+      correct: true
+    - text: "В первой четверти"
+      correct: false
+    - text: "В последней четверти"
+      correct: false
+    - text: "Всегда одинаковые"
+      correct: false
+  explanation: "Самые сильные приливы (сизигийные) происходят в новолуние и полнолуние, когда Солнце и Луна действуют совместно."
+
+- id: 1f0g9h8i-7j6k-5l4m-3n2o-1p0q9r8s7t6u
+  tags:
+    - луна
+    - приливы
+    - фазы
+  text: "Когда происходят самые слабые приливы?"
+  difficulty: 50
+  options:
+    - text: "В первой и последней четвертях"
+      correct: true
+    - text: "В новолуние"
+      correct: false
+    - text: "В полнолуние"
+      correct: false
+    - text: "Всегда одинаковые"
+      correct: false
+  explanation: "Самые слабые приливы (квадратурные) происходят в первой и последней четвертях, когда силы Солнца и Луны действуют под прямым углом."
+
+- id: 4v3w2x1y-0z9a-8b7c-6d5e-4f3g2h1i0j9k
+  tags:
+    - луна
+    - восход-заход
+    - задержка
+  text: "На сколько минут позже восходит Луна каждый день?"
+  difficulty: 60
+  options:
+    - text: "На 50 минут"
+      correct: true
+    - text: "На 24 часа"
+      correct: false
+    - text: "На 15 минут"
+      correct: false
+    - text: "На 4 минуты"
+      correct: false
+  explanation: "Луна восходит примерно на 50 минут позже каждый день, так как она смещается на 13° к востоку, а Земля поворачивается на 15° в час."
+
+- id: 7l6m5n4o-3p2q-1r0s-9t8u-7v6w5x4y3z2a
+  tags:
+    - луна
+    - угловой-диаметр
+    - изменение
+  text: "Почему размер Луны на небе иногда кажется разным?"
+  difficulty: 50
+  options:
+    - text: "Из-за эллиптичности орбиты Луны"
+      correct: true
+    - text: "Из-за атмосферной рефракции"
+      correct: false
+    - text: "Из-за фаз Луны"
+      correct: false
+    - text: "Это оптическая иллюзия"
+      correct: false
+  explanation: "Размер Луны меняется потому, что ее орбита эллиптическая - в перигее она ближе и кажется больше, в апогее - дальше и меньше."
+
+- id: 0b9c8d7e-6f5g-4h3i-2j1k-0l9m8n7o6p5q
+  tags:
+    - луна
+    - суперлуние
+    - перигей
+  text: "Что такое суперлуние?"
+  difficulty: 40
+  options:
+    - text: "Полнолуние в перигее лунной орбиты"
+      correct: true
+    - text: "Особенно яркая Луна"
+      correct: false
+    - text: "Луна красного цвета"
+      correct: false
+    - text: "Луна близко к горизонту"
+      correct: false
+  explanation: "Суперлуние - это полнолуние, совпадающее с прохождением Луной перигея, когда она кажется особенно большой."
+
+- id: 3r2s1t0u-9v8w-7x6y-5z4a-3b2c1d0e9f8g
+  tags:
+    - луна
+    - микролуние
+    - апогей
+  text: "Что такое микролуние?"
+  difficulty: 40
+  options:
+    - text: "Полнолуние в апогее лунной орбиты"
+      correct: true
+    - text: "Очень маленькая Луна"
+      correct: false
+    - text: "Луна в новолуние"
+      correct: false
+    - text: "Луна в первой четверти"
+      correct: false
+  explanation: "Микролуние - это полнолуние, совпадающее с прохождением Луной апогея, когда она кажется особенно маленькой."
+
+- id: 6h5i4j3k-2l1m-0n9o-8p7q-6r5s4t3u2v1w
+  tags:
+    - луна
+    - голубая-луна
+    - определение
+  text: "Что такое 'голубая луна' в астрономии?"
+  difficulty: 50
+  options:
+    - text: "Второе полнолуние в одном календарном месяце"
+      correct: true
+    - text: "Луна голубого цвета"
+      correct: false
+    - text: "Особый тип затмения"
+      correct: false
+    - text: "Луна в апреле"
+      correct: false
+  explanation: "Голубая луна - это второе полнолуние в пределах одного календарного месяца, происходит примерно раз в 2-3 года."

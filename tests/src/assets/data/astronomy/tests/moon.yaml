@@ -1,0 +1,430 @@
+name: "Луна"
+tags: ["луна", "астрономия", "спутник"]
+questions:
+  - question: "Каков радиус Луны?"
+    options:
+      - text: "1737 км"
+        correct: true
+      - text: "6371 км"
+        correct: false
+      - text: "3396 км"
+        correct: false
+      - text: "71492 км"
+        correct: false
+
+  - question: "Каково среднее расстояние от Земли до Луны?"
+    options:
+      - text: "384 400 км"
+        correct: true
+      - text: "149 600 000 км"
+        correct: false
+      - text: "57 900 000 км"
+        correct: false
+      - text: "1 500 000 км"
+        correct: false
+
+  - question: "Во сколько раз масса Луны меньше массы Земли?"
+    options:
+      - text: "В 81,3 раза"
+        correct: true
+      - text: "В 6 раз"
+        correct: false
+      - text: "В 100 раз"
+        correct: false
+      - text: "В 50 раз"
+        correct: false
+
+  - question: "Во сколько раз ускорение свободного падения на Луне меньше земного?"
+    options:
+      - text: "Примерно в 6 раз"
+        correct: true
+      - text: "В 2 раза"
+        correct: false
+      - text: "В 10 раз"
+        correct: false
+      - text: "В 81,3 раза"
+        correct: false
+
+  - question: "Во сколько раз параболическая скорость на Луне меньше, чем на Земле?"
+    options:
+      - text: "В 4,6 раза"
+        correct: true
+      - text: "В 2 раза"
+        correct: false
+      - text: "В 6 раз"
+        correct: false
+      - text: "В 10 раз"
+        correct: false
+
+  - question: "В каком году состоялась первая высадка человека на Луну?"
+    options:
+      - text: "1969"
+        correct: true
+      - text: "1961"
+        correct: false
+      - text: "1957"
+        correct: false
+      - text: "1975"
+        correct: false
+
+  - question: "Кто первым высадился на Луну?"
+    options:
+      - text: "Нил Армстронг и Эдвин Олдрин"
+        correct: true
+      - text: "Юрий Гагарин"
+        correct: false
+      - text: "Алексей Леонов"
+        correct: false
+      - text: "Джон Гленн"
+        correct: false
+
+  - question: "Каково отношение массы Луны к массе Земли?"
+    options:
+      - text: "1/81,3"
+        correct: true
+      - text: "1/50"
+        correct: false
+      - text: "1/100"
+        correct: false
+      - text: "1/700"
+        correct: false
+
+  - question: "Какова средняя плотность Луны?"
+    options:
+      - text: "3,3 г/см³"
+        correct: true
+      - text: "5,5 г/см³"
+        correct: false
+      - text: "1,0 г/см³"
+        correct: false
+      - text: "2,7 г/см³"
+        correct: false
+
+  - question: "Во сколько раз средняя плотность Луны меньше средней плотности Земли?"
+    options:
+      - text: "В полтора раза"
+        correct: true
+      - text: "В два раза"
+        correct: false
+      - text: "В три раза"
+        correct: false
+      - text: "В четыре раза"
+        correct: false
+
+  - question: "Как называется тип вращения Луны, при котором период вращения вокруг оси равен периоду обращения вокруг Земли?"
+    options:
+      - text: "Синхронное вращение"
+        correct: true
+      - text: "Ретроградное вращение"
+        correct: false
+      - text: "Дифференциальное вращение"
+        correct: false
+      - text: "Прецессионное вращение"
+        correct: false
+
+  - question: "Кто первым наблюдал Луну в телескоп?"
+    options:
+      - text: "Галилей"
+        correct: true
+      - text: "Коперник"
+        correct: false
+      - text: "Кеплер"
+        correct: false
+      - text: "Ньютон"
+        correct: false
+
+  - question: "Как называются обширные темные области на Луне?"
+    options:
+      - text: "Моря"
+        correct: true
+      - text: "Материки"
+        correct: false
+      - text: "Океаны"
+        correct: false
+      - text: "Пустыни"
+        correct: false
+
+  - question: "Как называются светлые участки лунной поверхности?"
+    options:
+      - text: "Материки"
+        correct: true
+      - text: "Моря"
+        correct: false
+      - text: "Океаны"
+        correct: false
+      - text: "Континенты"
+        correct: false
+
+  - question: "Какой процент видимой поверхности Луны занимают материки?"
+    options:
+      - text: "Около 60%"
+        correct: true
+      - text: "Около 40%"
+        correct: false
+      - text: "Около 80%"
+        correct: false
+      - text: "Около 20%"
+        correct: false
+
+  - question: "Как называется наиболее характерная форма лунного рельефа?"
+    options:
+      - text: "Кратеры"
+        correct: true
+      - text: "Горы"
+        correct: false
+      - text: "Долины"
+        correct: false
+      - text: "Каньоны"
+        correct: false
+
+  - question: "Как называются образования, подобные кратерам, но без центральной горки?"
+    options:
+      - text: "Цирки"
+        correct: true
+      - text: "Кальдеры"
+        correct: false
+      - text: "Котловины"
+        correct: false
+      - text: "Впадины"
+        correct: false
+
+  - question: "Около какого кратера наблюдается особенно хорошо развитая система лучей?"
+    options:
+      - text: "Тихо"
+        correct: true
+      - text: "Коперник"
+        correct: false
+      - text: "Кеплер"
+        correct: false
+      - text: "Птолемей"
+        correct: false
+
+  - question: "Какое правило объясняет, что объем вала и центральной горки кратера приблизительно равен объему впадины?"
+    options:
+      - text: "Правило Шретера"
+        correct: true
+      - text: "Правило Кеплера"
+        correct: false
+      - text: "Правило Ньютона"
+        correct: false
+      - text: "Правило Галилея"
+        correct: false
+
+  - question: "Какая максимальная высота лунных гор?"
+    options:
+      - text: "До 9 км"
+        correct: true
+      - text: "До 3 км"
+        correct: false
+      - text: "До 15 км"
+        correct: false
+      - text: "До 20 км"
+        correct: false
+
+  - question: "Какая советская станция первой сфотографировала обратную сторону Луны?"
+    options:
+      - text: "Луна-3"
+        correct: true
+      - text: "Луна-9"
+        correct: false
+      - text: "Луна-16"
+        correct: false
+      - text: "Зонд-3"
+        correct: false
+
+  - question: "В каком году была запущена станция 'Луна-3'?"
+    options:
+      - text: "1959"
+        correct: true
+      - text: "1965"
+        correct: false
+      - text: "1966"
+        correct: false
+      - text: "1970"
+        correct: false
+
+  - question: "Как называются низменные районы на обратной стороне Луны?"
+    options:
+      - text: "Талассоиды"
+        correct: true
+      - text: "Материки"
+        correct: false
+      - text: "Моря"
+        correct: false
+      - text: "Болота"
+        correct: false
+
+  - question: "Когда была совершена первая мягкая посадка на Луну?"
+    options:
+      - text: "3 февраля 1966 года"
+        correct: true
+      - text: "12 апреля 1961 года"
+        correct: false
+      - text: "20 июля 1969 года"
+        correct: false
+      - text: "4 октября 1957 года"
+        correct: false
+
+  - question: "Какая станция совершила первую мягкую посадку на Луну?"
+    options:
+      - text: "Луна-9"
+        correct: true
+      - text: "Луна-3"
+        correct: false
+      - text: "Луна-10"
+        correct: false
+      - text: "Луна-16"
+        correct: false
+
+  - question: "Каково сферическое альбедо Луны в визуальных лучах?"
+    options:
+      - text: "0,06"
+        correct: true
+      - text: "0,3"
+        correct: false
+      - text: "0,5"
+        correct: false
+      - text: "0,8"
+        correct: false
+
+  - question: "Какая температура на поверхности Луны в полдень на экваторе?"
+    options:
+      - text: "Около 390°К"
+        correct: true
+      - text: "Около 290°К"
+        correct: false
+      - text: "Около 500°К"
+        correct: false
+      - text: "Около 200°К"
+        correct: false
+
+  - question: "Какая температура на поверхности Луны ночью?"
+    options:
+      - text: "100-120°К"
+        correct: true
+      - text: "200-250°К"
+        correct: false
+      - text: "300-350°К"
+        correct: false
+      - text: "50-70°К"
+        correct: false
+
+  - question: "Какая средняя плотность лунного грунта?"
+    options:
+      - text: "1-1,5 г/см³"
+        correct: true
+      - text: "2-2,5 г/см³"
+        correct: false
+      - text: "3-3,5 г/см³"
+        correct: false
+      - text: "4-4,5 г/см³"
+        correct: false
+
+  - question: "Какова пористость лунного грунта?"
+    options:
+      - text: "Около 50%"
+        correct: true
+      - text: "Около 10%"
+        correct: false
+      - text: "Около 30%"
+        correct: false
+      - text: "Около 70%"
+        correct: false
+
+  - question: "Сколько типов пород слагает лунную поверхность?"
+    options:
+      - text: "Четыре"
+        correct: true
+      - text: "Два"
+        correct: false
+      - text: "Три"
+        correct: false
+      - text: "Пять"
+        correct: false
+
+  - question: "Как называется мелкозернистая пористая изверженная порода на Луне?"
+    options:
+      - text: "Тип А"
+        correct: true
+      - text: "Тип В"
+        correct: false
+      - text: "Брекчия"
+        correct: false
+      - text: "Реголит"
+        correct: false
+
+  - question: "Что такое реголит?"
+    options:
+      - text: "Мелкие частицы и пыль на лунной поверхности"
+        correct: true
+      - text: "Крупные горные породы"
+        correct: false
+      - text: "Лавовые потоки"
+        correct: false
+      - text: "Ледяные отложения"
+        correct: false
+
+  - question: "Сколько миллионов лет могут простоять на Луне космические аппараты?"
+    options:
+      - text: "Миллионы лет"
+        correct: true
+      - text: "Тысячи лет"
+        correct: false
+      - text: "Сотни лет"
+        correct: false
+      - text: "Десятки лет"
+        correct: false
+
+  - question: "Когда был доставлен на Луну 'Луноход-1'?"
+    options:
+      - text: "Ноябрь 1970 года"
+        correct: true
+      - text: "Январь 1973 года"
+        correct: false
+      - text: "Февраль 1966 года"
+        correct: false
+      - text: "Июль 1969 года"
+        correct: false
+
+  - question: "Какая станция доставила 'Луноход-1' на Луну?"
+    options:
+      - text: "Луна-17"
+        correct: true
+      - text: "Луна-21"
+        correct: false
+      - text: "Луна-9"
+        correct: false
+      - text: "Луна-16"
+        correct: false
+
+  - question: "Когда был доставлен 'Луноход-2'?"
+    options:
+      - text: "Январь 1973 года"
+        correct: true
+      - text: "Ноябрь 1970 года"
+        correct: false
+      - text: "Февраль 1966 года"
+        correct: false
+      - text: "Июль 1969 года"
+        correct: false
+
+  - question: "Какая станция доставила 'Луноход-2' на Луну?"
+    options:
+      - text: "Луна-21"
+        correct: true
+      - text: "Луна-17"
+        correct: false
+      - text: "Луна-9"
+        correct: false
+      - text: "Луна-16"
+        correct: false
+
+  - question: "Какие газы преобладают в лунной атмосфере днем?"
+    options:
+      - text: "Водород и неон"
+        correct: true
+      - text: "Кислород и азот"
+        correct: false
+      - text: "Углекислый газ и метан"
+        correct: false
+      - text
