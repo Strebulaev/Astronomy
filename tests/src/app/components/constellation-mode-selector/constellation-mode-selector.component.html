@@ -1,0 +1,28 @@
+<div class="mode-selector-container">
+    <div class="header">
+      <h1>🌌 Тест созвездий</h1>
+      <p>Выберите режим игры</p>
+    </div>
+  
+    <div class="modes-grid">
+      <div *ngFor="let mode of gameModes" 
+           class="mode-card"
+           [class.selected]="selectedMode?.id === mode.id"
+           (click)="selectMode(mode)">
+        <div class="mode-icon">{{ getModeIcon(mode) }}</div>
+        <div class="mode-info">
+          <h3>{{ mode.name }}</h3>
+          <p>{{ mode.description }}</p>
+          <small *ngIf="getConstellationCount(mode) > 0">
+            {{ getConstellationCount(mode) }} созвездий
+          </small>
+        </div>
+      </div>
+    </div>
+  
+    <div class="actions" *ngIf="selectedMode">
+      <button (click)="startGame()" class="start-btn">
+        Начать игру - {{ selectedMode.name }}
+      </button>
+    </div>
+  </div>

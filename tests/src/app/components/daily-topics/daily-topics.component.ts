@@ -9,6 +9,8 @@ import { ProgressDataService } from '../../services/progress-data.service';
 import { QuillModule } from 'ngx-quill';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { SubjectManagerService } from '../../services/subject-manager.service';
+import { PlanManagerService, Plan } from '../../services/plan-manager.service';
+import { Router } from '@angular/router';
 
 interface Topic {
   id: string;
@@ -23,13 +25,14 @@ interface Topic {
   week: number;
   day: number;
   subtopics?: string[];
-  terms?: TermDefinition[]; // Добавляем это
+  terms?: TermDefinition[];
 }
 
 interface TermDefinition {
   term: string;
   definition: string;
 }
+
 export interface ProgressForecast {
   expectedEndDate: Date;
   basedOn: 'topics' | 'hours';
@@ -40,16 +43,12 @@ export interface ProgressForecast {
   completedHours?: number;
   remainingHours?: number;
 }
-interface Plan {
-  name: string;
-  total_topics: number;
-  schedule: any[];
-}
 
 interface DayPlan {
   day: number;
   topics: (string | { topic: string, subtopics: string[] })[];
 }
+
 @Component({
   selector: 'app-daily-topics',
   standalone: true,
@@ -58,6 +57,7 @@ interface DayPlan {
   styleUrls: ['./daily-topics.component.css']
 })
 export class DailyTopicsComponent implements OnInit {
+  currentPlan: Plan | null = null;
   viewMode: 'today' | 'diary' | 'future' | 'charts' = 'today';
   selectedTopic: Topic | null = null
   searchQuery: string = '';
@@ -67,18 +67,14 @@ export class DailyTopicsComponent implements OnInit {
   currentTerm: TermDefinition | null = null;
   forecast?: ProgressForecast;
   autoSaved = false;
-  // Добавим новые свойства
   termSearch: string = '';
   currentTermIndex: number = -1;
   wordCount = 0;
   termSearchQuery: string = '';
   filteredTerms: TermDefinition[] = [];
   private saveTimeout: any;
-  plan: Plan = {
-    name: '',
-    total_topics: 0,
-    schedule: []
-  };
+  
+  // Удаляем старый plan и используем currentPlan
   quillConfig = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -108,18 +104,20 @@ export class DailyTopicsComponent implements OnInit {
       }
     }
   };
+  
   @Output() progressData = new EventEmitter<{
     allTopics: Topic[];
     completedTopics: Topic[];
     totalProgress: number;
     todayProgress: number;
   }>();
+  
   todayTopics: Topic[] = [];
   allTopics: Topic[] = [];
   futureTopics: Topic[] = [];
   completedTopics: Topic[] = [];
   
-private readonly planVersion = '1.0.2'
+  private readonly planVersion = '1.0.2'
   private readonly STORAGE_KEY = `astronomyProgress_v${this.planVersion}`;
 
   private topicsSubject = new BehaviorSubject<Topic[]>([]);
@@ -130,23 +128,84 @@ private readonly planVersion = '1.0.2'
     private http: HttpClient, 
     private progressDataService: ProgressDataService,
     private sanitizer: DomSanitizer,
-    private subjectManager: SubjectManagerService
+    private planManager: PlanManagerService,
+    private subjectManager: SubjectManagerService,
+    private router: Router // Добавляем Router
   ) {}
-
+  
   ngOnInit() {
-    this.subjectManager.getCurrentSubject()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(subject => {
-        if (subject) {
-          this.loadData();
-        }
-      });
+    this.subjectManager.getCurrentSubject().subscribe(subject => {
+      if (subject) {
+        this.planManager.loadPlanForSubject(subject).subscribe(plan => {
+          this.currentPlan = plan;
+          this.loadProgress();
+          this.organizeTopics();
+        });
+      }
+    });
+
+    this.planManager.getCurrentPlan().subscribe(plan => {
+      this.currentPlan = plan;
+    });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  private createTopicFromPlan(topicPlan: any, week: number, day: number): Topic {
+    return {
+      id: topicPlan.id || this.generateId(),
+      title: topicPlan.title,
+      difficulty: topicPlan.difficulty || 50,
+      time: topicPlan.time || '1ч',
+      completed: false,
+      completedDate: null,
+      notes: '',
+      dueDate: this.calculateDueDate(week, day),
+      week,
+      day,
+      subtopics: topicPlan.subtopics,
+      terms: []
+    };
+  }
+
+  // Добавляем методы для управления планом
+  editPlan(): void {
+    this.router.navigate(['/plan-editor']);
+  }
+
+  importPlan(): void {
+    const yamlContent = prompt('Введите YAML содержимое плана:');
+    if (yamlContent && this.currentPlan) {
+      try {
+        // Исправляем: используем subjectId из currentPlan
+        this.planManager.importFromYaml(this.currentPlan.subjectId, yamlContent);
+        alert('План успешно импортирован!');
+      } catch (error) {
+        alert('Ошибка импорта: ' + error);
+      }
+    }
+  }
+
+  exportPlan(): void {
+    if (this.currentPlan) {
+      const yamlContent = this.planManager.exportToYaml(this.currentPlan.id);
+      this.downloadYamlFile(yamlContent, `${this.currentPlan.name}.yml`);
+    }
+  }
+
+  private downloadYamlFile(content: string, filename: string): void {
+    const blob = new Blob([content], { type: 'text/yaml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (!this.selectedTopic || this.isEditingTerm) return;
@@ -172,6 +231,7 @@ private readonly planVersion = '1.0.2'
       }
     }
   }
+
   private async loadData() {
     try {
       await this.loadPlan();
@@ -186,16 +246,12 @@ private readonly planVersion = '1.0.2'
     const currentSubject = this.subjectManager.getCurrentSubjectValue();
     if (!currentSubject) return;
     
-    const yamlText = await this.http.get(
-      `${currentSubject.planPath}?v=${Date.now()}`, 
-      { responseType: 'text' }
-    ).toPromise();
-    
-    if (yamlText) {
-      const loadedData = yaml.load(yamlText) as any;
-      this.plan = loadedData.plan || loadedData;
-    }
+    // Загружаем план через PlanManagerService вместо прямого HTTP
+    this.planManager.loadPlanForSubject(currentSubject).subscribe(plan => {
+      this.currentPlan = plan;
+    });
   }
+
   get selectedTopicWithTerms(): Topic | null {
     return this.selectedTopic as Topic | null;
   }
@@ -216,22 +272,24 @@ private readonly planVersion = '1.0.2'
     height: '300px',
     backgroundColor: '#fff'
   };
+
   private initializeAllTopics(): void {
-    // Проверяем, нужно ли инициализировать темы
     if (this.shouldSkipInitialization()) {
       return;
     }
   
-    // Создаем массив тем с использованием современных методов массива
-    this.allTopics = this.plan.schedule?.flatMap((week: any) => 
-      week.days?.flatMap((day: any) => 
-        day.topics?.map((topic: any) => this.createTopic(topic, week.week, day.day))) || []
-    ) || [];
+    // Используем currentPlan вместо this.plan
+    if (this.currentPlan) {
+      this.allTopics = this.currentPlan.schedule.flatMap((week: any) => 
+        week.days.flatMap((day: any) => 
+          day.topics?.map((topic: any) => this.createTopic(topic, week.week, day.day)) || []
+        )
+      ) || [];
+    }
   
     this.saveProgress();
   }
   
-  // Вспомогательный метод для проверки необходимости инициализации
   private shouldSkipInitialization(): boolean {
     return this.allTopics.length > 0 && 
            typeof localStorage !== 'undefined' && 
@@ -245,7 +303,7 @@ private readonly planVersion = '1.0.2'
       id: this.generateId(),
       ...parsed,
       completed: false,
-      completedDate: null,  // Явно указываем null для новых тем
+      completedDate: null,
       notes: '',
       dueDate: this.calculateDueDate(week, day),
       week,
@@ -253,6 +311,7 @@ private readonly planVersion = '1.0.2'
       terms: []
     };
   }
+
   private loadProgress(): void {
     const savedData = localStorage.getItem(this.STORAGE_KEY);
     
@@ -275,14 +334,16 @@ private readonly planVersion = '1.0.2'
       this.initializeAllTopics();
     }
   }
+
   completeFutureTopic(topic: Topic): void {
     this.setTopicCompletion(topic, true);
   }
+
   private setTopicCompletion(topic: Topic, completed: boolean): void {
     const updatedTopic = {
       ...topic,
       completed,
-      completedDate: completed ? new Date() : null // Всегда устанавливаем дату при выполнении
+      completedDate: completed ? new Date() : null
     };
   
     const index = this.allTopics.findIndex(t => t.id === topic.id);
@@ -295,46 +356,41 @@ private readonly planVersion = '1.0.2'
       }
     }
   }
+
+  // Остальные методы остаются без изменений...
   calculateForecast(): ProgressForecast {
-    // 1. Сбор статистики
+    // Реализация расчета прогноза
     const completedTopics = this.completedTopics;
     const totalTopics = this.allTopics.length;
     const remainingTopics = totalTopics - completedTopics.length;
     
-    // 2. Расчет скорости по разным периодам
     const now = new Date();
     const startDate = this.allTopics.reduce((min, t) => 
       t.dueDate < min ? t.dueDate : min, new Date(9999, 0));
     
-    // Разбиваем на периоды для анализа тренда
     const allPeriods = this.calculatePeriodStats(startDate, now);
     
-    // 3. Взвешенное прогнозирование
     const weights = {
-      recent: 0.6,    // Последние 7 дней
-      medium: 0.3,    // Предыдущие 14 дней
-      overall: 0.1    // Все время
+      recent: 0.6,
+      medium: 0.3,
+      overall: 0.1
     };
     
-    // Рассчитываем скорости для разных периодов
     const rates = {
       recent: this.calculateRate(allPeriods.slice(-7)),
       medium: this.calculateRate(allPeriods.slice(-21, -7)),
       overall: this.calculateRate(allPeriods)
     };
     
-    // Взвешенная средняя скорость
     const weightedRate = 
       rates.recent * weights.recent + 
       rates.medium * weights.medium + 
       rates.overall * weights.overall;
     
-    // 4. Коррекция на сложность и время
     const difficultyFactor = this.calculateDifficultyFactor();
     const timeFactor = this.calculateTimeFactor();
     const adjustedRate = weightedRate * difficultyFactor * timeFactor;
     
-    // 5. Прогноз с учетом выходных и праздников
     return {
       expectedEndDate: this.calculateAdjustedEndDate(adjustedRate, remainingTopics, now),
       basedOn: 'topics',
@@ -346,8 +402,8 @@ private readonly planVersion = '1.0.2'
       remainingHours: this.calculateRemainingHours()
     };
   }
+
   private calculatePeriodStats(start: Date, end: Date): any[] {
-    // Группировка выполненных тем по дням
     const dailyStats: {[key: string]: number} = {};
     
     this.completedTopics.forEach(topic => {
@@ -356,7 +412,6 @@ private readonly planVersion = '1.0.2'
       dailyStats[dateKey] = (dailyStats[dateKey] || 0) + 1;
     });
     
-    // Преобразование в массив периодов
     const result = [];
     const currentDay = new Date(start);
     
@@ -372,6 +427,7 @@ private readonly planVersion = '1.0.2'
     
     return result;
   }
+
   private calculateCompletedHours(): number {
     return this.completedTopics.reduce((sum, topic) => sum + this.parseTimeToHours(topic.time), 0);
   }
@@ -398,10 +454,10 @@ private readonly planVersion = '1.0.2'
     end.setHours(0, 0, 0, 0);
     return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
   }
+
   private calculateRate(periods: any[]): number {
     if (periods.length === 0) return 0;
     
-    // Фильтрация выходных (суббота=6, воскресенье=0)
     const workDays = periods.filter(p => p.dayOfWeek !== 0 && p.dayOfWeek !== 6);
     const totalCompleted = workDays.reduce((sum, day) => sum + day.count, 0);
     
@@ -419,7 +475,6 @@ private readonly planVersion = '1.0.2'
       .reduce((sum, t) => sum + (t.difficulty || 50), 0) / 
       (this.allTopics.length - this.completedTopics.length) || 50;
     
-    // Чем сложнее оставшиеся темы, тем больше замедление
     return 1 + (remainingDifficulty - completedDifficulty) / 200;
   }
   
@@ -451,11 +506,9 @@ private readonly planVersion = '1.0.2'
     while (daysNeeded > 0) {
       date.setDate(date.getDate() + 1);
       
-      // Пропускаем выходные
       const dayOfWeek = date.getDay();
       if (dayOfWeek === 0 || dayOfWeek === 6) continue;
       
-      // Учитываем праздники (можно добавить больше)
       const isHoliday = this.isHoliday(date);
       if (isHoliday) continue;
       
@@ -477,13 +530,11 @@ private readonly planVersion = '1.0.2'
   }
   
   private parseTimeToHours(timeStr: string): number {
-    if (!timeStr) return 1; // По умолчанию 1 час, если время не указано
+    if (!timeStr) return 1;
     
     let hours = 0;
     let minutes = 0;
     
-    // Обрабатываем разные форматы времени:
-    // "2ч 30мин", "2 часа", "30 минут", "2.5ч" и т.д.
     const hourMatch = timeStr.match(/(\d+\.?\d*)\s*(ч|час|часа|hours?|h)/i);
     if (hourMatch) {
       hours = parseFloat(hourMatch[1]);
@@ -494,29 +545,25 @@ private readonly planVersion = '1.0.2'
       minutes = parseInt(minuteMatch[1], 10);
     }
     
-    // Преобразуем минуты в десятичную часть часа
     return hours + (minutes / 60);
   }
   
   private getDaysPassed(): number {
     if (this.allTopics.length === 0) return 0;
     
-    // Находим самую раннюю дату среди всех тем
-    const startDate = new Date(Math.min(...this.allTopics.map(t => t.dueDate.getTime())));
+    const startDate = this.allTopics.reduce((min, t) => 
+      t.dueDate < min ? t.dueDate : min, new Date(9999, 0));
     startDate.setHours(0, 0, 0, 0);
     
-    // Текущая дата без времени
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
-    // Разница в днях
     const diffTime = today.getTime() - startDate.getTime();
     return Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
   }
   
   private calculateEndDate(rate: number, remaining: number): Date {
     if (rate <= 0) {
-      // Если нет прогресса, возвращаем дату через год
       const futureDate = new Date();
       futureDate.setFullYear(futureDate.getFullYear() + 1);
       return futureDate;
@@ -525,12 +572,10 @@ private readonly planVersion = '1.0.2'
     const daysNeeded = remaining / rate;
     const endDate = new Date();
     
-    // Добавляем рабочие дни (исключаем выходные)
     let daysAdded = 0;
     while (daysAdded < daysNeeded) {
       endDate.setDate(endDate.getDate() + 1);
       
-      // Проверяем, не выходной ли это день (суббота или воскресенье)
       const dayOfWeek = endDate.getDay();
       if (dayOfWeek !== 0 && dayOfWeek !== 6) {
         daysAdded++;
@@ -549,7 +594,6 @@ private readonly planVersion = '1.0.2'
 
       let processedNotes = topic.notes;
       
-      // Process terms for display
       if (topic.terms?.length) {
         topic.terms.forEach((term, index) => {
           const regex = new RegExp(`(${term.term})(?![^<]*>|[^<>]*<\/)`, 'gi');
@@ -560,7 +604,6 @@ private readonly planVersion = '1.0.2'
         });
       }
 
-      // Process subpoints (assuming they are marked with • or -)
       processedNotes = processedNotes.replace(
         /(^|\n)(\s*)[•\-]\s+(.*?)(?=\n|$)/g, 
         '$1$2<span class="subpoint">$3</span>'
@@ -569,17 +612,18 @@ private readonly planVersion = '1.0.2'
       topic.notesHtml = this.sanitizer.bypassSecurityTrustHtml(processedNotes);
     });
   }
+
   selectTopic(topic: Topic): void {
     this.selectedTopic = { ...topic };
     this.isEditingTerm = false;
     this.currentTerm = null;
     
-    // Инициализация редактора после отрисовки
     setTimeout(() => {
       this.focusEditor();
       this.wordCount = this.countWords(this.selectedTopic?.notes || '');
     });
   }
+
   cancelTermEdit(): void {
     this.isEditingTerm = false;
     this.currentTerm = null;
@@ -591,6 +635,7 @@ private readonly planVersion = '1.0.2'
     }
     this.currentTerm = { ...this.selectedTopic.terms[index] };
   }
+
   updateFilteredTerms(): void {
     if (!this.selectedTopic?.terms) {
       this.filteredTerms = [];
@@ -618,7 +663,6 @@ private readonly planVersion = '1.0.2'
     range.insertNode(span);
     selection.removeAllRanges();
     
-    // Update notes with the new HTML
     if (this.selectedTopic) {
       const editor = document.querySelector('.notes-editor-content');
       if (editor) {
@@ -626,10 +670,10 @@ private readonly planVersion = '1.0.2'
       }
     }
   }
+
   saveNotes(): void {
     if (!this.selectedTopic) return;
     
-    // Если отмечаем как выполненное через чекбокс в редакторе заметок
     if (this.selectedTopic.completed && !this.selectedTopic.completedDate) {
       this.selectedTopic.completedDate = new Date();
     }
@@ -643,8 +687,8 @@ private readonly planVersion = '1.0.2'
     
     this.autoSaved = true;
   }
+
   onEditorInput(event: Event): void {
-    
     const element = event.target as HTMLElement;
     if (this.selectedTopic && this.currentTerm) {
       if (!this.selectedTopic.terms) {
@@ -654,7 +698,6 @@ private readonly planVersion = '1.0.2'
     }
     this.wordCount = this.countWords(element.innerText);
     
-    // Автосохранение через 2 секунды после последнего изменения
     clearTimeout(this.saveTimeout);
     this.autoSaved = false;
     this.saveTimeout = setTimeout(() => {
@@ -688,6 +731,7 @@ private readonly planVersion = '1.0.2'
     }
     this.focusEditor();
   }
+
   addNewTerm(): void {
     if (!this.selectedTopic) return;
     
@@ -700,66 +744,54 @@ private readonly planVersion = '1.0.2'
       definition: ''
     };
     
-    // Фокус на поле ввода после добавления
     setTimeout(() => {
       const input = document.querySelector('.term-input') as HTMLInputElement;
       input?.focus();
     });
   }
+
   addTerm(): void {
-    // Проверяем наличие выделенного текста
     const selection = window.getSelection();
     const selectedText = selection?.toString().trim();
   
     if (selectedText) {
-      // Если есть выделенный текст - используем markAsTerm
       this.markAsTerm();
       return;
     }
   
-    // Если нет выделенного текста - запрашиваем термин через prompt
     const term = prompt('Enter term:');
-    if (!term) return; // Если пользователь отменил ввод
-  
-    // Получаем диапазон выделения (если есть)
+    if (!term) return;
+
     const range = selection?.rangeCount ? selection.getRangeAt(0) : null;
   
-    // Создаем элемент для выделения термина
     const span = document.createElement('span');
     span.className = 'term-highlight';
     span.textContent = term;
   
-    // Вставляем новый термин в редактор (если есть диапазон)
     if (range) {
       range.deleteContents();
       range.insertNode(span);
     }
   
-    // Проверяем и инициализируем selectedTopic и terms
     if (!this.selectedTopic) {
       console.warn('No topic selected');
       return;
     }
   
-    // Инициализируем массив terms, если его нет
     if (!this.selectedTopic.terms) {
       this.selectedTopic.terms = [];
     }
   
-    // Создаем новый термин
     const newTerm = {
       term: term,
       definition: ''
     };
   
-    // Проверяем, есть ли такой термин уже в списке
     const existingTermIndex = this.selectedTopic.terms.findIndex(t => t['term'] === term);
     
     if (existingTermIndex >= 0) {
-      // Если термин уже существует - используем существующий
       this.currentTerm = { ...this.selectedTopic.terms[existingTermIndex] };
     } else {
-      // Если термин новый - добавляем в список
       this.selectedTopic.terms.push(newTerm);
       this.currentTerm = { ...newTerm };
     }
@@ -775,6 +807,7 @@ private readonly planVersion = '1.0.2'
   private countWords(text: string): number {
     return text.trim() ? text.trim().split(/\s+/).length : 0;
   }  
+
   markAsTerm(): void {
     if (!this.selectedTopic) return;
     
@@ -793,12 +826,12 @@ private readonly planVersion = '1.0.2'
       this.selectedTopic.terms = [];
     }
     
-    // Check if term already exists
     const existingTermIndex = this.selectedTopic.terms.findIndex(t => t.term === termText);
     if (existingTermIndex >= 0) {
       this.currentTerm = this.selectedTopic.terms[existingTermIndex];
     }
   }
+
   private parseTopicString(topicStr: string): { title: string, difficulty: number, time: string } {
     if (!topicStr.includes('(')) {
       return { title: topicStr, difficulty: 0, time: '' };
@@ -820,6 +853,7 @@ private readonly planVersion = '1.0.2'
     
     return { title: titlePart, difficulty, time };
   }
+
   getCompletedTodayCount(): number {
     return this.todayTopics.filter(t => t.completed).length;
   }
@@ -839,9 +873,11 @@ private readonly planVersion = '1.0.2'
       t.day === day
     );
   }
+
   toggleTopicCompletion(topic: Topic): void {
     this.setTopicCompletion(topic, !topic.completed);
   }  
+
   private saveProgress(): void {
     const data = {
       topics: this.allTopics.map(topic => ({
@@ -869,10 +905,19 @@ private readonly planVersion = '1.0.2'
   private generateId(): string {
     return Math.random().toString(36).substr(2, 9);
   }
+
   private organizeTopics(): void {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    if (!this.currentPlan) return;
     
+    // Используем currentPlan для создания тем
+    this.allTopics = this.currentPlan.schedule.flatMap((week: any) => 
+      week.days.flatMap((day: any) => 
+        day.topics.map((topic: any) => this.createTopicFromPlan(topic, week.week, day.day))
+      )
+    );
+
     this.todayTopics = this.allTopics.filter(topic => {
       const topicDate = new Date(topic.dueDate);
       topicDate.setHours(0, 0, 0, 0);
@@ -931,13 +976,12 @@ private readonly planVersion = '1.0.2'
     const completed = this.todayTopics.filter(t => t.completed).length;
     return total > 0 ? Math.round((completed / total) * 100) : 0;
   }
+
   get totalProgress() {
     const total = this.allTopics.length;
     const completed = this.allTopics.filter(t => t.completed).length;
     return total > 0 ? Math.round((completed / total) * 100) : 0;
   }
-
-
 
   showTermsEditor(): void {
     if (!this.selectedTopic) return;
@@ -960,7 +1004,7 @@ private readonly planVersion = '1.0.2'
   }
   
   saveTerms(): void {
-    if (!this.selectedTopic) return ;
+    if (!this.selectedTopic) return;
     
     this.selectedTopic.terms = this.filteredTerms.filter(t => t.term.trim() !== '');
     this.saveNotes();

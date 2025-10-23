@@ -1,0 +1,164 @@
+<div class="constellation-quiz-container">
+    <!-- Состояние загрузки -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Загружаем тест созвездий...</p>
+    </div>
+  
+    <!-- Состояние ошибки -->
+    <div *ngIf="error && !loading" class="error-state">
+      <h3>🌌 Ошибка загрузки</h3>
+      <p>{{ error }}</p>
+      <div class="error-actions">
+        <button (click)="startQuiz()" class="retry-btn">🔄 Попробовать снова</button>
+        <button (click)="backToModes()" class="mode-btn">📋 Выбрать другой режим</button>
+        <button (click)="router.navigate(['/'])" class="home-btn">🏠 На главную</button>
+      </div>
+    </div>
+  
+    <!-- Основной интерфейс теста -->
+    <div *ngIf="!loading && !error && constellationTest && !quizComplete" class="quiz-interface">
+      <header class="quiz-header">
+        <div class="quiz-title">
+          <h1>🌌 {{ constellationTest.name }}</h1>
+          <button (click)="backToModes()" class="back-btn">← Назад к режимам</button>
+        </div>
+        <div class="quiz-info">
+          <div class="progress-bar">
+            <div class="progress" [style.width.%]="progress"></div>
+          </div>
+          <div class="stats">
+            <span>📊 Вопрос {{ currentQuestionIndex + 1 }} из {{ totalQuestions }}</span>
+            <span>⏱️ Время: {{ timeSpent | time }}</span>
+            <span>⭐ Счет: {{ score }}</span>
+          </div>
+        </div>
+      </header>
+  
+      <div *ngIf="currentConstellation" class="question-container">
+        <!-- Режим "Угадать название" -->
+        <div *ngIf="isNameMode()" class="name-mode">
+          <div class="constellation-images">
+            <div class="image-container">
+              <img [src]="currentImage" 
+                   [alt]="'Созвездие ' + currentConstellation.name"
+                   (error)="handleImageError($event)"
+                   class="constellation-img">
+              <div *ngIf="currentConstellation.images.length > 1" class="image-controls">
+                <button (click)="nextImage()" class="next-image-btn" title="Следующее изображение">
+                  🔄 Другое изображение
+                </button>
+                <span class="image-counter">
+                  {{ (currentImageIndex[currentQuestionIndex] || 0) + 1 }}/{{ currentConstellation.images.length }}
+                </span>
+              </div>
+            </div>
+          </div>
+  
+          <div class="options-container">
+            <button *ngFor="let option of options" 
+                    class="option-btn"
+                    [class.selected]="selectedAnswer === option"
+                    [class.correct]="showResult && option === currentConstellation.name"
+                    [class.incorrect]="showResult && selectedAnswer === option && option !== currentConstellation.name"
+                    (click)="selectAnswer(option)"
+                    [disabled]="showResult">
+              {{ option }}
+            </button>
+          </div>
+        </div>
+  
+        <!-- Режим "Выбрать картинку" -->
+        <div *ngIf="isImageMode()" class="image-mode">
+          <div class="question-text">
+            <h2>Выберите изображение созвездия:</h2>
+            <h3 class="constellation-name">{{ currentConstellation.name }}</h3>
+          </div>
+  
+          <div class="image-options-container">
+            <div *ngFor="let imageUrl of imageOptions" 
+                 class="image-option"
+                 [class.selected]="selectedAnswer === imageUrl"
+                 [class.correct]="showResult && imageUrl === currentConstellation.images[0]"
+                 [class.incorrect]="showResult && selectedAnswer === imageUrl && imageUrl !== currentConstellation.images[0]"
+                 (click)="!showResult && selectImageAnswer(imageUrl)">
+              <img [src]="imageUrl" 
+                   [alt]="'Вариант изображения'"
+                   (error)="handleImageError($event)"
+                   class="option-img">
+            </div>
+          </div>
+        </div>
+  
+        <!-- Кнопка проверки -->
+        <button *ngIf="!showResult && selectedAnswer" 
+                (click)="checkAnswer()" 
+                class="check-btn">
+          ✅ Проверить ответ
+        </button>
+  
+        <!-- Результат ответа -->
+        <div *ngIf="showResult" class="result-section">
+          <div class="feedback" [class.correct]="isAnswerCorrect()" [class.incorrect]="!isAnswerCorrect()">
+            <h3 *ngIf="isAnswerCorrect()">🎉 Правильно!</h3>
+            <h3 *ngIf="!isAnswerCorrect()">❌ Неправильно</h3>
+            <p>Правильный ответ: <strong>{{ getCorrectAnswer() }}</strong></p>
+          </div>
+  
+          <div class="constellation-info">
+            <h4>📖 О созвездии {{ currentConstellation.name }}:</h4>
+            <p>{{ currentConstellation.description }}</p>
+            <div class="constellation-meta">
+              <span class="latin-name">🌍 Латинское название: {{ currentConstellation.latinName }}</span>
+              <span class="hemisphere" [class.north]="currentConstellation.hemisphere === 'north'" 
+                    [class.south]="currentConstellation.hemisphere === 'south'">
+                {{ currentConstellation.hemisphere === 'north' ? '🌎 Северное' : 
+                   currentConstellation.hemisphere === 'south' ? '🌍 Южное' : '🌐 Оба' }} полушарие
+              </span>
+              <span *ngIf="currentConstellation.zodiac" class="zodiac">♈ Зодиакальное</span>
+            </div>
+          </div>
+  
+          <button (click)="nextQuestion()" class="next-btn">
+            {{ currentQuestionIndex < totalQuestions - 1 ? '➡️ Следующий вопрос' : '🏁 Завершить тест' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Результаты теста -->
+    <div *ngIf="quizComplete" class="results-container">
+      <div class="results-card">
+        <h2>🎊 Тест завершен!</h2>
+        <p class="test-mode">{{ constellationTest?.name }}</p>
+        
+        <div class="score-circle" [style.--percentage]="(score / (totalQuestions || 1) * 100) + '%'">
+          <div class="score-text">
+            <div class="correct-answers">{{ score }}/{{ totalQuestions }}</div>
+            <div class="percentage">{{ (score / (totalQuestions || 1) * 100) | number:'1.0-0' }}%</div>
+          </div>
+        </div>
+  
+        <div class="results-info">
+          <p>⏱️ <strong>Затраченное время:</strong> {{ timeSpent | time }}</p>
+          <p>✅ <strong>Правильных ответов:</strong> {{ score }}</p>
+          <p>📝 <strong>Всего вопросов:</strong> {{ totalQuestions }}</p>
+          <p>📊 <strong>Режим:</strong> {{ constellationTest?.mode === 'name' ? 'Угадать название' : 'Выбрать картинку' }}</p>
+        </div>
+  
+        <div class="results-message" [class.excellent]="score >= 9" [class.good]="score >= 7 && score < 9" 
+             [class.average]="score >= 5 && score < 7" [class.poor]="score < 5">
+          <p *ngIf="score >= 9">🌟 Отлично! Вы настоящий эксперт по созвездиям!</p>
+          <p *ngIf="score >= 7 && score < 9">✨ Хорошо! Вы хорошо знаете созвездия!</p>
+          <p *ngIf="score >= 5 && score < 7">🔭 Неплохо! Продолжайте изучать звёздное небо!</p>
+          <p *ngIf="score < 5">🌌 Попробуйте ещё раз! Звёздное небо ждёт своего исследователя!</p>
+        </div>
+  
+        <div class="action-buttons">
+          <button (click)="restartQuiz()" class="restart-btn">🔄 Пройти ещё раз</button>
+          <button (click)="backToModes()" class="mode-btn">📋 Другие режимы</button>
+          <button (click)="router.navigate(['/'])" class="home-btn">🏠 На главную</button>
+        </div>
+      </div>
+    </div>
+  </div>

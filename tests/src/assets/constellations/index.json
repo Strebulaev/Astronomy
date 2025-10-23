@@ -1,0 +1,20 @@
+{
+    "constellations": [
+      {
+        "name": "Андромеда",
+        "image": "andromeda.jpg",
+        "description": "andromeda.txt"
+      },
+      {
+        "name": "Близнецы", 
+        "image": "gemini.jpg",
+        "description": "gemini.txt"
+      },
+      {
+        "name": "Большая Медведица",
+        "image": "ursa-major.jpg", 
+        "description": "ursa-major.txt"
+      }
+      // ... добавьте все 88 созвездий
+    ]
+  }

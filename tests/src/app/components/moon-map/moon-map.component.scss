@@ -1,0 +1,578 @@
+.moon-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 20px;
+}
+
+// Стартовый экран
+.start-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.start-content {
+  background: rgba(45, 55, 72, 0.95);
+  padding: 50px;
+  border-radius: 25px;
+  text-align: center;
+  color: white;
+  max-width: 700px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+
+  h1 {
+    margin: 0 0 20px 0;
+    color: #e2e8f0;
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  .description {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #cbd5e0;
+    margin-bottom: 40px;
+  }
+}
+
+.locations-preview {
+  margin: 30px 0;
+
+  h3 {
+    color: #e2e8f0;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+}
+
+.preview-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.preview-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background: #4a5568;
+  border-radius: 8px;
+  font-size: 14px;
+
+  .location-type {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+
+    &.mare {
+      background: #4a86e8;
+    }
+
+    &.oceanus {
+      background: #3d85c6;
+    }
+
+    &.crater {
+      background: #e69138;
+    }
+  }
+}
+
+.start-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+// Режим изучения
+.study-mode {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.study-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  background: #2d3748;
+  padding: 20px 30px;
+  border-radius: 15px;
+  color: white;
+
+  h2 {
+    margin: 0;
+    color: #e2e8f0;
+    font-size: 28px;
+  }
+}
+
+.study-content {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 30px;
+  align-items: start;
+}
+
+.study-panel {
+  background: #2d3748;
+  padding: 25px;
+  border-radius: 15px;
+  color: white;
+  height: fit-content;
+
+  h3 {
+    margin: 0 0 20px 0;
+    color: #e2e8f0;
+    font-size: 22px;
+    text-align: center;
+  }
+}
+
+// Общие стили для карты
+.moon-map {
+  background: #1a1a1a;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.moon-image-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.moon-image {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.1);
+  background: #2d2d2d;
+  
+  &.fallback {
+    border-radius: 50%;
+  }
+}
+
+.location-point {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+
+  .point {
+    width: 20px;
+    height: 20px;
+    background: #4a86e8;
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(74, 134, 232, 0.5);
+    transition: all 0.3s ease;
+  }
+
+  .location-name {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    border: 1px solid #444;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+  }
+
+  &:hover .point {
+    transform: scale(1.3);
+  }
+
+  &.learned .point {
+    background: #44ff44;
+    box-shadow: 0 0 20px rgba(68, 255, 68, 0.6);
+  }
+
+  &.correct .point {
+    background: #44ff44;
+    box-shadow: 0 0 25px rgba(68, 255, 68, 0.7);
+    transform: scale(1.5);
+    animation: pulseCorrect 0.5s ease-in-out;
+  }
+
+  &.wrong .point {
+    background: #ff4444;
+    box-shadow: 0 0 25px rgba(255, 68, 68, 0.7);
+    transform: scale(1.5);
+    animation: pulseWrong 0.5s ease-in-out;
+  }
+}
+
+// Викторина
+.quiz-mode {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.quiz-header {
+  background: #2d3748;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+  h2 {
+    margin: 0 0 15px 0;
+    color: #e2e8f0;
+    font-size: 28px;
+  }
+
+  .quiz-question {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffaa00;
+    margin: 20px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .quiz-progress {
+    color: #cbd5e0;
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+}
+
+// Результаты
+.quiz-results {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.results-content {
+  background: #2d3748;
+  padding: 50px;
+  border-radius: 25px;
+  text-align: center;
+  color: white;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+  h2 {
+    margin: 0 0 30px 0;
+    color: #e2e8f0;
+    font-size: 32px;
+  }
+}
+
+.score-circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: conic-gradient(#4CAF50 0% var(--percentage), #2d3748 var(--percentage) 100%);
+  margin: 0 auto 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    background: #2d3748;
+    border-radius: 50%;
+  }
+}
+
+.score-text {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+
+  .correct-answers {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e2e8f0;
+  }
+
+  .percentage {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffaa00;
+  }
+}
+
+.results-message {
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 25px 0;
+  padding: 15px;
+  border-radius: 10px;
+
+  &.excellent {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+  }
+
+  &.good {
+    background: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+  }
+
+  &.average {
+    background: rgba(255, 152, 0, 0.2);
+    color: #FF9800;
+  }
+
+  &.poor {
+    background: rgba(244, 67, 54, 0.2);
+    color: #F44336;
+  }
+}
+
+.results-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+// Кнопки
+.btn {
+  padding: 15px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-align: center;
+
+  &-primary {
+    background: #4299e1;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background: #3182ce;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
+    }
+
+    &:disabled {
+      background: #4a5568;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  &-secondary {
+    background: #e53e3e;
+    color: white;
+
+    &:hover {
+      background: #c53030;
+      transform: translateY(-2px);
+    }
+  }
+
+  &-outline {
+    background: transparent;
+    color: #cbd5e0;
+    border: 2px solid #cbd5e0;
+
+    &:hover {
+      background: #4a5568;
+      color: white;
+    }
+  }
+
+  &-large {
+    padding: 18px 35px;
+    font-size: 18px;
+  }
+}
+
+// Списки
+.locations-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.location-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  background: #4a5568;
+  border: 2px solid #718096;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+
+  &:hover {
+    background: #5a6578;
+    transform: translateX(5px);
+  }
+
+  &.learned {
+    background: #2d7d46;
+    border-color: #48bb78;
+    
+    .location-status {
+      color: #48bb78;
+      font-weight: bold;
+    }
+  }
+
+  .location-type {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid white;
+    flex-shrink: 0;
+
+    &.mare {
+      background: #4a86e8;
+    }
+
+    &.oceanus {
+      background: #3d85c6;
+    }
+
+    &.crater {
+      background: #e69138;
+    }
+  }
+
+  .location-status {
+    margin-left: auto;
+    color: #cbd5e0;
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+
+.stats {
+  text-align: center;
+  margin: 25px 0;
+  padding: 15px;
+  background: #4a5568;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+// Анимации
+@keyframes pulseCorrect {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.8); }
+  100% { transform: scale(1.5); }
+}
+
+@keyframes pulseWrong {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.8); }
+  100% { transform: scale(1.5); }
+}
+
+// Адаптивность
+@media (max-width: 1024px) {
+  .study-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .study-panel {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .moon-container {
+    padding: 10px;
+  }
+
+  .start-content {
+    padding: 30px 20px;
+    
+    h1 {
+      font-size: 28px;
+    }
+  }
+
+  .preview-list {
+    grid-template-columns: 1fr;
+  }
+
+  .study-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .quiz-header .quiz-question {
+    font-size: 28px;
+  }
+
+  .results-content {
+    padding: 30px 20px;
+  }
+
+  .score-circle {
+    width: 150px;
+    height: 150px;
+
+    &::before {
+      width: 120px;
+      height: 120px;
+    }
+  }
+}
+
+// Скроллбар
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #4a5568;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #718096;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #90cdf4;
+}

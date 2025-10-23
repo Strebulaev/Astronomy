@@ -1,6 +1,12 @@
 <div class="container">
   <div class="header">
-    <h1>{{ plan.name }}</h1>
+    <div class="header-content">
+      <h1>{{ currentPlan?.name || 'План обучения' }}</h1>
+      <div class="header-actions">
+        <button (click)="editPlan()" class="btn btn-outline">Редактировать план</button>
+        <button (click)="exportPlan()" class="btn btn-outline">Экспорт YAML</button>
+      </div>
+    </div>
     <div class="progress-container">
       <div class="total-progress">
         <span>Общий прогресс: {{ totalProgress }}% ({{ completedTopicsCount }}/{{ allTopics.length }})</span>

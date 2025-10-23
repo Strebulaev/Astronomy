@@ -1,0 +1,117 @@
+<div class="plan-editor-container">
+    <div class="editor-header">
+      <h2>Редактор плана обучения</h2>
+      <div class="editor-actions">
+        <button (click)="toggleYamlEditor()" class="btn btn-outline">
+          {{ showYamlEditor ? 'Визуальный редактор' : 'YAML редактор' }}
+        </button>
+        <button (click)="cancel()" class="btn btn-secondary">Отмена</button>
+        <button (click)="savePlan()" class="btn btn-primary" [disabled]="!planForm.valid">
+          Сохранить план
+        </button>
+      </div>
+    </div>
+  
+    <!-- YAML редактор -->
+    <div *ngIf="showYamlEditor" class="yaml-editor">
+      <h3>YAML редактор</h3>
+      <textarea [(ngModel)]="yamlContent" class="yaml-textarea" rows="20"></textarea>
+      <div class="yaml-actions">
+        <button (click)="importFromYaml()" class="btn btn-primary">Импортировать из YAML</button>
+        <button (click)="toggleYamlEditor()" class="btn btn-secondary">Назад</button>
+      </div>
+    </div>
+  
+    <!-- Визуальный редактор -->
+    <div *ngIf="!showYamlEditor" class="visual-editor">
+      <form [formGroup]="planForm">
+        <div class="basic-info">
+          <div class="form-group">
+            <label>Название плана</label>
+            <input type="text" formControlName="name" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Описание</label>
+            <textarea formControlName="description" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+  
+        <div class="schedule-editor">
+          <div class="section-header">
+            <h3>Расписание</h3>
+            <button type="button" (click)="addWeek()" class="btn btn-success">+ Добавить неделю</button>
+          </div>
+  
+          <div formArrayName="schedule" class="weeks-container">
+            <div *ngFor="let week of getWeeks(); let weekIndex = index" 
+                 [formGroupName]="weekIndex" 
+                 class="week-card">
+              
+              <div class="week-header">
+                <h4>Неделя {{ weekIndex + 1 }}</h4>
+                <button type="button" (click)="removeWeek(weekIndex)" class="btn btn-danger">
+                  Удалить неделю
+                </button>
+              </div>
+  
+              <div formArrayName="days" class="days-container">
+                <div *ngFor="let day of getDays(weekIndex).controls; let dayIndex = index" 
+                     [formGroupName]="dayIndex" 
+                     class="day-card">
+                  
+                  <div class="day-header">
+                    <h5>День {{ dayIndex + 1 }}</h5>
+                    <button type="button" (click)="removeDay(weekIndex, dayIndex)" class="btn btn-danger">
+                      Удалить день
+                    </button>
+                  </div>
+  
+                  <div formArrayName="topics" class="topics-container">
+                    <div *ngFor="let topic of getTopics(weekIndex, dayIndex).controls; let topicIndex = index" 
+                         [formGroupName]="topicIndex" 
+                         class="topic-card">
+                      
+                      <div class="topic-header">
+                        <h6>Тема {{ topicIndex + 1 }}</h6>
+                        <button type="button" (click)="removeTopic(weekIndex, dayIndex, topicIndex)" 
+                                class="btn btn-danger">
+                          Удалить
+                        </button>
+                      </div>
+  
+                      <div class="topic-fields">
+                        <div class="form-group">
+                          <label>Название темы</label>
+                          <input type="text" formControlName="title" class="form-control">
+                        </div>
+                        
+                        <div class="form-row">
+                          <div class="form-group">
+                            <label>Сложность</label>
+                            <input type="number" formControlName="difficulty" class="form-control" min="0" max="100">
+                          </div>
+                          
+                          <div class="form-group">
+                            <label>Время</label>
+                            <input type="text" formControlName="time" class="form-control" placeholder="2ч 30мин">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+  
+                    <button type="button" (click)="addTopic(weekIndex, dayIndex)" class="btn btn-success">
+                      + Добавить тему
+                    </button>
+                  </div>
+                </div>
+  
+                <button type="button" (click)="addDay(weekIndex)" class="btn btn-success">
+                  + Добавить день
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
