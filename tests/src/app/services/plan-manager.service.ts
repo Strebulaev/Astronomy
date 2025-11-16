@@ -38,7 +38,7 @@ export interface TopicPlan {
   providedIn: 'root'
 })
 export class PlanManagerService {
-  private readonly STORAGE_KEY = 'subject_plans';
+  private readonly STORAGE_KEY = 'astronomyPlans_v1.0.2';
   private plans: Plan[] = [];
   private currentPlan$ = new BehaviorSubject<Plan | null>(null);
 
@@ -66,6 +66,11 @@ export class PlanManagerService {
 
   loadPlanForSubject(subject: Subject): Observable<Plan> {
     return new Observable(observer => {
+      if (!Array.isArray(this.plans)) {
+        console.warn('Plans is not an array, resetting to empty array');
+        this.plans = [];
+      }
+      
       let plan = this.plans.find(p => p.subjectId === subject.id);
       
       if (!plan) {
@@ -140,9 +145,9 @@ export class PlanManagerService {
       const trimmed = line.trim();
       
       if (trimmed.startsWith('name:')) {
-        plan.name = trimmed.replace('name:', '').trim();
+        plan.name = trimmed.replace('name:', '').trim().replace(/"/g, '');
       } else if (trimmed.startsWith('description:')) {
-        plan.description = trimmed.replace('description:', '').trim();
+        plan.description = trimmed.replace('description:', '').trim().replace(/"/g, '');
       } else if (trimmed.startsWith('week:')) {
         if (currentWeek) plan.schedule.push(currentWeek);
         currentWeek = { week: parseInt(trimmed.replace('week:', '').trim()), days: [] };
@@ -173,12 +178,12 @@ export class PlanManagerService {
     const match = line.match(/-\s*(.+?)\s*(?:\((.*)\))?/);
     if (!match) return { 
       id: this.generateId(), 
-      title: line.substring(2), 
+      title: line.substring(2).replace(/"/g, '').trim(), 
       difficulty: 50, 
       time: '1ч' 
     };
 
-    const title = match[1].trim();
+    const title = match[1].trim().replace(/"/g, '');
     const params = match[2] || '';
     
     let difficulty = 50;
@@ -223,11 +228,23 @@ export class PlanManagerService {
     const stored = localStorage.getItem(this.STORAGE_KEY);
     if (stored) {
       try {
-        this.plans = JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        
+        // Проверяем, что это массив планов
+        if (Array.isArray(parsed) && parsed.every(item => item.id && item.subjectId)) {
+          this.plans = parsed;
+        } else {
+          // Если это не массив планов, игнорируем и используем пустой массив
+          console.warn('Storage contains non-plan data, initializing empty plans');
+          this.plans = [];
+        }
+        
       } catch (error) {
         console.error('Error loading plans:', error);
         this.plans = [];
       }
+    } else {
+      this.plans = [];
     }
   }
 
@@ -237,5 +254,11 @@ export class PlanManagerService {
 
   private generateId(): string {
     return Math.random().toString(36).substr(2, 9);
+  }
+
+  debugStorage(): void {
+    const stored = localStorage.getItem(this.STORAGE_KEY);
+    console.log('Storage content:', stored);
+    console.log('Parsed plans:', this.plans);
   }
 }

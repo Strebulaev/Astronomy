@@ -83,7 +83,6 @@ export class ConstellationQuizComponent implements OnInit, OnDestroy {
     console.log('Starting quiz with mode:', this.gameMode);
 
     const sub = this.constellationService.createConstellationTest(this.gameMode).subscribe({
-
       next: (test) => {
         console.log('Successfully loaded constellation test:', test);
         this.constellationTest = test;

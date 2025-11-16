@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import * as yaml from 'js-yaml';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Subject, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject as RxjsSubject, take, takeUntil } from 'rxjs';
 import { ProgressChartsComponent } from "../progress-charts/progress-charts.component";
 import { ProgressDataService } from '../../services/progress-data.service';
 import { QuillModule } from 'ngx-quill';
@@ -11,6 +11,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { SubjectManagerService } from '../../services/subject-manager.service';
 import { PlanManagerService, Plan } from '../../services/plan-manager.service';
 import { Router } from '@angular/router';
+import { Subject } from '../../models/subject.model';
 
 interface Topic {
   id: string;
@@ -44,11 +45,6 @@ export interface ProgressForecast {
   remainingHours?: number;
 }
 
-interface DayPlan {
-  day: number;
-  topics: (string | { topic: string, subtopics: string[] })[];
-}
-
 @Component({
   selector: 'app-daily-topics',
   standalone: true,
@@ -74,7 +70,6 @@ export class DailyTopicsComponent implements OnInit {
   filteredTerms: TermDefinition[] = [];
   private saveTimeout: any;
   
-  // Удаляем старый plan и используем currentPlan
   quillConfig = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -119,10 +114,12 @@ export class DailyTopicsComponent implements OnInit {
   
   private readonly planVersion = '1.0.2'
   private readonly STORAGE_KEY = `astronomyProgress_v${this.planVersion}`;
+  private readonly PLAN_YAML_PATH = 'assets/data/astronomy/plan.yml';
+  private readonly PLAN_STORAGE_KEY = 'astronomyProgress_v1.0.2';
 
   private topicsSubject = new BehaviorSubject<Topic[]>([]);
   topics$ = this.topicsSubject.asObservable();
-  private destroy$ = new Subject<void>();
+  private destroy$ = new RxjsSubject<void>();
   
   constructor(
     private http: HttpClient, 
@@ -130,33 +127,77 @@ export class DailyTopicsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private planManager: PlanManagerService,
     private subjectManager: SubjectManagerService,
-    private router: Router // Добавляем Router
+    private router: Router
   ) {}
   
   ngOnInit() {
+    this.loadProgress();
+    
     this.subjectManager.getCurrentSubject().subscribe(subject => {
       if (subject) {
-        this.planManager.loadPlanForSubject(subject).subscribe(plan => {
-          this.currentPlan = plan;
-          this.loadProgress();
-          this.organizeTopics();
-        });
+        console.log('Loading plan for subject:', subject);
+        this.loadInitialPlan(subject);
       }
     });
 
     this.planManager.getCurrentPlan().subscribe(plan => {
-      this.currentPlan = plan;
+      if (plan && plan.id !== this.currentPlan?.id) {
+        this.currentPlan = plan;
+        this.organizeTopics();
+      }
     });
+  }
+
+  private loadInitialPlan(subject: Subject): void {
+    this.planManager.loadPlanForSubject(subject).subscribe(plan => {
+      this.currentPlan = plan;
+      
+      if (this.allTopics.length === 0) {
+        this.loadPlanFromYaml().then(yamlPlan => {
+          if (yamlPlan) {
+            this.currentPlan = {
+              ...this.currentPlan!,
+              schedule: yamlPlan.schedule,
+              total_topics: yamlPlan.total_topics,
+              name: yamlPlan.name
+            };
+            this.planManager.updatePlan(this.currentPlan.id, {
+              schedule: yamlPlan.schedule,
+              total_topics: yamlPlan.total_topics,
+              name: yamlPlan.name
+            });
+            
+            this.initializeAllTopics();
+          }
+          this.organizeTopics();
+        });
+      } else {
+        this.organizeTopics();
+      }
+    });
+  }
+
+  private async loadPlanFromYaml(): Promise<any> {
+    try {
+      const yamlContent = await this.http.get(this.PLAN_YAML_PATH, { responseType: 'text' }).toPromise();
+      if (yamlContent) {
+        return this.planManager['parseYamlPlan'](yamlContent);
+      }
+    } catch (error) {
+      console.error('Error loading YAML plan:', error);
+    }
+    return null;
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    clearTimeout(this.saveTimeout);
   }
 
   private createTopicFromPlan(topicPlan: any, week: number, day: number): Topic {
     return {
-      id: topicPlan.id || this.generateId(),
+      id: this.generateStableId(topicPlan.title, week, day),
       title: topicPlan.title,
       difficulty: topicPlan.difficulty || 50,
       time: topicPlan.time || '1ч',
@@ -166,12 +207,22 @@ export class DailyTopicsComponent implements OnInit {
       dueDate: this.calculateDueDate(week, day),
       week,
       day,
-      subtopics: topicPlan.subtopics,
+      subtopics: topicPlan.subtopics || [],
       terms: []
     };
   }
 
-  // Добавляем методы для управления планом
+  private generateStableId(title: string, week: number, day: number): string {
+    const baseString = `${title}_${week}_${day}`;
+    let hash = 0;
+    for (let i = 0; i < baseString.length; i++) {
+      const char = baseString.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return Math.abs(hash).toString(36);
+  }
+
   editPlan(): void {
     this.router.navigate(['/plan-editor']);
   }
@@ -180,9 +231,10 @@ export class DailyTopicsComponent implements OnInit {
     const yamlContent = prompt('Введите YAML содержимое плана:');
     if (yamlContent && this.currentPlan) {
       try {
-        // Исправляем: используем subjectId из currentPlan
         this.planManager.importFromYaml(this.currentPlan.subjectId, yamlContent);
         alert('План успешно импортирован!');
+        this.loadProgress();
+        this.organizeTopics();
       } catch (error) {
         alert('Ошибка импорта: ' + error);
       }
@@ -232,26 +284,6 @@ export class DailyTopicsComponent implements OnInit {
     }
   }
 
-  private async loadData() {
-    try {
-      await this.loadPlan();
-      this.loadProgress();
-      this.organizeTopics();
-    } catch (error) {
-      console.error('Error loading data:', error);
-    }
-  }
-
-  private async loadPlan() {
-    const currentSubject = this.subjectManager.getCurrentSubjectValue();
-    if (!currentSubject) return;
-    
-    // Загружаем план через PlanManagerService вместо прямого HTTP
-    this.planManager.loadPlanForSubject(currentSubject).subscribe(plan => {
-      this.currentPlan = plan;
-    });
-  }
-
   get selectedTopicWithTerms(): Topic | null {
     return this.selectedTopic as Topic | null;
   }
@@ -273,66 +305,97 @@ export class DailyTopicsComponent implements OnInit {
     backgroundColor: '#fff'
   };
 
-  private initializeAllTopics(): void {
-    if (this.shouldSkipInitialization()) {
-      return;
-    }
-  
-    // Используем currentPlan вместо this.plan
-    if (this.currentPlan) {
-      this.allTopics = this.currentPlan.schedule.flatMap((week: any) => 
-        week.days.flatMap((day: any) => 
-          day.topics?.map((topic: any) => this.createTopic(topic, week.week, day.day)) || []
-        )
-      ) || [];
-    }
-  
-    this.saveProgress();
-  }
-  
-  private shouldSkipInitialization(): boolean {
-    return this.allTopics.length > 0 && 
-           typeof localStorage !== 'undefined' && 
-           localStorage.getItem(this.STORAGE_KEY) !== null;
-  }
-  
-  private createTopic(topic: any, week: number, day: number): Topic {
-    const parsed = typeof topic === 'string' ? this.parseTopicString(topic) : topic;
-    
-    return {
-      id: this.generateId(),
-      ...parsed,
-      completed: false,
-      completedDate: null,
-      notes: '',
-      dueDate: this.calculateDueDate(week, day),
-      week,
-      day,
-      terms: []
-    };
-  }
-
   private loadProgress(): void {
     const savedData = localStorage.getItem(this.STORAGE_KEY);
     
     if (savedData) {
       try {
         const data = JSON.parse(savedData);
-        this.allTopics = data.topics.map((t: any) => ({
-          ...t,
-          dueDate: new Date(t.dueDate),
-          completedDate: t.completed ? 
-            (t.completedDate ? new Date(t.completedDate) : new Date()) : 
-            null,
-          terms: t.terms || []
-        }));
+        console.log('Loaded data from localStorage:', data);
+        
+        if (data && data.topics && Array.isArray(data.topics) && data.topics.length > 0) {
+          this.allTopics = data.topics.map((t: any) => this.normalizeTopic(t));
+          console.log('Successfully loaded topics from localStorage:', this.allTopics.length);
+          return; // Не инициализируем заново, если есть сохраненные данные
+        }
       } catch (e) {
         console.error('Error parsing saved data:', e);
-        this.initializeAllTopics();
       }
-    } else {
-      this.initializeAllTopics();
     }
+    
+    console.log('No valid saved data found, will initialize from plan later');
+    // Не инициализируем здесь - дождемся загрузки плана
+  }
+
+  private normalizeTopic(t: any): Topic {
+    return {
+      id: t.id || this.generateId(),
+      title: t.title || 'Без названия',
+      difficulty: t.difficulty || 50,
+      time: t.time || '1ч',
+      completed: t.completed || false,
+      completedDate: t.completed ? 
+        (t.completedDate ? new Date(t.completedDate) : new Date()) : 
+        null,
+      notes: t.notes || '',
+      dueDate: new Date(t.dueDate),
+      week: t.week || 1,
+      day: t.day || 1,
+      subtopics: t.subtopics || [],
+      terms: t.terms || [],
+      notesHtml: t.notesHtml
+    };
+  }
+
+  private initializeAllTopics(): void {
+    if (!this.currentPlan || !this.currentPlan.schedule) {
+      console.warn('No plan available for initialization');
+      this.allTopics = [];
+      return;
+    }
+
+    const planTopics = this.currentPlan.schedule.flatMap((week: any) => 
+      week.days.flatMap((day: any) => 
+        (day.topics || []).map((topic: any) => this.createTopicFromPlan(topic, week.week, day.day))
+      )
+    );
+
+    // Если уже есть темы, объединяем, иначе используем темы из плана
+    if (this.allTopics.length > 0) {
+      this.mergeTopics(planTopics);
+    } else {
+      this.allTopics = planTopics;
+    }
+
+    this.saveProgress();
+    console.log('Initialized topics from plan:', this.allTopics.length);
+  }
+
+  private mergeTopics(planTopics: Topic[]): void {
+    const mergedTopics: Topic[] = [];
+    
+    planTopics.forEach(planTopic => {
+      const existingTopic = this.allTopics.find(t => 
+        t.id === planTopic.id || 
+        (t.title === planTopic.title && t.week === planTopic.week && t.day === planTopic.day)
+      );
+      
+      if (existingTopic) {
+        // Сохраняем существующую тему с прогрессом
+        mergedTopics.push({
+          ...existingTopic,
+          difficulty: planTopic.difficulty,
+          time: planTopic.time,
+          subtopics: planTopic.subtopics
+        });
+      } else {
+        // Добавляем новую тему из плана
+        mergedTopics.push(planTopic);
+      }
+    });
+    
+    this.allTopics = mergedTopics;
+    console.log('Merged topics:', this.allTopics.length);
   }
 
   completeFutureTopic(topic: Topic): void {
@@ -357,9 +420,7 @@ export class DailyTopicsComponent implements OnInit {
     }
   }
 
-  // Остальные методы остаются без изменений...
   calculateForecast(): ProgressForecast {
-    // Реализация расчета прогноза
     const completedTopics = this.completedTopics;
     const totalTopics = this.allTopics.length;
     const remainingTopics = totalTopics - completedTopics.length;
@@ -621,7 +682,17 @@ export class DailyTopicsComponent implements OnInit {
     setTimeout(() => {
       this.focusEditor();
       this.wordCount = this.countWords(this.selectedTopic?.notes || '');
+      this.autoSave();
     });
+  }
+
+  private autoSave(): void {
+    clearTimeout(this.saveTimeout);
+    this.saveTimeout = setTimeout(() => {
+      if (this.selectedTopic) {
+        this.saveNotes();
+      }
+    }, 1000);
   }
 
   cancelTermEdit(): void {
@@ -677,33 +748,33 @@ export class DailyTopicsComponent implements OnInit {
     if (this.selectedTopic.completed && !this.selectedTopic.completedDate) {
       this.selectedTopic.completedDate = new Date();
     }
-  
+
     const topicIndex = this.allTopics.findIndex(t => t.id === this.selectedTopic!.id);
     if (topicIndex !== -1) {
-      this.allTopics[topicIndex] = {...this.selectedTopic!};
+      this.allTopics[topicIndex] = { ...this.selectedTopic! };
       this.saveProgress();
       this.organizeTopics();
+      
+      this.selectedTopic = { ...this.allTopics[topicIndex] };
     }
     
     this.autoSaved = true;
+    console.log('Notes saved for topic:', this.selectedTopic.title);
   }
 
   onEditorInput(event: Event): void {
     const element = event.target as HTMLElement;
-    if (this.selectedTopic && this.currentTerm) {
-      if (!this.selectedTopic.terms) {
-        this.selectedTopic.terms = [];
-      }
-      this.selectedTopic.terms.push({ ...this.currentTerm });
+    if (this.selectedTopic) {
+      this.selectedTopic.notes = element.innerHTML;
+      this.wordCount = this.countWords(element.innerText);
+      
+      clearTimeout(this.saveTimeout);
+      this.autoSaved = false;
+      this.saveTimeout = setTimeout(() => {
+        this.saveNotes();
+        this.autoSaved = true;
+      }, 500);
     }
-    this.wordCount = this.countWords(element.innerText);
-    
-    clearTimeout(this.saveTimeout);
-    this.autoSaved = false;
-    this.saveTimeout = setTimeout(() => {
-      this.saveNotes();
-      this.autoSaved = true;
-    }, 2000);
   }
   
   formatText(command: string): void {
@@ -801,7 +872,7 @@ export class DailyTopicsComponent implements OnInit {
   
   private focusEditor(): void {
     const editor = document.querySelector('.editor-content') as HTMLElement;
-    editor.focus();
+    editor?.focus();
   }
   
   private countWords(text: string): number {
@@ -875,23 +946,48 @@ export class DailyTopicsComponent implements OnInit {
   }
 
   toggleTopicCompletion(topic: Topic): void {
-    this.setTopicCompletion(topic, !topic.completed);
+    const updatedTopic = {
+      ...topic,
+      completed: !topic.completed,
+      completedDate: !topic.completed ? new Date() : null
+    };
+
+    const index = this.allTopics.findIndex(t => t.id === topic.id);
+    if (index !== -1) {
+      this.allTopics[index] = updatedTopic;
+      this.saveProgress();
+      this.organizeTopics();
+      
+      if (this.selectedTopic?.id === topic.id) {
+        this.selectedTopic = { ...updatedTopic };
+      }
+    }
   }  
 
   private saveProgress(): void {
     const data = {
       topics: this.allTopics.map(topic => ({
-        ...topic,
-        dueDate: topic.dueDate.toISOString(),
+        id: topic.id,
+        title: topic.title,
+        difficulty: topic.difficulty,
+        time: topic.time,
+        completed: topic.completed,
         completedDate: topic.completed ? 
           (topic.completedDate?.toISOString() || new Date().toISOString()) : 
           null,
+        notes: topic.notes,
+        dueDate: topic.dueDate.toISOString(),
+        week: topic.week,
+        day: topic.day,
+        subtopics: topic.subtopics || [],
         terms: topic.terms || []
       })),
-      lastUpdated: new Date().toISOString()
+      lastUpdated: new Date().toISOString(),
+      version: this.planVersion
     };
     
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+    console.log('Progress saved to localStorage:', data.topics.length, 'topics');
   }
 
   private calculateDueDate(week: number, day: number): Date {
@@ -909,21 +1005,13 @@ export class DailyTopicsComponent implements OnInit {
   private organizeTopics(): void {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    if (!this.currentPlan) return;
     
-    // Используем currentPlan для создания тем
-    this.allTopics = this.currentPlan.schedule.flatMap((week: any) => 
-      week.days.flatMap((day: any) => 
-        day.topics.map((topic: any) => this.createTopicFromPlan(topic, week.week, day.day))
-      )
-    );
-
     this.todayTopics = this.allTopics.filter(topic => {
       const topicDate = new Date(topic.dueDate);
       topicDate.setHours(0, 0, 0, 0);
       return topicDate.getTime() === today.getTime();
     });
-  
+
     this.futureTopics = this.allTopics
       .filter(topic => {
         const topicDate = new Date(topic.dueDate);
@@ -931,11 +1019,11 @@ export class DailyTopicsComponent implements OnInit {
         return topicDate > today && !topic.completed;
       })
       .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime());
-  
+
     this.completedTopics = this.allTopics
       .filter(topic => topic.completed)
       .sort((a, b) => (b.completedDate || new Date(0)).getTime() - (a.completedDate || new Date(0)).getTime());
-  
+
     this.progressData.emit({
       allTopics: this.allTopics,
       completedTopics: this.completedTopics,

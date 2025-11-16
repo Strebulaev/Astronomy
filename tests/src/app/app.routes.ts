@@ -6,7 +6,6 @@ import { HistoryComponent } from './components/history/history.component';
 import { DailyTopicsComponent } from './components/daily-topics/daily-topics.component';
 import { OlympiadPreparationComponent } from './components/olympiad-preparation/olympiad-preparation.component';
 import { SubjectManagerComponent } from './components/subject-manager/subject-manager.component';
-import { MoonMapComponent } from './components/moon-map/moon-map.component';
 import { PlanEditorComponent } from './components/plan-editor/plan-editor.component';
 import { ConstellationQuizComponent } from './components/constellation-quiz/constellation-quiz.component';
 import { ConstellationModeSelectorComponent } from './components/constellation-mode-selector/constellation-mode-selector.component';
@@ -16,7 +15,6 @@ export const routes: Routes = [
   { path: 'quiz', component: QuizComponent },
   { path: 'creator', component: TestCreatorComponent },
   { path: 'history', component: HistoryComponent },
-  { path: 'moon-map', component: MoonMapComponent },
   { path: 'daily-topics', component: DailyTopicsComponent },
   { path: 'olympiad-preparation', component: OlympiadPreparationComponent },
   { path: 'subjects', component: SubjectManagerComponent },
